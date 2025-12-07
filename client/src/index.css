@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);
@@ -43,8 +47,8 @@
   --chart-3: 171 48% 38%;
   --chart-4: 210 35% 45%;
   --chart-5: 182 30% 50%;
-  --font-sans: Open Sans, sans-serif;
-  --font-serif: Georgia, serif;
+  --font-sans: Inter, sans-serif;
+  --font-serif: Playfair Display, Georgia, serif;
   --font-mono: Menlo, monospace;
   --radius: .5rem;
   --shadow-2xs: 0px 2px 0px 0px hsl(210 20% 50% / 0.00);
