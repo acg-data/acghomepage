@@ -1,24 +1,46 @@
 # ARYO Consulting Group Website
 
 ## Overview
-A professional corporate consulting firm landing page featuring sophisticated animations, interactive data visualizations, and a premium brand identity built with React, TypeScript, and Tailwind CSS.
+A professional corporate consulting firm website featuring sophisticated animations, interactive data visualizations, premium brand identity, partner authentication, case studies, and blog/insights sections built with React, TypeScript, Tailwind CSS, and Express.js.
 
 ## Current State
-The application is a complete, polished single-page website ready for production use.
+The application is a complete, multi-page corporate consulting website with:
+- Public landing page with all marketing sections
+- Case studies and blog/insights content sections
+- Partner authentication system (login/register/protected dashboard)
+- Contact form with API integration
+- Downloadable Q4 market report
 
 ## Project Architecture
 
 ### Tech Stack
 - **Frontend**: React 18 with TypeScript, Vite bundler
 - **Styling**: Tailwind CSS with custom design tokens
-- **Routing**: Wouter
-- **Backend**: Express.js (minimal - serves static content)
+- **Routing**: Wouter for client-side navigation
+- **State Management**: TanStack React Query, Context API for auth
+- **Backend**: Express.js with session-based authentication
+- **Database**: PostgreSQL with Drizzle ORM
+- **Authentication**: Passport.js with bcrypt password hashing
 
 ### Key Files
 - `client/src/pages/home.tsx` - Main landing page with all sections
+- `client/src/pages/login.tsx` - Partner login page
+- `client/src/pages/register.tsx` - Partner registration page
+- `client/src/pages/partner.tsx` - Protected partner dashboard
+- `client/src/pages/case-studies.tsx` - Case studies list and detail views
+- `client/src/pages/blog.tsx` - Blog/insights list and detail views
+- `client/src/lib/auth.tsx` - Authentication context and ProtectedRoute component
+- `server/routes.ts` - API routes (auth, contact, case studies, blog, report)
+- `server/storage.ts` - Database storage implementation
+- `shared/schema.ts` - Database schema definitions
 - `tailwind.config.ts` - Brand colors, fonts, and custom animations
 - `client/src/index.css` - CSS variables and utility classes
-- `client/index.html` - Meta tags and Google Fonts
+
+### Database Schema
+- **users** - Partner accounts (id, username, email, password, fullName, company, isPartner)
+- **contactSubmissions** - Contact form submissions
+- **caseStudies** - Case study content
+- **blogPosts** - Blog/insights articles
 
 ### Brand Identity
 - **Deep Blue** (#274D8E) - Primary brand color
@@ -29,27 +51,57 @@ The application is a complete, polished single-page website ready for production
 ## Features
 
 ### Interactive Components
-1. **Navbar** - Fixed with scroll effects, mobile responsive menu
-2. **Hero Section** - Animated gradient text, client ticker tape (marquee)
+1. **Navbar** - Fixed with scroll effects, mobile responsive menu, links to all sections
+2. **Hero Section** - Animated gradient text, client ticker tape (marquee), Q4 report download
 3. **RadarChart** - Interactive comparison between ARYO and competitors
 4. **AnimatedNumber** - Scroll-triggered counting animation for stats
 5. **FadeIn** - Scroll-triggered fade-in animations for all sections
+6. **Contact Form** - Working form with API integration and success/error feedback
 
-### Page Sections
-- Hero with client logos ticker
+### Page Sections (Home)
+- Hero with client logos ticker and CTAs
 - Industries/Sectors grid
-- Value Drivers methodology
+- Value Drivers methodology with radar chart
 - Process timeline
 - Statistics with animated counters
 - Testimonials
-- Contact form with CTA
+- Contact form with API integration
 - Footer with navigation
+
+### Authentication System
+- Session-based authentication with PostgreSQL session store
+- Password hashing with bcrypt
+- Protected routes with automatic redirect to login
+- Partner dashboard with engagement tracking
+
+### API Endpoints
+- `POST /api/contact` - Submit contact form
+- `POST /api/auth/register` - Register new partner
+- `POST /api/auth/login` - Partner login
+- `POST /api/auth/logout` - Partner logout
+- `GET /api/auth/me` - Check authentication status
+- `GET /api/case-studies` - List case studies
+- `GET /api/case-studies/:slug` - Get case study by slug
+- `GET /api/blog` - List blog posts
+- `GET /api/blog/:slug` - Get blog post by slug
+- `GET /api/report/q4-2024` - Download Q4 market report PDF
 
 ## Recent Changes
 - December 2024: Initial build with complete landing page
 - Fixed AnimatedNumber with StrictMode-safe animation guard
 - Fixed marquee with consistent gap spacing for seamless loop
-- Added inline style for radar chart transition (resolved Tailwind warning)
+- Added PostgreSQL database with Drizzle ORM
+- Implemented partner authentication system (login/register/logout)
+- Created protected partner dashboard with engagement data
+- Added case studies section with list and detail views
+- Added blog/insights section with list and detail views
+- Connected contact form to backend API
+- Added Q4 market report download functionality
+- Fixed ProtectedRoute to properly guard authenticated routes
 
 ## Running the Project
 The application runs with `npm run dev` via the "Start application" workflow, serving on port 5000.
+
+## Database Commands
+- `npm run db:push` - Push schema changes to database
+- `npm run db:push --force` - Force push schema changes

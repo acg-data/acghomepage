@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
+import { Link } from 'wouter';
 import { 
   ArrowRight, 
   Activity,
@@ -143,11 +144,12 @@ function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-12">
               <a href="#sectors" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-sectors">Sectors</a>
-              <a href="#methodology" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-methodology">Methodology</a>
-              <a href="#process" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-process">Process</a>
-              <a href="#contact" className="bg-aryo-deepBlue text-white hover:bg-[#1a3668] px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 shadow-sm" data-testid="button-partner-login">
+              <Link href="/case-studies" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-case-studies">Case Studies</Link>
+              <Link href="/insights" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-insights">Insights</Link>
+              <a href="#contact" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-contact">Contact</a>
+              <Link href="/login" className="bg-aryo-deepBlue text-white hover:bg-[#1a3668] px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 shadow-sm" data-testid="button-partner-login">
                 Partner Login
-              </a>
+              </Link>
             </div>
           </div>
           
@@ -163,9 +165,10 @@ function Navbar() {
         <div className="md:hidden bg-white border-b border-aryo-lightGrey shadow-xl">
           <div className="px-6 pt-4 pb-8 space-y-4">
             <a href="#sectors" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-sectors-mobile">Sectors</a>
-            <a href="#methodology" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-methodology-mobile">Methodology</a>
-            <a href="#process" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-process-mobile">Process</a>
-            <a href="#contact" className="block text-sm font-sans uppercase tracking-widest font-bold text-aryo-teal" data-testid="link-contact-mobile">Partner Login</a>
+            <Link href="/case-studies" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-case-studies-mobile">Case Studies</Link>
+            <Link href="/insights" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-insights-mobile">Insights</Link>
+            <a href="#contact" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-contact-mobile">Contact</a>
+            <Link href="/login" className="block text-sm font-sans uppercase tracking-widest font-bold text-aryo-teal" data-testid="link-partner-login-mobile">Partner Login</Link>
           </div>
         </div>
       )}
@@ -225,9 +228,14 @@ function Hero() {
               Request Executive Briefing
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
             </a>
-            <button className="bg-white text-aryo-deepBlue border border-aryo-lightGrey px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:border-aryo-deepBlue hover:bg-aryo-offWhite transition-all" data-testid="button-view-report">
+            <a 
+              href="/api/report/q4-2024" 
+              download
+              className="bg-white text-aryo-deepBlue border border-aryo-lightGrey px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:border-aryo-deepBlue hover:bg-aryo-offWhite transition-all inline-block text-center" 
+              data-testid="button-view-report"
+            >
               View Q4 Market Report
-            </button>
+            </a>
           </div>
         </FadeIn>
 
@@ -609,6 +617,42 @@ function Testimonials() {
 }
 
 function CTA() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    company: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      
+      if (data.success) {
+        setSubmitStatus({ success: true, message: data.message });
+        setFormData({ firstName: '', lastName: '', email: '', company: '', message: '' });
+      } else {
+        setSubmitStatus({ success: false, message: data.message || 'Failed to submit form' });
+      }
+    } catch {
+      setSubmitStatus({ success: false, message: 'Network error. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div id="contact" className="py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -642,12 +686,22 @@ function CTA() {
           <FadeIn delay={200}>
             <div className="bg-aryo-offWhite border border-aryo-lightGrey p-10">
               <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-6">Request a Briefing</h3>
-              <form className="space-y-6">
+              
+              {submitStatus && (
+                <div className={`mb-6 p-4 border ${submitStatus.success ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`} data-testid="status-form-result">
+                  {submitStatus.message}
+                </div>
+              )}
+              
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">First Name</label>
                     <input 
                       type="text" 
+                      required
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                       className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
                       data-testid="input-first-name"
                     />
@@ -656,6 +710,9 @@ function CTA() {
                     <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Last Name</label>
                     <input 
                       type="text" 
+                      required
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                       className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
                       data-testid="input-last-name"
                     />
@@ -665,6 +722,9 @@ function CTA() {
                   <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Corporate Email</label>
                   <input 
                     type="email" 
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
                     data-testid="input-email"
                   />
@@ -673,6 +733,9 @@ function CTA() {
                   <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Company</label>
                   <input 
                     type="text" 
+                    required
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
                     data-testid="input-company"
                   />
@@ -681,17 +744,21 @@ function CTA() {
                   <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Message</label>
                   <textarea 
                     rows={4}
+                    required
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors resize-none"
                     data-testid="input-message"
                   ></textarea>
                 </div>
                 <button 
                   type="submit"
-                  className="w-full bg-aryo-deepBlue text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all flex items-center justify-center gap-3 group"
+                  disabled={isSubmitting}
+                  className="w-full bg-aryo-deepBlue text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                   data-testid="button-submit-form"
                 >
-                  Submit Request
-                  <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
+                  {isSubmitting ? 'Submitting...' : 'Submit Request'}
+                  {!isSubmitting && <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />}
                 </button>
               </form>
             </div>
