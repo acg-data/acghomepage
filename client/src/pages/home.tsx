@@ -56,16 +56,21 @@ function useOnScreen(ref: React.RefObject<HTMLElement | null>, rootMargin = '0px
 
 function AnimatedNumber({ end, suffix = "", duration = 2500, className = "" }: { end: number; suffix?: string; duration?: number; className?: string }) {
   const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   const onScreen = useOnScreen(ref);
 
   useEffect(() => {
-    if (!onScreen) return;
-    let startTime: number;
+    if (!onScreen || hasAnimated) return;
+    
+    setHasAnimated(true);
+    let startTime: number | null = null;
     let animationFrame: number;
+    let cancelled = false;
 
     const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
+      if (cancelled) return;
+      if (startTime === null) startTime = timestamp;
       const progress = timestamp - startTime;
       const percentage = Math.min(progress / duration, 1);
       const easeOutQuart = 1 - Math.pow(1 - percentage, 4);
@@ -77,8 +82,11 @@ function AnimatedNumber({ end, suffix = "", duration = 2500, className = "" }: {
     };
 
     animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [end, duration, onScreen]);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [end, duration, onScreen, hasAnimated]);
 
   return <span ref={ref} className={`font-serif tracking-tight ${className || 'text-aryo-deepBlue'}`}>{count}{suffix}</span>;
 }
@@ -223,17 +231,27 @@ function Hero() {
           </div>
         </FadeIn>
 
-        <div className="mt-20 border-y border-aryo-lightGrey py-8 flex overflow-hidden bg-white/50 backdrop-blur-sm relative">
+        <div className="mt-20 border-y border-aryo-lightGrey py-8 overflow-hidden bg-white/50 backdrop-blur-sm relative">
            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-aryo-offWhite to-transparent z-10"></div>
            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-aryo-offWhite to-transparent z-10"></div>
            
            <div className="flex gap-20 animate-marquee whitespace-nowrap items-center">
-              {[...clients, ...clients].map((client, i) => (
-                <div key={i} className="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default">
-                  <div className="text-aryo-deepBlue">{client.icon}</div>
-                  <span className="text-sm font-bold text-aryo-deepBlue tracking-[0.15em] font-sans">{client.name}</span>
-                </div>
-              ))}
+              <div className="flex gap-20 items-center shrink-0">
+                {clients.map((client, i) => (
+                  <div key={i} className="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default">
+                    <div className="text-aryo-deepBlue">{client.icon}</div>
+                    <span className="text-sm font-bold text-aryo-deepBlue tracking-[0.15em] font-sans">{client.name}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-20 items-center shrink-0">
+                {clients.map((client, i) => (
+                  <div key={`dup-${i}`} className="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default">
+                    <div className="text-aryo-deepBlue">{client.icon}</div>
+                    <span className="text-sm font-bold text-aryo-deepBlue tracking-[0.15em] font-sans">{client.name}</span>
+                  </div>
+                ))}
+              </div>
            </div>
         </div>
       </div>
@@ -330,7 +348,8 @@ function RadarChart() {
             fillOpacity="0.3"
             stroke="#274D8E" 
             strokeWidth="2"
-            className={`transition-all duration-[2000ms] ease-out origin-center ${onScreen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
+            className={`origin-center ${onScreen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
+            style={{ transition: 'all 2000ms ease-out' }}
           />
           
           <defs>
