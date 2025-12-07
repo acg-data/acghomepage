@@ -1,0 +1,815 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  ArrowRight, 
+  BarChart3, 
+  Activity,
+  Globe, 
+  TrendingUp, 
+  Users, 
+  Menu, 
+  X,
+  CheckCircle2,
+  PieChart,
+  Briefcase,
+  ShieldCheck,
+  Landmark,
+  Building,
+  ArrowUpRight,
+  Cpu,
+  Quote,
+  FileText,
+  Clock,
+  Layout,
+  ChevronRight,
+  Hexagon,
+  Triangle,
+  Circle
+} from 'lucide-react';
+
+// --- BRAND PALETTE CONSTANTS ---
+const COLORS = {
+  deepBlue: '#274D8E',
+  teal: '#47B5CB',
+  greenTeal: '#4EB9A7',
+  lightBlue: '#ADD6DE',
+  lightGrey: '#CECECE',
+  white: '#FFFFFF',
+  offWhite: '#F8FAFC' 
+};
+
+// --- DATA: COMPETITOR PROFILES FOR RADAR CHART ---
+// Axes order: Capital, Market, Digital, M&A, Talent, Governance
+const COMPETITOR_DATA = {
+  "Marketing Agency": [0.2, 0.95, 0.4, 0.1, 0.2, 0.1], 
+  "Business Broker": [0.5, 0.3, 0.1, 0.95, 0.1, 0.2],
+  "PE Firm": [0.95, 0.2, 0.2, 0.9, 0.4, 0.6],        
+  "Recruiting Co": [0.1, 0.2, 0.1, 0.1, 0.95, 0.2],   
+  "Tech Consulting": [0.2, 0.2, 0.95, 0.2, 0.2, 0.4],
+  "Research Org": [0.1, 0.8, 0.2, 0.3, 0.1, 0.1]
+};
+
+const ARYO_DATA = [0.9, 0.9, 0.95, 0.8, 0.9, 0.95];
+
+// --- UTILS & HOOKS ---
+
+const useOnScreen = (ref, rootMargin = '0px') => {
+  const [isIntersecting, setIntersecting] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIntersecting(true);
+          observer.disconnect(); 
+        }
+      },
+      { rootMargin }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [ref, rootMargin]);
+  return isIntersecting;
+};
+
+const AnimatedNumber = ({ end, suffix = "", duration = 2500 }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef();
+  const onScreen = useOnScreen(ref);
+
+  useEffect(() => {
+    if (!onScreen) return;
+    let startTime;
+    let animationFrame;
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+      const easeOutQuart = 1 - Math.pow(1 - percentage, 4);
+      setCount(Math.floor(end * easeOutQuart));
+
+      if (progress < duration) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration, onScreen]);
+
+  return <span ref={ref} className="font-serif tracking-tight text-[#274D8E]">{count}{suffix}</span>;
+};
+
+const FadeIn = ({ children, delay = 0, className = "" }) => {
+  const ref = useRef();
+  const onScreen = useOnScreen(ref, "-50px");
+  
+  return (
+    <div 
+      ref={ref} 
+      className={`transition-all duration-1000 ease-out transform ${onScreen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// --- COMPONENTS ---
+
+const AryoLogo = () => (
+  <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 80 L40 10 L70 80" stroke="#274D8E" strokeWidth="8" strokeLinecap="square"/>
+    <path d="M25 55 L55 55" stroke="#274D8E" strokeWidth="8"/>
+    <rect x="75" y="50" width="6" height="30" fill="#ADD6DE" />
+    <rect x="83" y="35" width="6" height="45" fill="#47B5CB" />
+    <rect x="91" y="20" width="6" height="60" fill="#4EB9A7" />
+  </svg>
+);
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  return (
+    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-[#CECECE]' : 'bg-white border-b border-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-24">
+          <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer">
+            <AryoLogo />
+            <div className="flex flex-col leading-none">
+              <span className="font-sans font-extrabold text-2xl tracking-wide text-[#274D8E]">ARYO</span>
+              <span className="text-[0.65rem] font-sans font-bold tracking-[0.2em] text-[#4EB9A7] uppercase mt-0.5">Consulting Group</span>
+            </div>
+          </div>
+          
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-center space-x-12">
+              <a href="#sectors" className="text-[#274D8E]/70 hover:text-[#274D8E] transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]">Sectors</a>
+              <a href="#methodology" className="text-[#274D8E]/70 hover:text-[#274D8E] transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]">Methodology</a>
+              <a href="#process" className="text-[#274D8E]/70 hover:text-[#274D8E] transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]">Process</a>
+              <a href="#contact" className="bg-[#274D8E] text-white hover:bg-[#1a3668] px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 shadow-sm">
+                Partner Login
+              </a>
+            </div>
+          </div>
+          
+          <div className="-mr-2 flex md:hidden">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-[#274D8E] p-2">
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className="md:hidden bg-white border-b border-[#CECECE] shadow-xl">
+          <div className="px-6 pt-4 pb-8 space-y-4">
+            <a href="#sectors" className="block text-sm font-sans uppercase tracking-widest text-[#274D8E]">Sectors</a>
+            <a href="#methodology" className="block text-sm font-sans uppercase tracking-widest text-[#274D8E]">Methodology</a>
+            <a href="#process" className="block text-sm font-sans uppercase tracking-widest text-[#274D8E]">Process</a>
+            <a href="#contact" className="block text-sm font-sans uppercase tracking-widest font-bold text-[#47B5CB]">Partner Login</a>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+const Hero = () => {
+  const clients = [
+    { name: "MERIDIAN GROUP", icon: <Globe size={18} /> },
+    { name: "SOVEREIGN CAPITAL", icon: <Landmark size={18} /> },
+    { name: "APEX GLOBAL", icon: <Triangle size={18} /> },
+    { name: "VANGUARD SYSTEMS", icon: <ShieldCheck size={18} /> },
+    { name: "HORIZON ENERGY", icon: <Circle size={18} /> },
+    { name: "STIRLING FINANCIAL", icon: <Briefcase size={18} /> },
+    { name: "NEXUS HEALTH", icon: <Activity size={18} /> },
+    { name: "OMEGA LOGISTICS", icon: <Hexagon size={18} /> },
+  ];
+
+  return (
+    <div className="relative pt-40 pb-24 bg-[#F8FAFC] border-b border-[#CECECE] overflow-hidden">
+      <div className="absolute right-0 top-0 h-full w-1/3 opacity-10 pointer-events-none">
+        <svg viewBox="0 0 200 800" className="h-full w-full">
+           <path d="M0 800 L200 0 L200 800 Z" fill="#274D8E" />
+           <path d="M50 800 L200 200 L200 800 Z" fill="#47B5CB" />
+        </svg>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+        <FadeIn>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="h-px w-12 bg-[#4EB9A7]"></div>
+            <span className="text-xs font-bold font-sans text-[#274D8E] tracking-[0.25em] uppercase">
+              Corporate Strategy & Governance
+            </span>
+          </div>
+        </FadeIn>
+        
+        <FadeIn delay={200}>
+          <h1 className="text-5xl md:text-7xl font-serif text-[#274D8E] tracking-tight mb-8 leading-[1.1] max-w-4xl">
+            Architecting <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#274D8E] to-[#4EB9A7]">
+              Enterprise Resilience.
+            </span>
+          </h1>
+        </FadeIn>
+        
+        <FadeIn delay={300}>
+          <p className="mt-6 max-w-2xl text-xl md:text-2xl text-slate-600 mb-12 leading-relaxed font-sans font-light">
+            We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value.
+          </p>
+        </FadeIn>
+        
+        <FadeIn delay={400}>
+          <div className="flex flex-col sm:flex-row gap-6">
+            <button className="bg-[#274D8E] text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all shadow-lg shadow-[#274D8E]/20 flex items-center gap-3 group">
+              Request Executive Briefing
+              <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
+            </button>
+            <button className="bg-white text-[#274D8E] border border-[#CECECE] px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:border-[#274D8E] hover:bg-[#F8FAFC] transition-all">
+              View Q4 Market Report
+            </button>
+          </div>
+        </FadeIn>
+
+        {/* Client Ticker Tape */}
+        <div className="mt-20 border-y border-[#CECECE] py-8 flex overflow-hidden bg-white/50 backdrop-blur-sm relative">
+           <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#F8FAFC] to-transparent z-10"></div>
+           <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#F8FAFC] to-transparent z-10"></div>
+           
+           <div className="flex gap-20 animate-marquee whitespace-nowrap items-center">
+              {[...clients, ...clients].map((client, i) => (
+                <div key={i} className="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default">
+                  <div className="text-[#274D8E]">{client.icon}</div>
+                  <span className="text-sm font-bold text-[#274D8E] tracking-[0.15em] font-sans">{client.name}</span>
+                </div>
+              ))}
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RadarChart = () => {
+  const [competitor, setCompetitor] = useState("Marketing Agency");
+  const size = 400;
+  const center = size / 2;
+  const radius = 120;
+  const levels = 4;
+  const ref = useRef();
+  const onScreen = useOnScreen(ref);
+  
+  const levers = [
+    { label: "Capital", icon: <Landmark size={14} /> },
+    { label: "Market", icon: <Globe size={14} /> },
+    { label: "Digital", icon: <Cpu size={14} /> },
+    { label: "M&A", icon: <PieChart size={14} /> },
+    { label: "Talent", icon: <Users size={14} /> },
+    { label: "Governance", icon: <ShieldCheck size={14} /> }
+  ];
+
+  const getPoint = (index, value) => {
+    const angle = (Math.PI * 2 * index) / 6 - Math.PI / 2;
+    const x = center + Math.cos(angle) * radius * value;
+    const y = center + Math.sin(angle) * radius * value;
+    return `${x},${y}`;
+  };
+
+  const polyCompetitor = COMPETITOR_DATA[competitor].map((v, i) => getPoint(i, v)).join(" ");
+  const polyAryo = ARYO_DATA.map((v, i) => getPoint(i, v)).join(" ");
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="mb-10 w-full text-center">
+        <p className="text-xs font-bold text-[#4EB9A7] uppercase tracking-[0.2em] mb-4">Compare Our Model</p>
+        <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
+          {Object.keys(COMPETITOR_DATA).map((key) => (
+            <button
+              key={key}
+              onClick={() => setCompetitor(key)}
+              className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] transition-all font-sans rounded-sm border ${competitor === key ? 'bg-[#274D8E] text-white border-[#274D8E]' : 'bg-white text-slate-500 border-[#CECECE] hover:border-[#274D8E] hover:text-[#274D8E]'}`}
+            >
+              vs. {key}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div ref={ref} className="relative w-full max-w-md mx-auto aspect-square bg-white border border-[#CECECE] p-8 shadow-sm">
+        <div className="absolute top-4 left-4 text-xs font-bold text-[#274D8E] uppercase tracking-wider">Operational Alpha</div>
+        <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full font-sans">
+          {[...Array(levels)].map((_, i) => {
+            const r = (radius / levels) * (i + 1);
+            const points = levers.map((_, j) => {
+               const angle = (Math.PI * 2 * j) / 6 - Math.PI / 2;
+               return `${center + Math.cos(angle) * r},${center + Math.sin(angle) * r}`;
+            }).join(" ");
+            return <polygon key={i} points={points} fill="none" stroke="#E2E8F0" strokeWidth="1" />;
+          })}
+
+          {levers.map((_, i) => {
+             const angle = (Math.PI * 2 * i) / 6 - Math.PI / 2;
+             return (
+               <line 
+                 key={i} 
+                 x1={center} 
+                 y1={center} 
+                 x2={center + Math.cos(angle) * radius} 
+                 y2={center + Math.sin(angle) * radius} 
+                 stroke="#E2E8F0" 
+                 strokeWidth="1" 
+               />
+             );
+          })}
+
+          {/* Competitor Polygon */}
+          <polygon 
+            points={polyCompetitor} 
+            fill="#CECECE" 
+            fillOpacity="0.2"
+            stroke="#CECECE" 
+            strokeWidth="2" 
+            strokeDasharray="4 2"
+            className="transition-all duration-700 ease-out"
+          />
+          
+          {/* Aryo Polygon */}
+          <polygon 
+            points={polyAryo} 
+            fill="url(#gradientAryo)" 
+            fillOpacity="0.3"
+            stroke="#274D8E" 
+            strokeWidth="2"
+            className={`transition-all duration-[2000ms] ease-out origin-center ${onScreen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
+          />
+          
+          <defs>
+            <linearGradient id="gradientAryo" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#274D8E" />
+              <stop offset="100%" stopColor="#4EB9A7" />
+            </linearGradient>
+          </defs>
+
+          {levers.map((lever, i) => {
+            const angle = (Math.PI * 2 * i) / 6 - Math.PI / 2;
+            const labelR = radius + 35; 
+            const x = center + Math.cos(angle) * labelR;
+            const y = center + Math.sin(angle) * labelR;
+            
+            return (
+              <foreignObject key={i} x={x - 45} y={y - 15} width="90" height="30">
+                <div className="flex flex-col items-center justify-center text-center">
+                  <div className="text-[10px] font-bold text-[#274D8E] uppercase tracking-[0.1em] bg-white px-2 py-0.5 border border-[#CECECE] rounded-sm">
+                    {lever.label}
+                  </div>
+                </div>
+              </foreignObject>
+            );
+          })}
+        </svg>
+        
+        <div className="absolute bottom-4 right-4 flex flex-col gap-2 bg-white/90 p-2 border border-[#CECECE]">
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 bg-[#274D8E]"></div>
+            <span className="text-[#274D8E] font-bold uppercase tracking-wider text-[10px]">Aryo Standard</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 bg-[#CECECE]"></div>
+            <span className="text-slate-400 uppercase tracking-wider text-[10px]">{competitor}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ValueDrivers = () => {
+  const drivers = [
+    { title: "Financial Engineering", desc: "Optimizing unit economics, capital allocation, and forecasting accuracy.", icon: Landmark },
+    { title: "Market Positioning", desc: "Clarifying brand authority and reducing Customer Acquisition Cost (CAC).", icon: Globe },
+    { title: "Digital Infrastructure", desc: "Modernizing stack architecture to reduce technical debt and cyber risk.", icon: Briefcase },
+    { title: "M&A Strategy", desc: "Buy-side diligence, post-merger integration, and synergy realization.", icon: PieChart },
+    { title: "Talent Governance", desc: "Increasing leadership density and aligning compensation with equity value.", icon: Users },
+    { title: "Operational Risk", desc: "Codifying workflows to reduce reliance on tribal knowledge.", icon: ShieldCheck },
+  ];
+
+  return (
+    <div id="methodology" className="py-32 bg-white border-b border-[#CECECE]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-24 items-center">
+          <FadeIn>
+            <div className="mb-8">
+              <span className="text-xs font-bold font-sans text-[#4EB9A7] tracking-[0.2em] uppercase">
+                Strategic Framework
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-serif text-[#274D8E] mb-8 leading-tight">
+              The Polytope of <br/>
+              <span className="text-[#47B5CB]">Value Creation.</span>
+            </h2>
+            <p className="text-xl text-slate-600 mb-12 font-sans leading-relaxed font-light">
+              We reject the siloed approach of traditional firms. True enterprise value is unlocked only when financial, operational, and technical levers are pulled in unison.
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-12">
+              {drivers.map((d, i) => (
+                <div key={i} className="flex items-start gap-5 group">
+                  <div className="text-[#CECECE] group-hover:text-[#274D8E] transition-colors duration-500 pt-1">
+                    <d.icon size={24} strokeWidth={1} />
+                  </div>
+                  <div>
+                    <h4 className="font-serif font-bold text-[#274D8E] text-lg mb-2">{d.title}</h4>
+                    <p className="text-sm text-slate-500 leading-relaxed font-sans">{d.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+
+          <div className="p-8 bg-[#F8FAFC] border border-[#CECECE]">
+             <RadarChart />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// NEW SECTION: Industries / Sectors
+const Industries = () => {
+  const sectors = [
+    { name: "Fintech & Payments", desc: "Regulatory arbitrage, legacy modernization, and fraud operations.", active: true },
+    { name: "SaaS & Enterprise Software", desc: "Churn reduction, CAC optimization, and sales engineering.", active: false },
+    { name: "Precision Manufacturing", desc: "Supply chain resilience, IoT integration, and inventory turns.", active: false },
+    { name: "Healthcare Services", desc: "Revenue cycle management, provider M&A, and compliance.", active: false },
+  ];
+
+  return (
+    <div id="sectors" className="py-32 bg-[#F8FAFC] border-b border-[#CECECE]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="mb-16">
+           <span className="text-xs font-bold font-sans text-[#4EB9A7] tracking-[0.2em] uppercase">Sector Expertise</span>
+           <h2 className="text-4xl font-serif text-[#274D8E] mt-4 mb-6">Vertical Specialization</h2>
+           <p className="text-slate-600 max-w-2xl text-lg font-light">We do not deploy generalists. Our practice leaders possess deep operational experience in highly regulated and technically complex industries.</p>
+        </div>
+
+        <div className="grid md:grid-cols-4 gap-6">
+          {sectors.map((s, i) => (
+            <FadeIn key={i} delay={i * 100}>
+              <div className={`h-full p-8 border transition-all duration-300 group cursor-pointer ${s.active ? 'bg-[#274D8E] border-[#274D8E]' : 'bg-white border-[#CECECE] hover:border-[#4EB9A7]'}`}>
+                <div className={`mb-6 p-3 inline-block rounded-sm ${s.active ? 'bg-white/10 text-white' : 'bg-[#F8FAFC] text-[#274D8E]'}`}>
+                  <Layout size={24} />
+                </div>
+                <h3 className={`text-lg font-serif font-bold mb-4 ${s.active ? 'text-white' : 'text-[#274D8E]'}`}>{s.name}</h3>
+                <p className={`text-sm leading-relaxed ${s.active ? 'text-white/80' : 'text-slate-500'}`}>{s.desc}</p>
+                <div className={`mt-8 flex items-center gap-2 text-xs font-bold uppercase tracking-widest ${s.active ? 'text-[#4EB9A7]' : 'text-[#274D8E] opacity-0 group-hover:opacity-100 transition-opacity'}`}>
+                  View Case Studies <ArrowRight size={12} />
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// NEW SECTION: The Process / Roadmap
+const Process = () => {
+  const steps = [
+    { phase: "Phase I", title: "Diagnostic & Audit", time: "Weeks 1-4", desc: "Full forensic audit of unit economics, tech stack, and leadership gaps." },
+    { phase: "Phase II", title: "Strategic Architecture", time: "Weeks 5-8", desc: "Designing the target operating model and governance frameworks." },
+    { phase: "Phase III", title: "Execution & Deployment", time: "Weeks 9-24", desc: "Interim executive placement and rapid implementation of growth drivers." },
+    { phase: "Phase IV", title: "Handover & Governance", time: "Ongoing", desc: "Establishing KPIs and board-level reporting structures for long-term sustainability." },
+  ];
+
+  return (
+    <div id="process" className="py-32 bg-white border-b border-[#CECECE]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+          <div>
+            <span className="text-xs font-bold font-sans text-[#4EB9A7] tracking-[0.2em] uppercase">The Engagement Model</span>
+            <h2 className="text-4xl font-serif text-[#274D8E] mt-4">Predictable Transformation</h2>
+          </div>
+          <p className="text-slate-600 max-w-xl text-lg font-light text-right">
+            We operate on a fixed-timeline engagement model. No open-ended retainers. Just clear milestones and delivered outcomes.
+          </p>
+        </div>
+
+        <div className="relative">
+          {/* Connecting Line */}
+          <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-[#CECECE]"></div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            {steps.map((step, i) => (
+              <FadeIn key={i} delay={i * 200}>
+                <div className="relative bg-white pt-8 group">
+                  <div className="absolute top-0 left-0 md:left-1/2 md:-translate-x-1/2 w-4 h-4 bg-white border-2 border-[#274D8E] rounded-full z-10 group-hover:scale-125 group-hover:bg-[#4EB9A7] group-hover:border-[#4EB9A7] transition-all"></div>
+                  <div className="text-xs font-bold text-[#47B5CB] uppercase tracking-widest mb-2 flex items-center gap-2">
+                    <Clock size={12} /> {step.time}
+                  </div>
+                  <h3 className="text-xl font-serif font-bold text-[#274D8E] mb-4">{step.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed border-t border-[#CECECE] pt-4 mt-4">
+                    {step.desc}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// NEW SECTION: Insights / Intelligence
+const Insights = () => {
+  return (
+    <div className="py-24 bg-[#F8FAFC] border-b border-[#CECECE]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-12">
+           <h2 className="text-3xl font-serif text-[#274D8E]">Boardroom Intelligence</h2>
+           <a href="#" className="text-xs font-bold font-sans text-[#274D8E] uppercase tracking-widest flex items-center gap-2 hover:text-[#47B5CB]">
+             View All Reports <ArrowRight size={14} />
+           </a>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { tag: "Market Report", title: "Q4 Private Equity Outlook: The Return of Operational Value", date: "Oct 12, 2024" },
+            { tag: "White Paper", title: "AI Governance: A Board Director's Guide to Risk & Compliance", date: "Sept 28, 2024" },
+            { tag: "Case Study", title: "Restructuring a $500M Manufacturing Legacy for the Digital Age", date: "Aug 15, 2024" },
+          ].map((item, i) => (
+             <FadeIn key={i} delay={i * 150}>
+               <div className="bg-white border border-[#CECECE] p-8 hover:shadow-lg hover:border-[#274D8E] transition-all cursor-pointer group h-full flex flex-col justify-between">
+                 <div>
+                   <div className="flex items-center gap-2 mb-4">
+                     <FileText size={14} className="text-[#4EB9A7]" />
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#4EB9A7]">{item.tag}</span>
+                   </div>
+                   <h3 className="text-lg font-serif font-bold text-[#274D8E] mb-4 leading-snug group-hover:text-[#47B5CB] transition-colors">
+                     {item.title}
+                   </h3>
+                 </div>
+                 <div className="flex items-center justify-between border-t border-[#F8FAFC] pt-4 mt-4">
+                   <span className="text-xs text-slate-400 font-sans">{item.date}</span>
+                   <span className="p-2 bg-[#F8FAFC] rounded-full text-[#274D8E] group-hover:bg-[#274D8E] group-hover:text-white transition-all">
+                     <ArrowUpRight size={16} />
+                   </span>
+                 </div>
+               </div>
+             </FadeIn>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Leadership = () => {
+  return (
+    <div id="partners" className="py-32 bg-white border-b border-[#CECECE]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl font-serif text-[#274D8E] mb-6">Managing Partners</h2>
+          <div className="w-12 h-0.5 bg-[#4EB9A7] mx-auto mb-8"></div>
+          <p className="text-slate-600 text-lg font-sans max-w-2xl mx-auto font-light">
+             We do not leverage junior associates. You engage directly with Principals who have successfully navigated your specific growth stage.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { name: "James Sterling", role: "Principal, Strategy", bio: "Former VP at Tier-1 Strategy Firm. 20 years in M&A and corporate restructuring." },
+            { name: "Elena Vossen", role: "Principal, Technology", bio: "Ex-CTO of Fintech Unicorn. Specializes in legacy modernization and digital risk." },
+            { name: "Robert Chen", role: "Principal, Operations", bio: "Former COO of Logistics Giant. Expert in supply chain and operational efficiency." }
+          ].map((partner, i) => (
+            <FadeIn key={i} delay={i * 200}>
+              <div className="bg-[#F8FAFC] p-10 border border-[#CECECE] text-center hover:border-[#274D8E] transition-colors duration-500 shadow-sm group">
+                <div className="w-24 h-24 mx-auto bg-white rounded-full mb-8 overflow-hidden grayscale group-hover:grayscale-0 transition-all border border-[#CECECE]">
+                  <div className="w-full h-full flex items-center justify-center text-[#CECECE]">
+                     <Users size={32} />
+                  </div>
+                </div>
+                <h3 className="text-xl font-serif font-bold text-[#274D8E] mb-2">{partner.name}</h3>
+                <p className="text-xs font-bold font-sans text-[#47B5CB] uppercase tracking-widest mb-6">{partner.role}</p>
+                <p className="text-sm text-slate-600 font-sans leading-relaxed">
+                  {partner.bio}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Stats = () => {
+  const stats = [
+    { value: 2, suffix: "B+", label: "Value Unlocked" },
+    { value: 40, suffix: "%", label: "Efficiency Gain" },
+    { value: 12, suffix: "+", label: "Fortune 500 Partners" },
+    { value: 18, suffix: " Mo", label: "Transformation Cycle" }
+  ];
+  
+  return (
+    <div id="impact" className="py-24 bg-[#274D8E] text-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-16 text-center divide-x divide-[#47B5CB]/30">
+          {stats.map((stat, idx) => (
+             <div key={idx} className="px-6">
+              <div className="text-5xl md:text-6xl font-serif text-white mb-6 tracking-tight">
+                {stat.value}{stat.suffix}
+              </div>
+              <div className="text-[#4EB9A7] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase font-sans">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Testimonials = () => {
+  return (
+    <div className="py-32 bg-[#F8FAFC] border-b border-[#CECECE]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl font-serif text-[#274D8E] mb-6">Peer Validation</h2>
+          <p className="text-[#4EB9A7] font-sans tracking-[0.2em] uppercase text-xs font-bold">Insights from our Board of Advisors</p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-20">
+          <FadeIn delay={0}>
+            <div className="relative pl-12 border-l-2 border-[#274D8E]">
+              <Quote className="text-[#CECECE] absolute top-0 left-4 transform -translate-x-full" size={48} />
+              <p className="text-xl text-[#274D8E] font-serif italic mb-8 leading-loose">
+                "We were stalled at $50M in revenue. Aryo dismantled our revenue operations and rebuilt our GTM motion with a focus on EBITDA. We exited to a strategic acquirer 18 months later."
+              </p>
+              <div className="pt-4">
+                  <div className="font-bold text-[#274D8E] font-sans text-sm tracking-wide">JONATHAN H.</div>
+                  <div className="text-xs font-medium text-slate-500 uppercase font-sans tracking-widest mt-1">CEO, Industrial Systems Corp</div>
+              </div>
+            </div>
+          </FadeIn>
+          
+          <FadeIn delay={200}>
+            <div className="relative pl-12 border-l-2 border-[#4EB9A7]">
+              <Quote className="text-[#CECECE] absolute top-0 left-4 transform -translate-x-full" size={48} />
+              <p className="text-xl text-[#274D8E] font-serif italic mb-8 leading-loose">
+                "The governance framework they constructed was transformative. We moved from a culture of 'growth at all costs' to one of disciplined capital allocation."
+              </p>
+              <div className="pt-4">
+                  <div className="font-bold text-[#274D8E] font-sans text-sm tracking-wide">ELEANOR R.</div>
+                  <div className="text-xs font-medium text-slate-500 uppercase font-sans tracking-widest mt-1">Founder, FinTech Holdings</div>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const Cta = () => {
+  return (
+    <div id="contact" className="py-32 bg-white relative">
+      <div className="max-w-4xl mx-auto px-6 text-center">
+        <FadeIn>
+          <div className="inline-block border border-[#CECECE] px-4 py-2 mb-8 bg-[#F8FAFC]">
+             <span className="text-xs font-bold font-sans text-[#274D8E] uppercase tracking-[0.2em]">Confidential Inquiry</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-serif text-[#274D8E] mb-10 leading-tight">
+            Initiate a Strategic Dialogue.
+          </h2>
+          <p className="text-xl text-slate-600 mb-16 max-w-2xl mx-auto font-sans font-light leading-relaxed">
+            The market rewards clarity. We invite you to a private briefing to audit your current strategic position and identify immediate drivers for enterprise value.
+          </p>
+          
+          <div className="max-w-xl mx-auto bg-[#F8FAFC] p-12 border border-[#CECECE] shadow-2xl shadow-[#274D8E]/5">
+            <div className="space-y-8">
+              <div className="grid grid-cols-2 gap-6">
+                <input 
+                  type="text" 
+                  placeholder="First Name" 
+                  className="w-full px-0 py-3 bg-transparent border-b border-[#CECECE] text-[#274D8E] placeholder-slate-400 focus:outline-none focus:border-[#274D8E] transition-all font-sans text-sm"
+                />
+                 <input 
+                  type="text" 
+                  placeholder="Last Name" 
+                  className="w-full px-0 py-3 bg-transparent border-b border-[#CECECE] text-[#274D8E] placeholder-slate-400 focus:outline-none focus:border-[#274D8E] transition-all font-sans text-sm"
+                />
+              </div>
+              <input 
+                type="email" 
+                placeholder="Corporate Email Address" 
+                className="w-full px-0 py-3 bg-transparent border-b border-[#CECECE] text-[#274D8E] placeholder-slate-400 focus:outline-none focus:border-[#274D8E] transition-all font-sans text-sm"
+              />
+              <button className="w-full px-8 py-5 bg-[#274D8E] text-white text-xs font-bold uppercase tracking-[0.25em] hover:bg-[#1a3668] transition-all flex justify-center items-center gap-4 mt-4">
+                Request Briefing <ArrowRight size={14} />
+              </button>
+            </div>
+            <div className="text-xs text-center text-slate-400 mt-10 font-sans italic">
+              <ShieldCheck size={12} className="inline mr-1" />
+              Inquiries are subject to NDA and strict confidentiality.
+            </div>
+          </div>
+        </FadeIn>
+      </div>
+    </div>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="bg-white border-t border-[#CECECE] pt-24 pb-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          <div className="col-span-1 md:col-span-1">
+             <div className="flex items-center gap-2 mb-6">
+                <div style={{width: 30}}><AryoLogo /></div>
+                <span className="font-sans font-extrabold text-xl tracking-wide text-[#274D8E]">ARYO</span>
+            </div>
+            <p className="text-slate-500 text-sm leading-relaxed font-sans pr-8">
+              Architecting revenue engines and governance frameworks for the Fortune 500 and Middle Market.
+            </p>
+          </div>
+          
+          <div>
+            <h4 className="text-[#274D8E] font-bold mb-8 font-sans text-xs uppercase tracking-[0.2em]">Offices</h4>
+            <ul className="space-y-4 text-sm text-slate-500 font-sans">
+              <li className="flex items-center gap-2"><Building size={14} className="text-[#4EB9A7]"/> New York, NY</li>
+              <li className="flex items-center gap-2"><Building size={14} className="text-[#4EB9A7]"/> London, UK</li>
+              <li className="flex items-center gap-2"><Building size={14} className="text-[#4EB9A7]"/> Singapore, SG</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-[#274D8E] font-bold mb-8 font-sans text-xs uppercase tracking-[0.2em]">Intelligence</h4>
+            <ul className="space-y-4 text-sm text-slate-500 font-sans">
+              <li><a href="#" className="hover:text-[#274D8E] transition-colors">Market Perspectives</a></li>
+              <li><a href="#" className="hover:text-[#274D8E] transition-colors">Q4 Benchmark Report</a></li>
+              <li><a href="#" className="hover:text-[#274D8E] transition-colors">Client Access</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-[#274D8E] font-bold mb-8 font-sans text-xs uppercase tracking-[0.2em]">Legal</h4>
+            <ul className="space-y-4 text-sm text-slate-500 font-sans">
+              <li><a href="#" className="hover:text-[#274D8E] transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-[#274D8E] transition-colors">Terms of Engagement</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="border-t border-[#F8FAFC] pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-slate-400 text-xs font-sans">© {new Date().getFullYear()} Aryo Consulting Group. All rights reserved.</p>
+          <div className="flex gap-4 text-slate-400">
+             <Globe size={16} />
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+const App = () => {
+  return (
+    <div className="min-h-screen bg-white text-[#274D8E] font-sans overflow-x-hidden selection:bg-[#4EB9A7] selection:text-white">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+        .font-sans { font-family: 'Lato', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 30s linear infinite;
+        }
+      `}</style>
+      <Navbar />
+      <Hero />
+      <Industries />
+      <ValueDrivers />
+      <Process />
+      <Insights />
+      <Leadership />
+      <Stats />
+      <Testimonials />
+      <Cta />
+      <Footer />
+    </div>
+  );
+};
+
+export default App;
