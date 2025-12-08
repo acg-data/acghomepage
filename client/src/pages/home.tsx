@@ -202,30 +202,56 @@ function Hero() {
           <div className="flex items-center gap-3 mb-8">
             <div className="h-px w-12 bg-aryo-greenTeal"></div>
             <span className="text-xs font-bold font-sans text-aryo-deepBlue tracking-[0.25em] uppercase">
-              Corporate Strategy & Governance
+              Results-Driven Consulting
             </span>
           </div>
         </FadeIn>
         
         <FadeIn delay={200}>
-          <h1 className="text-5xl md:text-7xl font-serif text-aryo-deepBlue tracking-tight mb-8 leading-[1.1] max-w-4xl">
-            Architecting <br/>
+          <h1 className="text-4xl md:text-6xl font-serif text-aryo-deepBlue tracking-tight mb-8 leading-[1.15] max-w-4xl">
+            The Modern Consulting Firm that actually{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">
-              Enterprise Resilience.
+              delivers results.
             </span>
           </h1>
         </FadeIn>
         
         <FadeIn delay={300}>
-          <p className="mt-6 max-w-2xl text-xl md:text-2xl text-slate-600 mb-12 leading-relaxed font-sans font-light">
-            We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value.
-          </p>
+          <div className="max-w-2xl mb-10">
+            <p className="text-xl md:text-2xl text-slate-600 mb-6 leading-relaxed font-sans font-light">
+              Traditional consulting has failed. It's expensive, vague, and puts the firm, not the client, first.
+            </p>
+            <p className="text-lg text-slate-600 leading-relaxed font-sans">
+              At ACG, we work to build the modern operating system and framework of the business. We align incentives to see you grow well before we do.
+            </p>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={350}>
+          <div className="grid sm:grid-cols-2 gap-4 max-w-xl mb-12">
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
+              <span className="text-aryo-deepBlue font-sans font-medium">No hourly billing bloat.</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
+              <span className="text-aryo-deepBlue font-sans font-medium">No vague 100-page slide decks.</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
+              <span className="text-aryo-deepBlue font-sans font-medium">Deployed systems & infrastructure.</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
+              <span className="text-aryo-deepBlue font-sans font-medium">Outcome-based execution.</span>
+            </div>
+          </div>
         </FadeIn>
         
         <FadeIn delay={400}>
           <div className="flex flex-col sm:flex-row gap-6 flex-wrap">
             <a href="#contact" className="bg-aryo-deepBlue text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all shadow-lg shadow-aryo-deepBlue/20 flex items-center gap-3 group" data-testid="button-request-briefing">
-              Request Executive Briefing
+              Get Started
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
             </a>
             <a 
