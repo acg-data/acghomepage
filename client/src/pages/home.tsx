@@ -143,7 +143,7 @@ function Navbar() {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-12">
-              <a href="#sectors" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-sectors">Sectors</a>
+              <a href="#sectors" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-sectors">Stages</a>
               <Link href="/case-studies" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-case-studies">Case Studies</Link>
               <Link href="/insights" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-insights">Insights</Link>
               <a href="#contact" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-contact">Contact</a>
@@ -164,7 +164,7 @@ function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white border-b border-aryo-lightGrey shadow-xl">
           <div className="px-6 pt-4 pb-8 space-y-4">
-            <a href="#sectors" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-sectors-mobile">Sectors</a>
+            <a href="#sectors" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-sectors-mobile">Stages</a>
             <Link href="/case-studies" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-case-studies-mobile">Case Studies</Link>
             <Link href="/insights" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-insights-mobile">Insights</Link>
             <a href="#contact" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-contact-mobile">Contact</a>
@@ -478,34 +478,67 @@ function ValueDrivers() {
   );
 }
 
-function Industries() {
-  const sectors = [
-    { name: "Fintech & Payments", desc: "Regulatory arbitrage, legacy modernization, and fraud operations.", active: true },
-    { name: "SaaS & Enterprise Software", desc: "Churn reduction, CAC optimization, and sales engineering.", active: false },
-    { name: "Precision Manufacturing", desc: "Supply chain resilience, IoT integration, and inventory turns.", active: false },
-    { name: "Healthcare Services", desc: "Revenue cycle management, provider M&A, and compliance.", active: false },
+function StageSpecialization() {
+  const stages = [
+    { 
+      name: "Pre-Revenue Startups", 
+      tagline: "From idea to first dollar",
+      desc: "We help founders build the foundational infrastructure that scales. From go-to-market strategy to initial hiring frameworks, we deploy the systems you need before product-market fit—not generic advice, but actual operational architecture.",
+      highlights: ["Product-market fit validation", "Initial GTM infrastructure", "Founder operating systems"],
+      active: true 
+    },
+    { 
+      name: "Series A to C", 
+      tagline: "Scaling without breaking",
+      desc: "The most dangerous phase of growth. We've seen companies die from success more than failure. We build the operational backbone—finance, HR, sales ops—that lets you 10x without the chaos that kills momentum.",
+      highlights: ["Scalable team structures", "Unit economics optimization", "Board-ready reporting"],
+      active: false 
+    },
+    { 
+      name: "SMEs", 
+      tagline: "Professionalizing the proven",
+      desc: "You've built something real. Now it's time to systemize it. We help established small and medium enterprises modernize operations, implement proper governance, and prepare for the next stage—whether that's aggressive growth or a strategic exit.",
+      highlights: ["Process documentation", "Tech stack modernization", "M&A readiness"],
+      active: false 
+    },
+    { 
+      name: "Large Organizations", 
+      tagline: "Enterprise transformation",
+      desc: "Big doesn't have to mean slow. We partner with enterprise leadership to cut through bureaucracy, implement agile operating models, and drive digital transformation that actually sticks—not just expensive slide decks.",
+      highlights: ["Digital transformation", "Change management", "Cross-functional alignment"],
+      active: false 
+    },
   ];
 
   return (
     <div id="sectors" className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="mb-16">
-           <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Sector Expertise</span>
-           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-6">Vertical Specialization</h2>
-           <p className="text-slate-600 max-w-2xl text-lg font-light">We do not deploy generalists. Our practice leaders possess deep operational experience in highly regulated and technically complex industries.</p>
+           <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Who We Work With</span>
+           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-6">Stage Specialization</h2>
+           <p className="text-slate-600 max-w-2xl text-lg font-light">Every stage of growth has unique challenges. We don't believe in one-size-fits-all consulting—our frameworks adapt to where you are and where you're going.</p>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-6">
-          {sectors.map((s, i) => (
+        <div className="grid md:grid-cols-2 gap-8">
+          {stages.map((s, i) => (
             <FadeIn key={i} delay={i * 100}>
-              <div className={`h-full p-8 border transition-all duration-300 group cursor-pointer ${s.active ? 'bg-aryo-deepBlue border-aryo-deepBlue' : 'bg-white border-aryo-lightGrey hover:border-aryo-greenTeal'}`} data-testid={`card-sector-${i}`}>
-                <div className={`mb-6 p-3 inline-block rounded-sm ${s.active ? 'bg-white/10 text-white' : 'bg-aryo-offWhite text-aryo-deepBlue'}`}>
-                  <Layout size={24} />
+              <div className={`h-full p-8 border transition-all duration-300 group ${s.active ? 'bg-aryo-deepBlue border-aryo-deepBlue' : 'bg-white border-aryo-lightGrey hover:border-aryo-greenTeal'}`} data-testid={`card-stage-${i}`}>
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div>
+                    <h3 className={`text-xl font-serif font-bold mb-1 ${s.active ? 'text-white' : 'text-aryo-deepBlue'}`}>{s.name}</h3>
+                    <p className={`text-sm font-medium ${s.active ? 'text-aryo-greenTeal' : 'text-aryo-teal'}`}>{s.tagline}</p>
+                  </div>
+                  <div className={`p-3 rounded-sm shrink-0 ${s.active ? 'bg-white/10 text-white' : 'bg-aryo-offWhite text-aryo-deepBlue'}`}>
+                    <Layout size={24} />
+                  </div>
                 </div>
-                <h3 className={`text-lg font-serif font-bold mb-4 ${s.active ? 'text-white' : 'text-aryo-deepBlue'}`}>{s.name}</h3>
-                <p className={`text-sm leading-relaxed ${s.active ? 'text-white/80' : 'text-slate-500'}`}>{s.desc}</p>
-                <div className={`mt-8 flex items-center gap-2 text-xs font-bold uppercase tracking-widest ${s.active ? 'text-aryo-greenTeal' : 'text-aryo-deepBlue opacity-0 group-hover:opacity-100 transition-opacity'}`}>
-                  View Case Studies <ArrowRight size={12} />
+                <p className={`text-sm leading-relaxed mb-6 ${s.active ? 'text-white/80' : 'text-slate-500'}`}>{s.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {s.highlights.map((h, j) => (
+                    <span key={j} className={`text-xs font-medium px-3 py-1 rounded-sm ${s.active ? 'bg-white/10 text-white/90' : 'bg-aryo-offWhite text-aryo-deepBlue'}`}>
+                      {h}
+                    </span>
+                  ))}
                 </div>
               </div>
             </FadeIn>
@@ -872,7 +905,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <Hero />
-      <Industries />
+      <StageSpecialization />
       <ValueDrivers />
       <Process />
       <Stats />
