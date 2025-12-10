@@ -58,20 +58,18 @@ function useOnScreen(ref: React.RefObject<HTMLElement | null>, rootMargin = '0px
 
 function AnimatedNumber({ end, suffix = "", duration = 2500, className = "" }: { end: number; suffix?: string; duration?: number; className?: string }) {
   const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
+  const hasAnimatedRef = useRef(false);
   const onScreen = useOnScreen(ref);
 
   useEffect(() => {
-    if (!onScreen || hasAnimated) return;
+    if (!onScreen || hasAnimatedRef.current) return;
     
-    setHasAnimated(true);
+    hasAnimatedRef.current = true;
     let startTime: number | null = null;
     let animationFrame: number;
-    let cancelled = false;
 
     const animate = (timestamp: number) => {
-      if (cancelled) return;
       if (startTime === null) startTime = timestamp;
       const progress = timestamp - startTime;
       const percentage = Math.min(progress / duration, 1);
@@ -80,15 +78,16 @@ function AnimatedNumber({ end, suffix = "", duration = 2500, className = "" }: {
 
       if (progress < duration) {
         animationFrame = requestAnimationFrame(animate);
+      } else {
+        setCount(end); // Ensure final value is exact
       }
     };
 
     animationFrame = requestAnimationFrame(animate);
     return () => {
-      cancelled = true;
       cancelAnimationFrame(animationFrame);
     };
-  }, [end, duration, onScreen, hasAnimated]);
+  }, [end, duration, onScreen]);
 
   return <span ref={ref} className={`font-serif tracking-tight ${className || 'text-aryo-deepBlue'}`}>{count}{suffix}</span>;
 }
