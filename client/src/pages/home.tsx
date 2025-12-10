@@ -581,10 +581,10 @@ function Process() {
 
 function Stats() {
   const stats = [
-    { value: 127, suffix: "+", label: "Engagements Completed" },
-    { value: 4, suffix: ".2B", label: "Enterprise Value Unlocked" },
-    { value: 94, suffix: "%", label: "Client Retention Rate" },
-    { value: 18, suffix: "+", label: "Years Average Partner Experience" },
+    { value: 400, suffix: "+", label: "Engagements Completed" },
+    { value: 1, suffix: ".5B", label: "Enterprise Value Unlocked" },
+    { value: 98, suffix: "%", label: "Client Retention Rate" },
+    { value: 75, suffix: "%", label: "Average Reduction in Fees" },
   ];
 
   return (
