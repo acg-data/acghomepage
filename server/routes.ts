@@ -9,6 +9,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import connectPgSimple from "connect-pg-simple";
 import { pool } from "./db";
+import { Client as ObjectStorageClient } from "@replit/object-storage";
 
 const PgSession = connectPgSimple(session);
 
@@ -231,6 +232,49 @@ export async function registerRoutes(
     
     const pdfContent = generateSimplePDF();
     res.send(pdfContent);
+  });
+
+  const objectStorageClient = new ObjectStorageClient();
+
+  app.get("/api/logos", async (_req: Request, res: Response) => {
+    try {
+      const result = await objectStorageClient.list();
+      if (result.ok && result.value) {
+        const logos = result.value
+          .map((obj: { name: string }) => obj.name)
+          .filter((name: string) => !name.toLowerCase().includes("aryo"));
+        res.json(logos);
+      } else {
+        res.json([]);
+      }
+    } catch (error) {
+      console.error("Error listing logos:", error);
+      res.status(500).json({ message: "Failed to list logos" });
+    }
+  });
+
+  app.get("/api/logos/:filename", async (req: Request, res: Response) => {
+    try {
+      const filename = decodeURIComponent(req.params.filename);
+      const result = await objectStorageClient.downloadAsBytes(filename);
+      
+      if (!result.ok || !result.value) {
+        return res.status(404).json({ message: "Logo not found" });
+      }
+
+      const ext = filename.split('.').pop()?.toLowerCase();
+      let contentType = 'image/png';
+      if (ext === 'svg') contentType = 'image/svg+xml';
+      else if (ext === 'jpg' || ext === 'jpeg') contentType = 'image/jpeg';
+      else if (ext === 'png') contentType = 'image/png';
+
+      res.setHeader('Content-Type', contentType);
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.send(result.value);
+    } catch (error) {
+      console.error("Error serving logo:", error);
+      res.status(500).json({ message: "Failed to serve logo" });
+    }
   });
 
   return httpServer;

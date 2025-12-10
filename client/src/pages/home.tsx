@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { Link } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
 import { 
   ArrowRight, 
   Activity,
@@ -177,16 +178,9 @@ function Navbar() {
 }
 
 function Hero() {
-  const clients = [
-    { name: "MERIDIAN GROUP", icon: <Globe size={18} /> },
-    { name: "SOVEREIGN CAPITAL", icon: <Landmark size={18} /> },
-    { name: "APEX GLOBAL", icon: <Triangle size={18} /> },
-    { name: "VANGUARD SYSTEMS", icon: <ShieldCheck size={18} /> },
-    { name: "HORIZON ENERGY", icon: <Circle size={18} /> },
-    { name: "STIRLING FINANCIAL", icon: <Briefcase size={18} /> },
-    { name: "NEXUS HEALTH", icon: <Activity size={18} /> },
-    { name: "OMEGA LOGISTICS", icon: <Hexagon size={18} /> },
-  ];
+  const { data: logos = [] } = useQuery<string[]>({
+    queryKey: ['/api/logos'],
+  });
 
   return (
     <div className="relative pt-40 pb-24 bg-aryo-offWhite border-b border-aryo-lightGrey overflow-hidden">
@@ -265,29 +259,38 @@ function Hero() {
           </div>
         </FadeIn>
 
-        <div className="mt-20 border-y border-aryo-lightGrey py-8 overflow-hidden bg-white/50 backdrop-blur-sm relative">
-           <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-aryo-offWhite to-transparent z-10"></div>
-           <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-aryo-offWhite to-transparent z-10"></div>
-           
-           <div className="flex gap-20 animate-marquee whitespace-nowrap items-center">
-              <div className="flex gap-20 items-center shrink-0">
-                {clients.map((client, i) => (
-                  <div key={i} className="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default">
-                    <div className="text-aryo-deepBlue">{client.icon}</div>
-                    <span className="text-sm font-bold text-aryo-deepBlue tracking-[0.15em] font-sans">{client.name}</span>
+        {logos.length > 0 && (
+          <div className="mt-20 border-y border-aryo-lightGrey py-8 overflow-hidden bg-white/50 backdrop-blur-sm relative">
+            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-aryo-offWhite to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-aryo-offWhite to-transparent z-10"></div>
+            
+            <div className="flex gap-16 animate-marquee whitespace-nowrap items-center">
+              <div className="flex gap-16 items-center shrink-0">
+                {logos.map((logo, i) => (
+                  <div key={i} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center">
+                    <img 
+                      src={`/api/logos/${encodeURIComponent(logo)}`} 
+                      alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      className="h-full w-auto max-w-[140px] object-contain"
+                      data-testid={`logo-${i}`}
+                    />
                   </div>
                 ))}
               </div>
-              <div className="flex gap-20 items-center shrink-0">
-                {clients.map((client, i) => (
-                  <div key={`dup-${i}`} className="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default">
-                    <div className="text-aryo-deepBlue">{client.icon}</div>
-                    <span className="text-sm font-bold text-aryo-deepBlue tracking-[0.15em] font-sans">{client.name}</span>
+              <div className="flex gap-16 items-center shrink-0">
+                {logos.map((logo, i) => (
+                  <div key={`dup-${i}`} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center">
+                    <img 
+                      src={`/api/logos/${encodeURIComponent(logo)}`} 
+                      alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      className="h-full w-auto max-w-[140px] object-contain"
+                    />
                   </div>
                 ))}
               </div>
-           </div>
-        </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
