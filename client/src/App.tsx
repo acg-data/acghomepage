@@ -11,18 +11,32 @@ import Register from "@/pages/register";
 import Partner from "@/pages/partner";
 import CaseStudies from "@/pages/case-studies";
 import Blog from "@/pages/blog";
+import About from "@/pages/about";
+import Capabilities from "@/pages/capabilities";
+import Industries from "@/pages/industries";
+import Careers from "@/pages/careers";
+import Contact from "@/pages/contact";
+import ValuationTool from "@/pages/valuation-tool";
+import AIConsultant from "@/pages/ai-consultant";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home}/>
+      <Route path="/about" component={About}/>
+      <Route path="/capabilities" component={Capabilities}/>
+      <Route path="/industries" component={Industries}/>
+      <Route path="/insights" component={Blog}/>
+      <Route path="/insights/:slug" component={Blog}/>
+      <Route path="/case-studies" component={CaseStudies}/>
+      <Route path="/case-studies/:slug" component={CaseStudies}/>
+      <Route path="/careers" component={Careers}/>
+      <Route path="/contact" component={Contact}/>
+      <Route path="/valuation-tool" component={ValuationTool}/>
+      <Route path="/ai-consultant" component={AIConsultant}/>
       <Route path="/login" component={Login}/>
       <Route path="/register" component={Register}/>
       <Route path="/partner" component={Partner}/>
-      <Route path="/case-studies" component={CaseStudies}/>
-      <Route path="/case-studies/:slug" component={CaseStudies}/>
-      <Route path="/insights" component={Blog}/>
-      <Route path="/insights/:slug" component={Blog}/>
       <Route component={NotFound} />
     </Switch>
   );

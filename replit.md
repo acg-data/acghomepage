@@ -6,9 +6,15 @@ A professional corporate consulting firm website featuring sophisticated animati
 ## Current State
 The application is a complete, multi-page corporate consulting website with:
 - Public landing page with all marketing sections
+- About page with team, locations (Boston, NYC + 4 coming Q4 2026), and company story
+- Capabilities page showcasing 6 service areas
+- Industries page with 6 sector specializations
 - Case studies and blog/insights content sections
+- Careers page with open positions and culture
+- Dedicated Contact page with form
+- Valuation Tool placeholder (for custom implementation)
+- AI Consultant placeholder (for custom implementation)
 - Partner authentication system (login/register/protected dashboard)
-- Contact form with API integration
 - Downloadable Q4 market report
 
 ## Project Architecture
@@ -24,11 +30,18 @@ The application is a complete, multi-page corporate consulting website with:
 
 ### Key Files
 - `client/src/pages/home.tsx` - Main landing page with all sections
+- `client/src/pages/about.tsx` - About page with team, locations, company story
+- `client/src/pages/capabilities.tsx` - Service offerings page
+- `client/src/pages/industries.tsx` - Industry expertise page
+- `client/src/pages/careers.tsx` - Careers and open positions
+- `client/src/pages/contact.tsx` - Dedicated contact page
+- `client/src/pages/valuation-tool.tsx` - Placeholder for valuation calculator
+- `client/src/pages/ai-consultant.tsx` - Placeholder for AI consultant feature
+- `client/src/pages/case-studies.tsx` - Case studies list and detail views
+- `client/src/pages/blog.tsx` - Blog/insights list and detail views
 - `client/src/pages/login.tsx` - Partner login page
 - `client/src/pages/register.tsx` - Partner registration page
 - `client/src/pages/partner.tsx` - Protected partner dashboard
-- `client/src/pages/case-studies.tsx` - Case studies list and detail views
-- `client/src/pages/blog.tsx` - Blog/insights list and detail views
 - `client/src/lib/auth.tsx` - Authentication context and ProtectedRoute component
 - `server/routes.ts` - API routes (auth, contact, case studies, blog, report)
 - `server/storage.ts` - Database storage implementation
@@ -98,6 +111,17 @@ The application is a complete, multi-page corporate consulting website with:
 - Connected contact form to backend API
 - Added Q4 market report download functionality
 - Fixed ProtectedRoute to properly guard authenticated routes
+- Fixed object storage logo serving (access result.value[0] for Buffer)
+- Added cache-busting to logo images to prevent broken image caching
+- Fixed AnimatedNumber using ref instead of state for StrictMode compatibility
+- Added About page with team (6 members), locations (Boston, NYC + 4 coming Q4 2026)
+- Added Capabilities page with 6 service areas
+- Added Industries page with 6 sector specializations
+- Added Careers page with open positions and culture
+- Added dedicated Contact page with form
+- Added Valuation Tool placeholder page
+- Added AI Consultant placeholder page
+- Updated navigation with all new pages
 
 ## Running the Project
 The application runs with `npm run dev` via the "Start application" workflow, serving on port 5000.
