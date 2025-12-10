@@ -73,13 +73,7 @@ export default function About() {
       <nav className="bg-white border-b border-aryo-lightGrey px-6 py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3" data-testid="link-home">
-            <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
-              <path d="M10 80 L40 10 L70 80" stroke="#274D8E" strokeWidth="8" strokeLinecap="square"/>
-              <path d="M25 55 L55 55" stroke="#274D8E" strokeWidth="8"/>
-              <rect x="75" y="50" width="6" height="30" fill="#ADD6DE" />
-              <rect x="83" y="35" width="6" height="45" fill="#47B5CB" />
-              <rect x="91" y="20" width="6" height="60" fill="#4EB9A7" />
-            </svg>
+            <img src="/api/aryo-logo" alt="ARYO" width={40} height={40} className="object-contain" data-testid="img-aryo-logo" />
             <span className="font-sans font-extrabold text-xl tracking-wide text-aryo-deepBlue">ARYO</span>
           </Link>
           <Link href="/login" className="bg-aryo-deepBlue text-white px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#1a3668] transition-colors" data-testid="button-partner-login">

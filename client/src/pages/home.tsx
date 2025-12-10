@@ -107,15 +107,16 @@ function FadeIn({ children, delay = 0, className = "" }: { children: ReactNode; 
   );
 }
 
-function AryoLogo() {
+function AryoLogo({ size = 48, className = "" }: { size?: number; className?: string }) {
   return (
-    <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 80 L40 10 L70 80" stroke="#274D8E" strokeWidth="8" strokeLinecap="square"/>
-      <path d="M25 55 L55 55" stroke="#274D8E" strokeWidth="8"/>
-      <rect x="75" y="50" width="6" height="30" fill="#ADD6DE" />
-      <rect x="83" y="35" width="6" height="45" fill="#47B5CB" />
-      <rect x="91" y="20" width="6" height="60" fill="#4EB9A7" />
-    </svg>
+    <img 
+      src="/api/aryo-logo" 
+      alt="ARYO Consulting Group" 
+      width={size} 
+      height={size} 
+      className={`object-contain ${className}`}
+      data-testid="img-aryo-logo"
+    />
   );
 }
 
@@ -830,13 +831,7 @@ function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 80 L40 10 L70 80" stroke="white" strokeWidth="8" strokeLinecap="square"/>
-                <path d="M25 55 L55 55" stroke="white" strokeWidth="8"/>
-                <rect x="75" y="50" width="6" height="30" fill="#ADD6DE" />
-                <rect x="83" y="35" width="6" height="45" fill="#47B5CB" />
-                <rect x="91" y="20" width="6" height="60" fill="#4EB9A7" />
-              </svg>
+              <AryoLogo size={40} />
               <span className="font-sans font-extrabold text-xl tracking-wide text-white">ARYO</span>
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">

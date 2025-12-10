@@ -277,6 +277,42 @@ export async function registerRoutes(
     }
   });
 
+  // Serve the ARYO company logo
+  app.get("/api/aryo-logo", async (_req: Request, res: Response) => {
+    try {
+      const result = await objectStorageClient.list();
+      if (!result.ok || !result.value) {
+        return res.status(404).json({ message: "Logo not found" });
+      }
+      
+      // Find the ARYO logo file
+      const aryoFile = result.value.find((obj: { name: string }) => 
+        obj.name.toLowerCase().includes("aryo") && obj.name.toLowerCase().includes("logo")
+      );
+      
+      if (!aryoFile) {
+        return res.status(404).json({ message: "ARYO logo not found" });
+      }
+      
+      const logoResult = await objectStorageClient.downloadAsBytes(aryoFile.name);
+      if (!logoResult.ok || !logoResult.value || !logoResult.value[0]) {
+        return res.status(404).json({ message: "Logo not found" });
+      }
+      
+      const ext = aryoFile.name.split('.').pop()?.toLowerCase();
+      let contentType = 'image/png';
+      if (ext === 'svg') contentType = 'image/svg+xml';
+      else if (ext === 'jpg' || ext === 'jpeg') contentType = 'image/jpeg';
+      
+      res.setHeader('Content-Type', contentType);
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.send(logoResult.value[0]);
+    } catch (error) {
+      console.error("Error serving ARYO logo:", error);
+      res.status(500).json({ message: "Failed to serve logo" });
+    }
+  });
+
   return httpServer;
 }
 
