@@ -258,7 +258,7 @@ export async function registerRoutes(
       const filename = decodeURIComponent(req.params.filename);
       const result = await objectStorageClient.downloadAsBytes(filename);
       
-      if (!result.ok || !result.value) {
+      if (!result.ok || !result.value || !result.value[0]) {
         return res.status(404).json({ message: "Logo not found" });
       }
 
@@ -270,7 +270,7 @@ export async function registerRoutes(
 
       res.setHeader('Content-Type', contentType);
       res.setHeader('Cache-Control', 'public, max-age=86400');
-      res.send(result.value);
+      res.send(result.value[0]);
     } catch (error) {
       console.error("Error serving logo:", error);
       res.status(500).json({ message: "Failed to serve logo" });
