@@ -181,6 +181,9 @@ function Hero() {
   const { data: logos = [] } = useQuery<string[]>({
     queryKey: ['/api/logos'],
   });
+  
+  // Cache buster to force fresh image loads
+  const cacheBuster = Date.now();
 
   return (
     <div className="relative pt-40 pb-24 bg-aryo-offWhite border-b border-aryo-lightGrey overflow-hidden">
@@ -269,7 +272,7 @@ function Hero() {
                 {logos.map((logo, i) => (
                   <div key={i} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center">
                     <img 
-                      src={`/api/logos/${encodeURIComponent(logo)}`} 
+                      src={`/api/logos/${encodeURIComponent(logo)}?v=${cacheBuster}`} 
                       alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
                       className="h-full w-auto max-w-[140px] object-contain"
                       data-testid={`logo-${i}`}
@@ -281,7 +284,7 @@ function Hero() {
                 {logos.map((logo, i) => (
                   <div key={`dup-${i}`} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center">
                     <img 
-                      src={`/api/logos/${encodeURIComponent(logo)}`} 
+                      src={`/api/logos/${encodeURIComponent(logo)}?v=${cacheBuster}`} 
                       alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
                       className="h-full w-auto max-w-[140px] object-contain"
                     />
