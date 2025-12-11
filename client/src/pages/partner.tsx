@@ -40,7 +40,7 @@ function PartnerDashboard() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center" data-testid="link-home-logo">
-              <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={32} height={32} className="object-contain" />
+              <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={64} height={64} className="object-contain" />
             </Link>
             <span className="text-aryo-lightBlue/50 text-sm font-bold uppercase tracking-widest">Partner Portal</span>
           </div>

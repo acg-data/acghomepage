@@ -107,7 +107,7 @@ function FadeIn({ children, delay = 0, className = "" }: { children: ReactNode; 
   );
 }
 
-function AryoLogo({ size = 48, className = "" }: { size?: number; className?: string }) {
+function AryoLogo({ size = 96, className = "" }: { size?: number; className?: string }) {
   return (
     <img 
       src="/api/aryo-logo" 
@@ -827,7 +827,7 @@ function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="mb-6">
-              <AryoLogo size={40} />
+              <AryoLogo size={80} />
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
               Corporate strategy and governance consulting for enterprise transformation.
