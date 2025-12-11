@@ -52,15 +52,8 @@ export default function Register() {
           </svg>
         </div>
         <div className="relative z-10 flex flex-col justify-center p-16">
-          <div className="flex items-center gap-3 mb-12">
-            <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
-              <path d="M10 80 L40 10 L70 80" stroke="white" strokeWidth="8" strokeLinecap="square"/>
-              <path d="M25 55 L55 55" stroke="white" strokeWidth="8"/>
-              <rect x="75" y="50" width="6" height="30" fill="#ADD6DE" />
-              <rect x="83" y="35" width="6" height="45" fill="#47B5CB" />
-              <rect x="91" y="20" width="6" height="60" fill="#4EB9A7" />
-            </svg>
-            <span className="font-sans font-extrabold text-2xl tracking-wide text-white">ARYO</span>
+          <div className="mb-12">
+            <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={48} height={48} className="object-contain" />
           </div>
           <h1 className="text-4xl font-serif text-white mb-6 leading-tight">
             Join Our <br/>

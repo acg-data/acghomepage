@@ -134,12 +134,8 @@ function Navbar() {
     <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-aryo-lightGrey' : 'bg-white border-b border-transparent'}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
-          <a href="#" className="flex-shrink-0 flex items-center gap-3 cursor-pointer" data-testid="link-home">
+          <a href="#" className="flex-shrink-0 flex items-center cursor-pointer" data-testid="link-home">
             <AryoLogo />
-            <div className="flex flex-col leading-none">
-              <span className="font-sans font-extrabold text-2xl tracking-wide text-aryo-deepBlue">ARYO</span>
-              <span className="text-[0.65rem] font-sans font-bold tracking-[0.2em] text-aryo-greenTeal uppercase mt-0.5">Consulting Group</span>
-            </div>
           </a>
           
           <div className="hidden md:block">
@@ -830,9 +826,8 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="mb-6">
               <AryoLogo size={40} />
-              <span className="font-sans font-extrabold text-xl tracking-wide text-white">ARYO</span>
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
               Corporate strategy and governance consulting for enterprise transformation.

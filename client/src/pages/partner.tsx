@@ -39,15 +39,8 @@ function PartnerDashboard() {
       <nav className="bg-aryo-deepBlue px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-3" data-testid="link-home-logo">
-              <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-                <path d="M10 80 L40 10 L70 80" stroke="white" strokeWidth="8" strokeLinecap="square"/>
-                <path d="M25 55 L55 55" stroke="white" strokeWidth="8"/>
-                <rect x="75" y="50" width="6" height="30" fill="#ADD6DE" />
-                <rect x="83" y="35" width="6" height="45" fill="#47B5CB" />
-                <rect x="91" y="20" width="6" height="60" fill="#4EB9A7" />
-              </svg>
-              <span className="font-sans font-extrabold text-xl tracking-wide text-white">ARYO</span>
+            <Link href="/" className="flex items-center" data-testid="link-home-logo">
+              <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={32} height={32} className="object-contain" />
             </Link>
             <span className="text-aryo-lightBlue/50 text-sm font-bold uppercase tracking-widest">Partner Portal</span>
           </div>
