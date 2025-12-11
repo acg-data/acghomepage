@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { ArrowRight, ChevronRight, Building2, Cpu, HeartPulse, ShoppingBag, Factory, Briefcase } from 'lucide-react';
+import { PageLayout } from '@/components/layout';
 
 const industries = [
   {
@@ -90,18 +91,7 @@ const industries = [
 
 export default function Industries() {
   return (
-    <div className="min-h-screen bg-aryo-offWhite">
-      <nav className="bg-white border-b border-aryo-lightGrey px-6 py-6">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3" data-testid="link-home">
-            <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo" />
-          </Link>
-          <Link href="/login" className="bg-aryo-deepBlue text-white px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#1a3668] transition-colors" data-testid="button-partner-login">
-            Partner Login
-          </Link>
-        </div>
-      </nav>
-
+    <PageLayout>
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
           <Link href="/" className="hover:text-aryo-deepBlue">Home</Link>
@@ -174,6 +164,6 @@ export default function Industries() {
           </Link>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

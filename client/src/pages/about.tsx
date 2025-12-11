@@ -1,42 +1,31 @@
 import { Link } from 'wouter';
 import { ArrowRight, MapPin, Users, Target, Award, ChevronRight } from 'lucide-react';
+import { PageLayout } from '@/components/layout';
 
 const teamMembers = [
   {
-    name: "James Richardson",
-    title: "Managing Partner",
-    bio: "Former McKinsey Principal with 20+ years in M&A and corporate strategy. Led $5B+ in transaction value.",
-    initials: "JR"
+    name: "Justin Abrams",
+    title: "Founder & CEO",
+    bio: "Visionary leader driving ARYO's mission to transform consulting through outcome-based partnerships and deployed systems.",
+    initials: "JA"
   },
   {
-    name: "Sarah Chen",
-    title: "Partner, Digital Practice",
-    bio: "Ex-Google strategy lead. Specializes in digital transformation and technology-enabled growth.",
-    initials: "SC"
+    name: "Josh Eissler",
+    title: "Head of Technology",
+    bio: "Technology strategist leading ARYO's digital capabilities and innovation initiatives across client engagements.",
+    initials: "JE"
   },
   {
-    name: "Michael Torres",
-    title: "Partner, Operations",
-    bio: "Former COO of a Fortune 500 subsidiary. Expert in operational excellence and performance improvement.",
-    initials: "MT"
+    name: "Vivian Sierra",
+    title: "Associate",
+    bio: "Strategic consultant specializing in operational excellence and client delivery across multiple industries.",
+    initials: "VS"
   },
   {
-    name: "David Park",
-    title: "Partner, Capital Markets",
-    bio: "20 years in investment banking. Deep expertise in capital raising and financial structuring.",
-    initials: "DP"
-  },
-  {
-    name: "Elena Rodriguez",
-    title: "Partner, Governance",
-    bio: "Former board member and corporate secretary. Specializes in ESG and board effectiveness.",
-    initials: "ER"
-  },
-  {
-    name: "Robert Kim",
-    title: "Partner, M&A Integration",
-    bio: "Led 50+ post-merger integrations. Expert in value capture and synergy realization.",
-    initials: "RK"
+    name: "Shohel Das",
+    title: "Associate",
+    bio: "Analytical consultant focused on data-driven insights and implementation support for enterprise clients.",
+    initials: "SD"
   }
 ];
 
@@ -69,18 +58,7 @@ const values = [
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-aryo-offWhite">
-      <nav className="bg-white border-b border-aryo-lightGrey px-6 py-6">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3" data-testid="link-home">
-            <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo" />
-          </Link>
-          <Link href="/login" className="bg-aryo-deepBlue text-white px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#1a3668] transition-colors" data-testid="button-partner-login">
-            Partner Login
-          </Link>
-        </div>
-      </nav>
-
+    <PageLayout>
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
           <Link href="/" className="hover:text-aryo-deepBlue">Home</Link>
@@ -201,6 +179,6 @@ export default function About() {
           </Link>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

@@ -29,8 +29,9 @@ The application is a complete, multi-page corporate consulting website with:
 - **Authentication**: Passport.js with bcrypt password hashing
 
 ### Key Files
+- `client/src/components/layout.tsx` - Shared PageLayout component (standardized header/footer)
 - `client/src/pages/home.tsx` - Main landing page with all sections
-- `client/src/pages/about.tsx` - About page with team, locations, company story
+- `client/src/pages/about.tsx` - About page with team (4 members), locations, company story
 - `client/src/pages/capabilities.tsx` - Service offerings page
 - `client/src/pages/industries.tsx` - Industry expertise page
 - `client/src/pages/careers.tsx` - Careers and open positions
@@ -43,7 +44,7 @@ The application is a complete, multi-page corporate consulting website with:
 - `client/src/pages/register.tsx` - Partner registration page
 - `client/src/pages/partner.tsx` - Protected partner dashboard
 - `client/src/lib/auth.tsx` - Authentication context and ProtectedRoute component
-- `server/routes.ts` - API routes (auth, contact, case studies, blog, report)
+- `server/routes.ts` - API routes (auth, contact, case studies, blog, report, aryo-logo)
 - `server/storage.ts` - Database storage implementation
 - `shared/schema.ts` - Database schema definitions
 - `tailwind.config.ts` - Brand colors, fonts, and custom animations
@@ -122,6 +123,12 @@ The application is a complete, multi-page corporate consulting website with:
 - Added Valuation Tool placeholder page
 - Added AI Consultant placeholder page
 - Updated navigation with all new pages
+- Updated team to 4 members: Justin Abrams (Founder & CEO), Josh Eissler (Head of Technology), Vivian Sierra (Associate), Shohel Das (Associate)
+- Created shared PageLayout component for standardized header/footer across all pages
+- Integrated ARYO logo from object storage via /api/aryo-logo endpoint
+- Doubled logo size (80px in header) for better visibility
+- Removed redundant "ARYO Consulting Group" text (logo contains full name)
+- Migrated all pages to use PageLayout: about, capabilities, industries, careers, contact, valuation-tool, ai-consultant, case-studies, blog
 
 ## Running the Project
 The application runs with `npm run dev` via the "Start application" workflow, serving on port 5000.
