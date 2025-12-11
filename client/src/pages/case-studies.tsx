@@ -18,7 +18,7 @@ const sampleCaseStudies: CaseStudy[] = [
     client: 'Meridian Capital Partners',
     industry: 'Financial Services',
     challenge: 'A mid-market private equity firm was struggling with portfolio company performance visibility and lacked standardized operational metrics across their 12-company portfolio.',
-    solution: 'ARYO implemented a comprehensive operational dashboard system with standardized KPIs, integrated financial reporting, and predictive analytics for early intervention on underperforming assets.',
+    solution: 'Aryo implemented a comprehensive operational dashboard system with standardized KPIs, integrated financial reporting, and predictive analytics for early intervention on underperforming assets.',
     results: 'Portfolio EBITDA improved 23% within 18 months. Early warning system identified 3 at-risk investments before they became critical, enabling proactive restructuring.',
     valueUnlocked: '$47M',
     slug: 'meridian-capital-pe-optimization',
@@ -46,7 +46,7 @@ const sampleCaseStudies: CaseStudy[] = [
     client: 'Regional Health Network',
     industry: 'Healthcare',
     challenge: 'A 6-hospital network was operating with fragmented legacy systems, manual revenue cycle processes, and growing cyber security vulnerabilities.',
-    solution: 'ARYO orchestrated a phased digital transformation including EHR optimization, RPA implementation for revenue cycle, and comprehensive cyber security framework.',
+    solution: 'Aryo orchestrated a phased digital transformation including EHR optimization, RPA implementation for revenue cycle, and comprehensive cyber security framework.',
     results: 'Revenue cycle efficiency improved 34%. Denial rates reduced by 41%. Zero successful cyber intrusions post-implementation.',
     valueUnlocked: '$28M',
     slug: 'regional-health-digital',
@@ -222,7 +222,7 @@ export default function CaseStudies() {
         </div>
 
         <div className="mt-16 bg-aryo-deepBlue p-12 text-center">
-          <h3 className="text-2xl font-serif text-white mb-4">See how ARYO can transform your organization</h3>
+          <h3 className="text-2xl font-serif text-white mb-4">See how Aryo can transform your organization</h3>
           <p className="text-aryo-lightBlue/70 mb-8 max-w-xl mx-auto">
             Schedule a confidential consultation to discuss how our integrated approach can unlock trapped value in your enterprise.
           </p>

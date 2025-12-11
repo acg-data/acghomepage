@@ -40,7 +40,7 @@ function PartnerDashboard() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center" data-testid="link-home-logo">
-              <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={64} height={64} className="object-contain" />
+              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={64} height={64} className="object-contain" />
             </Link>
             <span className="text-aryo-lightBlue/50 text-sm font-bold uppercase tracking-widest">Partner Portal</span>
           </div>
@@ -174,7 +174,7 @@ function PartnerDashboard() {
           <button className="bg-white border border-aryo-lightGrey p-6 text-left hover:border-aryo-deepBlue transition-colors group">
             <Users size={24} className="text-aryo-deepBlue mb-4" />
             <h3 className="font-bold text-aryo-deepBlue mb-2">Team Directory</h3>
-            <p className="text-sm text-slate-500 mb-4">View your dedicated ARYO team and contact information.</p>
+            <p className="text-sm text-slate-500 mb-4">View your dedicated Aryo team and contact information.</p>
             <span className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest group-hover:text-aryo-teal transition-colors flex items-center gap-2">
               View Team <ChevronRight size={14} />
             </span>

@@ -75,7 +75,7 @@ export default function Careers() {
 
         <div className="mb-16">
           <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest">Join Our Team</span>
-          <h1 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 mb-6">Careers at ARYO</h1>
+          <h1 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 mb-6">Careers at Aryo</h1>
           <p className="text-xl text-slate-600 max-w-3xl">
             We're building a different kind of consulting firm. One where outcomes matter, teams are small, 
             and consultants actually implement—not just recommend.
@@ -84,11 +84,11 @@ export default function Careers() {
 
         <div className="grid lg:grid-cols-2 gap-8 mb-24">
           <div className="bg-aryo-deepBlue p-10 text-white">
-            <h2 className="text-2xl font-serif mb-6">Why ARYO?</h2>
+            <h2 className="text-2xl font-serif mb-6">Why Aryo?</h2>
             <div className="space-y-4 text-aryo-lightBlue/90">
               <p>
                 At traditional firms, you'll spend years building slides for partners to present. 
-                At ARYO, you'll be in the room—and in the field—driving real change from day one.
+                At Aryo, you'll be in the room—and in the field—driving real change from day one.
               </p>
               <p>
                 We deliberately stay small so every person matters. No massive hierarchies. 

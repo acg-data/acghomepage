@@ -34,7 +34,7 @@ const COMPETITOR_DATA: Record<string, number[]> = {
   "Research Org": [0.1, 0.8, 0.2, 0.3, 0.1, 0.1]
 };
 
-const ARYO_DATA = [0.9, 0.9, 0.95, 0.8, 0.9, 0.95];
+const Aryo_DATA = [0.9, 0.9, 0.95, 0.8, 0.9, 0.95];
 
 function useOnScreen(ref: React.RefObject<HTMLElement | null>, rootMargin = '0px') {
   const [isIntersecting, setIntersecting] = useState(false);
@@ -111,7 +111,7 @@ function AryoLogo({ size = 96, className = "" }: { size?: number; className?: st
   return (
     <img 
       src="/api/aryo-logo" 
-      alt="ARYO Consulting Group" 
+      alt="Aryo Consulting Group" 
       width={size} 
       height={size} 
       className={`object-contain ${className}`}
@@ -326,7 +326,7 @@ function RadarChart() {
   };
 
   const polyCompetitor = COMPETITOR_DATA[competitor].map((v, i) => getPoint(i, v)).join(" ");
-  const polyAryo = ARYO_DATA.map((v, i) => getPoint(i, v)).join(" ");
+  const polyAryo = Aryo_DATA.map((v, i) => getPoint(i, v)).join(" ");
 
   return (
     <div className="flex flex-col items-center">
@@ -617,7 +617,7 @@ function Stats() {
 function Testimonials() {
   const testimonials = [
     {
-      quote: "ARYO's integrated approach transformed how we think about growth. They didn't just consult—they operated alongside us during a critical M&A integration.",
+      quote: "Aryo's integrated approach transformed how we think about growth. They didn't just consult—they operated alongside us during a critical M&A integration.",
       author: "Sarah Chen",
       title: "CEO, Meridian Group",
     },
@@ -873,7 +873,7 @@ function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-aryo-lightBlue/50 text-xs">
-            2024 ARYO Consulting Group. All rights reserved.
+            2024 Aryo Consulting Group. All rights reserved.
           </p>
           <div className="flex gap-8 flex-wrap justify-center">
             <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>

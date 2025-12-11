@@ -16,7 +16,7 @@ export default function AIConsultant() {
           <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest">AI-Powered</span>
           <h1 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 mb-6">AI Consultant</h1>
           <p className="text-xl text-slate-600 max-w-3xl">
-            Get instant strategic insights powered by AI, trained on ARYO's methodology and best practices.
+            Get instant strategic insights powered by AI, trained on Aryo's methodology and best practices.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ export default function AIConsultant() {
           <h2 className="text-2xl font-serif text-aryo-deepBlue mb-4">Coming Soon</h2>
           <p className="text-slate-600 max-w-md">
             Our AI-powered consulting assistant is currently under development. 
-            Soon you'll be able to get instant strategic guidance based on ARYO's proven methodologies.
+            Soon you'll be able to get instant strategic guidance based on Aryo's proven methodologies.
           </p>
         </div>
       </div>

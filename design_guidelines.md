@@ -1,4 +1,4 @@
-# ARYO Consulting Group - Design Guidelines
+# Aryo Consulting Group - Design Guidelines
 
 ## Design Approach
 **Reference-Based Approach**: Professional consulting/financial services aesthetic (inspired by firms like McKinsey, Deloitte, Bloomberg) combined with modern web design sophistication. Emphasis on credibility, data visualization, and executive-level polish.

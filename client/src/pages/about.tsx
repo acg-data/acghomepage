@@ -6,13 +6,13 @@ const teamMembers = [
   {
     name: "Justin Abrams",
     title: "Founder & CEO",
-    bio: "Visionary leader driving ARYO's mission to transform consulting through outcome-based partnerships and deployed systems.",
+    bio: "Visionary leader driving Aryo's mission to transform consulting through outcome-based partnerships and deployed systems.",
     initials: "JA"
   },
   {
     name: "Josh Eissler",
     title: "Head of Technology",
-    bio: "Technology strategist leading ARYO's digital capabilities and innovation initiatives across client engagements.",
+    bio: "Technology strategist leading Aryo's digital capabilities and innovation initiatives across client engagements.",
     initials: "JE"
   },
   {
@@ -68,7 +68,7 @@ export default function About() {
 
         <div className="mb-16">
           <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest">Our Firm</span>
-          <h1 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 mb-6">About ARYO Consulting Group</h1>
+          <h1 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 mb-6">About Aryo Consulting Group</h1>
           <p className="text-xl text-slate-600 max-w-3xl">
             We're building the consulting firm we always wished existed—one that shares in outcomes, 
             deploys real systems, and works alongside clients as true partners.
@@ -80,7 +80,7 @@ export default function About() {
             <h2 className="text-2xl font-serif text-aryo-deepBlue mb-6">Our Story</h2>
             <div className="space-y-4 text-slate-600">
               <p>
-                ARYO was founded by a group of senior partners who left the world's top consulting firms with a 
+                Aryo was founded by a group of senior partners who left the world's top consulting firms with a 
                 shared conviction: the traditional consulting model is broken.
               </p>
               <p>
@@ -89,7 +89,7 @@ export default function About() {
                 diagnose, and disappear—leaving clients to implement alone.
               </p>
               <p>
-                We built ARYO to be different. We tie our compensation to results. We deploy actual systems 
+                We built Aryo to be different. We tie our compensation to results. We deploy actual systems 
                 rather than recommendations. We embed with client teams until the work is done.
               </p>
               <p className="font-medium text-aryo-deepBlue">

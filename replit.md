@@ -1,4 +1,4 @@
-# ARYO Consulting Group Website
+# Aryo Consulting Group Website
 
 ## Overview
 A professional corporate consulting firm website featuring sophisticated animations, interactive data visualizations, premium brand identity, partner authentication, case studies, and blog/insights sections built with React, TypeScript, Tailwind CSS, and Express.js.
@@ -67,7 +67,7 @@ The application is a complete, multi-page corporate consulting website with:
 ### Interactive Components
 1. **Navbar** - Fixed with scroll effects, mobile responsive menu, links to all sections
 2. **Hero Section** - Animated gradient text, client ticker tape (marquee), Q4 report download
-3. **RadarChart** - Interactive comparison between ARYO and competitors
+3. **RadarChart** - Interactive comparison between Aryo and competitors
 4. **AnimatedNumber** - Scroll-triggered counting animation for stats
 5. **FadeIn** - Scroll-triggered fade-in animations for all sections
 6. **Contact Form** - Working form with API integration and success/error feedback
@@ -125,9 +125,9 @@ The application is a complete, multi-page corporate consulting website with:
 - Updated navigation with all new pages
 - Updated team to 4 members: Justin Abrams (Founder & CEO), Josh Eissler (Head of Technology), Vivian Sierra (Associate), Shohel Das (Associate)
 - Created shared PageLayout component for standardized header/footer across all pages
-- Integrated ARYO logo from object storage via /api/aryo-logo endpoint
+- Integrated Aryo logo from object storage via /api/aryo-logo endpoint
 - Doubled logo size (80px in header) for better visibility
-- Removed redundant "ARYO Consulting Group" text (logo contains full name)
+- Removed redundant "Aryo Consulting Group" text (logo contains full name)
 - Migrated all pages to use PageLayout: about, capabilities, industries, careers, contact, valuation-tool, ai-consultant, case-studies, blog
 
 ## Running the Project

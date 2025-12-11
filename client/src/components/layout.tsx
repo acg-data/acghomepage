@@ -17,7 +17,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
           <Link href="/" className="flex-shrink-0 flex items-center cursor-pointer" data-testid="link-home">
-            <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo" />
+            <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo" />
           </Link>
           
           <div className="hidden md:block">
@@ -67,7 +67,7 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="mb-6">
-              <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo-footer" />
+              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo-footer" />
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
               Corporate strategy and governance consulting for enterprise transformation.
@@ -113,7 +113,7 @@ export function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-aryo-lightBlue/50 text-xs">
-            2024 ARYO Consulting Group. All rights reserved.
+            2024 Aryo Consulting Group. All rights reserved.
           </p>
           <div className="flex gap-8 flex-wrap justify-center">
             <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>

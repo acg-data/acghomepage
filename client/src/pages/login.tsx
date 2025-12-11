@@ -36,7 +36,7 @@ export default function Login() {
         </div>
         <div className="relative z-10 flex flex-col justify-center p-16">
           <div className="mb-12">
-            <img src="/api/aryo-logo" alt="ARYO Consulting Group" width={96} height={96} className="object-contain" />
+            <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={96} height={96} className="object-contain" />
           </div>
           <h1 className="text-4xl font-serif text-white mb-6 leading-tight">
             Welcome to the <br/>

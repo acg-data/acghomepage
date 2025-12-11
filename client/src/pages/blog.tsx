@@ -343,7 +343,7 @@ export default function Blog() {
         </div>
 
         <div className="mt-16 bg-aryo-deepBlue p-12 text-center">
-          <h3 className="text-2xl font-serif text-white mb-4">Subscribe to ARYO Insights</h3>
+          <h3 className="text-2xl font-serif text-white mb-4">Subscribe to Aryo Insights</h3>
           <p className="text-aryo-lightBlue/70 mb-8 max-w-xl mx-auto">
             Receive quarterly thought leadership and market analysis directly to your inbox.
           </p>

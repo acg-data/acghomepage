@@ -228,7 +228,7 @@ export async function registerRoutes(
 
   app.get("/api/report/q4-2024", (_req: Request, res: Response) => {
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", "attachment; filename=ARYO-Q4-2024-Market-Report.pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=Aryo-Q4-2024-Market-Report.pdf");
     
     const pdfContent = generateSimplePDF();
     res.send(pdfContent);
@@ -277,7 +277,7 @@ export async function registerRoutes(
     }
   });
 
-  // Serve the ARYO company logo
+  // Serve the Aryo company logo
   app.get("/api/aryo-logo", async (_req: Request, res: Response) => {
     try {
       const result = await objectStorageClient.list();
@@ -285,13 +285,13 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Logo not found" });
       }
       
-      // Find the ARYO logo file
+      // Find the Aryo logo file
       const aryoFile = result.value.find((obj: { name: string }) => 
         obj.name.toLowerCase().includes("aryo") && obj.name.toLowerCase().includes("logo")
       );
       
       if (!aryoFile) {
-        return res.status(404).json({ message: "ARYO logo not found" });
+        return res.status(404).json({ message: "Aryo logo not found" });
       }
       
       const logoResult = await objectStorageClient.downloadAsBytes(aryoFile.name);
@@ -308,7 +308,7 @@ export async function registerRoutes(
       res.setHeader('Cache-Control', 'public, max-age=86400');
       res.send(logoResult.value[0]);
     } catch (error) {
-      console.error("Error serving ARYO logo:", error);
+      console.error("Error serving Aryo logo:", error);
       res.status(500).json({ message: "Failed to serve logo" });
     }
   });
@@ -333,7 +333,7 @@ stream
 BT
 /F1 24 Tf
 50 720 Td
-(ARYO Consulting Group) Tj
+(Aryo Consulting Group) Tj
 0 -40 Td
 /F1 18 Tf
 (Q4 2024 Market Report) Tj
