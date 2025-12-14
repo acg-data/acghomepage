@@ -725,7 +725,7 @@ function CTA() {
               </div>
               <div className="flex items-center gap-4 text-aryo-deepBlue">
                 <Phone size={20} className="text-aryo-greenTeal" />
-                <span className="font-sans">1 508-545-7447</span>
+                <span className="font-sans">1 508-415-4385</span>
               </div>
               <div className="flex items-center gap-4 text-aryo-deepBlue">
                 <MapPin size={20} className="text-aryo-greenTeal" />
@@ -886,7 +886,7 @@ function Footer() {
   );
 }
 
-export default function Home() {
+export default function NYC() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />

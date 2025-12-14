@@ -18,11 +18,13 @@ import Careers from "@/pages/careers";
 import Contact from "@/pages/contact";
 import ValuationTool from "@/pages/valuation-tool";
 import AIConsultant from "@/pages/ai-consultant";
+import NYC from "@/pages/nyc";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home}/>
+      <Route path="/nyc" component={NYC}/>
       <Route path="/about" component={About}/>
       <Route path="/capabilities" component={Capabilities}/>
       <Route path="/industries" component={Industries}/>
