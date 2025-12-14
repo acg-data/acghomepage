@@ -721,15 +721,15 @@ function CTA() {
             <div className="space-y-4 mb-8">
               <div className="flex items-center gap-4 text-aryo-deepBlue">
                 <Mail size={20} className="text-aryo-greenTeal" />
-                <span className="font-sans">partners@aryoconsulting.com</span>
+                <span className="font-sans">info@aryocg.com</span>
               </div>
               <div className="flex items-center gap-4 text-aryo-deepBlue">
                 <Phone size={20} className="text-aryo-greenTeal" />
-                <span className="font-sans">+1 (646) 555-0142</span>
+                <span className="font-sans">1 508-545-7447</span>
               </div>
               <div className="flex items-center gap-4 text-aryo-deepBlue">
                 <MapPin size={20} className="text-aryo-greenTeal" />
-                <span className="font-sans">New York | London | Singapore</span>
+                <span className="font-sans">Boston (HQ) | NYC | Miami (Coming Soon)</span>
               </div>
             </div>
           </FadeIn>

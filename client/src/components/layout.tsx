@@ -22,11 +22,11 @@ export function Navbar() {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
-              <Link href="/about" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-about">About</Link>
               <Link href="/capabilities" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-capabilities">Capabilities</Link>
               <Link href="/industries" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-industries">Industries</Link>
               <Link href="/case-studies" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-case-studies">Case Studies</Link>
               <Link href="/insights" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-insights">Insights</Link>
+              <Link href="/about" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-about">About</Link>
               <Link href="/contact" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-contact">Contact</Link>
               <Link href="/login" className="bg-aryo-deepBlue text-white hover:bg-[#1a3668] px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 shadow-sm" data-testid="button-partner-login">
                 Partner Login
@@ -45,11 +45,11 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white border-b border-aryo-lightGrey shadow-xl">
           <div className="px-6 pt-4 pb-8 space-y-4">
-            <Link href="/about" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-about-mobile">About</Link>
             <Link href="/capabilities" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-capabilities-mobile">Capabilities</Link>
             <Link href="/industries" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-industries-mobile">Industries</Link>
             <Link href="/case-studies" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-case-studies-mobile">Case Studies</Link>
             <Link href="/insights" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-insights-mobile">Insights</Link>
+            <Link href="/about" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-about-mobile">About</Link>
             <Link href="/careers" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-careers-mobile">Careers</Link>
             <Link href="/contact" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-contact-mobile">Contact</Link>
             <Link href="/login" className="block text-sm font-sans uppercase tracking-widest font-bold text-aryo-teal" data-testid="link-partner-login-mobile">Partner Login</Link>
