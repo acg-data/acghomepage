@@ -15,7 +15,8 @@ The application is a complete, multi-page corporate consulting website with:
 - Valuation Tool placeholder (for custom implementation)
 - AI Consultant placeholder (for custom implementation)
 - Partner authentication system (login/register/protected dashboard)
-- Downloadable Q4 market report
+- Q4 Hiring Abroad Report gated download with email signup
+- Email notifications for contact form submissions (via Resend)
 
 ## Project Architecture
 
@@ -44,6 +45,7 @@ The application is a complete, multi-page corporate consulting website with:
 - `client/src/pages/register.tsx` - Partner registration page
 - `client/src/pages/partner.tsx` - Protected partner dashboard
 - `client/src/pages/admin.tsx` - Contact management admin panel (partner-only)
+- `client/src/pages/report-q4-hiring-abroad.tsx` - Q4 Hiring Abroad Report signup page
 - `client/src/lib/auth.tsx` - Authentication context, ProtectedRoute, and PartnerRoute components
 - `server/routes.ts` - API routes (auth, contact, case studies, blog, report, aryo-logo)
 - `server/storage.ts` - Database storage implementation
@@ -56,6 +58,7 @@ The application is a complete, multi-page corporate consulting website with:
 - **contactSubmissions** - Contact form submissions
 - **caseStudies** - Case study content
 - **blogPosts** - Blog/insights articles
+- **reportDownloads** - Report download signups (firstName, lastName, email, reportSlug, emailSent)
 
 ### Brand Identity
 - **Deep Blue** (#274D8E) - Primary brand color
@@ -105,6 +108,7 @@ The application is a complete, multi-page corporate consulting website with:
 - `GET /api/admin/contacts` - List all contact submissions (partner-only)
 - `PATCH /api/admin/contacts/:id/status` - Update contact status (partner-only)
 - `DELETE /api/admin/contacts/:id` - Delete contact submission (partner-only)
+- `POST /api/reports/q4-hiring-abroad/signup` - Submit email for Q4 report (sends PDF via email)
 
 ## Recent Changes
 - December 2024: Initial build with complete landing page
@@ -143,6 +147,13 @@ The application is a complete, multi-page corporate consulting website with:
 - Added SEO meta tags to all pages (title, description, canonical, Open Graph)
 - Created sitemap.xml (client/public/sitemap.xml) for search engines
 - Created robots.txt (client/public/robots.txt) with proper crawl directives
+- Added email notification for contact form submissions (sends to justin@aryocg.com via Resend)
+- Added Q4 Hiring Abroad Report gated download feature:
+  - Changed "View Q4 Market Report" to "View Q4 Hiring Abroad Report" on home and NYC pages
+  - Created /reports/q4-hiring-abroad page with email signup form
+  - Report PDF ("Outsourcing Smartly") sent via email to users who sign up
+  - Duplicate signup prevention to avoid spamming users
+  - PDF cached at startup for performance
 
 ## Running the Project
 The application runs with `npm run dev` via the "Start application" workflow, serving on port 5000.

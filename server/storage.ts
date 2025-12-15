@@ -7,13 +7,16 @@ import {
   type InsertCaseStudy,
   type BlogPost,
   type InsertBlogPost,
+  type ReportDownload,
+  type InsertReportDownload,
   users,
   contactSubmissions,
   caseStudies,
-  blogPosts
+  blogPosts,
+  reportDownloads
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -33,6 +36,11 @@ export interface IStorage {
   getBlogPosts(): Promise<BlogPost[]>;
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
   createBlogPost(blogPost: InsertBlogPost): Promise<BlogPost>;
+  
+  createReportDownload(download: InsertReportDownload): Promise<ReportDownload>;
+  getReportDownloads(): Promise<ReportDownload[]>;
+  markReportEmailSent(id: string): Promise<void>;
+  getReportDownloadByEmailAndSlug(email: string, reportSlug: string): Promise<ReportDownload | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -104,6 +112,25 @@ export class DatabaseStorage implements IStorage {
   async createBlogPost(blogPost: InsertBlogPost): Promise<BlogPost> {
     const [post] = await db.insert(blogPosts).values(blogPost).returning();
     return post;
+  }
+
+  async createReportDownload(download: InsertReportDownload): Promise<ReportDownload> {
+    const [result] = await db.insert(reportDownloads).values(download).returning();
+    return result;
+  }
+
+  async getReportDownloads(): Promise<ReportDownload[]> {
+    return db.select().from(reportDownloads).orderBy(desc(reportDownloads.createdAt));
+  }
+
+  async markReportEmailSent(id: string): Promise<void> {
+    await db.update(reportDownloads).set({ emailSent: true }).where(eq(reportDownloads.id, id));
+  }
+
+  async getReportDownloadByEmailAndSlug(email: string, reportSlug: string): Promise<ReportDownload | undefined> {
+    const [result] = await db.select().from(reportDownloads)
+      .where(and(eq(reportDownloads.email, email), eq(reportDownloads.reportSlug, reportSlug)));
+    return result || undefined;
   }
 }
 

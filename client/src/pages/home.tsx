@@ -254,12 +254,11 @@ function Hero() {
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
             </a>
             <a 
-              href="/api/report/q4-2024" 
-              download
+              href="/reports/q4-hiring-abroad" 
               className="bg-white text-aryo-deepBlue border border-aryo-lightGrey px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:border-aryo-deepBlue hover:bg-aryo-offWhite transition-all inline-block text-center" 
               data-testid="button-view-report"
             >
-              View Q4 Market Report
+              View Q4 Hiring Abroad Report
             </a>
           </div>
         </FadeIn>

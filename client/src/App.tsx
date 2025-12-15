@@ -20,6 +20,7 @@ import ValuationTool from "@/pages/valuation-tool";
 import AIConsultant from "@/pages/ai-consultant";
 import NYC from "@/pages/nyc";
 import Admin from "@/pages/admin";
+import ReportQ4HiringAbroad from "@/pages/report-q4-hiring-abroad";
 
 function Router() {
   return (
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/register" component={Register}/>
       <Route path="/partner" component={Partner}/>
       <Route path="/admin" component={Admin}/>
+      <Route path="/reports/q4-hiring-abroad" component={ReportQ4HiringAbroad}/>
       <Route component={NotFound} />
     </Switch>
   );

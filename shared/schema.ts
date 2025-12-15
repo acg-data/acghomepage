@@ -90,3 +90,22 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
 
 export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 export type BlogPost = typeof blogPosts.$inferSelect;
+
+export const reportDownloads = pgTable("report_downloads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").notNull(),
+  reportSlug: text("report_slug").notNull(),
+  emailSent: boolean("email_sent").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertReportDownloadSchema = createInsertSchema(reportDownloads).omit({
+  id: true,
+  createdAt: true,
+  emailSent: true,
+});
+
+export type InsertReportDownload = z.infer<typeof insertReportDownloadSchema>;
+export type ReportDownload = typeof reportDownloads.$inferSelect;

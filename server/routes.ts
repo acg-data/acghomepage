@@ -1,7 +1,9 @@
 import type { Express, Request, Response } from "express";
 import { type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, insertUserSchema } from "@shared/schema";
+import { insertContactSchema, insertUserSchema, insertReportDownloadSchema } from "@shared/schema";
+import path from "path";
+import fs from "fs";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import session from "express-session";
@@ -13,6 +15,16 @@ import { Client as ObjectStorageClient } from "@replit/object-storage";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Cache the Q4 Hiring Abroad report PDF at startup
+let q4HiringAbroadPdfBuffer: Buffer | null = null;
+try {
+  const pdfPath = path.join(process.cwd(), "attached_assets", "Outsourcing_Smartly_1765840196590.pdf");
+  q4HiringAbroadPdfBuffer = fs.readFileSync(pdfPath);
+  console.log("Q4 Hiring Abroad report PDF loaded successfully");
+} catch (error) {
+  console.error("Failed to load Q4 Hiring Abroad report PDF:", error);
+}
 
 const PgSession = connectPgSimple(session);
 
@@ -329,6 +341,82 @@ export async function registerRoutes(
     
     const pdfContent = generateSimplePDF();
     res.send(pdfContent);
+  });
+
+  // Report download signup - emails the PDF to the user
+  app.post("/api/reports/q4-hiring-abroad/signup", async (req: Request, res: Response) => {
+    try {
+      const validatedData = insertReportDownloadSchema.parse({
+        ...req.body,
+        reportSlug: "q4-hiring-abroad"
+      });
+      
+      // Check for existing signup with same email and report
+      const existing = await storage.getReportDownloadByEmailAndSlug(validatedData.email, validatedData.reportSlug);
+      if (existing) {
+        // Already signed up, just return success (don't spam them)
+        return res.status(200).json({ 
+          success: true, 
+          message: "Thank you! The report has been sent to your email."
+        });
+      }
+      
+      // Save to database
+      const download = await storage.createReportDownload(validatedData);
+      
+      // Send email with PDF attachment (using cached PDF)
+      if (process.env.RESEND_API_KEY && q4HiringAbroadPdfBuffer) {
+        try {
+          
+          await resend.emails.send({
+            from: "Aryo Consulting <onboarding@resend.dev>",
+            to: validatedData.email,
+            subject: "Your Q4 Hiring Abroad Report from Aryo Consulting Group",
+            html: `
+              <h2>Thank you for your interest, ${validatedData.firstName}!</h2>
+              <p>We're pleased to share our Q4 Hiring Abroad Report: "Outsourcing Smartly: An American Business's Guide to Global Talent, Costs, and Collaboration".</p>
+              <p>This comprehensive guide covers:</p>
+              <ul>
+                <li>Global talent markets across Asia, Africa, Europe, and Latin America</li>
+                <li>Compensation benchmarks by expertise and region</li>
+                <li>Hiring and payment platforms for international teams</li>
+                <li>Best practices for managing remote global talent</li>
+              </ul>
+              <p>Your report is attached to this email.</p>
+              <p>If you have any questions or would like to discuss how Aryo Consulting Group can help with your international hiring strategy, please don't hesitate to reach out.</p>
+              <hr>
+              <p><strong>Aryo Consulting Group</strong><br>
+              <a href="https://aryocg.com">aryocg.com</a></p>
+            `,
+            attachments: [
+              {
+                filename: "Aryo-Q4-Hiring-Abroad-Report.pdf",
+                content: q4HiringAbroadPdfBuffer,
+              }
+            ],
+          });
+          
+          // Mark email as sent
+          await storage.markReportEmailSent(download.id);
+          console.log("Report email sent successfully to", validatedData.email);
+        } catch (emailError) {
+          console.error("Failed to send report email:", emailError);
+        }
+      } else {
+        console.log("Skipping report email: RESEND_API_KEY not configured");
+      }
+      
+      res.status(201).json({ 
+        success: true, 
+        message: "Thank you! The report has been sent to your email."
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ success: false, errors: error.errors });
+      }
+      console.error("Report signup error:", error);
+      res.status(500).json({ success: false, message: "Failed to process request" });
+    }
   });
 
   const objectStorageClient = new ObjectStorageClient();
