@@ -10,6 +10,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
+import { SEO } from '@/components/seo';
 
 const sampleCaseStudies: CaseStudy[] = [
   {
@@ -199,6 +200,12 @@ export default function CaseStudies() {
   }
 
   return (
+    <>
+      <SEO 
+        title="Case Studies | Aryo Consulting Group"
+        description="Explore Aryo Consulting Group's case studies showcasing successful client engagements in M&A, digital transformation, operational excellence, and strategic advisory."
+        canonical="https://aryocg.com/case-studies"
+      />
     <PageLayout>
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
@@ -232,5 +239,6 @@ export default function CaseStudies() {
         </div>
       </div>
     </PageLayout>
+    </>
   );
 }

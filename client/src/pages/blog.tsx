@@ -9,6 +9,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
+import { SEO } from '@/components/seo';
 
 const sampleBlogPosts: BlogPost[] = [
   {
@@ -320,6 +321,12 @@ export default function Blog() {
   }
 
   return (
+    <>
+      <SEO 
+        title="Insights & Blog | Aryo Consulting Group"
+        description="Strategic insights, industry analysis, and thought leadership from Aryo Consulting Group. Expert perspectives on M&A, digital transformation, and corporate strategy."
+        canonical="https://aryocg.com/insights"
+      />
     <PageLayout>
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
@@ -353,5 +360,6 @@ export default function Blog() {
         </div>
       </div>
     </PageLayout>
+    </>
   );
 }

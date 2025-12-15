@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, ChevronRight, TrendingUp, Layers, Users, BarChart3, Shield, Zap } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
+import { SEO } from '@/components/seo';
 
 const capabilities = [
   {
@@ -111,6 +112,11 @@ const differentiators = [
 export default function Capabilities() {
   return (
     <PageLayout>
+      <SEO 
+        title="Capabilities | Aryo Consulting Group"
+        description="Explore Aryo's consulting capabilities: M&A Advisory, Digital Transformation, Operational Excellence, Talent & Organization, Risk & Governance, and Strategy & Growth."
+        canonical="https://aryocg.com/capabilities"
+      />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
           <Link href="/" className="hover:text-aryo-deepBlue">Home</Link>

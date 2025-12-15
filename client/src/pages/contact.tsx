@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PageLayout } from '@/components/layout';
+import { SEO } from '@/components/seo';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name is required'),
@@ -47,6 +48,14 @@ const offices = [
 export default function Contact() {
   const { toast } = useToast();
   const [submitted, setSubmitted] = useState(false);
+
+  const seoContent = (
+    <SEO 
+      title="Contact Us | Aryo Consulting Group"
+      description="Get in touch with Aryo Consulting Group. Contact our Boston headquarters or New York office to discuss how we can help transform your business."
+      canonical="https://aryocg.com/contact"
+    />
+  );
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -86,6 +95,7 @@ export default function Contact() {
 
   return (
     <PageLayout>
+      {seoContent}
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
           <Link href="/" className="hover:text-aryo-deepBlue">Home</Link>

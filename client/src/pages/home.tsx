@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
+import { SEO } from '@/components/seo';
 import { 
   ArrowRight, 
   Activity,
@@ -889,6 +890,11 @@ function Footer() {
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
+      <SEO 
+        title="Aryo Consulting Group | Corporate Strategy & Governance Consulting"
+        description="We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value. Boston-based strategic consulting for enterprise resilience."
+        canonical="https://aryocg.com/"
+      />
       <Navbar />
       <Hero />
       <StageSpecialization />

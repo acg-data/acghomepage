@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, ChevronRight, MapPin, Clock, Users, Target, Lightbulb, Heart } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
+import { SEO } from '@/components/seo';
 
 const openPositions = [
   {
@@ -66,6 +67,11 @@ const values = [
 export default function Careers() {
   return (
     <PageLayout>
+      <SEO 
+        title="Careers | Aryo Consulting Group"
+        description="Join Aryo Consulting Group. We're looking for talented consultants who want to work on outcome-based engagements and make real impact. View open positions."
+        canonical="https://aryocg.com/careers"
+      />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
           <Link href="/" className="hover:text-aryo-deepBlue">Home</Link>
