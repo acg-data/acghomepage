@@ -10,6 +10,9 @@ import { Strategy as LocalStrategy } from "passport-local";
 import connectPgSimple from "connect-pg-simple";
 import { pool } from "./db";
 import { Client as ObjectStorageClient } from "@replit/object-storage";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const PgSession = connectPgSimple(session);
 
@@ -77,6 +80,41 @@ export async function registerRoutes(
     try {
       const validatedData = insertContactSchema.parse(req.body);
       const submission = await storage.createContactSubmission(validatedData);
+      
+      // Send email notification to Justin
+      if (process.env.RESEND_API_KEY) {
+        try {
+          // Escape HTML in user-provided message to prevent XSS in emails
+          const sanitizedMessage = validatedData.message
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\n/g, '<br>');
+          
+          await resend.emails.send({
+            from: "Aryo Consulting <onboarding@resend.dev>",
+            to: "justin@aryocg.com",
+            subject: `New Contact Form Submission from ${validatedData.firstName} ${validatedData.lastName}`,
+            html: `
+              <h2>New Contact Form Submission</h2>
+              <p><strong>Name:</strong> ${validatedData.firstName} ${validatedData.lastName}</p>
+              <p><strong>Email:</strong> ${validatedData.email}</p>
+              <p><strong>Company:</strong> ${validatedData.company || 'Not provided'}</p>
+              <p><strong>Message:</strong></p>
+              <p>${sanitizedMessage}</p>
+              <hr>
+              <p><small>Submitted at ${new Date().toLocaleString()}</small></p>
+            `,
+          });
+          console.log("Email notification sent successfully");
+        } catch (emailError) {
+          console.error("Failed to send email notification:", emailError);
+          // Don't fail the contact submission if email fails
+        }
+      } else {
+        console.log("Skipping email notification: RESEND_API_KEY not configured");
+      }
+      
       res.status(201).json({ 
         success: true, 
         message: "Thank you for your inquiry. Our team will contact you within 24 hours.",
