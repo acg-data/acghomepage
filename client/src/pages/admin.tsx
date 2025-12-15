@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { useAuth, ProtectedRoute } from '@/lib/auth';
+import { useAuth, PartnerRoute } from '@/lib/auth';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { queryClient, apiRequest } from '@/lib/queryClient';
 import { useState } from 'react';
@@ -288,8 +288,8 @@ function AdminDashboard() {
 
 export default function Admin() {
   return (
-    <ProtectedRoute>
+    <PartnerRoute>
       <AdminDashboard />
-    </ProtectedRoute>
+    </PartnerRoute>
   );
 }

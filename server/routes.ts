@@ -180,7 +180,7 @@ export async function registerRoutes(
     }
   });
 
-  // Admin routes for contact management (protected)
+  // Admin routes for contact management (protected, partners only)
   const requireAuth = (req: Request, res: Response, next: any) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -188,7 +188,18 @@ export async function registerRoutes(
     next();
   };
 
-  app.get("/api/admin/contacts", requireAuth, async (_req: Request, res: Response) => {
+  const requirePartner = (req: Request, res: Response, next: any) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const user = req.user as any;
+    if (!user?.isPartner) {
+      return res.status(403).json({ message: "Access denied. Partner status required." });
+    }
+    next();
+  };
+
+  app.get("/api/admin/contacts", requirePartner, async (_req: Request, res: Response) => {
     try {
       const contacts = await storage.getContactSubmissions();
       res.json(contacts);
@@ -198,7 +209,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/contacts/:id/status", requireAuth, async (req: Request, res: Response) => {
+  app.patch("/api/admin/contacts/:id/status", requirePartner, async (req: Request, res: Response) => {
     try {
       const { status } = req.body;
       if (!status || !["pending", "contacted", "closed"].includes(status)) {
@@ -215,7 +226,7 @@ export async function registerRoutes(
     }
   });
 
-  app.delete("/api/admin/contacts/:id", requireAuth, async (req: Request, res: Response) => {
+  app.delete("/api/admin/contacts/:id", requirePartner, async (req: Request, res: Response) => {
     try {
       const deleted = await storage.deleteContactSubmission(req.params.id);
       if (!deleted) {

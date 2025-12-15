@@ -10,7 +10,8 @@ import {
   LogOut,
   ChevronRight,
   Download,
-  Clock
+  Clock,
+  MessageSquare
 } from 'lucide-react';
 
 function PartnerDashboard() {
@@ -170,7 +171,17 @@ function PartnerDashboard() {
           </div>
         </div>
 
-        <div className="mt-8 grid lg:grid-cols-3 gap-6">
+        <div className={`mt-8 grid gap-6 ${user?.isPartner ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
+          {user?.isPartner && (
+            <Link href="/admin" className="bg-white border border-aryo-lightGrey p-6 text-left hover:border-aryo-deepBlue transition-colors group" data-testid="link-admin">
+              <MessageSquare size={24} className="text-aryo-deepBlue mb-4" />
+              <h3 className="font-bold text-aryo-deepBlue mb-2">Contact Management</h3>
+              <p className="text-sm text-slate-500 mb-4">View and manage all contact form submissions.</p>
+              <span className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest group-hover:text-aryo-teal transition-colors flex items-center gap-2">
+                View Contacts <ChevronRight size={14} />
+              </span>
+            </Link>
+          )}
           <button className="bg-white border border-aryo-lightGrey p-6 text-left hover:border-aryo-deepBlue transition-colors group">
             <Users size={24} className="text-aryo-deepBlue mb-4" />
             <h3 className="font-bold text-aryo-deepBlue mb-2">Team Directory</h3>

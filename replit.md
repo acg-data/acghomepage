@@ -43,7 +43,8 @@ The application is a complete, multi-page corporate consulting website with:
 - `client/src/pages/login.tsx` - Partner login page
 - `client/src/pages/register.tsx` - Partner registration page
 - `client/src/pages/partner.tsx` - Protected partner dashboard
-- `client/src/lib/auth.tsx` - Authentication context and ProtectedRoute component
+- `client/src/pages/admin.tsx` - Contact management admin panel (partner-only)
+- `client/src/lib/auth.tsx` - Authentication context, ProtectedRoute, and PartnerRoute components
 - `server/routes.ts` - API routes (auth, contact, case studies, blog, report, aryo-logo)
 - `server/storage.ts` - Database storage implementation
 - `shared/schema.ts` - Database schema definitions
@@ -87,6 +88,8 @@ The application is a complete, multi-page corporate consulting website with:
 - Password hashing with bcrypt
 - Protected routes with automatic redirect to login
 - Partner dashboard with engagement tracking
+- Role-based access control (isPartner flag)
+- Admin panel for contact management (partner-only access)
 
 ### API Endpoints
 - `POST /api/contact` - Submit contact form
@@ -99,6 +102,9 @@ The application is a complete, multi-page corporate consulting website with:
 - `GET /api/blog` - List blog posts
 - `GET /api/blog/:slug` - Get blog post by slug
 - `GET /api/report/q4-2024` - Download Q4 market report PDF
+- `GET /api/admin/contacts` - List all contact submissions (partner-only)
+- `PATCH /api/admin/contacts/:id/status` - Update contact status (partner-only)
+- `DELETE /api/admin/contacts/:id` - Delete contact submission (partner-only)
 
 ## Recent Changes
 - December 2024: Initial build with complete landing page
@@ -123,6 +129,9 @@ The application is a complete, multi-page corporate consulting website with:
 - Added Valuation Tool placeholder page
 - Added AI Consultant placeholder page
 - Updated navigation with all new pages
+- Added admin panel for contact form submission management (partner-only)
+- Added PartnerRoute component for role-based access control
+- Contact management features: search, filter by status, update status, delete
 - Updated team to 4 members: Justin Abrams (Founder & CEO), Josh Eissler (Head of Technology), Vivian Sierra (Associate), Shohel Das (Associate)
 - Created shared PageLayout component for standardized header/footer across all pages
 - Integrated Aryo logo from object storage via /api/aryo-logo endpoint

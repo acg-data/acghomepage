@@ -146,3 +146,51 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
 
   return <>{children}</>;
 }
+
+export function PartnerRoute({ children }: { children: ReactNode }) {
+  const { user, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      setLocation('/login');
+    } else if (!isLoading && user && !user.isPartner) {
+      setLocation('/partner');
+    }
+  }, [user, isLoading, setLocation]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-aryo-offWhite">
+        <div className="animate-pulse flex flex-col items-center gap-4">
+          <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+            <path d="M10 80 L40 10 L70 80" stroke="#274D8E" strokeWidth="8" strokeLinecap="square"/>
+            <path d="M25 55 L55 55" stroke="#274D8E" strokeWidth="8"/>
+            <rect x="75" y="50" width="6" height="30" fill="#ADD6DE" />
+            <rect x="83" y="35" width="6" height="45" fill="#47B5CB" />
+            <rect x="91" y="20" width="6" height="60" fill="#4EB9A7" />
+          </svg>
+          <div className="text-aryo-deepBlue font-sans">Authenticating...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-aryo-offWhite">
+        <div className="text-aryo-deepBlue font-sans">Redirecting to login...</div>
+      </div>
+    );
+  }
+
+  if (!user.isPartner) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-aryo-offWhite">
+        <div className="text-aryo-deepBlue font-sans">Access denied. Redirecting...</div>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}
