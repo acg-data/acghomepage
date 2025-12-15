@@ -180,6 +180,54 @@ export async function registerRoutes(
     }
   });
 
+  // Admin routes for contact management (protected)
+  const requireAuth = (req: Request, res: Response, next: any) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    next();
+  };
+
+  app.get("/api/admin/contacts", requireAuth, async (_req: Request, res: Response) => {
+    try {
+      const contacts = await storage.getContactSubmissions();
+      res.json(contacts);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      res.status(500).json({ message: "Failed to fetch contacts" });
+    }
+  });
+
+  app.patch("/api/admin/contacts/:id/status", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { status } = req.body;
+      if (!status || !["pending", "contacted", "closed"].includes(status)) {
+        return res.status(400).json({ message: "Invalid status" });
+      }
+      const updated = await storage.updateContactSubmissionStatus(req.params.id, status);
+      if (!updated) {
+        return res.status(404).json({ message: "Contact not found" });
+      }
+      res.json(updated);
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      res.status(500).json({ message: "Failed to update contact" });
+    }
+  });
+
+  app.delete("/api/admin/contacts/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const deleted = await storage.deleteContactSubmission(req.params.id);
+      if (!deleted) {
+        return res.status(404).json({ message: "Contact not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+      res.status(500).json({ message: "Failed to delete contact" });
+    }
+  });
+
   app.get("/api/case-studies", async (_req: Request, res: Response) => {
     try {
       const studies = await storage.getCaseStudies();

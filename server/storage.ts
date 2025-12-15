@@ -23,6 +23,8 @@ export interface IStorage {
   
   createContactSubmission(contact: InsertContact): Promise<ContactSubmission>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
+  updateContactSubmissionStatus(id: string, status: string): Promise<ContactSubmission | undefined>;
+  deleteContactSubmission(id: string): Promise<boolean>;
   
   getCaseStudies(): Promise<CaseStudy[]>;
   getCaseStudyBySlug(slug: string): Promise<CaseStudy | undefined>;
@@ -61,6 +63,19 @@ export class DatabaseStorage implements IStorage {
 
   async getContactSubmissions(): Promise<ContactSubmission[]> {
     return db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt));
+  }
+
+  async updateContactSubmissionStatus(id: string, status: string): Promise<ContactSubmission | undefined> {
+    const [updated] = await db.update(contactSubmissions)
+      .set({ status })
+      .where(eq(contactSubmissions.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteContactSubmission(id: string): Promise<boolean> {
+    const result = await db.delete(contactSubmissions).where(eq(contactSubmissions.id, id)).returning();
+    return result.length > 0;
   }
 
   async getCaseStudies(): Promise<CaseStudy[]> {
