@@ -22,9 +22,9 @@ import {
   Mail,
   Phone,
   MapPin,
-  Linkedin,
-  Twitter
+  Linkedin
 } from 'lucide-react';
+import { SiInstagram } from 'react-icons/si';
 
 const COMPETITOR_DATA: Record<string, number[]> = {
   "Marketing Agency": [0.2, 0.95, 0.4, 0.1, 0.2, 0.1], 
@@ -859,11 +859,11 @@ function Footer() {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Connect</h4>
             <div className="flex gap-4 mb-6">
-              <a href="#" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
+              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
                 <Linkedin size={18} />
               </a>
-              <a href="#" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-twitter">
-                <Twitter size={18} />
+              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
+                <SiInstagram size={18} />
               </a>
             </div>
             <p className="text-aryo-lightBlue/50 text-xs">
