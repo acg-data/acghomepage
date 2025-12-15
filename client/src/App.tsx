@@ -19,6 +19,7 @@ import Contact from "@/pages/contact";
 import ValuationTool from "@/pages/valuation-tool";
 import AIConsultant from "@/pages/ai-consultant";
 import NYC from "@/pages/nyc";
+import Admin from "@/pages/admin";
 
 function Router() {
   return (
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/login" component={Login}/>
       <Route path="/register" component={Register}/>
       <Route path="/partner" component={Partner}/>
+      <Route path="/admin" component={Admin}/>
       <Route component={NotFound} />
     </Switch>
   );
