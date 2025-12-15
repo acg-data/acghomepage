@@ -71,7 +71,17 @@ export default function Contact() {
 
   const mutation = useMutation({
     mutationFn: async (data: ContactFormData) => {
-      return apiRequest('POST', '/api/contact', data);
+      const nameParts = data.name.trim().split(/\s+/);
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || nameParts[0] || '';
+      
+      return apiRequest('POST', '/api/contact', {
+        firstName,
+        lastName,
+        email: data.email,
+        company: data.company,
+        message: data.message,
+      });
     },
     onSuccess: () => {
       setSubmitted(true);
