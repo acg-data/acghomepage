@@ -364,36 +364,21 @@ export async function registerRoutes(
       // Save to database
       const download = await storage.createReportDownload(validatedData);
       
-      // Send email with PDF attachment (using cached PDF)
-      if (process.env.RESEND_API_KEY && q4HiringAbroadPdfBuffer) {
+      // Send email using Resend template
+      if (process.env.RESEND_API_KEY) {
         try {
-          
           await resend.emails.send({
             from: "Aryo Consulting <onboarding@resend.dev>",
             to: validatedData.email,
             subject: "Your Q4 Hiring Abroad Report from Aryo Consulting Group",
-            html: `
-              <h2>Thank you for your interest, ${validatedData.firstName}!</h2>
-              <p>We're pleased to share our Q4 Hiring Abroad Report: "Outsourcing Smartly: An American Business's Guide to Global Talent, Costs, and Collaboration".</p>
-              <p>This comprehensive guide covers:</p>
-              <ul>
-                <li>Global talent markets across Asia, Africa, Europe, and Latin America</li>
-                <li>Compensation benchmarks by expertise and region</li>
-                <li>Hiring and payment platforms for international teams</li>
-                <li>Best practices for managing remote global talent</li>
-              </ul>
-              <p>Your report is attached to this email.</p>
-              <p>If you have any questions or would like to discuss how Aryo Consulting Group can help with your international hiring strategy, please don't hesitate to reach out.</p>
-              <hr>
-              <p><strong>Aryo Consulting Group</strong><br>
-              <a href="https://aryocg.com">aryocg.com</a></p>
-            `,
-            attachments: [
-              {
-                filename: "Aryo-Q4-Hiring-Abroad-Report.pdf",
-                content: q4HiringAbroadPdfBuffer,
+            template: {
+              id: "q4-hiring-abroad-report",
+              variables: {
+                firstName: validatedData.firstName,
+                lastName: validatedData.lastName,
+                downloadLink: `${req.protocol}://${req.get('host')}/api/reports/q4-hiring-abroad/download`
               }
-            ],
+            }
           });
           
           // Mark email as sent
