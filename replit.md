@@ -109,6 +109,7 @@ The application is a complete, multi-page corporate consulting website with:
 - `PATCH /api/admin/contacts/:id/status` - Update contact status (partner-only)
 - `DELETE /api/admin/contacts/:id` - Delete contact submission (partner-only)
 - `POST /api/reports/q4-hiring-abroad/signup` - Submit email for Q4 report (sends PDF via email)
+- `GET /api/reports/q4-hiring-abroad/download` - Download Q4 Hiring Abroad Report PDF
 
 ## Recent Changes
 - December 2024: Initial build with complete landing page

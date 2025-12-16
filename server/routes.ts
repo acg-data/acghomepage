@@ -498,6 +498,26 @@ export async function registerRoutes(
     }
   });
 
+  // Serve the Q4 Hiring Abroad Report PDF from Object Storage
+  app.get("/api/reports/q4-hiring-abroad/download", async (_req: Request, res: Response) => {
+    try {
+      const pdfPath = "Outsourcing Smartly.pdf";
+      const result = await objectStorageClient.downloadAsBytes(pdfPath);
+      
+      if (!result.ok || !result.value || !result.value[0]) {
+        return res.status(404).json({ message: "Report not found" });
+      }
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="Aryo-Q4-Hiring-Abroad-Report.pdf"');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.send(result.value[0]);
+    } catch (error) {
+      console.error("Error serving Q4 report:", error);
+      res.status(500).json({ message: "Failed to serve report" });
+    }
+  });
+
   return httpServer;
 }
 
