@@ -412,9 +412,18 @@ export async function registerRoutes(
     try {
       const result = await objectStorageClient.list();
       if (result.ok && result.value) {
+        // Only include image files (svg, png, jpg, jpeg) and exclude Aryo logo
+        const imageExtensions = ['.svg', '.png', '.jpg', '.jpeg', '.webp'];
         const logos = result.value
           .map((obj: { name: string }) => obj.name)
-          .filter((name: string) => !name.toLowerCase().includes("aryo"));
+          .filter((name: string) => {
+            const lowerName = name.toLowerCase();
+            // Must be an image file
+            const isImage = imageExtensions.some(ext => lowerName.endsWith(ext));
+            // Exclude Aryo logos
+            const isAryoLogo = lowerName.includes("aryo");
+            return isImage && !isAryoLogo;
+          });
         res.json(logos);
       } else {
         res.json([]);
