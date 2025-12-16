@@ -12,9 +12,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import connectPgSimple from "connect-pg-simple";
 import { pool } from "./db";
 import { Client as ObjectStorageClient } from "@replit/object-storage";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { getResendClient } from "./integrations/resend";
 
 // Cache the Q4 Hiring Abroad report PDF at startup
 let q4HiringAbroadPdfBuffer: Buffer | null = null;
@@ -93,38 +91,36 @@ export async function registerRoutes(
       const validatedData = insertContactSchema.parse(req.body);
       const submission = await storage.createContactSubmission(validatedData);
       
-      // Send email notification to Justin
-      if (process.env.RESEND_API_KEY) {
-        try {
-          // Escape HTML in user-provided message to prevent XSS in emails
-          const sanitizedMessage = validatedData.message
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/\n/g, '<br>');
-          
-          await resend.emails.send({
-            from: "Aryo Consulting <onboarding@resend.dev>",
-            to: "justin@aryocg.com",
-            subject: `New Contact Form Submission from ${validatedData.firstName} ${validatedData.lastName}`,
-            html: `
-              <h2>New Contact Form Submission</h2>
-              <p><strong>Name:</strong> ${validatedData.firstName} ${validatedData.lastName}</p>
-              <p><strong>Email:</strong> ${validatedData.email}</p>
-              <p><strong>Company:</strong> ${validatedData.company || 'Not provided'}</p>
-              <p><strong>Message:</strong></p>
-              <p>${sanitizedMessage}</p>
-              <hr>
-              <p><small>Submitted at ${new Date().toLocaleString()}</small></p>
-            `,
-          });
-          console.log("Email notification sent successfully");
-        } catch (emailError) {
-          console.error("Failed to send email notification:", emailError);
-          // Don't fail the contact submission if email fails
-        }
-      } else {
-        console.log("Skipping email notification: RESEND_API_KEY not configured");
+      // Send email notification to Justin using Replit Resend integration
+      try {
+        const { client: resendClient, fromEmail } = await getResendClient();
+        
+        // Escape HTML in user-provided message to prevent XSS in emails
+        const sanitizedMessage = validatedData.message
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\n/g, '<br>');
+        
+        await resendClient.emails.send({
+          from: fromEmail || "Aryo Consulting <onboarding@resend.dev>",
+          to: "justin@aryocg.com",
+          subject: `New Contact Form Submission from ${validatedData.firstName} ${validatedData.lastName}`,
+          html: `
+            <h2>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${validatedData.firstName} ${validatedData.lastName}</p>
+            <p><strong>Email:</strong> ${validatedData.email}</p>
+            <p><strong>Company:</strong> ${validatedData.company || 'Not provided'}</p>
+            <p><strong>Message:</strong></p>
+            <p>${sanitizedMessage}</p>
+            <hr>
+            <p><small>Submitted at ${new Date().toLocaleString()}</small></p>
+          `,
+        });
+        console.log("Email notification sent successfully");
+      } catch (emailError) {
+        console.error("Failed to send email notification:", emailError);
+        // Don't fail the contact submission if email fails
       }
       
       res.status(201).json({ 
@@ -364,31 +360,37 @@ export async function registerRoutes(
       // Save to database
       const download = await storage.createReportDownload(validatedData);
       
-      // Send email using Resend template
-      if (process.env.RESEND_API_KEY) {
-        try {
-          await resend.emails.send({
-            from: "Aryo Consulting <onboarding@resend.dev>",
-            to: validatedData.email,
-            subject: "Your Q4 Hiring Abroad Report from Aryo Consulting Group",
-            template: {
-              id: "q4-hiring-abroad-report",
-              variables: {
-                firstName: validatedData.firstName,
-                lastName: validatedData.lastName,
-                downloadLink: `${req.protocol}://${req.get('host')}/api/reports/q4-hiring-abroad/download`
-              }
-            }
-          });
-          
-          // Mark email as sent
-          await storage.markReportEmailSent(download.id);
-          console.log("Report email sent successfully to", validatedData.email);
-        } catch (emailError) {
-          console.error("Failed to send report email:", emailError);
-        }
-      } else {
-        console.log("Skipping report email: RESEND_API_KEY not configured");
+      // Send email using Resend template via Replit integration
+      try {
+        const { client: resendClient, fromEmail } = await getResendClient();
+        
+        await resendClient.emails.send({
+          from: fromEmail || "Aryo Consulting <onboarding@resend.dev>",
+          to: validatedData.email,
+          subject: "Your Q4 Hiring Abroad Report from Aryo Consulting Group",
+          html: `
+            <h2>Thank you for your interest, ${validatedData.firstName}!</h2>
+            <p>We're pleased to share our Q4 Hiring Abroad Report: "Outsourcing Smartly: An American Business's Guide to Global Talent, Costs, and Collaboration".</p>
+            <p>This comprehensive guide covers:</p>
+            <ul>
+              <li>Global talent markets across Asia, Africa, Europe, and Latin America</li>
+              <li>Compensation benchmarks by expertise and region</li>
+              <li>Hiring and payment platforms for international teams</li>
+              <li>Best practices for managing remote global talent</li>
+            </ul>
+            <p><a href="${req.protocol}://${req.get('host')}/api/reports/q4-hiring-abroad/download">Download your report here</a></p>
+            <p>If you have any questions or would like to discuss how Aryo Consulting Group can help with your international hiring strategy, please don't hesitate to reach out.</p>
+            <hr>
+            <p><strong>Aryo Consulting Group</strong><br>
+            <a href="https://aryocg.com">aryocg.com</a></p>
+          `
+        });
+        
+        // Mark email as sent
+        await storage.markReportEmailSent(download.id);
+        console.log("Report email sent successfully to", validatedData.email);
+      } catch (emailError) {
+        console.error("Failed to send report email:", emailError);
       }
       
       res.status(201).json({ 
