@@ -655,6 +655,11 @@ function Testimonials() {
       author: "John Ramunas",
       title: "CEO, Rejuvenation Technologies Inc.",
     },
+    {
+      quote: "Justin has been a huge help in getting my business off the ground. He's given me great advice, kept me on track, and made the whole process way easier. Also, he's always willing to help!",
+      author: "Jake Berlin",
+      title: "CEO, Mentorship Village",
+    },
   ];
 
   useEffect(() => {
