@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, type ReactNode } from 'react';
+import { useState, useEffect, useRef, useCallback, type ReactNode } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { SEO } from '@/components/seo';
@@ -22,8 +23,11 @@ import {
   Mail,
   Phone,
   MapPin,
-  Linkedin
+  Linkedin,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { SiInstagram } from 'react-icons/si';
 
 const COMPETITOR_DATA: Record<string, number[]> = {
@@ -617,6 +621,14 @@ function Stats() {
 }
 
 function Testimonials() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    align: 'start',
+    slidesToScroll: 1,
+  });
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
   const testimonials = [
     {
       quote: "Aryo's integrated approach transformed how we think about growth. They didn't just consult—they operated alongside us during a critical M&A integration.",
@@ -640,6 +652,27 @@ function Testimonials() {
     },
   ];
 
+  useEffect(() => {
+    if (!emblaApi) return;
+    
+    const onSelect = () => {
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    };
+    
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    onSelect();
+    
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi]);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
   return (
     <div className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -648,31 +681,58 @@ function Testimonials() {
           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Trusted by Leaders</h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((t, i) => (
-            <FadeIn key={i} delay={i * 150}>
-              <div className="bg-white p-10 border border-aryo-lightGrey">
-                <div className="text-aryo-lightBlue mb-6">
-                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                    <path d="M10 25C10 20.5 13 17 17 17V13C11 13 6 18 6 25V33H14V25H10Z" fill="currentColor"/>
-                    <path d="M26 25C26 20.5 29 17 33 17V13C27 13 22 18 22 25V33H30V25H26Z" fill="currentColor"/>
-                  </svg>
-                </div>
-                <p className="text-xl text-aryo-deepBlue font-serif italic mb-8 leading-relaxed">
-                  "{t.quote}"
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    {t.author.split(' ').map(n => n[0]).join('')}
+        <div className="relative">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex gap-6">
+              {testimonials.map((t, i) => (
+                <div key={i} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0">
+                  <div className="bg-white p-10 border border-aryo-lightGrey h-full">
+                    <div className="text-aryo-lightBlue mb-6">
+                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <path d="M10 25C10 20.5 13 17 17 17V13C11 13 6 18 6 25V33H14V25H10Z" fill="currentColor"/>
+                        <path d="M26 25C26 20.5 29 17 33 17V13C27 13 22 18 22 25V33H30V25H26Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <p className="text-xl text-aryo-deepBlue font-serif italic mb-8 leading-relaxed">
+                      "{t.quote}"
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold text-lg">
+                        {t.author.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div>
+                        <p className="font-bold text-aryo-deepBlue">{t.author}</p>
+                        <p className="text-sm text-slate-500">{t.title}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-bold text-aryo-deepBlue">{t.author}</p>
-                    <p className="text-sm text-slate-500">{t.title}</p>
-                  </div>
                 </div>
-              </div>
-            </FadeIn>
-          ))}
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-center gap-4 mt-8">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={scrollPrev}
+              disabled={!canScrollPrev}
+              className="border-aryo-deepBlue text-aryo-deepBlue"
+              data-testid="button-testimonial-prev"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={scrollNext}
+              disabled={!canScrollNext}
+              className="border-aryo-deepBlue text-aryo-deepBlue"
+              data-testid="button-testimonial-next"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
