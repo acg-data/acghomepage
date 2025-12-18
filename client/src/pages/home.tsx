@@ -710,7 +710,7 @@ function Testimonials() {
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-6">
               {testimonials.map((t, i) => (
-                <div key={i} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0">
+                <div key={i} className="flex-[0_0_100%] md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)] min-w-0">
                   <div className="bg-white p-10 border border-aryo-lightGrey h-full flex flex-col">
                     <div className="text-aryo-lightBlue mb-6">
                       <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
