@@ -628,6 +628,11 @@ function Testimonials() {
       author: "Michael Torres",
       title: "CFO, Apex Global",
     },
+    {
+      quote: "Justin was instrumental in helping my company achieve its goals. Highly recommend. Not only is he knowledgeable in the field but he is also a good person.",
+      author: "Youssef El Bandaki",
+      title: "CEO, YY Group",
+    },
   ];
 
   return (
@@ -638,7 +643,7 @@ function Testimonials() {
           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Trusted by Leaders</h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (
             <FadeIn key={i} delay={i * 150}>
               <div className="bg-white p-10 border border-aryo-lightGrey">
