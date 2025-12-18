@@ -711,18 +711,18 @@ function Testimonials() {
             <div className="flex gap-6">
               {testimonials.map((t, i) => (
                 <div key={i} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0">
-                  <div className="bg-white p-10 border border-aryo-lightGrey h-full">
+                  <div className="bg-white p-10 border border-aryo-lightGrey h-full flex flex-col">
                     <div className="text-aryo-lightBlue mb-6">
                       <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                         <path d="M10 25C10 20.5 13 17 17 17V13C11 13 6 18 6 25V33H14V25H10Z" fill="currentColor"/>
                         <path d="M26 25C26 20.5 29 17 33 17V13C27 13 22 18 22 25V33H30V25H26Z" fill="currentColor"/>
                       </svg>
                     </div>
-                    <p className="text-xl text-aryo-deepBlue font-serif italic mb-8 leading-relaxed">
+                    <p className="text-xl text-aryo-deepBlue font-serif italic leading-relaxed flex-1">
                       "{t.quote}"
                     </p>
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    <div className="flex items-center gap-4 mt-8 pt-6 border-t border-aryo-lightGrey">
+                      <div className="w-12 h-12 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                         {t.author.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div>
