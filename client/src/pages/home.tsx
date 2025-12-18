@@ -660,6 +660,11 @@ function Testimonials() {
       author: "Jake Berlin",
       title: "CEO, Mentorship Village",
     },
+    {
+      quote: "Justin is very knowledgable in the space of getting your app to succeed and the steps needed to have successful marketing campaigns. I would say if you are trying to get your app off the ground, he is a great resource!",
+      author: "Jack Mengel",
+      title: "CEO, Notezy",
+    },
   ];
 
   useEffect(() => {
