@@ -631,16 +631,6 @@ function Testimonials() {
 
   const testimonials = [
     {
-      quote: "Aryo's integrated approach transformed how we think about growth. They didn't just consult—they operated alongside us during a critical M&A integration.",
-      author: "Sarah Chen",
-      title: "CEO, Meridian Group",
-    },
-    {
-      quote: "The depth of financial and operational analysis was unlike anything we'd seen from other firms. They found $12M in trapped value within the first 60 days.",
-      author: "Michael Torres",
-      title: "CFO, Apex Global",
-    },
-    {
       quote: "Justin was instrumental in helping my company achieve its goals. Highly recommend. Not only is he knowledgeable in the field but he is also a good person.",
       author: "Youssef El Bandaki",
       title: "CEO, YY Group",
