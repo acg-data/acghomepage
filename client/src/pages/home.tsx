@@ -670,6 +670,11 @@ function Testimonials() {
       author: "Riggs Eckelberry",
       title: "CEO, OriginalClear Inc.",
     },
+    {
+      quote: "Justin and his team worked well with our ever-changing timeline and requirements for our health report. He delivered on time and kept us updated throughout the project. He went above and beyond to ensure all of our needs were met. We would recommend working with him and also work with him again ourselves.",
+      author: "Amy Tice",
+      title: "Team PCOH",
+    },
   ];
 
   useEffect(() => {
