@@ -633,6 +633,11 @@ function Testimonials() {
       author: "Youssef El Bandaki",
       title: "CEO, YY Group",
     },
+    {
+      quote: "Justin at Aryo Consulting provided invaluable guidance for Mosspark Media's startup journey. Expert advice and actionable strategies. Highly recommend!",
+      author: "Kamil Qui",
+      title: "CEO, Mosspark Media",
+    },
   ];
 
   return (
