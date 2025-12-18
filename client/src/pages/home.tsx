@@ -665,6 +665,11 @@ function Testimonials() {
       author: "Jack Mengel",
       title: "CEO, Notezy",
     },
+    {
+      quote: "Very thorough and really built the case with deep research. Highly professional. Justin took the time to work through a number of iterations of the project and maintained outstanding communication. Highly recommended!",
+      author: "Riggs Eckelberry",
+      title: "CEO, OriginalClear Inc.",
+    },
   ];
 
   useEffect(() => {
