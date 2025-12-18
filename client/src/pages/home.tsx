@@ -650,6 +650,11 @@ function Testimonials() {
       author: "Kamil Qui",
       title: "CEO, Mosspark Media",
     },
+    {
+      quote: "Justin is great! We're a biotech therapeutics company. Justin did an amazing job upgrading our pitch deck. He has outstanding judgement and creativity regarding content and style. He's also highly professional, responsive, friendly, and a pleasure to work with. Highly recommended!",
+      author: "John Ramunas",
+      title: "CEO, Rejuvenation Technologies Inc.",
+    },
   ];
 
   useEffect(() => {
