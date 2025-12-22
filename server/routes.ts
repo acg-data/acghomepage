@@ -14,6 +14,17 @@ import { pool } from "./db";
 import { Client as ObjectStorageClient } from "@replit/object-storage";
 import { getResendClient } from "./integrations/resend";
 
+// Load 301 redirects map
+let redirectsMap: Record<string, string> = {};
+try {
+  const redirectsPath = path.join(process.cwd(), "server", "redirects.json");
+  const redirectsContent = fs.readFileSync(redirectsPath, "utf-8");
+  redirectsMap = JSON.parse(redirectsContent);
+  console.log(`Loaded ${Object.keys(redirectsMap).length} redirect rules`);
+} catch (error) {
+  console.error("Failed to load redirects map:", error);
+}
+
 // Cache the Q4 Hiring Abroad report PDF at startup
 let q4HiringAbroadPdfBuffer: Buffer | null = null;
 try {
@@ -31,6 +42,33 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   
+  // 301 Redirect middleware - must be early in the chain
+  app.use((req, res, next) => {
+    // Normalize the path - add trailing slash if missing for matching
+    let normalizedPath = req.path;
+    if (!normalizedPath.endsWith('/')) {
+      normalizedPath = normalizedPath + '/';
+    }
+    
+    // Check for redirect with trailing slash
+    let destination = redirectsMap[normalizedPath];
+    if (!destination) {
+      // Also check without trailing slash
+      destination = redirectsMap[req.path];
+    }
+    
+    if (destination) {
+      // Guard against infinite redirect loops - don't redirect if we're already at the destination
+      const currentPathWithoutTrailing = req.path.replace(/\/$/, '') || '/';
+      const destWithoutTrailing = destination.replace(/\/$/, '') || '/';
+      if (currentPathWithoutTrailing !== destWithoutTrailing) {
+        return res.redirect(301, destination);
+      }
+    }
+    
+    next();
+  });
+
   app.use(
     session({
       store: new PgSession({
