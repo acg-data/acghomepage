@@ -21,6 +21,7 @@ import AIConsultant from "@/pages/ai-consultant";
 import NYC from "@/pages/nyc";
 import Admin from "@/pages/admin";
 import ReportQ4HiringAbroad from "@/pages/report-q4-hiring-abroad";
+import ValueCreation from "@/pages/value-creation";
 
 function Router() {
   return (
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/partner" component={Partner}/>
       <Route path="/admin" component={Admin}/>
       <Route path="/reports/q4-hiring-abroad" component={ReportQ4HiringAbroad}/>
+      <Route path="/value-creation" component={ValueCreation}/>
       <Route component={NotFound} />
     </Switch>
   );

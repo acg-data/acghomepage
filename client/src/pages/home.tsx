@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SiInstagram } from 'react-icons/si';
+import { ValueCreationSection } from '@/components/value-creation-section';
 
 const COMPETITOR_DATA: Record<string, number[]> = {
   "Marketing Agency": [0.2, 0.95, 0.4, 0.1, 0.2, 0.1], 
@@ -983,6 +984,7 @@ export default function Home() {
       />
       <Navbar />
       <Hero />
+      <ValueCreationSection />
       <StageSpecialization />
       <ValueDrivers />
       <Process />
