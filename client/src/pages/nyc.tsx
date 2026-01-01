@@ -25,6 +25,7 @@ import {
   Linkedin
 } from 'lucide-react';
 import { SiInstagram } from 'react-icons/si';
+import { BusinessGrowthLevers } from '@/components/business-growth-levers';
 
 const COMPETITOR_DATA: Record<string, number[]> = {
   "Marketing Agency": [0.2, 0.95, 0.4, 0.1, 0.2, 0.1], 
@@ -898,6 +899,7 @@ export default function NYC() {
       />
       <Navbar />
       <Hero />
+      <BusinessGrowthLevers />
       <StageSpecialization />
       <ValueDrivers />
       <Process />
