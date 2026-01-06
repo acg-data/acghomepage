@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { ArrowRight, ChevronRight, TrendingUp, Layers, Users, BarChart3, Shield, Zap } from 'lucide-react';
+import { ArrowRight, ChevronRight, TrendingUp, Layers, Users, BarChart3, Shield, Zap, Presentation } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
 
@@ -16,7 +16,8 @@ const capabilities = [
       "Post-merger integration",
       "Synergy identification & capture"
     ],
-    outcome: "75% faster integration timelines"
+    outcome: "75% faster integration timelines",
+    link: null
   },
   {
     icon: Layers,
@@ -30,7 +31,8 @@ const capabilities = [
       "Process automation",
       "Change management"
     ],
-    outcome: "3x ROI on technology investments"
+    outcome: "3x ROI on technology investments",
+    link: "/digital-transformation"
   },
   {
     icon: BarChart3,
@@ -44,7 +46,8 @@ const capabilities = [
       "Quality improvement",
       "Lean/Six Sigma deployment"
     ],
-    outcome: "20% average cost reduction"
+    outcome: "20% average cost reduction",
+    link: null
   },
   {
     icon: Users,
@@ -58,7 +61,8 @@ const capabilities = [
       "Culture transformation",
       "Succession planning"
     ],
-    outcome: "40% improvement in engagement"
+    outcome: "40% improvement in engagement",
+    link: null
   },
   {
     icon: Shield,
@@ -72,7 +76,8 @@ const capabilities = [
       "ESG strategy & reporting",
       "Crisis management"
     ],
-    outcome: "50% reduction in risk incidents"
+    outcome: "50% reduction in risk incidents",
+    link: null
   },
   {
     icon: Zap,
@@ -86,7 +91,23 @@ const capabilities = [
       "Channel strategy",
       "Partnership development"
     ],
-    outcome: "2x revenue growth rate"
+    outcome: "2x revenue growth rate",
+    link: null
+  },
+  {
+    icon: Presentation,
+    title: "Pitch Deck",
+    subtitle: "Executive Presentation",
+    description: "Explore our capabilities, approach, and success stories in an interactive presentation format designed for executive audiences.",
+    services: [
+      "Company overview",
+      "Service capabilities",
+      "Client success stories",
+      "Methodology & approach",
+      "Engagement models"
+    ],
+    outcome: "Interactive executive experience",
+    link: "/pitch-deck"
   }
 ];
 
@@ -134,14 +155,14 @@ export default function Capabilities() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-24">
-          {capabilities.map((cap, i) => (
-            <div key={i} className="bg-white border border-aryo-lightGrey p-8 group" data-testid={`card-capability-${i}`}>
+          {capabilities.map((cap, i) => {
+            const CardContent = (
               <div className="flex items-start gap-6">
                 <div className="w-14 h-14 bg-aryo-deepBlue flex items-center justify-center flex-shrink-0 group-hover:bg-aryo-teal transition-colors">
                   <cap.icon className="text-white" size={28} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-1">{cap.title}</h3>
+                  <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-1 group-hover:text-aryo-teal transition-colors">{cap.title}</h3>
                   <p className="text-sm text-aryo-teal font-medium mb-3">{cap.subtitle}</p>
                   <p className="text-slate-600 mb-4">{cap.description}</p>
                   
@@ -154,14 +175,34 @@ export default function Capabilities() {
                     ))}
                   </ul>
 
-                  <div className="pt-4 border-t border-aryo-lightGrey">
-                    <span className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest">Typical Outcome</span>
-                    <p className="text-aryo-teal font-bold mt-1">{cap.outcome}</p>
+                  <div className="pt-4 border-t border-aryo-lightGrey flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest">Typical Outcome</span>
+                      <p className="text-aryo-teal font-bold mt-1">{cap.outcome}</p>
+                    </div>
+                    {cap.link && (
+                      <div className="flex items-center gap-1 text-aryo-deepBlue group-hover:text-aryo-teal transition-colors">
+                        <span className="text-sm font-semibold">Explore</span>
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+
+            return cap.link ? (
+              <Link key={i} href={cap.link}>
+                <div className="bg-white border border-aryo-lightGrey p-8 group cursor-pointer hover:border-aryo-teal hover:shadow-lg transition-all" data-testid={`card-capability-${i}`}>
+                  {CardContent}
+                </div>
+              </Link>
+            ) : (
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 group" data-testid={`card-capability-${i}`}>
+                {CardContent}
+              </div>
+            );
+          })}
         </div>
 
         <div className="bg-aryo-deepBlue p-12 mb-24">
