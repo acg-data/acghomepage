@@ -473,7 +473,7 @@ export default function PitchDeck() {
               },
               {
                 question: "How do you price your pitch deck services?",
-                answer: "We offer fixed-price packages starting at $15,000 for early-stage decks and scaling based on complexity, stage, and additional services. All pricing is transparent with no hidden fees or hourly billing surprises.",
+                answer: "We offer fixed-price packages ranging from $5,000 to $20,000 depending on complexity, requirements, and additional services. All pricing is transparent with no hidden fees or hourly billing surprises.",
               },
               {
                 question: "Can you help with our financial model too?",
