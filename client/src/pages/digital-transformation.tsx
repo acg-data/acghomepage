@@ -4,39 +4,47 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowDown, Layers, Cpu, Palette, Cloud, Zap, Target, ChevronRight } from "lucide-react";
+import { ArrowRight, ArrowDown, Layers, Cpu, BarChart3, Cog, Users, Zap, Target, ChevronRight, Map, Database } from "lucide-react";
 import { SEO } from "@/components/seo";
+import { Footer } from "@/components/layout";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
     id: 1,
-    title: "Strategic Consulting",
-    description: "We partner with leadership teams to define digital roadmaps that align technology investments with business outcomes. Our strategic frameworks help prioritize initiatives, allocate resources, and measure success.",
-    icon: Target,
+    title: "Digital Strategy & Roadmapping",
+    description: "We partner with leadership teams to define comprehensive digital roadmaps that align technology investments with business outcomes. Our strategic frameworks help prioritize initiatives, allocate resources, and measure success.",
+    icon: Map,
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
   },
   {
     id: 2,
-    title: "Legacy System Modernization",
-    description: "Transform aging infrastructure into agile, scalable platforms. We specialize in phased migration strategies that minimize risk while unlocking new capabilities and reducing technical debt.",
+    title: "Technology Architecture",
+    description: "Design scalable, secure, and future-proof technology foundations. We architect solutions that integrate seamlessly with existing systems while enabling innovation and growth.",
     icon: Cpu,
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
   },
   {
     id: 3,
-    title: "UX/UI Product Design",
-    description: "Create digital experiences that users love. Our design team combines research-driven insights with cutting-edge aesthetics to build products that drive engagement and conversion.",
-    icon: Palette,
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
+    title: "Data & Analytics Platforms",
+    description: "Unlock the power of your data with modern analytics platforms. We build data pipelines, warehouses, and visualization tools that turn raw information into actionable business intelligence.",
+    icon: Database,
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
   },
   {
     id: 4,
-    title: "Scalable Cloud Architecture",
-    description: "Build for the future with cloud-native solutions. We architect resilient, cost-effective infrastructure on AWS, Azure, and GCP that scales with your business demands.",
-    icon: Cloud,
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+    title: "Process Automation",
+    description: "Streamline operations and reduce manual effort through intelligent automation. We implement RPA, workflow automation, and AI-powered solutions that drive efficiency and accuracy.",
+    icon: Cog,
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
+  },
+  {
+    id: 5,
+    title: "Change Management",
+    description: "Technology alone doesn't drive transformation—people do. We provide comprehensive change management to ensure adoption, engagement, and sustainable organizational change.",
+    icon: Users,
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
   },
 ];
 
@@ -306,13 +314,13 @@ export default function DigitalTransformation() {
             </p>
           </div>
 
-          <div ref={servicesRef} className="grid md:grid-cols-2 gap-6 lg:gap-8">
+          <div ref={servicesRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {services.map((service, index) => (
               <div
                 key={service.id}
                 className={`service-card group relative bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm ${
-                  index === 0 ? "md:row-span-2" : ""
-                }`}
+                  index < 2 ? "lg:col-span-1" : ""
+                } ${index === 4 ? "md:col-span-2 lg:col-span-1" : ""}`}
                 data-testid={`card-service-${service.id}`}
               >
                 {/* Image reveal on hover */}
@@ -326,14 +334,14 @@ export default function DigitalTransformation() {
                 </div>
 
                 {/* Content */}
-                <div className={`relative z-10 p-6 sm:p-8 ${index === 0 ? "lg:p-10" : ""} h-full flex flex-col`}>
+                <div className="relative z-10 p-6 sm:p-8 h-full flex flex-col">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#274D8E] to-[#47B5CB] flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className={`${index === 0 ? "text-2xl lg:text-3xl" : "text-xl lg:text-2xl"} font-display font-bold text-[#1a365d] group-hover:text-white mb-4 transition-colors`}>
+                  <h3 className="text-xl lg:text-2xl font-display font-bold text-[#1a365d] group-hover:text-white mb-4 transition-colors">
                     {service.title}
                   </h3>
-                  <p className={`text-gray-600 group-hover:text-white/80 mb-6 transition-colors flex-grow ${index === 0 ? "text-lg" : ""}`}>
+                  <p className="text-gray-600 group-hover:text-white/80 mb-6 transition-colors flex-grow">
                     {service.description}
                   </p>
                   <Button
@@ -481,7 +489,7 @@ export default function DigitalTransformation() {
             Let's Build Your Digital Future
           </h2>
           <p className="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-            Whether you're modernizing legacy systems, launching new digital products, or reimagining customer experiences—we're here to help.
+            Whether you're modernizing legacy systems, building analytics platforms, or driving organizational change—we're here to help.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/contact">
@@ -509,6 +517,9 @@ export default function DigitalTransformation() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
