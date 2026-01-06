@@ -1,0 +1,21 @@
+I want to build a 'Digital Transformation' service page that replicates the high-end, editorial design aesthetic of RNO1 (rno1.com).
+Core Design Guidelines:
+Aesthetic: Ultra-minimalist, 'Luxury Tech' vibe. Use a high-contrast color palette (Deep Black background #000000 with Crisp White text).
+Typography: Use a bold, oversized Sans-Serif font for headings. Implement 'Fluid Typography' so headers feel massive on desktop but scale elegantly on mobile.
+Layout: Use plenty of whitespace. Avoid standard containers; use a wide, edge-to-edge layout with asymmetric grids.
+Key Sections to Build:
+The Immersive Hero: A full-screen section with a massive headline (e.g., 'REDEFINING THE DIGITAL FRONTIER'). As the user scrolls, the headline should subtly scale up or fade out, and a background ambient video or high-quality abstract image should reveal itself behind the text.
+The 'Fluid' Transition: As we move into the 'Digital Transformation' story, use GSAP ScrollTrigger to create a 'Text Mask' reveal effect where text changes color as it enters the viewport.
+Services Grid (The RNO1 Style): Create a 2-column asymmetric grid for services (Strategy, Experience Design, Tech Modernization). Each grid item should have a 'Magnetic' hover effect on the buttons and a smooth image-reveal on hover.
+Horizontal Scroll Section: Include one section that scrolls horizontally (displaying 'Our Process' or 'Key Pillars') to break the vertical scroll rhythm, just like the RNO1 portfolio style.
+Technical Stack:
+Framework: Vite + React + Tailwind CSS.
+Animations: GSAP (GreenSock) for scroll-triggered events and Framer Motion for smooth component entries.
+Smooth Scroll: Implement Lenis for that 'weighty' inertial scrolling feel seen on RNO1.
+Content Context:
+Please populate the page with professional copy focused on Digital Transformation, including sections for:
+Strategic Consulting
+Legacy System Modernization
+UX/UI Product Design
+Scalable Cloud Architecture
+Please set up the folder structure, install gsap and lenis, and ensure the animations are buttery smooth.
