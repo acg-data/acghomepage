@@ -297,13 +297,53 @@ function StrategyCore({ activeScene }: { activeScene: number }) {
   );
 }
 
+function checkWebGLSupport(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    return !!gl;
+  } catch {
+    return false;
+  }
+}
+
+function ThreePortalFallback() {
+  return (
+    <div className="w-full h-[300px] sm:h-[350px] lg:h-[400px] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center">
+      <div className="text-center text-white/60 px-8">
+        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+          <svg className="w-10 h-10 text-[#47B5CB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+          </svg>
+        </div>
+        <p className="text-sm">3D visualization</p>
+      </div>
+    </div>
+  );
+}
+
 function ThreePortal({ activeScene }: { activeScene: number }) {
+  const [webGLSupported, setWebGLSupported] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setWebGLSupported(checkWebGLSupport());
+  }, []);
+
+  if (webGLSupported === null) {
+    return <ThreePortalFallback />;
+  }
+
+  if (!webGLSupported) {
+    return <ThreePortalFallback />;
+  }
+
   return (
     <div className="w-full h-[300px] sm:h-[350px] lg:h-[400px] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800">
       <Canvas
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
+        onCreated={() => {}}
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.4} />
