@@ -1,0 +1,114 @@
+You are a senior creative frontend engineer + motion designer. Build a production-ready “Growth Strategy” service page with premium scroll-based animations and a cinematic card-driven layout. NO 3D, no canvas, no WebGL.
+
+TECH STACK (use exactly this):
+- Vite + React + TypeScript
+- framer-motion
+- GSAP + ScrollTrigger (for scroll-linked choreography)
+- Optional: @studio-freight/lenis for smooth scrolling (only if lightweight and well-integrated)
+- No backend
+
+CONTENT (use exactly):
+Service Title: Growth Strategy
+Tagline: Accelerating Market Success
+Body: We help you find and capture your next $100M opportunity — then we help you build the capabilities to repeat it.
+Sub-services list:
+1) Market entry strategy
+2) Revenue acceleration
+3) Pricing optimization
+4) Channel strategy
+5) Partnership development
+Typical Outcome:
+2x revenue growth rate
+
+CORE DESIGN CONCEPT:
+Build a “scroll story” made of stacked, layered scenes (like a premium narrative deck). Each section is a full-viewport scene with a centered card module. As the user scrolls, each card:
+- Enters with depth (perspective tilt + soft blur fade)
+- “Lives” briefly with subtle parallax (headline, bullets, accent lines animate)
+- Exits diagonally and scales down, revealing the next card underneath
+No sticky split layouts. No pinned left/right columns. Everything flows naturally.
+
+PAGE STRUCTURE (scenes):
+Scene 1: Hero
+Scene 2–6: One scene per sub-service (5 scenes)
+Scene 7: Typical Outcome + mini recap + CTA footer
+
+VISUAL/UX REQUIREMENTS:
+- A premium “deck” effect: cards overlap in z-space with subtle shadows and perspective.
+- Background should have subtle animated texture: slow gradient drift or noise overlay (CSS-only).
+- Add a thin scroll progress indicator (top or side) that updates as scenes pass.
+- Use micro-interactions: buttons hover/press, cards respond slightly to mouse position (optional, subtle).
+- Everything must be responsive; mobile uses simpler transitions (no heavy blur).
+
+ANIMATION CHOREOGRAPHY (must implement with GSAP ScrollTrigger):
+For each scene card, create a timeline linked to scroll (scrubbed) with 3 phases:
+1) ENTER (first ~25% of scene scroll):
+   - Card comes from below, slight rotateX/rotateZ, opacity 0→1
+   - Headline reveals via clip-path or mask slide
+   - Bullets stagger in
+2) FOCUS (middle ~50%):
+   - Card slowly settles (tiny scale/tilt correction)
+   - Subtle accent line draws, or “signal bars” animate beside heading
+   - Small supporting microcopy fades in
+3) EXIT (last ~25%):
+   - Card moves diagonally up/out, scale down slightly, opacity fades
+   - Background accent shifts to hint next scene
+Important: do NOT pin the entire page. If you choose to pin a scene, pin only for a short controlled range (max 40% of viewport height) and keep it feeling natural.
+
+CARD CONTENT RULES:
+Hero Card:
+- Title, Tagline, Body
+- Primary CTA button: “Book a Strategy Call”
+- Secondary CTA: “Download Service Brief”
+- Add a small “What we’ll cover” mini row of 3 chips (you write them, generic and credible)
+
+Each Sub-service Card (5 cards):
+- Use the exact sub-service title
+- Add a 1–2 line explanation (consulting tone, not hype)
+- Add “What you get” with 3 bullets (credible deliverables, no fake stats)
+- Add one “signal” element per card: e.g., a mini metric bar, a simple diagram line, a checklist strip, or a tiny timeline—CSS only (no SVG libraries required, but inline SVG is allowed)
+
+Outcome Scene:
+- Heading: “Typical Outcome”
+- Animate “2x revenue growth rate” with a crisp count-up (JS) or split-text reveal
+- Add three neutral metric placeholders (no fabricated numbers):
+  - “Time-to-market impact”
+  - “Conversion / pipeline efficiency”
+  - “Margin / unit economics clarity”
+- End with a strong CTA card containing:
+  - “Talk to us”
+  - “What happens next?” (3 bullets)
+  - Buttons repeated
+
+ENGINEERING REQUIREMENTS:
+- Clean TypeScript, components separated.
+- Use data-driven rendering: scenes array maps to components.
+- All copy in constants/content.ts.
+- Implement prefers-reduced-motion: disable scrubbed timelines and use simple fades; ensure usability.
+- Performance: avoid heavy blur on mobile; use will-change carefully; no jank.
+
+COMPONENTS TO IMPLEMENT:
+- App.tsx
+- components/SceneSection.tsx (wraps each scene and registers timeline)
+- components/ServiceHeroCard.tsx
+- components/SubServiceCard.tsx
+- components/OutcomeCard.tsx
+- components/CTAFooter.tsx
+- components/ScrollProgress.tsx
+- hooks/useReducedMotion.ts
+- hooks/useScrollTimelines.ts (sets up GSAP ScrollTriggers per scene)
+- constants/content.ts
+- styles/index.css (global + card utilities)
+
+DELIVERABLE:
+Provide full Replit-ready code:
+- package.json (with dependencies)
+- Vite setup
+- src/main.tsx, App.tsx, index.css
+- all components + hooks + constants
+- run steps: npm install, npm run dev
+
+IMPORTANT:
+- Do not add 3D, canvas, or WebGL.
+- No sticky split layout.
+- Use scroll-driven card scene transitions with premium depth and polish.
+- Use the exact content provided; only add the requested microcopy and “What you get” bullets.
