@@ -5,13 +5,22 @@ import { PageLayout } from "@/components/layout";
 import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowDown, ArrowRight, Target, AlertTriangle, Lightbulb, Clock, BarChart3, Users, Package, DollarSign, UsersRound, TrendingUp } from "lucide-react";
+import { ArrowDown, ArrowRight, Target, AlertTriangle, Lightbulb, Clock, BarChart3, Users, Package, DollarSign, UsersRound, TrendingUp, Sparkles } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const slides = [
   {
     id: 1,
+    title: "Your Ideal Pitch Deck",
+    subtitle: "Aryo Consulting Group",
+    content: "",
+    icon: Sparkles,
+    accent: "from-[#1a365d] via-[#274D8E] to-[#47B5CB]",
+    isCover: true,
+  },
+  {
+    id: 2,
     title: "Company Purpose",
     subtitle: "Our Mission",
     content: "Empowering businesses to achieve transformative growth through strategic consulting, operational excellence, and data-driven insights.",
@@ -19,7 +28,7 @@ const slides = [
     accent: "from-[#274D8E] to-[#47B5CB]",
   },
   {
-    id: 2,
+    id: 3,
     title: "The Problem",
     subtitle: "Market Challenge",
     content: "Mid-market companies struggle to access enterprise-grade consulting expertise. Traditional firms are expensive, slow, and disconnected from operational realities.",
@@ -27,7 +36,7 @@ const slides = [
     accent: "from-[#47B5CB] to-[#4EB9A7]",
   },
   {
-    id: 3,
+    id: 4,
     title: "Our Solution",
     subtitle: "The Aryo Approach",
     content: "A modern consulting model combining deep industry expertise with hands-on implementation. We embed with your team to drive measurable outcomes.",
@@ -35,7 +44,7 @@ const slides = [
     accent: "from-[#4EB9A7] to-[#274D8E]",
   },
   {
-    id: 4,
+    id: 5,
     title: "Why Now",
     subtitle: "Market Timing",
     content: "Digital transformation is accelerating. Companies that adapt now will capture market share. Those that wait risk obsolescence in an increasingly competitive landscape.",
@@ -43,7 +52,7 @@ const slides = [
     accent: "from-[#274D8E] to-[#6FA4D1]",
   },
   {
-    id: 5,
+    id: 6,
     title: "Market Size",
     subtitle: "$500B+ TAM",
     content: "The global management consulting market exceeds $500B annually. Mid-market segment growing at 8% CAGR with significant underserved demand.",
@@ -51,7 +60,7 @@ const slides = [
     accent: "from-[#6FA4D1] to-[#47B5CB]",
   },
   {
-    id: 6,
+    id: 7,
     title: "Competition",
     subtitle: "Our Advantage",
     content: "Unlike traditional consultancies, we offer fixed-price engagements, faster timelines, and guaranteed outcomes. Our embedded model ensures knowledge transfer.",
@@ -59,7 +68,7 @@ const slides = [
     accent: "from-[#47B5CB] to-[#274D8E]",
   },
   {
-    id: 7,
+    id: 8,
     title: "Product",
     subtitle: "Service Portfolio",
     content: "Strategy & Operations, M&A Advisory, Digital Transformation, AI Implementation, Talent & Organization, Market Expansion - all delivered with measurable KPIs.",
@@ -67,7 +76,7 @@ const slides = [
     accent: "from-[#274D8E] to-[#4EB9A7]",
   },
   {
-    id: 8,
+    id: 9,
     title: "Business Model",
     subtitle: "Revenue Streams",
     content: "Project-based consulting, retainer relationships, success fees tied to outcomes. 40%+ gross margins with high client retention and expansion revenue.",
@@ -75,7 +84,7 @@ const slides = [
     accent: "from-[#4EB9A7] to-[#6FA4D1]",
   },
   {
-    id: 9,
+    id: 10,
     title: "Team",
     subtitle: "Leadership",
     content: "Former partners from McKinsey, BCG, and Bain. Operating executives with P&L experience. Deep expertise across industries and functional areas.",
@@ -83,7 +92,7 @@ const slides = [
     accent: "from-[#6FA4D1] to-[#274D8E]",
   },
   {
-    id: 10,
+    id: 11,
     title: "Financials",
     subtitle: "Growth Trajectory",
     content: "3x revenue growth YoY. Path to profitability in 18 months. Strong unit economics with 85% client retention and 120% net revenue retention.",
@@ -94,6 +103,45 @@ const slides = [
 
 function SlideContent({ slide, isBack = false }: { slide: typeof slides[0]; isBack?: boolean }) {
   const Icon = slide.icon;
+  const isCover = 'isCover' in slide && slide.isCover;
+  
+  if (isCover) {
+    return (
+      <div className={`absolute inset-0 flex flex-col items-center justify-center p-6 sm:p-8 md:p-12 ${isBack ? 'rotateY-180' : ''}`}
+           style={{ backfaceVisibility: 'hidden', transform: isBack ? 'rotateY(180deg)' : 'none' }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a365d] via-[#274D8E] to-[#47B5CB] rounded-xl" />
+        <div className="absolute inset-0 overflow-hidden rounded-xl">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#4EB9A7]/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2" />
+          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#47B5CB]/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
+        </div>
+        <div className="absolute inset-4 border border-white/10 rounded-lg" />
+        <div className="absolute top-6 left-6 right-6 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-white/20" />
+            <div className="w-3 h-3 rounded-full bg-white/20" />
+            <div className="w-3 h-3 rounded-full bg-white/20" />
+          </div>
+          <Sparkles className="w-5 h-5 text-white/40" />
+        </div>
+        <div className="relative z-10 text-center max-w-2xl">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 shadow-2xl">
+            <Sparkles className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
+          </div>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4 tracking-tight">
+            {slide.title}
+          </h3>
+          <div className="w-20 h-1 bg-gradient-to-r from-[#47B5CB] to-[#4EB9A7] mx-auto mb-6" />
+          <p className="text-lg sm:text-xl text-white/70 font-medium tracking-widest uppercase">
+            {slide.subtitle}
+          </p>
+        </div>
+        <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center">
+          <p className="text-white/40 text-sm tracking-wider">Scroll to explore</p>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className={`absolute inset-0 flex flex-col items-center justify-center p-6 sm:p-8 md:p-12 ${isBack ? 'rotateY-180' : ''}`}
