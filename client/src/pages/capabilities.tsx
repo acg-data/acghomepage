@@ -181,9 +181,8 @@ export default function Capabilities() {
                       <p className="text-aryo-teal font-bold mt-1">{cap.outcome}</p>
                     </div>
                     {cap.link && (
-                      <div className="flex items-center gap-1 text-aryo-deepBlue group-hover:text-aryo-teal transition-colors">
-                        <span className="text-sm font-semibold">Explore</span>
-                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                      <div className="w-10 h-10 rounded-full bg-aryo-deepBlue/10 flex items-center justify-center group-hover:bg-aryo-teal transition-colors">
+                        <ArrowRight size={18} className="text-aryo-deepBlue group-hover:text-white transition-colors animate-arrow-pulse" />
                       </div>
                     )}
                   </div>

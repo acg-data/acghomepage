@@ -289,4 +289,21 @@ html {
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* Arrow pulse animation - jumps every 3 seconds */
+  @keyframes arrow-pulse {
+    0%, 90%, 100% {
+      transform: translateX(0);
+    }
+    93% {
+      transform: translateX(4px);
+    }
+    96% {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-arrow-pulse {
+    animation: arrow-pulse 3s ease-in-out infinite;
+  }
 }
