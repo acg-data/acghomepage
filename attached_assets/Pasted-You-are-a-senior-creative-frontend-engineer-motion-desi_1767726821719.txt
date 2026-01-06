@@ -1,0 +1,111 @@
+You are a senior creative frontend engineer + motion designer. Build a production-ready “Growth Strategy” service page with premium 3D aesthetic and scroll-based animations where text and 3D visuals MOVE TOGETHER through the page (no sticky left/right layout, no pinned split column).
+
+TECH STACK (use exactly this):
+- Vite + React + TypeScript
+- @react-three/fiber + @react-three/drei
+- framer-motion
+- GSAP + ScrollTrigger
+- No backend
+
+CONTENT (use exactly):
+Service Title: Growth Strategy
+Tagline: Accelerating Market Success
+Body: We help you find and capture your next $100M opportunity — then we help you build the capabilities to repeat it.
+Sub-services:
+1) Market entry strategy
+2) Revenue acceleration
+3) Pricing optimization
+4) Channel strategy
+5) Partnership development
+Typical Outcome:
+2x revenue growth rate
+
+CORE DESIGN IDEA (must follow):
+Build a “scroll-driven story deck” made of 6 full-width scenes (Hero + 5 sub-services + Outcome/CTA). Each scene is a centered card-like composition where:
+- The text block and the 3D element appear as ONE unified module.
+- On scroll, the unified module moves (slides/rotates/parallax) as it enters, then transforms, then exits.
+- The 3D object changes per scene (module attachments / morph / rotation / camera shift), synchronized with the text motion.
+- No sticky columns. No pinned two-column layout. The content should feel like it’s “coming at you” scene-by-scene.
+
+LAYOUT REQUIREMENTS:
+- Each scene is a full viewport section (min-height: 100vh).
+- Inside each scene: a single “SceneCard” container centered on the page.
+- The SceneCard contains: 
+  (A) Text group (title, 1–2 line explanation, deliverables mini-list)
+  (B) 3D group (canvas contained inside a rounded card or portal window)
+- On desktop: text and 3D can be side-by-side within the same SceneCard, BUT they must animate together and never be sticky.
+- On mobile: stack vertically and simplify 3D movement.
+
+SCROLL ANIMATION CHOREOGRAPHY (must implement):
+Use GSAP + ScrollTrigger to animate each SceneCard with a clear 3-part rhythm:
+1) ENTER: SceneCard rises from below with slight rotation and blur fade-in, 3D object floats in with delayed easing.
+2) HOLD/TRANSFORM: while user scrolls through the middle of the scene, the 3D object performs a signature transformation representing that sub-service (attach a module, change silhouette, shift camera), and the text subtly shifts (parallax/line reveal).
+3) EXIT: SceneCard slides diagonally out and scales down slightly, 3D object rotates away and dims, making room for the next scene.
+
+Important: The HOLD/TRANSFORM should NOT pin the scene. It should be scroll-linked “scrubbed” within the scene’s scroll range while the page continues moving naturally.
+
+3D REQUIREMENTS:
+- Use react-three-fiber with Drei Environment + ContactShadows + Float.
+- Make a single abstract “Strategy Core” object that evolves across scenes:
+  - Base: rounded geometric core (icosahedron/rounded box)
+  - Add 5 different attachments (ring / fin / plate / nodes / lattice) for the 5 sub-services.
+- Scene mapping:
+  - Scene 1 (Hero): Core only, subtle rotation + shimmer.
+  - Scene 2 (Market entry): Attach “compass ring” module.
+  - Scene 3 (Revenue acceleration): Attach “thruster fins” module.
+  - Scene 4 (Pricing optimization): Attach “calibration grid/plates”.
+  - Scene 5 (Channel strategy): Attach “branching nodes”.
+  - Scene 6 (Partnership development): Attach “linking lattice”.
+  - Outcome scene: All modules present, stable and confident pose.
+- Use lightweight primitives and procedural geometry only (no external 3D models).
+- Use GSAP timeline per scene to animate object transforms (rotation, position, scale, module opacity, camera moves).
+
+SCENE CONTENT RULES:
+- Hero scene includes title, tagline, body, and two CTAs:
+  Primary CTA: “Book a Strategy Call”
+  Secondary CTA: “Download Service Brief”
+- For each of the 5 sub-service scenes:
+  - Display the sub-service title
+  - Write 1–2 lines of supportive microcopy (consulting tone, not hype)
+  - Provide a “What you get” list (3 bullets) – neutral, credible, no fake stats
+- Outcome scene:
+  - Show “Typical Outcome”
+  - Animate “2x revenue growth rate” with a crisp count-up or kinetic reveal triggered on enter
+  - Add a compact recap of all 5 sub-services in a single line or chips
+- Footer CTA:
+  - “Talk to us” + short “What happens next?” (3 bullets)
+
+MOTION DETAILS (high polish, not flashy):
+- Use Framer Motion for micro-interactions (buttons, hover, small reveals).
+- Use GSAP ScrollTrigger for scene-level transitions + 3D transform scrubbing.
+- Add subtle depth: layered shadows, slight perspective tilt on SceneCard tied to scroll.
+- Add a “scroll progress” indicator (thin line or dots) that updates with current scene.
+
+ACCESSIBILITY + PERFORMANCE:
+- Implement prefers-reduced-motion: disable scrub animations and replace with simple fades; 3D becomes static or hidden.
+- Keep R3F render light: set dpr, limit lights, memoize geometry/material, avoid expensive postprocessing.
+- Ensure no layout shift; use reserved heights for canvas container.
+
+FILES / COMPONENTS TO BUILD:
+- App.tsx (maps scenes)
+- components/SceneSection.tsx (one scene wrapper)
+- components/SceneCard.tsx (text + 3D module in one card)
+- components/ScrollProgress.tsx
+- three/ThreePortal.tsx (canvas wrapper inside card)
+- three/StrategyCore.tsx (core + 5 modules, props to control current scene)
+- hooks/useReducedMotion.ts
+- hooks/useSceneScroll.ts (creates GSAP timelines per scene)
+- constants/content.ts (all text content centralized)
+
+DELIVERABLE:
+Return full Replit-ready code:
+- package.json
+- vite setup
+- src/main.tsx, App.tsx, index.css
+- all components + hooks + three files
+- clear run steps (npm install, npm run dev)
+
+IMPORTANT:
+- Do NOT use sticky/pinned split columns.
+- Text and 3D must travel together as a unified module scene-by-scene.
+- Use the exact content given above; only add the requested microcopy and deliverables bullets.
