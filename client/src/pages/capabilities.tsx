@@ -106,7 +106,7 @@ const capabilities = [
       "Methodology & approach",
       "Engagement models"
     ],
-    outcome: "Interactive executive experience",
+    outcome: "$1B+ raised for clients collectively",
     link: "/pitch-deck"
   }
 ];
