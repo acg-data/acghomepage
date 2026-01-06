@@ -396,7 +396,7 @@ export default function DigitalTransformation() {
               className="w-[80vw] sm:w-[60vw] md:w-[50vw] lg:w-[40vw] h-full flex items-center px-8 flex-shrink-0"
               data-testid={`step-process-${index}`}
             >
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 sm:p-10 border border-white/10 w-full min-h-[320px] flex flex-col justify-center">
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 sm:p-10 border border-white/10 w-full min-h-[320px] flex flex-col justify-start">
                 <span className="text-6xl sm:text-7xl font-display font-bold text-[#47B5CB]/30 mb-4 block">
                   {step.number}
                 </span>
