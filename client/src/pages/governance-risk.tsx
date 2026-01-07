@@ -883,8 +883,8 @@ export default function GovernanceRisk() {
               <div className="relative">
                 <div className="aspect-square rounded-3xl overflow-hidden">
                   <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
-                    alt="Strategic approach"
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+                    alt="Business analytics and data charts"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-br from-[#274D8E]/60 via-transparent to-[#47B5CB]/40" />
