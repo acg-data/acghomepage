@@ -1,0 +1,127 @@
+You are a world-class aesthetic web designer + frontend engineer. Build a production-ready, highly creative “Growth Strategy” service page with premium scroll-based animations and card/element-driven storytelling. This must be Replit-ready and run immediately.
+
+HARD REQUIREMENTS
+- NO “Typical Outcome” section at all.
+- NO 3D, NO canvas, NO WebGL.
+- NO sticky left/right split layouts, NO pinned sidebar columns.
+- The experience must be scroll-driven “scenes” where content enters, transforms, and exits smoothly.
+- Clean, premium, minimal. Motion should feel intentional and restrained.
+
+TECH STACK (use exactly)
+- Vite + React + TypeScript
+- GSAP + ScrollTrigger (scene choreography)
+- framer-motion (micro-interactions)
+- Optional: @studio-freight/lenis for smooth scrolling (only if integrated cleanly with ScrollTrigger)
+
+PAGE CONTENT (use exactly this copy)
+Title: Growth Strategy
+Tagline: Accelerating Market Success
+Body: We help you find and capture your next $100M opportunity — then we help you build the capabilities to repeat it & ensured growth.
+Sub-services:
+1) Market entry strategy
+2) Revenue acceleration
+3) Pricing optimization
+4) Channel strategy
+5) Partnership development
+
+DESIGN CONCEPT
+“Strategy in Motion”: The page is a sequence of 6 scroll scenes:
+Scene 1 = Hero
+Scenes 2–6 = One scene per sub-service
+Each scene is full viewport (min-height: 100vh) and uses a centered “SceneCard” module. The SceneCard contains text + a minimal animated visual element (CSS or inline SVG), and both animate together.
+
+SCROLL CHOREOGRAPHY (MUST IMPLEMENT WITH GSAP ScrollTrigger, scrubbed timelines)
+For EVERY scene card implement a 3-phase scroll-linked timeline:
+1) ENTER (first 25% of scene scroll):
+   - Card rises from below with subtle perspective tilt (rotateX/rotateZ small), opacity 0→1
+   - Headline reveals via mask/clip-path slide
+   - Body/notes stagger in
+2) FOCUS / TRANSFORM (middle 50%):
+   - Card settles to neutral (tiny scale correction)
+   - The scene’s “signal element” animates in a way that matches the sub-service theme (details below)
+   - Subtle background accent shift (very minimal)
+3) EXIT (last 25%):
+   - Card drifts diagonally out + scales down slightly + fades
+   - Next scene begins to appear underneath (deck feeling)
+
+IMPORTANT: Do NOT pin the page. You may pin ONLY the SceneCard for a very short range (optional), but default to no pinning. The page must feel like continuous motion.
+
+SCENE VISUAL ELEMENTS (CSS/inline SVG only; no external images)
+Each sub-service scene MUST include a small “signal element” that animates during the FOCUS phase:
+
+Scene 1 (Hero)
+- Signal: a thin “momentum line” under the headline that draws left-to-right.
+- Add a tiny chip row (3 chips) under the body with generic credible labels you write (e.g., “Market mapping”, “Unit economics”, “Go-to-market plan”).
+- CTAs: Primary “Book a Strategy Call”, Secondary “Download Service Brief”.
+
+Scene 2: Market entry strategy
+- Signal: “expanding boundary” — a rectangular frame that grows outward + corner marks appear.
+- Microcopy: 1–2 lines, consulting tone, not hype.
+- “What you get” 3 bullets.
+
+Scene 3: Revenue acceleration
+- Signal: “stepped bars” — 4–6 bars rising upward in steps; animate upward growth during FOCUS.
+- Microcopy + 3 deliverables bullets.
+
+Scene 4: Pricing optimization
+- Signal: “calibration ticks” — misaligned ticks slide into perfect alignment; include a subtle center indicator.
+- Microcopy + 3 deliverables bullets.
+
+Scene 5: Channel strategy
+- Signal: “branching paths” — one line splits into 3 paths; the primary path is most prominent; animate the split during FOCUS.
+- Microcopy + 3 deliverables bullets.
+
+Scene 6: Partnership development
+- Signal: “connecting nodes” — 5–7 dots that drift then snap into connections (lines draw between them).
+- Microcopy + 3 deliverables bullets.
+
+FINAL SECTION (end of Scene 6)
+Instead of a Typical Outcome section, create a “Strategy Synthesis + CTA” block that appears as Scene 6 finishes:
+- Show all five sub-service names as chips or a compact list
+- Brief line: “Structured. Repeatable. Built for scale.”
+- CTA card with buttons repeated.
+
+INTERACTIONS
+- Buttons: premium hover/press states, keyboard accessible.
+- Cards: subtle mouse-parallax tilt on desktop only (very subtle); disable on reduced motion.
+- Progress indicator: thin vertical or top progress bar showing scene progression (updates via ScrollTrigger).
+
+ACCESSIBILITY + PERFORMANCE
+- Implement prefers-reduced-motion:
+  - Replace scrub timelines with simple fades/slide-ins
+  - Disable parallax
+- Avoid heavy blur on mobile (use opacity + translate).
+- Use will-change carefully.
+
+CODE ORGANIZATION (MUST)
+- constants/content.ts contains ALL copy and scene definitions.
+- components:
+  - SceneSection.tsx (wraps each scene, sets refs)
+  - SceneCard.tsx (generic card)
+  - HeroCard.tsx
+  - ServiceCard.tsx (for the 5 sub-services)
+  - Signal elements as separate components:
+    - MomentumLine.tsx
+    - ExpandingFrame.tsx
+    - StepBars.tsx
+    - CalibrationTicks.tsx
+    - BranchingPaths.tsx
+    - ConnectingNodes.tsx
+  - ScrollProgress.tsx
+- hooks:
+  - useReducedMotion.ts
+  - useScrollScenes.ts (creates GSAP timelines per scene)
+  - useParallaxTilt.ts (optional, desktop only)
+
+DELIVERABLE OUTPUT
+Return the full Replit-ready project code:
+- package.json with dependencies
+- vite config
+- src/main.tsx
+- src/App.tsx
+- src/index.css
+- all components + hooks + constants
+- Clear run steps: npm install, npm run dev
+
+QUALITY BAR
+This should feel like a premium consulting studio site: clean, minimal, highly polished motion, no gimmicks. No fake stats, no fake client logos, no testimonials. Keep microcopy concise and credible.

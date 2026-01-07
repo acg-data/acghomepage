@@ -25,6 +25,7 @@ import ValueCreation from "@/pages/value-creation";
 import PitchDeck from "@/pages/pitch-deck";
 import DigitalTransformation from "@/pages/digital-transformation";
 import MAAdvisory from "@/pages/ma-advisory";
+import GrowthStrategy from "@/pages/growth-strategy";
 
 function Router() {
   return (
@@ -51,6 +52,7 @@ function Router() {
       <Route path="/pitch-deck" component={PitchDeck}/>
       <Route path="/digital-transformation" component={DigitalTransformation}/>
       <Route path="/ma-advisory" component={MAAdvisory}/>
+      <Route path="/growth-strategy" component={GrowthStrategy}/>
       <Route component={NotFound} />
     </Switch>
   );
