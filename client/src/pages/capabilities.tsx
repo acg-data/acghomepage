@@ -83,7 +83,7 @@ const capabilities = [
     icon: Zap,
     title: "Growth Strategy",
     subtitle: "Accelerating Market Success",
-    description: "We help you find and capture your next $100M opportunity—then we help you build the capabilities to repeat it.",
+    description: "We help you find and capture your next $100M opportunity—then we help you build the capabilities to repeat it & ensured growth.",
     services: [
       "Market entry strategy",
       "Revenue acceleration",
