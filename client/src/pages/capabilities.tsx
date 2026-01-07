@@ -175,16 +175,16 @@ export default function Capabilities() {
                     ))}
                   </ul>
 
-                  <div className="pt-4 border-t border-aryo-lightGrey flex items-center justify-between">
-                    <div>
+                  <div className="pt-4 border-t border-aryo-lightGrey flex items-center justify-between gap-4">
+                    <div className="flex-1">
                       <span className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest">Typical Outcome</span>
                       <p className="text-aryo-teal font-bold mt-1">{cap.outcome}</p>
                     </div>
-                    {cap.link && (
-                      <div className="w-10 h-10 rounded-full bg-aryo-deepBlue/10 flex items-center justify-center group-hover:bg-aryo-teal transition-colors">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${cap.link ? 'bg-aryo-deepBlue/10 group-hover:bg-aryo-teal' : 'bg-transparent'} transition-colors`}>
+                      {cap.link && (
                         <ArrowRight size={18} className="text-aryo-deepBlue group-hover:text-white transition-colors animate-arrow-pulse" />
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
