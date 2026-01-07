@@ -47,7 +47,7 @@ const capabilities = [
       "Lean/Six Sigma deployment"
     ],
     outcome: "20% average cost reduction",
-    link: null
+    link: "/operational-excellence"
   },
   {
     icon: Users,
