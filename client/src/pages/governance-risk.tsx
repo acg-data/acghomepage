@@ -22,8 +22,10 @@ import {
   FileCheck,
   TrendingUp,
   ChevronRight,
-  BarChart3,
-  Zap
+  Zap,
+  Activity,
+  Target,
+  Radar
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -136,14 +138,34 @@ const caseHighlights = [
   }
 ];
 
+const shieldNodes = [
+  { id: 1, x: 50, y: 20, label: "Board", icon: Users },
+  { id: 2, x: 20, y: 45, label: "Compliance", icon: Scale },
+  { id: 3, x: 80, y: 45, label: "Cyber", icon: Lock },
+  { id: 4, x: 35, y: 75, label: "ESG", icon: Leaf },
+  { id: 5, x: 65, y: 75, label: "Controls", icon: FileCheck },
+  { id: 6, x: 50, y: 50, label: "Enterprise", icon: Shield },
+];
+
+const connections = [
+  [1, 2], [1, 3], [1, 6],
+  [2, 4], [2, 6],
+  [3, 5], [3, 6],
+  [4, 6], [5, 6],
+  [4, 5]
+];
+
 export default function GovernanceRisk() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const parallaxLayersRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+  const shieldNetworkRef = useRef<SVGSVGElement>(null);
+  const radarRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState("enterprise");
   const [hoveredCase, setHoveredCase] = useState<number | null>(null);
+  const [activeNode, setActiveNode] = useState<number | null>(null);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -161,35 +183,96 @@ export default function GovernanceRisk() {
     gsap.ticker.add(tickerCallback);
     gsap.ticker.lagSmoothing(0);
 
-    // Hero parallax layers
-    if (parallaxLayersRef.current) {
-      const layers = parallaxLayersRef.current.querySelectorAll(".parallax-layer");
-      layers.forEach((layer, i) => {
-        const speed = 1 - (i * 0.2);
-        gsap.to(layer, {
-          y: 100 * speed,
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.5,
-          },
-        });
+    // Hero intro timeline
+    const heroTl = gsap.timeline({ delay: 0.3 });
+    
+    // Staged text reveal
+    if (heroTextRef.current) {
+      const badge = heroTextRef.current.querySelector('.hero-badge');
+      const title = heroTextRef.current.querySelector('.hero-title');
+      const subtitle = heroTextRef.current.querySelector('.hero-subtitle');
+      const buttons = heroTextRef.current.querySelector('.hero-buttons');
+      
+      heroTl
+        .fromTo(badge, 
+          { y: 30, opacity: 0, scale: 0.9 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" }
+        )
+        .fromTo(title,
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+          "-=0.3"
+        )
+        .fromTo(subtitle,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
+          "-=0.4"
+        )
+        .fromTo(buttons,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
+          "-=0.2"
+        );
+    }
+
+    // Shield network animation
+    if (shieldNetworkRef.current) {
+      const nodes = shieldNetworkRef.current.querySelectorAll('.shield-node');
+      const lines = shieldNetworkRef.current.querySelectorAll('.shield-line');
+      const pulses = shieldNetworkRef.current.querySelectorAll('.node-pulse');
+      
+      heroTl
+        .fromTo(lines,
+          { strokeDashoffset: 200, opacity: 0 },
+          { strokeDashoffset: 0, opacity: 0.6, duration: 1.2, stagger: 0.05, ease: "power2.inOut" },
+          "-=0.8"
+        )
+        .fromTo(nodes,
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(2)" },
+          "-=0.8"
+        )
+        .fromTo(pulses,
+          { scale: 0.8, opacity: 0 },
+          { scale: 1.5, opacity: 0, duration: 2, stagger: 0.2, repeat: -1, ease: "power1.out" },
+          "-=0.3"
+        );
+    }
+
+    // Radar sweep animation
+    if (radarRef.current) {
+      gsap.to(radarRef.current.querySelector('.radar-sweep'), {
+        rotation: 360,
+        duration: 4,
+        repeat: -1,
+        ease: "none",
+        transformOrigin: "center center"
       });
     }
 
-    // Hero content fade
+    // Hero scroll parallax
     if (heroRef.current) {
-      const heroContent = heroRef.current.querySelector(".hero-content");
-      gsap.to(heroContent, {
-        y: -50,
+      gsap.to(heroTextRef.current, {
+        y: -80,
         opacity: 0,
         ease: "power2.out",
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",
-          end: "50% top",
+          end: "60% top",
+          scrub: 1,
+        },
+      });
+      
+      gsap.to(shieldNetworkRef.current, {
+        y: 50,
+        scale: 0.9,
+        opacity: 0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "70% top",
           scrub: 1,
         },
       });
@@ -266,8 +349,6 @@ export default function GovernanceRisk() {
     };
   }, []);
 
-  const activeRisk = riskDomains.find(d => d.id === activeTab) || riskDomains[0];
-
   return (
     <PageLayout>
       <SEO
@@ -275,92 +356,234 @@ export default function GovernanceRisk() {
         description="Modern governance frameworks and enterprise risk management that protect value and enable growth. Board effectiveness, compliance, cyber risk, and ESG expertise."
       />
       <div ref={containerRef} className="min-h-screen bg-white dark:bg-gray-950 overflow-x-hidden">
-        {/* Hero Section with Parallax Layers */}
+        {/* Unique Hero - Shield Network Visualization */}
         <section
           ref={heroRef}
-          className="relative min-h-screen flex items-center justify-center overflow-hidden"
+          className="relative min-h-screen flex items-center overflow-hidden"
           data-testid="section-hero"
         >
-          {/* Parallax Background Layers */}
-          <div ref={parallaxLayersRef} className="absolute inset-0">
-            <div className="parallax-layer absolute inset-0 bg-gradient-to-br from-[#0d1f3c] via-[#1a365d] to-[#274D8E]" />
-            <div 
-              className="parallax-layer absolute inset-0 opacity-20"
-              style={{
-                backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            <div className="parallax-layer absolute inset-0 bg-gradient-to-t from-[#0d1f3c] via-transparent to-transparent" />
-            
-            {/* Animated Grid Pattern */}
-            <div 
-              className="parallax-layer absolute inset-0 opacity-10"
-              style={{
-                backgroundImage: `linear-gradient(rgba(71, 181, 203, 0.3) 1px, transparent 1px),
-                                  linear-gradient(90deg, rgba(71, 181, 203, 0.3) 1px, transparent 1px)`,
-                backgroundSize: '60px 60px',
-              }}
-            />
-
-            {/* Floating Elements */}
-            <div className="parallax-layer absolute inset-0 pointer-events-none">
-              <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#47B5CB]/10 rounded-full blur-3xl animate-pulse" />
-              <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#4EB9A7]/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-            </div>
+          {/* Dark gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0d1f3c] to-[#1a365d]" />
+          
+          {/* Hexagonal pattern overlay */}
+          <div 
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill='none' stroke='%2347B5CB' stroke-width='1'/%3E%3C/svg%3E")`,
+              backgroundSize: '60px 60px'
+            }}
+          />
+          
+          {/* Animated gradient orbs */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#47B5CB]/20 rounded-full blur-[100px] animate-pulse" />
+            <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-[#274D8E]/30 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#4EB9A7]/10 rounded-full blur-[150px]" />
           </div>
 
-          {/* Hero Content */}
-          <div className="hero-content relative z-10 text-center px-6 max-w-5xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
-              <Shield className="w-4 h-4 text-[#47B5CB]" />
-              <span className="text-white/80 text-sm font-medium">Enterprise Protection</span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-tight mb-8">
-              GOVERNANCE
-              <br />
-              <span className="text-[#47B5CB]">&</span>{" "}
-              <span className="bg-gradient-to-r from-[#47B5CB] to-[#4EB9A7] bg-clip-text text-transparent">RISK</span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto mb-12">
-              Modern frameworks that enable rather than constrain.
-              <br />
-              <span className="text-white/90">Risk management that creates competitive advantage.</span>
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  className="bg-[#47B5CB] hover:bg-[#3a9fb3] text-white px-8 py-6 text-lg gap-2"
-                  data-testid="button-gr-contact"
+          {/* Split Layout Content */}
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              {/* Left: Text Content */}
+              <div ref={heroTextRef} className="order-2 lg:order-1">
+                <div className="hero-badge inline-flex items-center gap-2 bg-[#47B5CB]/10 backdrop-blur-sm border border-[#47B5CB]/30 rounded-full px-4 py-2 mb-6">
+                  <Activity className="w-4 h-4 text-[#47B5CB]" />
+                  <span className="text-[#47B5CB] text-sm font-medium tracking-wide">Real-Time Protection</span>
+                </div>
+                
+                <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-[1.1] mb-6">
+                  <span className="block">Your Shield</span>
+                  <span className="block text-[#47B5CB]">Against Risk</span>
+                </h1>
+                
+                <p className="hero-subtitle text-lg md:text-xl text-white/60 max-w-xl mb-8 leading-relaxed">
+                  Integrated governance and risk management that forms an impenetrable defense 
+                  around your enterprise. <span className="text-white/90">Protection that enables growth.</span>
+                </p>
+                
+                <div className="hero-buttons flex flex-col sm:flex-row gap-4">
+                  <Link href="/contact">
+                    <Button
+                      size="lg"
+                      className="bg-[#47B5CB] hover:bg-[#3a9fb3] text-white px-8 py-6 text-lg gap-2 group"
+                      data-testid="button-gr-contact"
+                    >
+                      Activate Your Shield
+                      <Shield className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    </Button>
+                  </Link>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-white/20 text-white hover:bg-white/5 px-8 py-6 text-lg backdrop-blur-sm"
+                    onClick={() => {
+                      const section = document.getElementById('risk-domains');
+                      section?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    data-testid="button-gr-explore"
+                  >
+                    Explore Domains
+                  </Button>
+                </div>
+                
+                {/* Mini metrics row */}
+                <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-3 gap-6">
+                  {[
+                    { value: "500+", label: "Risks Mitigated" },
+                    { value: "98%", label: "Client Retention" },
+                    { value: "24/7", label: "Monitoring" }
+                  ].map((stat, i) => (
+                    <div key={i} className="text-center sm:text-left">
+                      <p className="text-2xl md:text-3xl font-bold text-white">{stat.value}</p>
+                      <p className="text-xs md:text-sm text-white/50">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right: Shield Network Visualization */}
+              <div className="order-1 lg:order-2 relative flex items-center justify-center">
+                {/* Radar background */}
+                <div ref={radarRef} className="absolute w-[400px] h-[400px] md:w-[500px] md:h-[500px]">
+                  {/* Radar rings */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {[1, 0.75, 0.5, 0.25].map((scale, i) => (
+                      <div
+                        key={i}
+                        className="absolute rounded-full border border-[#47B5CB]/20"
+                        style={{
+                          width: `${scale * 100}%`,
+                          height: `${scale * 100}%`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* Radar sweep */}
+                  <div 
+                    className="radar-sweep absolute inset-0"
+                    style={{
+                      background: `conic-gradient(from 0deg, transparent 0deg, rgba(71, 181, 203, 0.3) 30deg, transparent 60deg)`,
+                    }}
+                  />
+                </div>
+
+                {/* Shield Network SVG */}
+                <svg
+                  ref={shieldNetworkRef}
+                  viewBox="0 0 100 100"
+                  className="relative w-[350px] h-[350px] md:w-[450px] md:h-[450px]"
                 >
-                  Assess Your Risk Position
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
-                onClick={() => {
-                  const section = document.getElementById('risk-domains');
-                  section?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                data-testid="button-gr-explore"
-              >
-                Explore Solutions
-              </Button>
+                  {/* Connection lines */}
+                  {connections.map(([from, to], i) => {
+                    const fromNode = shieldNodes.find(n => n.id === from)!;
+                    const toNode = shieldNodes.find(n => n.id === to)!;
+                    return (
+                      <line
+                        key={i}
+                        className="shield-line"
+                        x1={fromNode.x}
+                        y1={fromNode.y}
+                        x2={toNode.x}
+                        y2={toNode.y}
+                        stroke="url(#lineGradient)"
+                        strokeWidth="0.5"
+                        strokeDasharray="200"
+                      />
+                    );
+                  })}
+                  
+                  {/* Gradient definition */}
+                  <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#47B5CB" />
+                      <stop offset="100%" stopColor="#4EB9A7" />
+                    </linearGradient>
+                    <radialGradient id="nodeGradient">
+                      <stop offset="0%" stopColor="#47B5CB" />
+                      <stop offset="100%" stopColor="#274D8E" />
+                    </radialGradient>
+                  </defs>
+
+                  {/* Nodes */}
+                  {shieldNodes.map((node) => {
+                    const Icon = node.icon;
+                    const isCenter = node.id === 6;
+                    const isActive = activeNode === node.id;
+                    return (
+                      <g
+                        key={node.id}
+                        className="shield-node cursor-pointer"
+                        onMouseEnter={() => setActiveNode(node.id)}
+                        onMouseLeave={() => setActiveNode(null)}
+                      >
+                        {/* Pulse ring */}
+                        <circle
+                          className="node-pulse"
+                          cx={node.x}
+                          cy={node.y}
+                          r={isCenter ? 10 : 6}
+                          fill="none"
+                          stroke="#47B5CB"
+                          strokeWidth="0.5"
+                        />
+                        
+                        {/* Node background */}
+                        <circle
+                          cx={node.x}
+                          cy={node.y}
+                          r={isCenter ? 8 : 5}
+                          fill="url(#nodeGradient)"
+                          className={`transition-all duration-300 ${isActive ? 'filter drop-shadow-lg' : ''}`}
+                          style={{
+                            transform: isActive ? 'scale(1.2)' : 'scale(1)',
+                            transformOrigin: `${node.x}px ${node.y}px`
+                          }}
+                        />
+                        
+                        {/* Label */}
+                        <text
+                          x={node.x}
+                          y={node.y + (isCenter ? 14 : 10)}
+                          textAnchor="middle"
+                          className="fill-white/70 text-[3px] font-medium uppercase tracking-wider"
+                        >
+                          {node.label}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+
+                {/* Floating status cards */}
+                <div className="absolute -top-4 -right-4 bg-[#0d1f3c]/80 backdrop-blur-md border border-[#47B5CB]/30 rounded-xl p-4 shadow-2xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 rounded-full bg-[#4EB9A7] animate-pulse" />
+                    <div>
+                      <p className="text-white text-sm font-medium">All Systems Active</p>
+                      <p className="text-white/50 text-xs">Protected</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute -bottom-4 -left-4 bg-[#0d1f3c]/80 backdrop-blur-md border border-[#47B5CB]/30 rounded-xl p-4 shadow-2xl">
+                  <div className="flex items-center gap-3">
+                    <Radar className="w-5 h-5 text-[#47B5CB]" />
+                    <div>
+                      <p className="text-white text-sm font-medium">Threat Scanning</p>
+                      <p className="text-white/50 text-xs">Continuous monitoring</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Scroll Indicator */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="text-white/50 text-xs uppercase tracking-widest">Scroll</span>
-            <ArrowDown className="w-5 h-5 text-white/50 animate-bounce" />
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
+              <div className="w-1 h-2 bg-white/60 rounded-full animate-bounce" />
+            </div>
           </div>
         </section>
 
