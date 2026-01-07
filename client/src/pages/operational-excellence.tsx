@@ -357,7 +357,7 @@ export default function OperationalExcellence() {
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/3 -left-40 w-[500px] h-[500px] bg-[#47B5CB]/20 rounded-full blur-[120px] animate-pulse" />
             <div className="absolute -bottom-20 right-1/4 w-[600px] h-[600px] bg-[#274D8E]/30 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1.5s' }} />
-            <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-amber-500/10 rounded-full blur-[100px]" />
+            <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-[#4EB9A7]/10 rounded-full blur-[100px]" />
           </div>
 
           {/* Animated Gears - Right Side */}
@@ -378,7 +378,7 @@ export default function OperationalExcellence() {
             
             {/* Small Gear */}
             <div className="gear absolute right-[20%] top-[65%] w-24 h-24">
-              <svg viewBox="0 0 100 100" className="w-full h-full text-amber-400/20">
+              <svg viewBox="0 0 100 100" className="w-full h-full text-[#274D8E]/30">
                 <path fill="currentColor" d="M50 20 L53 20 L54 15 L59 16 L58 21 L62 23 L66 19 L70 23 L66 27 L68 32 L73 31 L74 36 L69 38 L69 43 L74 45 L73 50 L68 49 L66 54 L70 58 L66 62 L62 58 L58 61 L59 66 L54 67 L53 62 L48 62 L46 67 L41 66 L43 61 L38 58 L34 62 L30 58 L34 54 L32 49 L27 50 L26 45 L31 43 L31 38 L26 36 L27 31 L32 32 L34 27 L30 23 L34 19 L38 23 L42 21 L41 16 L46 15 L47 20 L50 20Z M50 38 A12 12 0 1 0 50 62 A12 12 0 1 0 50 38Z"/>
               </svg>
             </div>
@@ -394,14 +394,14 @@ export default function OperationalExcellence() {
           {/* Content */}
           <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20">
             <div className="max-w-2xl">
-              <div className="hero-badge inline-flex items-center gap-2 bg-amber-400/10 backdrop-blur-sm border border-amber-400/30 rounded-full px-4 py-2 mb-6">
-                <Cog className="w-4 h-4 text-amber-400" />
-                <span className="text-amber-400 text-sm font-medium tracking-wide">Precision Engineering</span>
+              <div className="hero-badge inline-flex items-center gap-2 bg-[#47B5CB]/10 backdrop-blur-sm border border-[#47B5CB]/30 rounded-full px-4 py-2 mb-6">
+                <Cog className="w-4 h-4 text-[#47B5CB]" />
+                <span className="text-[#47B5CB] text-sm font-medium tracking-wide">Precision Engineering</span>
               </div>
 
               <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-[1.1] mb-6">
                 <span className="block">Operational</span>
-                <span className="block bg-gradient-to-r from-amber-400 via-[#47B5CB] to-[#4EB9A7] bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-[#47B5CB] via-[#4EB9A7] to-[#47B5CB] bg-clip-text text-transparent">
                   Excellence
                 </span>
               </h1>
@@ -415,7 +415,7 @@ export default function OperationalExcellence() {
                 <Link href="/contact">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-6 text-lg gap-2 group"
+                    className="bg-gradient-to-r from-[#47B5CB] to-[#4EB9A7] hover:from-[#3da5bb] hover:to-[#3fa997] text-white px-8 py-6 text-lg gap-2 group"
                     data-testid="button-oe-contact"
                   >
                     Start Optimization
@@ -464,7 +464,7 @@ export default function OperationalExcellence() {
         {/* Impact Stats - Glassmorphism Cards */}
         <section ref={statsRef} className="py-20 bg-gradient-to-b from-[#1e293b] to-[#0f172a] relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-amber-500/10 rounded-full blur-[100px]" />
+            <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-[#4EB9A7]/10 rounded-full blur-[100px]" />
             <div className="absolute bottom-0 right-1/3 w-[300px] h-[300px] bg-[#47B5CB]/10 rounded-full blur-[80px]" />
           </div>
 
@@ -477,9 +477,9 @@ export default function OperationalExcellence() {
                     key={i} 
                     className="stat-item group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-500"
                   >
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-500/0 to-[#47B5CB]/0 group-hover:from-amber-500/10 group-hover:to-[#47B5CB]/10 transition-all duration-500" />
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#47B5CB]/0 to-[#4EB9A7]/0 group-hover:from-[#47B5CB]/10 group-hover:to-[#4EB9A7]/10 transition-all duration-500" />
                     <div className="relative z-10">
-                      <Icon className="w-8 h-8 text-amber-400 mb-4" />
+                      <Icon className="w-8 h-8 text-[#47B5CB] mb-4" />
                       <p className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</p>
                       <p className="text-white/60 text-sm">{stat.label}</p>
                     </div>
@@ -501,7 +501,7 @@ export default function OperationalExcellence() {
             <div ref={horizontalInnerRef} className="flex gap-8 px-20">
               {/* Intro Card */}
               <div className="flex-shrink-0 w-[400px] flex flex-col justify-center">
-                <p className="text-amber-500 font-medium tracking-widest uppercase mb-4">Our Process</p>
+                <p className="text-[#47B5CB] font-medium tracking-widest uppercase mb-4">Our Process</p>
                 <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a365d] dark:text-white mb-6">
                   Four Phases to
                   <span className="block text-[#47B5CB]">Lasting Excellence</span>
@@ -516,7 +516,7 @@ export default function OperationalExcellence() {
                     <div 
                       key={i}
                       className={`h-1 rounded-full transition-all duration-500 ${
-                        i === activePhase ? 'w-12 bg-amber-500' : 'w-4 bg-gray-300 dark:bg-gray-700'
+                        i === activePhase ? 'w-12 bg-[#47B5CB]' : 'w-4 bg-gray-300 dark:bg-gray-700'
                       }`}
                     />
                   ))}
@@ -543,7 +543,7 @@ export default function OperationalExcellence() {
 
                   {/* Content */}
                   <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                    <div className="bg-amber-500/90 backdrop-blur-sm rounded-xl px-4 py-2 inline-flex items-center gap-2 w-fit mb-4">
+                    <div className="bg-[#47B5CB]/90 backdrop-blur-sm rounded-xl px-4 py-2 inline-flex items-center gap-2 w-fit mb-4">
                       <span className="text-white font-bold text-sm">Phase {phase.phase}</span>
                       <Clock className="w-4 h-4 text-white/80" />
                       <span className="text-white/80 text-sm">{phase.duration}</span>
@@ -572,7 +572,7 @@ export default function OperationalExcellence() {
 
               {/* End CTA */}
               <div className="flex-shrink-0 w-[400px] flex flex-col justify-center items-center text-center">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center mb-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#47B5CB] to-[#4EB9A7] flex items-center justify-center mb-6">
                   <Zap className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-2xl font-display font-bold text-[#1a365d] dark:text-white mb-4">
@@ -582,7 +582,7 @@ export default function OperationalExcellence() {
                   Let's discuss your operational challenges and opportunities.
                 </p>
                 <Link href="/contact">
-                  <Button className="bg-amber-500 hover:bg-amber-600 text-white" data-testid="button-horizontal-cta">
+                  <Button className="bg-[#47B5CB] hover:bg-[#3da5bb] text-white" data-testid="button-horizontal-cta">
                     Start a Conversation
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -596,7 +596,7 @@ export default function OperationalExcellence() {
         <section className="py-24 md:py-32 bg-[#f8fafc] dark:bg-gray-900" data-testid="section-excellence">
           <div className="max-w-7xl mx-auto px-6">
             <div className="animate-section text-center mb-16">
-              <p className="text-amber-500 font-medium tracking-widest uppercase mb-4">Areas of Excellence</p>
+              <p className="text-[#47B5CB] font-medium tracking-widest uppercase mb-4">Areas of Excellence</p>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a365d] dark:text-white mb-6">
                 Where We <span className="text-[#47B5CB]">Drive Impact</span>
               </h2>
@@ -616,12 +616,12 @@ export default function OperationalExcellence() {
                       value={area.id}
                       className={`flex items-center gap-3 px-6 py-4 rounded-xl border transition-all ${
                         isActive 
-                          ? 'bg-gradient-to-r from-amber-500 to-amber-600 border-transparent text-white shadow-lg shadow-amber-500/25' 
-                          : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-amber-300'
+                          ? 'bg-gradient-to-r from-[#47B5CB] to-[#4EB9A7] border-transparent text-white shadow-lg shadow-[#47B5CB]/25' 
+                          : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-[#47B5CB]'
                       }`}
                       data-testid={`tab-${area.id}`}
                     >
-                      <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-amber-500'}`} />
+                      <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-[#47B5CB]'}`} />
                       <span className="font-semibold">{area.title}</span>
                     </TabsTrigger>
                   );
@@ -633,7 +633,7 @@ export default function OperationalExcellence() {
                   <div className="grid lg:grid-cols-2 gap-12 items-center">
                     {/* Content Side */}
                     <div>
-                      <p className="text-amber-500 font-medium mb-2">{area.tagline}</p>
+                      <p className="text-[#47B5CB] font-medium mb-2">{area.tagline}</p>
                       <h3 className="text-2xl md:text-3xl font-display font-bold text-[#1a365d] dark:text-white mb-4">
                         {area.title}
                       </h3>
@@ -646,10 +646,10 @@ export default function OperationalExcellence() {
                         {area.capabilities.map((cap, i) => (
                           <div 
                             key={i}
-                            className="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-amber-300 dark:hover:border-amber-500/50 transition-all hover:shadow-md"
+                            className="group flex items-center justify-between p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-[#47B5CB] dark:hover:border-[#47B5CB]/50 transition-all hover:shadow-md"
                           >
                             <div className="flex items-center gap-3">
-                              <div className="w-2 h-2 rounded-full bg-amber-500" />
+                              <div className="w-2 h-2 rounded-full bg-[#47B5CB]" />
                               <span className="font-medium text-[#1a365d] dark:text-white">{cap.name}</span>
                             </div>
                             <span className="text-sm text-[#47B5CB] font-medium">{cap.impact}</span>
@@ -662,7 +662,7 @@ export default function OperationalExcellence() {
                         <p className="text-white/60 text-sm uppercase tracking-wider mb-2">Case Highlight</p>
                         <p className="font-semibold mb-1">{area.caseStudy.client}</p>
                         <p className="text-white/80 text-sm mb-3">{area.caseStudy.result}</p>
-                        <p className="text-amber-400 font-bold text-lg">{area.caseStudy.savings}</p>
+                        <p className="text-[#4EB9A7] font-bold text-lg">{area.caseStudy.savings}</p>
                       </div>
                     </div>
 
@@ -675,13 +675,13 @@ export default function OperationalExcellence() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                         {/* Multi-layer transparency overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/30 via-transparent to-[#47B5CB]/20" />
+                        <div className="absolute inset-0 bg-gradient-to-tr from-[#47B5CB]/30 via-transparent to-[#4EB9A7]/20" />
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#1a365d]/50" />
                       </div>
 
                       {/* Floating Icon */}
                       <div className="absolute -top-6 -right-6 w-20 h-20 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex items-center justify-center">
-                        <area.icon className="w-10 h-10 text-amber-500" />
+                        <area.icon className="w-10 h-10 text-[#47B5CB]" />
                       </div>
 
                       {/* Floating Stat */}
@@ -701,7 +701,7 @@ export default function OperationalExcellence() {
         <section className="py-24 md:py-32 bg-white dark:bg-gray-950" data-testid="section-principles">
           <div className="max-w-7xl mx-auto px-6">
             <div className="animate-section text-center mb-16">
-              <p className="text-amber-500 font-medium tracking-widest uppercase mb-4">Our Philosophy</p>
+              <p className="text-[#47B5CB] font-medium tracking-widest uppercase mb-4">Our Philosophy</p>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a365d] dark:text-white">
                 Principles That <span className="text-[#47B5CB]">Guide Us</span>
               </h2>
@@ -713,23 +713,23 @@ export default function OperationalExcellence() {
                 return (
                   <Card
                     key={i}
-                    className="group relative p-8 border-gray-100 dark:border-gray-800 hover:border-amber-300 dark:hover:border-amber-500/50 transition-all duration-500 overflow-visible bg-white dark:bg-gray-900"
+                    className="group relative p-8 border-gray-100 dark:border-gray-800 hover:border-[#47B5CB] dark:hover:border-[#47B5CB]/50 transition-all duration-500 overflow-visible bg-white dark:bg-gray-900"
                     onMouseEnter={() => setHoveredCard(i)}
                     onMouseLeave={() => setHoveredCard(null)}
                     data-testid={`card-principle-${i}`}
                   >
-                    <div className={`absolute inset-0 rounded-xl bg-gradient-to-br from-amber-500/0 to-[#47B5CB]/0 transition-all duration-500 ${
-                      hoveredCard === i ? 'from-amber-500/5 to-[#47B5CB]/10' : ''
+                    <div className={`absolute inset-0 rounded-xl bg-gradient-to-br from-[#47B5CB]/0 to-[#4EB9A7]/0 transition-all duration-500 ${
+                      hoveredCard === i ? 'from-[#47B5CB]/5 to-[#4EB9A7]/10' : ''
                     }`} />
                     
                     <div className="relative z-10">
                       <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-500 ${
                         hoveredCard === i 
-                          ? 'bg-gradient-to-br from-amber-500 to-amber-600 scale-110' 
-                          : 'bg-amber-500/10'
+                          ? 'bg-gradient-to-br from-[#47B5CB] to-[#4EB9A7] scale-110' 
+                          : 'bg-[#47B5CB]/10'
                       }`}>
                         <Icon className={`w-7 h-7 transition-colors ${
-                          hoveredCard === i ? 'text-white' : 'text-amber-500'
+                          hoveredCard === i ? 'text-white' : 'text-[#47B5CB]'
                         }`} />
                       </div>
                       
@@ -750,14 +750,14 @@ export default function OperationalExcellence() {
         {/* Comparison Section */}
         <section className="py-24 md:py-32 bg-[#1a365d] relative overflow-hidden" data-testid="section-comparison">
           <div className="absolute inset-0">
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-[150px]" />
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#4EB9A7]/10 rounded-full blur-[150px]" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#47B5CB]/10 rounded-full blur-[120px]" />
           </div>
 
           <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="animate-section grid lg:grid-cols-2 gap-16 items-center">
               <div>
-                <p className="text-amber-400 font-medium tracking-widest uppercase mb-4">Why Aryo</p>
+                <p className="text-[#4EB9A7] font-medium tracking-widest uppercase mb-4">Why Aryo</p>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-8">
                   Not Just Consultants.
                   <span className="block text-[#47B5CB]">Transformation Partners.</span>
@@ -794,7 +794,7 @@ export default function OperationalExcellence() {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a365d]/80 via-[#1a365d]/20 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#47B5CB]/20 to-transparent" />
                 </div>
 
                 <div className="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
@@ -807,7 +807,7 @@ export default function OperationalExcellence() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 md:py-32 bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 relative overflow-hidden" data-testid="section-cta">
+        <section className="py-24 md:py-32 bg-gradient-to-br from-[#274D8E] via-[#1a365d] to-[#0f172a] relative overflow-hidden" data-testid="section-cta">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-[150px]" />
           </div>
@@ -832,7 +832,7 @@ export default function OperationalExcellence() {
                 <Link href="/contact">
                   <Button
                     size="lg"
-                    className="bg-white text-amber-600 hover:bg-white/90 px-8 py-6 text-lg gap-2"
+                    className="bg-[#47B5CB] text-white hover:bg-[#3da5bb] px-8 py-6 text-lg gap-2"
                     data-testid="button-cta-contact"
                   >
                     Schedule Assessment
