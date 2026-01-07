@@ -17,7 +17,7 @@ const capabilities = [
       "Synergy identification & capture"
     ],
     outcome: "75% faster integration timelines",
-    link: null
+    link: "/ma-advisory"
   },
   {
     icon: Layers,
