@@ -77,7 +77,7 @@ const capabilities = [
       "Crisis management"
     ],
     outcome: "50% reduction in risk incidents",
-    link: null
+    link: "/governance-risk"
   },
   {
     icon: Zap,
