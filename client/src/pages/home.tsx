@@ -10,10 +10,6 @@ import {
   Users, 
   Menu, 
   X,
-  PieChart,
-  Briefcase,
-  ShieldCheck,
-  Landmark,
   Cpu,
   Clock,
   Layout,
@@ -29,18 +25,6 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SiInstagram } from 'react-icons/si';
-import { BusinessGrowthLevers } from '@/components/business-growth-levers';
-
-const COMPETITOR_DATA: Record<string, number[]> = {
-  "Marketing Agency": [0.2, 0.95, 0.4, 0.1, 0.2, 0.1], 
-  "Business Broker": [0.5, 0.3, 0.1, 0.95, 0.1, 0.2],
-  "PE Firm": [0.95, 0.2, 0.2, 0.9, 0.4, 0.6],        
-  "Recruiting Co": [0.1, 0.2, 0.1, 0.1, 0.95, 0.2],   
-  "Tech Consulting": [0.2, 0.2, 0.95, 0.2, 0.2, 0.4],
-  "Research Org": [0.1, 0.8, 0.2, 0.3, 0.1, 0.1]
-};
-
-const Aryo_DATA = [0.9, 0.9, 0.95, 0.8, 0.9, 0.95];
 
 function useOnScreen(ref: React.RefObject<HTMLElement | null>, rootMargin = '0px') {
   const [isIntersecting, setIntersecting] = useState(false);
@@ -302,191 +286,6 @@ function Hero() {
             </div>
           </div>
         )}
-      </div>
-    </div>
-  );
-}
-
-function RadarChart() {
-  const [competitor, setCompetitor] = useState("Marketing Agency");
-  const size = 400;
-  const center = size / 2;
-  const radius = 120;
-  const levels = 4;
-  const ref = useRef<HTMLDivElement>(null);
-  const onScreen = useOnScreen(ref);
-  
-  const levers = [
-    { label: "Capital" },
-    { label: "Market" },
-    { label: "Digital" },
-    { label: "M&A" },
-    { label: "Talent" },
-    { label: "Governance" }
-  ];
-
-  const getPoint = (index: number, value: number) => {
-    const angle = (Math.PI * 2 * index) / 6 - Math.PI / 2;
-    const x = center + Math.cos(angle) * radius * value;
-    const y = center + Math.sin(angle) * radius * value;
-    return `${x},${y}`;
-  };
-
-  const polyCompetitor = COMPETITOR_DATA[competitor].map((v, i) => getPoint(i, v)).join(" ");
-  const polyAryo = Aryo_DATA.map((v, i) => getPoint(i, v)).join(" ");
-
-  return (
-    <div className="flex flex-col items-center">
-      <div className="mb-10 w-full text-center">
-        <p className="text-xs font-bold text-aryo-greenTeal uppercase tracking-[0.2em] mb-4">Compare Our Model</p>
-        <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
-          {Object.keys(COMPETITOR_DATA).map((key) => (
-            <button
-              key={key}
-              onClick={() => setCompetitor(key)}
-              className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] transition-all font-sans rounded-sm border ${competitor === key ? 'bg-aryo-deepBlue text-white border-aryo-deepBlue' : 'bg-white text-slate-500 border-aryo-lightGrey hover:border-aryo-deepBlue hover:text-aryo-deepBlue'}`}
-              data-testid={`button-compare-${key.toLowerCase().replace(/\s+/g, '-')}`}
-            >
-              vs. {key}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div ref={ref} className="relative w-full max-w-md mx-auto aspect-square bg-white border border-aryo-lightGrey p-8 shadow-sm">
-        <div className="absolute top-4 left-4 text-xs font-bold text-aryo-deepBlue uppercase tracking-wider">Operational Alpha</div>
-        <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full font-sans">
-          {[...Array(levels)].map((_, i) => {
-            const r = (radius / levels) * (i + 1);
-            const points = levers.map((_, j) => {
-               const angle = (Math.PI * 2 * j) / 6 - Math.PI / 2;
-               return `${center + Math.cos(angle) * r},${center + Math.sin(angle) * r}`;
-            }).join(" ");
-            return <polygon key={i} points={points} fill="none" stroke="#E2E8F0" strokeWidth="1" />;
-          })}
-
-          {levers.map((_, i) => {
-             const angle = (Math.PI * 2 * i) / 6 - Math.PI / 2;
-             return (
-               <line 
-                 key={i} 
-                 x1={center} 
-                 y1={center} 
-                 x2={center + Math.cos(angle) * radius} 
-                 y2={center + Math.sin(angle) * radius} 
-                 stroke="#E2E8F0" 
-                 strokeWidth="1" 
-               />
-             );
-          })}
-
-          <polygon 
-            points={polyCompetitor} 
-            fill="#CECECE" 
-            fillOpacity="0.2"
-            stroke="#CECECE" 
-            strokeWidth="2" 
-            strokeDasharray="4 2"
-            className="transition-all duration-700 ease-out"
-          />
-          
-          <polygon 
-            points={polyAryo} 
-            fill="url(#gradientAryo)" 
-            fillOpacity="0.3"
-            stroke="#274D8E" 
-            strokeWidth="2"
-            className={`origin-center ${onScreen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
-            style={{ transition: 'all 2000ms ease-out' }}
-          />
-          
-          <defs>
-            <linearGradient id="gradientAryo" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#274D8E" />
-              <stop offset="100%" stopColor="#4EB9A7" />
-            </linearGradient>
-          </defs>
-
-          {levers.map((lever, i) => {
-            const angle = (Math.PI * 2 * i) / 6 - Math.PI / 2;
-            const labelR = radius + 35; 
-            const x = center + Math.cos(angle) * labelR;
-            const y = center + Math.sin(angle) * labelR;
-            
-            return (
-              <foreignObject key={i} x={x - 45} y={y - 15} width="90" height="30">
-                <div className="flex flex-col items-center justify-center text-center">
-                  <div className="text-[10px] font-bold text-aryo-deepBlue uppercase tracking-[0.1em] bg-white px-2 py-0.5 border border-aryo-lightGrey rounded-sm">
-                    {lever.label}
-                  </div>
-                </div>
-              </foreignObject>
-            );
-          })}
-        </svg>
-        
-        <div className="absolute bottom-4 right-4 flex flex-col gap-2 bg-white/90 p-2 border border-aryo-lightGrey">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-aryo-deepBlue"></div>
-            <span className="text-aryo-deepBlue font-bold uppercase tracking-wider text-[10px]">Aryo Standard</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-aryo-lightGrey"></div>
-            <span className="text-slate-400 uppercase tracking-wider text-[10px]">{competitor}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ValueDrivers() {
-  const drivers = [
-    { title: "Financial Engineering", desc: "Optimizing unit economics, capital allocation, and forecasting accuracy.", icon: Landmark },
-    { title: "Market Positioning", desc: "Clarifying brand authority and reducing Customer Acquisition Cost (CAC).", icon: Globe },
-    { title: "Digital Infrastructure", desc: "Modernizing stack architecture to reduce technical debt and cyber risk.", icon: Briefcase },
-    { title: "M&A Strategy", desc: "Buy-side diligence, post-merger integration, and synergy realization.", icon: PieChart },
-    { title: "Talent Governance", desc: "Increasing leadership density and aligning compensation with equity value.", icon: Users },
-    { title: "Operational Risk", desc: "Codifying workflows to reduce reliance on tribal knowledge.", icon: ShieldCheck },
-  ];
-
-  return (
-    <div id="methodology" className="py-32 bg-white border-b border-aryo-lightGrey">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-24 items-center">
-          <FadeIn>
-            <div className="mb-8">
-              <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">
-                Strategic Framework
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mb-8 leading-tight">
-              The Polytope of <br/>
-              <span className="text-aryo-teal">Value Creation.</span>
-            </h2>
-            <p className="text-xl text-slate-600 mb-12 font-sans leading-relaxed font-light">
-              We reject the siloed approach of traditional firms. True enterprise value is unlocked only when financial, operational, and technical levers are pulled in unison.
-            </p>
-
-            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-12">
-              {drivers.map((d, i) => (
-                <div key={i} className="flex items-start gap-5 group">
-                  <div className="text-aryo-lightGrey group-hover:text-aryo-deepBlue transition-colors duration-500 pt-1">
-                    <d.icon size={24} strokeWidth={1} />
-                  </div>
-                  <div>
-                    <h4 className="font-serif font-bold text-aryo-deepBlue text-lg mb-2">{d.title}</h4>
-                    <p className="text-sm text-slate-500 leading-relaxed font-sans">{d.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
-
-          <div className="p-8 bg-aryo-offWhite border border-aryo-lightGrey">
-             <RadarChart />
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -984,9 +783,7 @@ export default function Home() {
       />
       <Navbar />
       <Hero />
-      <BusinessGrowthLevers />
       <StageSpecialization />
-      <ValueDrivers />
       <Process />
       <Stats />
       <Testimonials />
