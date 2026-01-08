@@ -62,7 +62,7 @@ const capabilities = [
       "Succession planning"
     ],
     outcome: "40% improvement in engagement",
-    link: null
+    link: "/talent-organization"
   },
   {
     icon: Shield,

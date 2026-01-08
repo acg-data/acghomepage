@@ -27,6 +27,7 @@ import DigitalTransformation from "@/pages/digital-transformation";
 import MAAdvisory from "@/pages/ma-advisory";
 import GovernanceRisk from "@/pages/governance-risk";
 import OperationalExcellence from "@/pages/operational-excellence";
+import TalentOrganization from "@/pages/talent-organization";
 
 function Router() {
   return (
@@ -55,6 +56,7 @@ function Router() {
       <Route path="/ma-advisory" component={MAAdvisory}/>
       <Route path="/governance-risk" component={GovernanceRisk}/>
       <Route path="/operational-excellence" component={OperationalExcellence}/>
+      <Route path="/talent-organization" component={TalentOrganization}/>
       <Route component={NotFound} />
     </Switch>
   );
