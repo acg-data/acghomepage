@@ -222,7 +222,6 @@ export default function TalentOrganization() {
   const heroRef = useRef<HTMLDivElement>(null);
   const constellationRef = useRef<HTMLDivElement>(null);
   const journeyRef = useRef<HTMLDivElement>(null);
-  const journeyInnerRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState("leadership");
   const [activeJourney, setActiveJourney] = useState(0);
   const [hoveredTestimonial, setHoveredTestimonial] = useState<number | null>(null);
@@ -317,25 +316,30 @@ export default function TalentOrganization() {
         .fromTo(stats, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, "-=0.2");
     }
 
-    // Horizontal scroll for journey section
-    if (journeyRef.current && journeyInnerRef.current) {
-      const scrollWidth = journeyInnerRef.current.scrollWidth - window.innerWidth + 200;
+    // Vertical sticky reveal for journey section
+    if (journeyRef.current) {
+      const journeyCards = journeyRef.current.querySelectorAll('.journey-card');
+      const totalHeight = journeySteps.length * 100; // 100vh per step
       
-      gsap.to(journeyInnerRef.current, {
-        x: -scrollWidth,
-        ease: "none",
-        scrollTrigger: {
-          trigger: journeyRef.current,
-          start: "top top",
-          end: () => `+=${scrollWidth}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const step = Math.min(3, Math.floor(self.progress * 4));
-            setActiveJourney(step);
-          }
+      ScrollTrigger.create({
+        trigger: journeyRef.current,
+        start: "top top",
+        end: `+=${totalHeight}%`,
+        pin: true,
+        scrub: 0.5,
+        onUpdate: (self) => {
+          const step = Math.min(journeySteps.length - 1, Math.floor(self.progress * journeySteps.length));
+          setActiveJourney(step);
         }
+      });
+
+      // Animate each card based on activeJourney state
+      journeyCards.forEach((card, i) => {
+        gsap.set(card, { 
+          opacity: i === 0 ? 1 : 0,
+          scale: i === 0 ? 1 : 0.9,
+          y: i === 0 ? 0 : 50
+        });
       });
     }
 
@@ -735,95 +739,122 @@ export default function TalentOrganization() {
           </div>
         </section>
 
-        {/* Journey Section - Horizontal Scroll */}
+        {/* Journey Section - Vertical Sticky Reveal */}
         <section 
           ref={journeyRef} 
-          className="relative bg-[#1a365d]"
+          className="relative bg-[#1a365d] min-h-screen"
           data-testid="section-journey"
         >
-          <div className="h-screen flex items-center overflow-hidden">
-            <div ref={journeyInnerRef} className="flex gap-8 px-20">
-              {/* Intro Panel */}
-              <div className="flex-shrink-0 w-[450px] flex flex-col justify-center">
-                <p className="text-[#4EB9A7] font-medium tracking-widest uppercase mb-4">Our Approach</p>
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
-                  A Journey of
-                  <span className="block text-[#47B5CB]">Transformation</span>
-                </h2>
-                <p className="text-lg text-white/70 mb-8">
-                  Every organization is unique. Our approach adapts to your context while following proven principles that work.
-                </p>
-                
-                {/* Progress indicators */}
-                <div className="flex gap-2">
-                  {journeySteps.map((_, i) => (
-                    <div 
-                      key={i}
-                      className={`h-1 rounded-full transition-all duration-500 ${
-                        i === activeJourney ? 'w-12 bg-[#47B5CB]' : 'w-4 bg-white/20'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
+          {/* Background Effects */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-1/4 -left-32 w-[600px] h-[600px] bg-[#47B5CB]/10 rounded-full blur-[150px]" />
+            <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-[#4EB9A7]/10 rounded-full blur-[120px]" />
+          </div>
 
-              {/* Journey Step Cards */}
-              {journeySteps.map((step, i) => {
-                const Icon = step.icon;
-                return (
-                  <div 
-                    key={i}
-                    className="flex-shrink-0 w-[400px] group"
-                    data-testid={`card-journey-${i}`}
-                  >
-                    <div className="relative h-[500px] rounded-3xl overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 p-8 flex flex-col">
-                      {/* Gradient accent */}
-                      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${step.color}`} />
-                      
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center`}>
-                          <Icon className="w-7 h-7 text-white" />
+          <div className="h-screen flex items-center">
+            <div className="max-w-7xl mx-auto px-6 w-full">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                {/* Left Side - Fixed Content */}
+                <div className="lg:sticky lg:top-1/4">
+                  <p className="text-[#4EB9A7] font-medium tracking-widest uppercase mb-4">Our Approach</p>
+                  <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
+                    A Journey of
+                    <span className="block text-[#47B5CB]">Transformation</span>
+                  </h2>
+                  <p className="text-lg text-white/70 mb-8">
+                    Every organization is unique. Our approach adapts to your context while following proven principles that work.
+                  </p>
+                  
+                  {/* Vertical Progress indicators */}
+                  <div className="flex flex-col gap-3 mb-8">
+                    {journeySteps.map((step, i) => (
+                      <button 
+                        key={i}
+                        onClick={() => setActiveJourney(i)}
+                        className={`flex items-center gap-4 text-left transition-all duration-500 group ${
+                          i === activeJourney ? 'opacity-100' : 'opacity-40 hover:opacity-70'
+                        }`}
+                        data-testid={`button-step-${i}`}
+                      >
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
+                          i === activeJourney 
+                            ? 'bg-gradient-to-br from-[#47B5CB] to-[#4EB9A7] scale-110' 
+                            : 'bg-white/10 group-hover:bg-white/20'
+                        }`}>
+                          <span className="text-white font-bold text-sm">{i + 1}</span>
                         </div>
                         <div>
-                          <p className="text-[#4EB9A7] text-sm font-medium uppercase tracking-wider">{step.phase}</p>
-                          <h3 className="text-xl font-display font-bold text-white">{step.title}</h3>
+                          <p className="text-white font-semibold">{step.phase}</p>
+                          <p className="text-white/50 text-sm">{step.title}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  <Link href="/contact">
+                    <Button className="bg-[#47B5CB] hover:bg-[#3da5bb] text-white" data-testid="button-journey-cta">
+                      Start the Journey
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+
+                {/* Right Side - Animated Cards Stack */}
+                <div className="relative h-[500px]">
+                  {journeySteps.map((step, i) => {
+                    const Icon = step.icon;
+                    const isActive = i === activeJourney;
+                    const isPast = i < activeJourney;
+                    const isFuture = i > activeJourney;
+                    
+                    return (
+                      <div 
+                        key={i}
+                        className={`journey-card absolute inset-0 transition-all duration-700 ease-out ${
+                          isActive 
+                            ? 'opacity-100 scale-100 translate-y-0 z-30' 
+                            : isPast 
+                              ? 'opacity-0 scale-95 -translate-y-8 z-10' 
+                              : 'opacity-0 scale-90 translate-y-12 z-20'
+                        }`}
+                        data-testid={`card-journey-${i}`}
+                      >
+                        <div className="h-full rounded-3xl overflow-hidden bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md border border-white/20 p-8 flex flex-col relative">
+                          {/* Gradient accent line */}
+                          <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${step.color}`} />
+                          
+                          {/* Step Number Badge */}
+                          <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                            <span className="text-white/80 font-display font-bold text-lg">0{i + 1}</span>
+                          </div>
+
+                          <div className="flex items-center gap-4 mb-6 mt-2">
+                            <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg`}>
+                              <Icon className="w-8 h-8 text-white" />
+                            </div>
+                            <div>
+                              <p className="text-[#4EB9A7] text-sm font-medium uppercase tracking-wider">{step.phase}</p>
+                              <h3 className="text-2xl font-display font-bold text-white">{step.title}</h3>
+                            </div>
+                          </div>
+
+                          <p className="text-white/80 text-lg leading-relaxed mb-8 flex-grow">
+                            {step.description}
+                          </p>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            {step.stats.map((stat, j) => (
+                              <div key={j} className="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10">
+                                <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
+                                <p className="text-sm text-white/60">{stat.label}</p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
-
-                      <p className="text-white/70 leading-relaxed mb-8 flex-grow">
-                        {step.description}
-                      </p>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        {step.stats.map((stat, j) => (
-                          <div key={j} className="bg-white/5 rounded-xl p-4">
-                            <p className="text-2xl font-bold text-white">{stat.value}</p>
-                            <p className="text-sm text-white/50">{stat.label}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {/* End CTA */}
-              <div className="flex-shrink-0 w-[400px] flex flex-col justify-center items-center text-center">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#47B5CB] to-[#4EB9A7] flex items-center justify-center mb-6">
-                  <Sparkles className="w-10 h-10 text-white" />
+                    );
+                  })}
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-4">
-                  Ready to Begin?
-                </h3>
-                <p className="text-white/60 mb-6 max-w-xs">
-                  Every transformation starts with a conversation. Let's explore what's possible.
-                </p>
-                <Link href="/contact">
-                  <Button className="bg-[#47B5CB] hover:bg-[#3da5bb] text-white" data-testid="button-journey-cta">
-                    Start the Journey
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>
