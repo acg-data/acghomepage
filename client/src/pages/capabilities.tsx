@@ -92,7 +92,7 @@ const capabilities = [
       "Partnership development"
     ],
     outcome: "2x revenue growth rate",
-    link: null
+    link: "/growth-strategy"
   },
   {
     icon: Presentation,
