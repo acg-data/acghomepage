@@ -331,8 +331,8 @@ export default function GrowthStrategy() {
   const heroRef = useRef<HTMLDivElement>(null);
   const helixRef = useRef<HTMLDivElement>(null);
   const momentumRef = useRef<HTMLDivElement>(null);
+  const momentumCardsRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
-  const [activeMomentum, setActiveMomentum] = useState(-1);
   const [activeHorizon, setActiveHorizon] = useState("market-expansion");
   const [activeWin, setActiveWin] = useState(0);
 
@@ -424,31 +424,31 @@ export default function GrowthStrategy() {
         .fromTo(metrics, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, "-=0.2");
     }
 
-    // Radial momentum halo - staggered reveal animation
-    if (momentumRef.current) {
-      const cards = momentumRef.current.querySelectorAll('.momentum-card');
-      const scrollDistance = window.innerHeight * 1.5;
+    // Vertical staggered reveal for momentum section
+    if (momentumRef.current && momentumCardsRef.current) {
+      const cards = momentumCardsRef.current.querySelectorAll('.momentum-card');
       
-      ScrollTrigger.create({
-        trigger: momentumRef.current,
-        start: "top top",
-        end: `+=${scrollDistance}`,
-        pin: true,
-        scrub: 0.5,
-        onUpdate: (self) => {
-          const numCards = momentumMetrics.length;
-          const step = Math.floor(self.progress * (numCards + 1)) - 1;
-          setActiveMomentum(step);
-        }
-      });
-
-      // Initial state - cards hidden in center
-      cards.forEach((card) => {
-        gsap.set(card, { 
+      // Staggered reveal animation on scroll
+      gsap.fromTo(cards,
+        { 
           opacity: 0, 
-          scale: 0.5,
-        });
-      });
+          y: 80,
+          scale: 0.9
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: momentumRef.current,
+            start: "top 60%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
     }
 
     // Timeline sticky reveal
@@ -585,7 +585,7 @@ export default function GrowthStrategy() {
           </div>
 
           {/* Hero Content */}
-          <div className="relative z-10 max-w-7xl mx-auto pl-6 md:pl-12 lg:pl-20 pr-6 py-32">
+          <div className="relative z-10 w-full pl-8 md:pl-16 lg:pl-24 xl:pl-32 pr-6 py-32">
             <div className="max-w-2xl">
               <div className="hero-badge inline-flex items-center gap-2 bg-[#47B5CB]/20 border border-[#47B5CB]/30 rounded-full px-4 py-2 mb-6">
                 <TrendingUp className="w-4 h-4 text-[#47B5CB]" />
@@ -728,95 +728,98 @@ export default function GrowthStrategy() {
           </div>
         </section>
 
-        {/* Momentum Halo - Radial Reveal Animation */}
+        {/* Momentum Metrics - Staggered Reveal */}
         <section 
           ref={momentumRef}
-          className="relative bg-[#274D8E] min-h-screen"
+          className="relative py-24 md:py-32 bg-[#274D8E] overflow-hidden"
           data-testid="section-momentum"
         >
           {/* Background effects */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-[#47B5CB]/10" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-[#47B5CB]/15" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-[#47B5CB]/20" />
-            <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] bg-[#47B5CB]/10 rounded-full blur-[150px]" />
-            <div className="absolute bottom-1/4 -right-20 w-[350px] h-[350px] bg-[#4EB9A7]/10 rounded-full blur-[120px]" />
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#47B5CB]/10 rounded-full blur-[150px]" />
+            <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#4EB9A7]/10 rounded-full blur-[120px]" />
+            {/* Decorative circles */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-white/5" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-white/5" />
           </div>
 
-          <div className="h-screen flex items-center justify-center">
-            <div className="max-w-6xl mx-auto px-6 w-full">
-              {/* Center content */}
-              <div className="text-center mb-16">
-                <p className="text-[#4EB9A7] font-medium tracking-widest uppercase mb-4">Momentum Metrics</p>
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
-                  Results That
-                  <span className="block text-[#47B5CB]">Speak Volumes</span>
-                </h2>
-                <p className="text-lg text-white/70 max-w-2xl mx-auto">
-                  Our track record demonstrates the power of strategic growth initiatives 
-                  executed with precision and purpose.
-                </p>
-              </div>
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            {/* Header */}
+            <div className="text-center mb-16">
+              <p className="text-[#4EB9A7] font-medium tracking-widest uppercase mb-4">Momentum Metrics</p>
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">
+                Results That
+                <span className="block text-[#47B5CB]">Speak Volumes</span>
+              </h2>
+              <p className="text-lg text-white/70 max-w-2xl mx-auto">
+                Our track record demonstrates the power of strategic growth initiatives 
+                executed with precision and purpose.
+              </p>
+            </div>
 
-              {/* Radial metric cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-                {momentumMetrics.map((metric, i) => {
-                  const isActive = i <= activeMomentum;
-                  const positions = [
-                    { delay: 0, rotate: -3 },
-                    { delay: 0.1, rotate: 2 },
-                    { delay: 0.2, rotate: -2 },
-                    { delay: 0.3, rotate: 3 },
-                  ];
-                  
-                  return (
-                    <div 
-                      key={i}
-                      className={`momentum-card relative transition-all duration-700 ease-out ${
-                        isActive 
-                          ? 'opacity-100 scale-100 translate-y-0' 
-                          : 'opacity-0 scale-75 translate-y-8'
-                      }`}
-                      style={{
-                        transitionDelay: `${positions[i].delay}s`,
-                        transform: isActive ? `rotate(${positions[i].rotate}deg)` : undefined,
-                      }}
-                      data-testid={`card-metric-${i}`}
-                    >
-                      <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md rounded-2xl border border-white/20 p-6 md:p-8 text-center relative overflow-hidden group hover:from-white/20 hover:to-white/10 transition-all duration-300">
-                        {/* Glow effect */}
-                        <div className={`absolute inset-0 bg-gradient-to-br from-[#47B5CB]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                        
-                        {/* Accent line */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-transparent via-[#47B5CB] to-transparent rounded-full" />
-                        
-                        <div className="relative z-10">
-                          <p className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
-                            {isActive ? (
-                              <AnimatedCounter value={metric.value} suffix={metric.suffix} prefix={metric.prefix} />
-                            ) : (
-                              <span className="opacity-50">{metric.prefix}0{metric.suffix}</span>
-                            )}
-                          </p>
-                          <p className="text-sm md:text-base text-white/60">{metric.label}</p>
-                        </div>
-                      </div>
+            {/* Metric Cards Grid */}
+            <div ref={momentumCardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+              {momentumMetrics.map((metric, i) => (
+                <div 
+                  key={i}
+                  className="momentum-card"
+                  data-testid={`card-metric-${i}`}
+                >
+                  <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md rounded-2xl border border-white/20 p-8 text-center relative overflow-hidden group hover:from-white/20 hover:to-white/10 transition-all duration-300 h-full">
+                    {/* Top accent */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#47B5CB] via-[#4EB9A7] to-[#47B5CB]" />
+                    
+                    {/* Hover glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#47B5CB]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    <div className="relative z-10">
+                      <p className="text-5xl md:text-6xl font-bold text-white mb-3">
+                        <AnimatedCounter value={metric.value} suffix={metric.suffix} prefix={metric.prefix} />
+                      </p>
+                      <p className="text-base text-white/60">{metric.label}</p>
                     </div>
-                  );
-                })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Image row with transparency */}
+            <div className="grid md:grid-cols-2 gap-6 mb-12">
+              <div className="relative h-64 rounded-2xl overflow-hidden group">
+                <img 
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+                  alt="Growth analytics"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#274D8E] via-[#274D8E]/60 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-white font-display font-semibold text-xl mb-1">Data-Driven Insights</p>
+                  <p className="text-white/60 text-sm">Every strategy backed by rigorous analysis</p>
+                </div>
               </div>
 
-              {/* CTA below cards */}
-              <div className={`text-center mt-12 transition-all duration-700 delay-500 ${
-                activeMomentum >= momentumMetrics.length - 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}>
-                <Link href="/contact">
-                  <Button className="bg-[#47B5CB] hover:bg-[#3da5bb] text-white" data-testid="button-momentum-cta">
-                    Start Your Growth Journey
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+              <div className="relative h-64 rounded-2xl overflow-hidden group">
+                <img 
+                  src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80"
+                  alt="Strategic planning"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#274D8E] via-[#274D8E]/60 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-white font-display font-semibold text-xl mb-1">Collaborative Execution</p>
+                  <p className="text-white/60 text-sm">Working alongside your team for lasting results</p>
+                </div>
               </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center">
+              <Link href="/contact">
+                <Button size="lg" className="bg-[#47B5CB] hover:bg-[#3da5bb] text-white" data-testid="button-momentum-cta">
+                  Start Your Growth Journey
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
