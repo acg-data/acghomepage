@@ -318,28 +318,19 @@ export default function TalentOrganization() {
 
     // Vertical sticky reveal for journey section
     if (journeyRef.current) {
-      const journeyCards = journeyRef.current.querySelectorAll('.journey-card');
-      const totalHeight = journeySteps.length * 100; // 100vh per step
+      const scrollDistance = window.innerHeight * 2; // Scroll through 2 viewport heights
       
       ScrollTrigger.create({
         trigger: journeyRef.current,
         start: "top top",
-        end: `+=${totalHeight}%`,
+        end: `+=${scrollDistance}`,
         pin: true,
-        scrub: 0.5,
+        scrub: 0.3,
         onUpdate: (self) => {
-          const step = Math.min(journeySteps.length - 1, Math.floor(self.progress * journeySteps.length));
+          const numSteps = journeySteps.length;
+          const step = Math.min(numSteps - 1, Math.floor(self.progress * numSteps));
           setActiveJourney(step);
         }
-      });
-
-      // Animate each card based on activeJourney state
-      journeyCards.forEach((card, i) => {
-        gsap.set(card, { 
-          opacity: i === 0 ? 1 : 0,
-          scale: i === 0 ? 1 : 0.9,
-          y: i === 0 ? 0 : 50
-        });
       });
     }
 
