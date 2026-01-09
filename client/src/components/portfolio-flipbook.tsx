@@ -49,9 +49,9 @@ export function PortfolioFlipbook() {
     const updateDimensions = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        const maxWidth = isFullscreen ? 500 : 380;
-        const calculatedWidth = Math.min(containerWidth * 0.42, maxWidth);
-        const width = Math.max(280, calculatedWidth);
+        const maxWidth = isFullscreen ? 600 : 480;
+        const calculatedWidth = Math.min(containerWidth * 0.45, maxWidth);
+        const width = Math.max(320, calculatedWidth);
         setDimensions({
           width,
           height: width * 1.4,
@@ -130,10 +130,10 @@ export function PortfolioFlipbook() {
               width={dimensions.width}
               height={dimensions.height}
               size="fixed"
-              minWidth={280}
-              maxWidth={500}
-              minHeight={392}
-              maxHeight={700}
+              minWidth={320}
+              maxWidth={600}
+              minHeight={448}
+              maxHeight={840}
               showCover={true}
               mobileScrollSupport={true}
               onFlip={onFlip}
