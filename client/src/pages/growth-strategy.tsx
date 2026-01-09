@@ -728,40 +728,6 @@ export default function GrowthStrategy() {
           </div>
         </section>
 
-        {/* Our Track Record */}
-        <section className="py-24 bg-[#274D8E]" data-testid="section-track-record">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <p className="text-[#4EB9A7] font-medium tracking-widest uppercase mb-4">Our Track Record</p>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-white">
-                Proven Results
-              </h2>
-            </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-              {[
-                { value: "400+", label: "Engagements Completed" },
-                { value: "$1.5B", label: "Enterprise Value Unlocked" },
-                { value: "98%", label: "Client Retention Rate" },
-                { value: "75%", label: "Average Reduction in Fees" },
-              ].map((stat, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="text-5xl md:text-6xl font-display font-bold text-white mb-2">
-                    {stat.value}
-                  </div>
-                  <p className="text-xs font-bold text-[#47B5CB] uppercase tracking-[0.2em]">{stat.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Momentum Metrics - Staggered Reveal */}
         <section 
           ref={momentumRef}

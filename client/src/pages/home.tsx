@@ -787,6 +787,7 @@ export default function Home() {
       <StageSpecialization />
       <Process />
       <PortfolioFlipbook />
+      <Stats />
       <Testimonials />
       <CTA />
       <Footer />
