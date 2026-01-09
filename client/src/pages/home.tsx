@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SiInstagram } from 'react-icons/si';
+import { PortfolioFlipbook } from '@/components/portfolio-flipbook';
 
 function useOnScreen(ref: React.RefObject<HTMLElement | null>, rootMargin = '0px') {
   const [isIntersecting, setIntersecting] = useState(false);
@@ -785,6 +786,7 @@ export default function Home() {
       <Hero />
       <StageSpecialization />
       <Process />
+      <PortfolioFlipbook />
       <Stats />
       <Testimonials />
       <CTA />
