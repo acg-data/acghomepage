@@ -41,21 +41,38 @@ PageImage.displayName = 'PageImage';
 export function PortfolioFlipbook() {
   const [currentPage, setCurrentPage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [dimensions, setDimensions] = useState({ width: 350, height: 490 });
+  const [dimensions, setDimensions] = useState({ width: 350, height: 196 });
+  const [isMobile, setIsMobile] = useState(false);
   const flipBookRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateDimensions = () => {
+      const screenWidth = window.innerWidth;
+      const mobile = screenWidth < 768;
+      setIsMobile(mobile);
+      
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        const maxWidth = isFullscreen ? 700 : 550;
-        const calculatedWidth = Math.min(containerWidth * 0.48, maxWidth);
-        const width = Math.max(380, calculatedWidth);
-        setDimensions({
-          width,
-          height: Math.round(width * 0.56),
-        });
+        
+        if (mobile) {
+          // Mobile: single page view, use more screen width
+          const maxWidth = isFullscreen ? screenWidth - 32 : Math.min(containerWidth - 32, 400);
+          const width = Math.max(280, maxWidth);
+          setDimensions({
+            width,
+            height: Math.round(width * 0.56),
+          });
+        } else {
+          // Desktop: book spread view
+          const maxWidth = isFullscreen ? 700 : 550;
+          const calculatedWidth = Math.min(containerWidth * 0.48, maxWidth);
+          const width = Math.max(380, calculatedWidth);
+          setDimensions({
+            width,
+            height: Math.round(width * 0.56),
+          });
+        }
       }
     };
     
@@ -130,10 +147,10 @@ export function PortfolioFlipbook() {
               width={dimensions.width}
               height={dimensions.height}
               size="fixed"
-              minWidth={380}
-              maxWidth={700}
-              minHeight={213}
-              maxHeight={392}
+              minWidth={isMobile ? 280 : 380}
+              maxWidth={isMobile ? 450 : 700}
+              minHeight={isMobile ? 157 : 213}
+              maxHeight={isMobile ? 252 : 392}
               showCover={true}
               mobileScrollSupport={true}
               onFlip={onFlip}
@@ -145,14 +162,14 @@ export function PortfolioFlipbook() {
               }}
               startPage={0}
               drawShadow={true}
-              flippingTime={700}
-              usePortrait={false}
+              flippingTime={isMobile ? 500 : 700}
+              usePortrait={isMobile}
               startZIndex={0}
               autoSize={false}
-              maxShadowOpacity={0.5}
-              showPageCorners={true}
+              maxShadowOpacity={isMobile ? 0.3 : 0.5}
+              showPageCorners={!isMobile}
               disableFlipByClick={false}
-              swipeDistance={30}
+              swipeDistance={isMobile ? 20 : 30}
               clickEventForward={true}
               useMouseEvents={true}
             >
@@ -162,7 +179,7 @@ export function PortfolioFlipbook() {
             </HTMLFlipBook>
           </div>
 
-          <div className={`flex items-center justify-center gap-3 ${isFullscreen ? 'text-white' : ''}`}>
+          <div className={`flex items-center justify-center gap-2 sm:gap-3 ${isFullscreen ? 'text-white' : ''}`}>
             <Button
               variant="outline"
               size="icon"
@@ -178,7 +195,7 @@ export function PortfolioFlipbook() {
               <ChevronLeft className="w-5 h-5" />
             </Button>
 
-            <div className={`text-sm font-medium px-5 py-2 rounded-full min-w-[80px] text-center ${
+            <div className={`text-xs sm:text-sm font-medium px-3 sm:px-5 py-2 rounded-full min-w-[60px] sm:min-w-[80px] text-center ${
               isFullscreen 
                 ? 'bg-white/10 text-white' 
                 : 'bg-aryo-deepBlue/5 text-aryo-deepBlue border border-aryo-deepBlue/10'
@@ -201,13 +218,13 @@ export function PortfolioFlipbook() {
               <ChevronRight className="w-5 h-5" />
             </Button>
 
-            <div className="w-px h-6 bg-current opacity-20 mx-2" />
+            <div className="hidden sm:block w-px h-6 bg-current opacity-20 mx-2" />
 
             <Button
               variant="outline"
               size="icon"
               onClick={toggleFullscreen}
-              className={`transition-all ${
+              className={`hidden sm:flex transition-all ${
                 isFullscreen 
                   ? 'border-white/30 text-white hover:bg-white/10' 
                   : 'border-aryo-lightGrey hover:border-aryo-deepBlue hover:bg-aryo-offWhite'
@@ -218,8 +235,8 @@ export function PortfolioFlipbook() {
             </Button>
           </div>
 
-          <p className={`text-sm mt-5 ${isFullscreen ? 'text-white/50' : 'text-slate-400'}`}>
-            Click on pages or drag to flip through our portfolio
+          <p className={`text-xs sm:text-sm mt-4 sm:mt-5 text-center ${isFullscreen ? 'text-white/50' : 'text-slate-400'}`}>
+            {isMobile ? 'Swipe or tap to flip pages' : 'Click on pages or drag to flip through our portfolio'}
           </p>
         </div>
       </div>
