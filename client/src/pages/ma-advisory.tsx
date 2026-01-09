@@ -7,6 +7,7 @@ import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, ArrowDown, ChevronLeft, ChevronRight, Target, Shield, Handshake, TrendingUp, Users, BarChart3, CheckCircle2 } from "lucide-react";
+import { MAFlipbook } from "@/components/ma-flipbook";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -290,6 +291,9 @@ export default function MAAdvisory() {
             </div>
           </div>
         </section>
+
+        {/* M&A Strategy Flipbook */}
+        <MAFlipbook />
 
         <section className="py-24 md:py-32 bg-gray-50 dark:bg-gray-900">
           <div className="max-w-7xl mx-auto px-6">
