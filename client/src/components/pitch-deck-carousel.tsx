@@ -71,6 +71,11 @@ export function PitchDeckCarousel() {
                   className="flex-[0_0_100%] min-w-0 px-2 sm:px-4"
                 >
                   <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-aryo-lightGrey">
+                    <div className="p-4 sm:p-6 text-center bg-gradient-to-r from-aryo-deepBlue/5 to-aryo-teal/5">
+                      <p className="text-sm sm:text-base font-medium text-aryo-deepBlue">
+                        {slide.label}
+                      </p>
+                    </div>
                     <div className="relative aspect-video">
                       <img
                         src={slide.image}
@@ -78,11 +83,6 @@ export function PitchDeckCarousel() {
                         className="w-full h-full object-contain bg-slate-50"
                         data-testid={`img-pitch-slide-${slide.id}`}
                       />
-                    </div>
-                    <div className="p-4 sm:p-6 text-center bg-gradient-to-r from-aryo-deepBlue/5 to-aryo-teal/5">
-                      <p className="text-sm sm:text-base font-medium text-aryo-deepBlue">
-                        {slide.label}
-                      </p>
                     </div>
                   </div>
                 </div>
