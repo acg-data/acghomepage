@@ -1,16 +1,38 @@
 import { Link } from 'wouter';
-import { useState, useEffect } from 'react';
-import { Menu, X, Linkedin } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Menu, X, Linkedin, ChevronDown } from 'lucide-react';
 import { SiInstagram } from 'react-icons/si';
+
+const capabilitiesItems = [
+  { name: 'Digital Transformation', href: '/digital-transformation' },
+  { name: 'M&A Advisory', href: '/ma-advisory' },
+  { name: 'Governance & Risk', href: '/governance-risk' },
+  { name: 'Operational Excellence', href: '/operational-excellence' },
+  { name: 'Talent & Organization', href: '/talent-organization' },
+  { name: 'Growth Strategy', href: '/growth-strategy' },
+];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [capabilitiesOpen, setCapabilitiesOpen] = useState(false);
+  const [mobileCapabilitiesOpen, setMobileCapabilitiesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setCapabilitiesOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -23,7 +45,39 @@ export function Navbar() {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
-              <Link href="/capabilities" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-capabilities">Capabilities</Link>
+              <div ref={dropdownRef} className="relative">
+                <button
+                  onClick={() => setCapabilitiesOpen(!capabilitiesOpen)}
+                  className="flex items-center gap-1 text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]"
+                  data-testid="button-capabilities-dropdown"
+                >
+                  Capabilities
+                  <ChevronDown className={`w-3 h-3 transition-transform ${capabilitiesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {capabilitiesOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-aryo-lightGrey shadow-lg rounded-md py-2 z-50">
+                    <Link 
+                      href="/capabilities" 
+                      className="block px-4 py-2 text-xs font-sans font-bold uppercase tracking-[0.1em] text-aryo-deepBlue hover:bg-aryo-offWhite transition-colors border-b border-aryo-lightGrey"
+                      onClick={() => setCapabilitiesOpen(false)}
+                      data-testid="link-capabilities-all"
+                    >
+                      All Capabilities
+                    </Link>
+                    {capabilitiesItems.map((item) => (
+                      <Link 
+                        key={item.href}
+                        href={item.href} 
+                        className="block px-4 py-2 text-sm text-aryo-deepBlue/80 hover:bg-aryo-offWhite hover:text-aryo-deepBlue transition-colors"
+                        onClick={() => setCapabilitiesOpen(false)}
+                        data-testid={`link-capability-${item.href.slice(1)}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
               <Link href="/industries" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-industries">Industries</Link>
               <Link href="/case-studies" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-case-studies">Case Studies</Link>
               <Link href="/insights" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-insights">Insights</Link>
@@ -46,7 +100,32 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white border-b border-aryo-lightGrey shadow-xl">
           <div className="px-6 pt-4 pb-8 space-y-4">
-            <Link href="/capabilities" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-capabilities-mobile">Capabilities</Link>
+            <div>
+              <button 
+                onClick={() => setMobileCapabilitiesOpen(!mobileCapabilitiesOpen)}
+                className="flex items-center justify-between w-full text-sm font-sans uppercase tracking-widest text-aryo-deepBlue"
+                data-testid="button-capabilities-mobile"
+              >
+                Capabilities
+                <ChevronDown className={`w-4 h-4 transition-transform ${mobileCapabilitiesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileCapabilitiesOpen && (
+                <div className="pl-4 pt-2 space-y-2">
+                  <Link href="/capabilities" className="block text-sm text-aryo-deepBlue/70" onClick={() => setIsOpen(false)} data-testid="link-capabilities-all-mobile">All Capabilities</Link>
+                  {capabilitiesItems.map((item) => (
+                    <Link 
+                      key={item.href}
+                      href={item.href} 
+                      className="block text-sm text-aryo-deepBlue/70"
+                      onClick={() => setIsOpen(false)}
+                      data-testid={`link-capability-${item.href.slice(1)}-mobile`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <Link href="/industries" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-industries-mobile">Industries</Link>
             <Link href="/case-studies" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-case-studies-mobile">Case Studies</Link>
             <Link href="/insights" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-insights-mobile">Insights</Link>

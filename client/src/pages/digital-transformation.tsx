@@ -6,7 +6,7 @@ import Lenis from "lenis";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowDown, Layers, Cpu, BarChart3, Cog, Users, Zap, Target, ChevronRight, Map, Database } from "lucide-react";
 import { SEO } from "@/components/seo";
-import { Footer } from "@/components/layout";
+import { Navbar, Footer } from "@/components/layout";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -215,6 +215,8 @@ export default function DigitalTransformation() {
         description="Transform your business with strategic digital solutions. We specialize in legacy modernization, cloud architecture, and UX design."
         canonical="https://aryocg.com/digital-transformation"
       />
+
+      <Navbar />
 
       {/* Immersive Hero Section */}
       <section
