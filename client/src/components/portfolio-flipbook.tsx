@@ -143,14 +143,15 @@ export function PortfolioFlipbook() {
         <div className="flex flex-col items-center">
           <div className="relative mb-8" style={{ perspective: '2000px' }}>
             <HTMLFlipBook
+              key={isMobile ? 'mobile' : 'desktop'}
               ref={flipBookRef}
               width={dimensions.width}
               height={dimensions.height}
-              size="fixed"
+              size="stretch"
               minWidth={isMobile ? 280 : 380}
-              maxWidth={isMobile ? 450 : 700}
+              maxWidth={isMobile ? 400 : 700}
               minHeight={isMobile ? 157 : 213}
-              maxHeight={isMobile ? 252 : 392}
+              maxHeight={isMobile ? 224 : 392}
               showCover={true}
               mobileScrollSupport={true}
               onFlip={onFlip}
@@ -161,15 +162,15 @@ export function PortfolioFlipbook() {
                   : '0 15px 50px rgba(39, 77, 142, 0.2)',
               }}
               startPage={0}
-              drawShadow={true}
-              flippingTime={isMobile ? 500 : 700}
+              drawShadow={!isMobile}
+              flippingTime={isMobile ? 400 : 700}
               usePortrait={isMobile}
               startZIndex={0}
-              autoSize={false}
-              maxShadowOpacity={isMobile ? 0.3 : 0.5}
-              showPageCorners={!isMobile}
+              autoSize={true}
+              maxShadowOpacity={isMobile ? 0.2 : 0.5}
+              showPageCorners={false}
               disableFlipByClick={false}
-              swipeDistance={isMobile ? 20 : 30}
+              swipeDistance={isMobile ? 15 : 30}
               clickEventForward={true}
               useMouseEvents={true}
             >
