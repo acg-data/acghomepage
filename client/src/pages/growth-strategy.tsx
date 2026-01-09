@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import { SEO } from "@/components/seo";
 import { PageLayout } from "@/components/layout";
+import { PortfolioFlipbook } from "@/components/portfolio-flipbook";
 import {
   ArrowRight,
   TrendingUp,
@@ -727,6 +728,9 @@ export default function GrowthStrategy() {
             </Tabs>
           </div>
         </section>
+
+        {/* Portfolio of Work */}
+        <PortfolioFlipbook />
 
         {/* Momentum Metrics - Staggered Reveal */}
         <section 
