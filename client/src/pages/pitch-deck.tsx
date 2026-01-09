@@ -6,7 +6,7 @@ import { SEO } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowDown, ArrowRight, Target, AlertTriangle, Lightbulb, Clock, BarChart3, Users, Package, DollarSign, UsersRound, TrendingUp, Sparkles } from "lucide-react";
-import { PitchDeckFlipbook } from "@/components/pitch-deck-flipbook";
+import { PitchDeckCarousel } from "@/components/pitch-deck-carousel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -272,8 +272,8 @@ export default function PitchDeck() {
         </div>
       </section>
 
-      {/* Client Pitch Deck Flipbook */}
-      <PitchDeckFlipbook />
+      {/* Client Pitch Deck Carousel */}
+      <PitchDeckCarousel />
 
       {/* Scroll Indicator */}
       <div className="bg-gradient-to-b from-[#E8F4FC] to-white py-8 text-center">
