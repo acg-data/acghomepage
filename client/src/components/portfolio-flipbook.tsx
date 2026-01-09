@@ -56,9 +56,9 @@ export function PortfolioFlipbook() {
         const containerWidth = containerRef.current.offsetWidth;
         
         if (mobile) {
-          // Mobile: single page view, use more screen width
-          const maxWidth = isFullscreen ? screenWidth - 32 : Math.min(containerWidth - 32, 400);
-          const width = Math.max(280, maxWidth);
+          // Mobile: single page view, use nearly full screen width
+          const maxWidth = isFullscreen ? screenWidth - 24 : Math.min(containerWidth - 24, 500);
+          const width = Math.max(320, maxWidth);
           setDimensions({
             width,
             height: Math.round(width * 0.56),
@@ -148,10 +148,10 @@ export function PortfolioFlipbook() {
               width={dimensions.width}
               height={dimensions.height}
               size="stretch"
-              minWidth={isMobile ? 280 : 380}
-              maxWidth={isMobile ? 400 : 700}
-              minHeight={isMobile ? 157 : 213}
-              maxHeight={isMobile ? 224 : 392}
+              minWidth={isMobile ? 320 : 380}
+              maxWidth={isMobile ? 500 : 700}
+              minHeight={isMobile ? 180 : 213}
+              maxHeight={isMobile ? 280 : 392}
               showCover={true}
               mobileScrollSupport={true}
               onFlip={onFlip}
