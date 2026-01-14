@@ -3,7 +3,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { Link } from 'wouter';
 import { SEO } from '@/components/seo';
 import { Navbar } from '@/components/layout';
-import { LandingFlipbook } from '@/components/landing-flipbook';
+import { LandingFlipbook as PitchDeckFlipbook } from '@/components/landing-flipbook';
 import { 
   ArrowRight, 
   Layout,
@@ -123,16 +123,16 @@ function Hero() {
           <div className="flex items-center gap-3 mb-8">
             <div className="h-px w-12 bg-aryo-greenTeal"></div>
             <span className="text-xs font-bold font-sans text-aryo-deepBlue tracking-[0.25em] uppercase">
-              Landing Page Design
+              Pitch Deck Design
             </span>
           </div>
         </FadeIn>
         
         <FadeIn delay={200}>
           <h1 className="text-4xl md:text-6xl font-serif text-aryo-deepBlue tracking-tight mb-8 leading-[1.15] max-w-4xl">
-            High-Converting Landing Pages that{' '}
+            Compelling Pitch Decks that{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">
-              drive results.
+              win investors.
             </span>
           </h1>
         </FadeIn>
@@ -140,10 +140,10 @@ function Hero() {
         <FadeIn delay={300}>
           <div className="max-w-2xl mb-10">
             <p className="text-xl md:text-2xl text-slate-600 mb-6 leading-relaxed font-sans font-light">
-              Your landing page is your first impression. Make it count with designs that convert visitors into customers.
+              Your pitch deck is your first impression with investors. Make it count with designs that communicate value and close deals.
             </p>
             <p className="text-lg text-slate-600 leading-relaxed font-sans">
-              We craft pixel-perfect landing pages optimized for conversion, built for speed, and designed to tell your story compellingly.
+              We craft visually stunning pitch decks with compelling narratives, data-driven insights, and designs that help you stand out from the crowd.
             </p>
           </div>
         </FadeIn>
@@ -152,19 +152,19 @@ function Hero() {
           <div className="grid sm:grid-cols-2 gap-4 max-w-xl mb-12">
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">Mobile-first responsive design.</span>
+              <span className="text-aryo-deepBlue font-sans font-medium">Investor-ready design.</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">A/B testing ready.</span>
+              <span className="text-aryo-deepBlue font-sans font-medium">Compelling narrative structure.</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">Lightning fast load times.</span>
+              <span className="text-aryo-deepBlue font-sans font-medium">Data visualization expertise.</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">Conversion optimized.</span>
+              <span className="text-aryo-deepBlue font-sans font-medium">Brand consistency.</span>
             </div>
           </div>
         </FadeIn>
@@ -192,27 +192,27 @@ function Hero() {
 function Services() {
   const services = [
     { 
-      name: "Startup Landing Pages", 
-      tagline: "Launch with impact",
-      desc: "From pre-seed to Series A, we build landing pages that capture investor attention and convert early adopters.",
+      name: "Investor Pitch Decks", 
+      tagline: "Raise capital confidently",
+      desc: "From pre-seed to Series A and beyond, we build pitch decks that capture investor attention and close funding rounds.",
       icon: Rocket
     },
     { 
-      name: "SaaS Product Pages", 
-      tagline: "Showcase your solution",
-      desc: "Feature-rich product pages that communicate value, reduce friction, and drive free trial signups.",
-      icon: Layout
-    },
-    { 
-      name: "Campaign Pages", 
-      tagline: "Maximize ad spend",
-      desc: "High-converting landing pages optimized for paid acquisition campaigns across Google, Meta, and LinkedIn.",
+      name: "Sales Decks", 
+      tagline: "Close more deals",
+      desc: "Persuasive presentations that communicate your value proposition clearly and help your sales team win.",
       icon: Target
     },
     { 
-      name: "Enterprise Solutions", 
-      tagline: "Scale with confidence",
-      desc: "Complex landing page systems with personalization, dynamic content, and enterprise-grade performance.",
+      name: "Corporate Presentations", 
+      tagline: "Communicate with clarity",
+      desc: "Board meetings, quarterly reviews, and stakeholder updates designed to inform and impress.",
+      icon: Layout
+    },
+    { 
+      name: "M&A & Strategy Decks", 
+      tagline: "Strategic storytelling",
+      desc: "Investment memorandums, acquisition pitches, and strategic planning presentations that drive decisions.",
       icon: BarChart3
     },
   ];
@@ -222,7 +222,7 @@ function Services() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="mb-16 text-center">
            <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">What We Build</span>
-           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-6">Landing Page Services</h2>
+           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-6">Pitch Deck Services</h2>
            <p className="text-slate-600 max-w-2xl mx-auto text-lg font-light">Every project is unique. Our approach adapts to your goals, audience, and growth stage.</p>
         </div>
 
@@ -250,10 +250,10 @@ function Services() {
 
 function Process() {
   const steps = [
-    { phase: "Phase I", title: "Discovery & Strategy", time: "Week 1", desc: "Deep dive into your brand, audience, and goals. Competitor analysis and conversion research." },
-    { phase: "Phase II", title: "Design & Prototype", time: "Week 2", desc: "Wireframes, visual design, and interactive prototypes for your review and approval." },
-    { phase: "Phase III", title: "Development", time: "Weeks 3-4", desc: "Pixel-perfect build with animations, forms, and integrations. Mobile optimization included." },
-    { phase: "Phase IV", title: "Launch & Optimize", time: "Ongoing", desc: "QA testing, deployment, and post-launch conversion tracking and optimization." },
+    { phase: "Phase I", title: "Discovery & Strategy", time: "Days 1-2", desc: "Deep dive into your business, market, and fundraising goals. Competitor analysis and investor research." },
+    { phase: "Phase II", title: "Narrative & Structure", time: "Days 3-4", desc: "Craft your story arc, key messaging, and slide structure for maximum impact." },
+    { phase: "Phase III", title: "Design & Refinement", time: "Days 5-7", desc: "Visual design, data visualization, and iterative refinements based on your feedback." },
+    { phase: "Phase IV", title: "Delivery & Support", time: "Day 8+", desc: "Final deck delivery in multiple formats, plus coaching tips for your pitch presentation." },
   ];
 
   return (
@@ -262,10 +262,10 @@ function Process() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
             <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Our Process</span>
-            <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">From Concept to Conversion</h2>
+            <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">From Story to Success</h2>
           </div>
           <p className="text-slate-600 max-w-xl text-lg font-light md:text-right">
-            A proven 4-week process that delivers results without the endless back-and-forth.
+            A proven 1-2 week process that delivers investor-ready decks without endless back-and-forth.
           </p>
         </div>
 
@@ -295,9 +295,9 @@ function Process() {
 
 function Stats() {
   const stats = [
-    { value: 150, suffix: "+", label: "Landing Pages Delivered" },
-    { value: 45, suffix: "%", label: "Average Conversion Lift" },
-    { value: 2, suffix: ".5x", label: "Faster Load Times" },
+    { value: 200, suffix: "+", label: "Pitch Decks Delivered" },
+    { value: 85, suffix: "%", label: "Funding Success Rate" },
+    { value: 50, suffix: "M+", label: "Capital Raised" },
     { value: 98, suffix: "%", label: "Client Satisfaction" },
   ];
 
@@ -324,28 +324,28 @@ function Stats() {
 function WhyUs() {
   const reasons = [
     {
-      title: "Conversion-First Design",
-      description: "Every element is strategically placed to guide visitors toward action. We use proven UX patterns that increase conversions."
+      title: "Story-First Design",
+      description: "Every slide is strategically crafted to build your narrative. We use proven storytelling techniques that resonate with investors."
     },
     {
-      title: "Speed Optimized",
-      description: "Pages load in under 2 seconds. We optimize images, minimize code, and leverage modern frameworks for blazing performance."
+      title: "Data Visualization",
+      description: "Complex data made beautiful. We transform metrics and projections into compelling visuals that tell your growth story."
     },
     {
-      title: "Mobile Excellence",
-      description: "60%+ of traffic is mobile. Our designs are built mobile-first to ensure flawless experiences on every device."
+      title: "Investor Psychology",
+      description: "We understand what VCs and angels look for. Our decks address key concerns and highlight what matters most to investors."
     },
     {
-      title: "SEO & Analytics Ready",
-      description: "Built with clean code, proper meta tags, and tracking pixels pre-installed. Launch ready for growth."
+      title: "Presentation Ready",
+      description: "Optimized for live pitches, PDF sharing, and virtual meetings. Your deck works flawlessly in any format."
     },
     {
-      title: "Ongoing Support",
-      description: "Post-launch optimization, A/B testing recommendations, and priority support when you need updates."
+      title: "Rapid Turnaround",
+      description: "Fundraising moves fast. We deliver polished decks quickly without sacrificing quality or attention to detail."
     },
     {
       title: "Brand Aligned",
-      description: "We don't use templates. Every landing page is custom-designed to reflect your brand identity and messaging."
+      description: "We don't use templates. Every pitch deck is custom-designed to reflect your brand identity and unique value proposition."
     },
   ];
 
@@ -535,8 +535,8 @@ function CTA() {
           <FadeIn>
             <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Start Your Project</span>
             <h2 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 mb-6 leading-tight">
-              Ready to Launch a <br/>
-              <span className="text-aryo-teal">Landing Page that Converts?</span>
+              Ready to Create a <br/>
+              <span className="text-aryo-teal">Pitch Deck that Wins?</span>
             </h2>
             <p className="text-lg text-slate-600 mb-8 font-light leading-relaxed">
               Tell us about your project and we'll provide a custom proposal within 48 hours. No commitment required.
@@ -623,7 +623,7 @@ function CTA() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors resize-none"
-                    placeholder="What type of landing page do you need? What are your goals?"
+                    placeholder="What type of pitch deck do you need? Tell us about your fundraising goals."
                     data-testid="input-message"
                   ></textarea>
                 </div>
@@ -655,7 +655,7 @@ function Footer() {
               <AryoLogo size={80} />
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
-              High-converting landing pages and corporate strategy consulting for enterprise transformation.
+              Compelling pitch decks and corporate strategy consulting for enterprise transformation.
             </p>
           </div>
 
@@ -705,17 +705,17 @@ function Footer() {
   );
 }
 
-export default function LandingPages() {
+export default function PitchDecks() {
   return (
     <div className="min-h-screen bg-white">
       <SEO 
-        title="Landing Page Design Services | Aryo Consulting Group"
-        description="High-converting landing pages for startups and enterprises. Mobile-first design, lightning-fast load times, and conversion optimization. Get a custom quote today."
-        canonical="https://aryocg.com/landing-pages"
+        title="Pitch Deck Design Services | Aryo Consulting Group"
+        description="Compelling pitch decks for startups and enterprises. Investor-ready design, compelling narratives, and data visualization expertise. Get a custom quote today."
+        canonical="https://aryocg.com/pitch-decks"
       />
       <Navbar />
       <Hero />
-      <LandingFlipbook />
+      <PitchDeckFlipbook />
       <Services />
       <Process />
       <Stats />
