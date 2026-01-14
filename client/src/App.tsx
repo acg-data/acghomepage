@@ -29,6 +29,7 @@ import GovernanceRisk from "@/pages/governance-risk";
 import OperationalExcellence from "@/pages/operational-excellence";
 import TalentOrganization from "@/pages/talent-organization";
 import GrowthStrategy from "@/pages/growth-strategy";
+import LandingPages from "@/pages/landing-pages";
 
 function Router() {
   return (
@@ -59,6 +60,7 @@ function Router() {
       <Route path="/operational-excellence" component={OperationalExcellence}/>
       <Route path="/talent-organization" component={TalentOrganization}/>
       <Route path="/growth-strategy" component={GrowthStrategy}/>
+      <Route path="/landing-pages" component={LandingPages}/>
       <Route component={NotFound} />
     </Switch>
   );
