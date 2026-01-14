@@ -10,7 +10,7 @@ const capabilitiesItems = [
   { name: 'Operational Excellence', href: '/operational-excellence' },
   { name: 'Talent & Organization', href: '/talent-organization' },
   { name: 'Growth Strategy', href: '/growth-strategy' },
-  { name: 'Pitch Deck', href: '/pitch-deck' },
+  { name: 'Landing Pages', href: '/landing-pages' },
 ];
 
 export function Navbar() {
