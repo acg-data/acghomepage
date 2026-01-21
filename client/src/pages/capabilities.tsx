@@ -166,117 +166,131 @@ function MobileConsultationForm() {
   };
 
   return (
-    <div className="md:hidden mb-12 rounded-lg overflow-hidden" style={{ background: 'linear-gradient(135deg, #274D8E 0%, #1a3a6e 50%, #133055 100%)' }}>
-      <div className="px-6 py-8">
-        <div className="text-center mb-6">
-          <p className="text-aryo-greenTeal text-sm font-medium">Schedule your FREE</p>
-          <h2 className="text-2xl font-serif text-white font-bold mt-1">
-            Consultation Today!
-          </h2>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-3">
-          {/* Service Dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full px-4 py-3 bg-white rounded-lg text-left flex items-center justify-between"
-              data-testid="select-service-mobile"
-            >
-              <span className={formData.service ? 'text-slate-800' : 'text-slate-400'}>
-                {formData.service || 'Select Service(s)*'}
-              </span>
-              <ChevronDown size={20} className={`text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-slate-200 max-h-48 overflow-y-auto">
-                {serviceOptions.map((option) => (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => {
-                      setFormData({ ...formData, service: option });
-                      setIsDropdownOpen(false);
-                    }}
-                    className="w-full px-4 py-2.5 text-left text-slate-700 hover:bg-aryo-deepBlue/10 text-sm"
-                    data-testid={`option-service-${option.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Name */}
-          <input
-            type="text"
-            placeholder="Name*"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
-            required
-            data-testid="input-name-mobile"
-          />
-
-          {/* Company */}
-          <input
-            type="text"
-            placeholder="Company"
-            value={formData.company}
-            onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-            className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
-            data-testid="input-company-mobile"
-          />
-
-          {/* Email */}
-          <input
-            type="email"
-            placeholder="Email*"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
-            required
-            data-testid="input-email-mobile"
-          />
-
-          {/* Phone */}
-          <input
-            type="tel"
-            placeholder="Phone Number*"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
-            required
-            data-testid="input-phone-mobile"
-          />
-
-          {/* Terms Checkbox */}
-          <div className="flex items-start gap-3 py-2">
-            <button
-              type="button"
-              onClick={() => setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })}
-              className={`w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-colors ${formData.agreedToTerms ? 'bg-aryo-greenTeal border-aryo-greenTeal' : 'bg-white/20 border-white/50'}`}
-              data-testid="checkbox-terms-mobile"
-            >
-              {formData.agreedToTerms && <Check size={14} className="text-white" />}
-            </button>
-            <p className="text-xs text-white/70 leading-relaxed">
-              By pressing "Schedule FREE Consultation" you agree to our terms and conditions and privacy policy.
+    <div className="mb-12 rounded-lg overflow-hidden" style={{ background: 'linear-gradient(135deg, #274D8E 0%, #1a3a6e 50%, #133055 100%)' }}>
+      <div className="px-6 py-8 md:px-10 md:py-10">
+        {/* Mobile: Stacked layout / Desktop: Side by side */}
+        <div className="md:flex md:items-start md:gap-12">
+          {/* Title Section */}
+          <div className="text-center md:text-left mb-6 md:mb-0 md:w-1/3 md:flex-shrink-0">
+            <p className="text-aryo-greenTeal text-sm font-medium">Schedule your FREE</p>
+            <h2 className="text-2xl md:text-3xl font-serif text-white font-bold mt-1">
+              Consultation Today!
+            </h2>
+            <p className="hidden md:block text-white/70 text-sm mt-3 leading-relaxed">
+              Let our experts help you navigate your business challenges. Fill out the form and we'll get back to you within 24 hours.
             </p>
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={mutation.isPending}
-            className="w-full py-4 bg-aryo-greenTeal text-white font-bold rounded-lg hover:bg-aryo-teal transition-colors disabled:opacity-50"
-            data-testid="button-submit-consultation-mobile"
-          >
-            {mutation.isPending ? 'Submitting...' : 'Schedule FREE Consultation'}
-          </button>
-        </form>
+          {/* Form Section */}
+          <form onSubmit={handleSubmit} className="space-y-3 md:flex-1">
+            {/* Desktop: 2-column grid for inputs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {/* Service Dropdown */}
+              <div className="relative md:col-span-2">
+                <button
+                  type="button"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="w-full px-4 py-3 bg-white rounded-lg text-left flex items-center justify-between"
+                  data-testid="select-service"
+                >
+                  <span className={formData.service ? 'text-slate-800' : 'text-slate-400'}>
+                    {formData.service || 'Select Service(s)*'}
+                  </span>
+                  <ChevronDown size={20} className={`text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-slate-200 max-h-48 overflow-y-auto">
+                    {serviceOptions.map((option) => (
+                      <button
+                        key={option}
+                        type="button"
+                        onClick={() => {
+                          setFormData({ ...formData, service: option });
+                          setIsDropdownOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-left text-slate-700 hover:bg-aryo-deepBlue/10 text-sm"
+                        data-testid={`option-service-${option.toLowerCase().replace(/\s+/g, '-')}`}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Name */}
+              <input
+                type="text"
+                placeholder="Name*"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
+                required
+                data-testid="input-name"
+              />
+
+              {/* Company */}
+              <input
+                type="text"
+                placeholder="Company"
+                value={formData.company}
+                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
+                data-testid="input-company"
+              />
+
+              {/* Email */}
+              <input
+                type="email"
+                placeholder="Email*"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
+                required
+                data-testid="input-email"
+              />
+
+              {/* Phone */}
+              <input
+                type="tel"
+                placeholder="Phone Number*"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-4 py-3 bg-white rounded-lg text-slate-800 placeholder:text-slate-400"
+                required
+                data-testid="input-phone"
+              />
+            </div>
+
+            {/* Terms and Submit - full width */}
+            <div className="md:flex md:items-center md:gap-6 md:pt-2">
+              {/* Terms Checkbox */}
+              <div className="flex items-start gap-3 py-2 md:py-0 md:flex-1">
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })}
+                  className={`w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-colors ${formData.agreedToTerms ? 'bg-aryo-greenTeal border-aryo-greenTeal' : 'bg-white/20 border-white/50'}`}
+                  data-testid="checkbox-terms"
+                >
+                  {formData.agreedToTerms && <Check size={14} className="text-white" />}
+                </button>
+                <p className="text-xs text-white/70 leading-relaxed">
+                  By pressing "Schedule FREE Consultation" you agree to our terms and conditions and privacy policy.
+                </p>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={mutation.isPending}
+                className="w-full md:w-auto md:px-8 py-4 bg-aryo-greenTeal text-white font-bold rounded-lg hover:bg-aryo-teal transition-colors disabled:opacity-50 mt-3 md:mt-0"
+                data-testid="button-submit-consultation"
+              >
+                {mutation.isPending ? 'Submitting...' : 'Schedule FREE Consultation'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
