@@ -656,7 +656,7 @@ function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="mb-6">
-              <AryoLogo size={80} />
+              <AryoLogo size={80} className="brightness-0 invert" />
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
               Corporate strategy and governance consulting for enterprise transformation.
