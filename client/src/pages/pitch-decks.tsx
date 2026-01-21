@@ -3,7 +3,12 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { Link } from 'wouter';
 import { SEO } from '@/components/seo';
 import { Navbar } from '@/components/layout';
-import { LandingFlipbook as PitchDeckFlipbook } from '@/components/landing-flipbook';
+
+import acmeDeck from '@assets/Acme+Deck_1769021448733.png';
+import optHealthDeck from '@assets/OptHealth+Deck_1769021448733.png';
+import jedvaDeck from '@assets/Pitch+Deck_1769021448734.png';
+import healthcareDeck from '@assets/State+of+Digital+Healthcare+in+US_1769021448734.png';
+import foodTechDeck from '@assets/Venture_Food_Tech_Analysis_1769021448735.jpeg';
 import { 
   ArrowRight, 
   Layout,
@@ -105,6 +110,140 @@ function AryoLogo({ size = 96, className = "" }: { size?: number; className?: st
       className={`object-contain ${className}`}
       data-testid="img-aryo-logo"
     />
+  );
+}
+
+const sampleDecks = [
+  { 
+    image: acmeDeck, 
+    title: "Acme Deck", 
+    description: "" 
+  },
+  { 
+    image: optHealthDeck, 
+    title: "OptHealth Deck", 
+    description: "" 
+  },
+  { 
+    image: jedvaDeck, 
+    title: "JEDVA Deck", 
+    description: "" 
+  },
+  { 
+    image: healthcareDeck, 
+    title: "State of Digital Healthcare in US", 
+    description: "" 
+  },
+  { 
+    image: foodTechDeck, 
+    title: "Food Tech Analysis", 
+    description: "" 
+  },
+];
+
+function SampleDecksCarousel() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    align: 'center',
+    slidesToScroll: 1,
+  });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    };
+    
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    onSelect();
+    
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi]);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
+
+  return (
+    <div className="py-20 bg-white border-b border-aryo-lightGrey">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Portfolio</span>
+          <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-4">Sample Pitch Decks</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg font-light">
+            A selection of pitch decks we've crafted for clients across industries.
+          </p>
+        </div>
+
+        <div className="relative">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex">
+              {sampleDecks.map((deck, i) => (
+                <div 
+                  key={i} 
+                  className="flex-[0_0_100%] md:flex-[0_0_85%] lg:flex-[0_0_70%] min-w-0 px-4"
+                >
+                  <div className="bg-aryo-offWhite border border-aryo-lightGrey rounded-lg overflow-hidden shadow-lg">
+                    <div className="relative aspect-[16/9]">
+                      <img 
+                        src={deck.image} 
+                        alt={deck.title}
+                        className="w-full h-full object-cover"
+                        data-testid={`img-sample-deck-${i}`}
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-2">{deck.title}</h3>
+                      {deck.description && (
+                        <p className="text-slate-500 text-sm leading-relaxed">{deck.description}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={scrollPrev}
+            disabled={!canScrollPrev}
+            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm border border-aryo-lightGrey rounded-full flex items-center justify-center text-aryo-deepBlue hover:bg-white hover:border-aryo-deepBlue transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10"
+            data-testid="button-carousel-prev"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={scrollNext}
+            disabled={!canScrollNext}
+            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm border border-aryo-lightGrey rounded-full flex items-center justify-center text-aryo-deepBlue hover:bg-white hover:border-aryo-deepBlue transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10"
+            data-testid="button-carousel-next"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="flex justify-center gap-2 mt-8">
+          {sampleDecks.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollTo(i)}
+              className={`w-3 h-3 rounded-full transition-all ${selectedIndex === i ? 'bg-aryo-deepBlue scale-110' : 'bg-aryo-lightGrey hover:bg-aryo-teal'}`}
+              data-testid={`button-dot-${i}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -715,7 +854,7 @@ export default function PitchDecks() {
       />
       <Navbar />
       <Hero />
-      <PitchDeckFlipbook />
+      <SampleDecksCarousel />
       <Services />
       <Process />
       <Stats />
