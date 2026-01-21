@@ -13,12 +13,19 @@ const capabilitiesItems = [
   { name: 'Pitch Decks', href: '/pitch-decks' },
 ];
 
+const toolsItems = [
+  { name: 'PE Valuation Tool', href: '/pe-valuation-tool' },
+];
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [capabilitiesOpen, setCapabilitiesOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const [mobileCapabilitiesOpen, setMobileCapabilitiesOpen] = useState(false);
+  const [mobileToolsOpen, setMobileToolsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const toolsDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -30,6 +37,9 @@ export function Navbar() {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setCapabilitiesOpen(false);
+      }
+      if (toolsDropdownRef.current && !toolsDropdownRef.current.contains(event.target as Node)) {
+        setToolsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -80,6 +90,31 @@ export function Navbar() {
                 )}
               </div>
               <Link href="/industries" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-industries">Industries</Link>
+              <div ref={toolsDropdownRef} className="relative">
+                <button
+                  onClick={() => setToolsOpen(!toolsOpen)}
+                  className="flex items-center gap-1 text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]"
+                  data-testid="button-tools-dropdown"
+                >
+                  Tools
+                  <ChevronDown className={`w-3 h-3 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {toolsOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-aryo-lightGrey shadow-lg rounded-md py-2 z-50">
+                    {toolsItems.map((item) => (
+                      <Link 
+                        key={item.href}
+                        href={item.href} 
+                        className="block px-4 py-2 text-sm text-aryo-deepBlue/80 hover:bg-aryo-offWhite hover:text-aryo-deepBlue transition-colors"
+                        onClick={() => setToolsOpen(false)}
+                        data-testid={`link-tool-${item.href.slice(1)}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
               <Link href="/case-studies" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-case-studies">Case Studies</Link>
               <Link href="/insights" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-insights">Insights</Link>
               <Link href="/about" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-about">About</Link>
@@ -128,6 +163,31 @@ export function Navbar() {
               )}
             </div>
             <Link href="/industries" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-industries-mobile">Industries</Link>
+            <div>
+              <button 
+                onClick={() => setMobileToolsOpen(!mobileToolsOpen)}
+                className="flex items-center justify-between w-full text-sm font-sans uppercase tracking-widest text-aryo-deepBlue"
+                data-testid="button-tools-mobile"
+              >
+                Tools
+                <ChevronDown className={`w-4 h-4 transition-transform ${mobileToolsOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileToolsOpen && (
+                <div className="pl-4 pt-2 space-y-2">
+                  {toolsItems.map((item) => (
+                    <Link 
+                      key={item.href}
+                      href={item.href} 
+                      className="block text-sm text-aryo-deepBlue/70"
+                      onClick={() => setIsOpen(false)}
+                      data-testid={`link-tool-${item.href.slice(1)}-mobile`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <Link href="/case-studies" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-case-studies-mobile">Case Studies</Link>
             <Link href="/insights" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-insights-mobile">Insights</Link>
             <Link href="/about" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-about-mobile">About</Link>

@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Equity Valuation Suite | Aryo Consulting Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --aryo-deep-blue: #274D8E;
+            --aryo-teal: #47B5CB;
+            --aryo-green-teal: #4EB9A7;
+            --aryo-light-grey: #CECECE;
+            --aryo-off-white: #F8FAFC;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--aryo-off-white);
+            color: var(--slate-800);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        .font-serif {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--aryo-green-teal);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 32px;
+            }
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--aryo-light-grey);
+            padding: 20px 0;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            background: var(--aryo-deep-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-mark svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--aryo-deep-blue);
+        }
+
+        .header-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--aryo-teal);
+            background: rgba(71, 181, 203, 0.1);
+            padding: 6px 12px;
+            border-radius: 100px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--aryo-deep-blue) 0%, #1a3666 100%);
+            padding: 64px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--aryo-green-teal);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600;
+            color: white;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 48px 0 80px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 420px 1fr;
+                gap: 48px;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--slate-200);
+        }
+
+        .card-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--aryo-deep-blue);
+        }
+
+        .card-body {
+            padding: 28px;
+        }
+
+        /* Form Elements */
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--aryo-green-teal);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--slate-700);
+            margin-bottom: 8px;
+        }
+
+        .form-label-hint {
+            font-weight: 400;
+            color: var(--slate-400);
+            margin-left: 4px;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--slate-800);
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .form-input:hover,
+        .form-select:hover {
+            border-color: var(--slate-300);
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--aryo-deep-blue);
+            box-shadow: 0 0 0 3px rgba(39, 77, 142, 0.1);
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .input-group .form-input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
+        }
+
+        .input-prefix,
+        .input-suffix {
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--slate-500);
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+        }
+
+        .input-prefix {
+            border-radius: 8px 0 0 8px;
+            border-right: none;
+        }
+
+        .input-prefix + .form-input {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .input-suffix {
+            border-radius: 0 8px 8px 0;
+            border-left: none;
+        }
+
+        .margin-input-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .calculated-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--aryo-deep-blue);
+            white-space: nowrap;
+            min-width: 100px;
+        }
+
+        .custom-multiple-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .custom-multiple-input {
+            flex: 1;
+        }
+
+        .custom-multiple-input .input-group {
+            margin-top: 4px;
+        }
+
+        .form-label-small {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--slate-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .multiple-separator {
+            font-size: 18px;
+            color: var(--slate-400);
+            padding-bottom: 12px;
+        }
+
+        /* Add-backs Helper */
+        .addbacks-helper {
+            background: var(--slate-50);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 16px;
+        }
+
+        .addbacks-helper-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--slate-600);
+            margin-bottom: 10px;
+        }
+
+        .addbacks-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+
+        .addback-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--slate-500);
+        }
+
+        .addback-item svg {
+            color: var(--aryo-green-teal);
+            flex-shrink: 0;
+        }
+
+        /* SDE Summary */
+        .sde-summary {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .sde-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .sde-summary-row:not(:last-child) {
+            border-bottom: 1px dashed var(--slate-200);
+        }
+
+        .sde-label {
+            color: var(--slate-500);
+        }
+
+        .sde-value {
+            font-weight: 500;
+            color: var(--slate-700);
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 12px;
+        }
+
+        .sde-summary-row.sde-total {
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: 2px solid var(--aryo-deep-blue);
+            border-bottom: none;
+        }
+
+        .sde-total .sde-label {
+            font-weight: 600;
+            color: var(--aryo-deep-blue);
+        }
+
+        .sde-total .sde-value {
+            font-weight: 700;
+            color: var(--aryo-deep-blue);
+            font-size: 14px;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: var(--slate-400);
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* Range Slider */
+        .range-wrapper {
+            margin-top: 12px;
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--slate-200);
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--aryo-deep-blue);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s ease;
+        }
+
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--aryo-deep-blue);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .toggle-option {
+            padding: 14px 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--slate-600);
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .toggle-option:hover {
+            border-color: var(--slate-300);
+            background: white;
+        }
+
+        .toggle-option.active {
+            background: var(--aryo-deep-blue);
+            border-color: var(--aryo-deep-blue);
+            color: white;
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .toggle-hint {
+            font-size: 11px;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--aryo-deep-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a3666;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--slate-600);
+            border: 1px solid var(--slate-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--slate-50);
+            border-color: var(--slate-300);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid var(--slate-100);
+        }
+
+        .btn-group .btn {
+            flex: 1;
+        }
+
+        /* Output Panel */
+        .output-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Valuation Summary */
+        .valuation-summary {
+            background: linear-gradient(135deg, var(--aryo-deep-blue) 0%, #1a3666 100%);
+            border-radius: 12px;
+            padding: 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .valuation-summary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(71, 181, 203, 0.1) 0%, transparent 70%);
+        }
+
+        .valuation-summary-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .valuation-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--aryo-green-teal);
+            margin-bottom: 16px;
+        }
+
+        .valuation-range {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .valuation-midpoint {
+            font-size: 18px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .valuation-meta {
+            display: flex;
+            gap: 24px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .valuation-meta-item {
+            flex: 1;
+        }
+
+        .valuation-meta-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .valuation-meta-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Method Cards Grid */
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .method-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .method-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 16px;
+            bottom: 16px;
+            width: 3px;
+            background: var(--aryo-teal);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .method-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--aryo-deep-blue);
+        }
+
+        .method-weight {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--slate-400);
+            background: var(--slate-100);
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+
+        .method-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--slate-800);
+            margin-bottom: 4px;
+        }
+
+        .method-multiple {
+            font-size: 12px;
+            color: var(--slate-500);
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+        }
+
+        .chart-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--slate-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chart-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--aryo-deep-blue);
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--slate-600);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .legend-dot.low { background: #4EB9A7; }
+        .legend-dot.mid { background: var(--aryo-deep-blue); }
+        .legend-dot.high { background: var(--aryo-teal); }
+
+        .chart-body {
+            padding: 24px;
+        }
+
+        .chart-wrapper {
+            height: 300px;
+            position: relative;
+        }
+
+        /* Sensitivity Analysis */
+        .sensitivity-section {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+        }
+
+        .sensitivity-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        .sensitivity-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--aryo-deep-blue);
+            margin-bottom: 4px;
+        }
+
+        .sensitivity-subtitle {
+            font-size: 13px;
+            color: var(--slate-500);
+            font-weight: 400;
+        }
+
+        .sensitivity-body {
+            padding: 24px;
+            overflow-x: auto;
+        }
+
+        .heatmap-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 4px;
+            font-size: 13px;
+        }
+
+        .heatmap-table th {
+            padding: 12px 16px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--slate-600);
+            background: var(--slate-50);
+            border-radius: 6px;
+        }
+
+        .heatmap-table td {
+            padding: 14px 16px;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: transform 0.15s ease;
+        }
+
+        .heatmap-table td:hover {
+            transform: scale(1.02);
+        }
+
+        .heatmap-positive {
+            background: rgba(78, 185, 167, 0.15);
+            color: #0d7a62;
+        }
+
+        .heatmap-positive-strong {
+            background: rgba(78, 185, 167, 0.25);
+            color: #0d7a62;
+        }
+
+        .heatmap-neutral {
+            background: var(--slate-100);
+            color: var(--slate-700);
+        }
+
+        .heatmap-negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: #b91c1c;
+        }
+
+        .heatmap-negative-strong {
+            background: rgba(239, 68, 68, 0.2);
+            color: #b91c1c;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .empty-state-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            color: var(--slate-300);
+        }
+
+        .empty-state-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--aryo-deep-blue);
+            margin-bottom: 8px;
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+            color: var(--slate-500);
+            font-weight: 300;
+            max-width: 360px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            border-top: 1px solid var(--slate-200);
+            padding: 32px 0;
+            margin-top: 48px;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--slate-500);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-link {
+            font-size: 13px;
+            color: var(--slate-500);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--aryo-deep-blue);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Utility */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">
+                    <div class="logo-mark">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <span class="logo-text">Aryo Consulting Group</span>
+                </a>
+                <span class="header-badge">Valuation Suite</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-label">Private Equity Analytics</div>
+                <h1>Business Valuation Suite</h1>
+                <p class="hero-description">
+                    Comprehensive multi-method valuation analysis utilizing industry-standard approaches including 
+                    EBITDA multiples, revenue multiples, SDE, and asset-based methodologies.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Input Panel -->
+                <div class="input-panel">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Valuation Parameters</h2>
+                        </div>
+                        <div class="card-body">
+                            <!-- Company Profile -->
+                            <div class="form-section">
+                                <div class="form-section-title">Company Profile</div>
+                                <div class="form-group">
+                                    <label class="form-label">Industry Classification</label>
+                                    <select id="industry" class="form-select" onchange="handleIndustryChange()">
+                                        <option value="">Select Industry</option>
+                                        <optgroup label="Technology">
+                                            <option value="saas">SaaS / Software</option>
+                                            <option value="it_services">IT Services / MSP</option>
+                                            <option value="digital_agency">Digital Agency</option>
+                                        </optgroup>
+                                        <optgroup label="Consumer & Retail">
+                                            <option value="ecommerce">E-commerce</option>
+                                            <option value="retail">Retail</option>
+                                            <option value="restaurant">Restaurant / Food Service</option>
+                                            <option value="franchise">Franchise</option>
+                                        </optgroup>
+                                        <optgroup label="Industrial">
+                                            <option value="manufacturing">Manufacturing</option>
+                                            <option value="construction">Construction</option>
+                                            <option value="transportation">Transportation / Logistics</option>
+                                            <option value="automotive">Automotive</option>
+                                        </optgroup>
+                                        <optgroup label="Services">
+                                            <option value="services">Professional Services</option>
+                                            <option value="healthcare">Healthcare Services</option>
+                                            <option value="fitness">Fitness / Wellness</option>
+                                            <option value="cleaning">Cleaning / Janitorial</option>
+                                            <option value="landscaping">Landscaping</option>
+                                        </optgroup>
+                                        <optgroup label="Other">
+                                            <option value="other">Other / Custom</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+
+                                <!-- Custom Multiple Selector (shows when Other is selected) -->
+                                <div class="form-group hidden" id="customMultipleGroup">
+                                    <label class="form-label">Custom EBITDA Multiple Range</label>
+                                    <div class="custom-multiple-row">
+                                        <div class="custom-multiple-input">
+                                            <label class="form-label-small">Low</label>
+                                            <div class="input-group">
+                                                <input type="number" id="customMultipleLow" class="form-input" value="3.0" min="1" max="15" step="0.5">
+                                                <span class="input-suffix">x</span>
+                                            </div>
+                                        </div>
+                                        <span class="multiple-separator">–</span>
+                                        <div class="custom-multiple-input">
+                                            <label class="form-label-small">High</label>
+                                            <div class="input-group">
+                                                <input type="number" id="customMultipleHigh" class="form-input" value="5.0" min="1" max="15" step="0.5">
+                                                <span class="input-suffix">x</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="form-hint">Typical range: 2.5x – 6x for most small-to-midsize businesses</p>
+                                </div>
+                            </div>
+
+                            <!-- Financial Performance -->
+                            <div class="form-section">
+                                <div class="form-section-title">Financial Performance</div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Annual Revenue<span class="form-label-hint">(LTM)</span></label>
+                                    <div class="input-group">
+                                        <span class="input-prefix">$</span>
+                                        <input type="text" id="revenue" class="form-input" value="1,000,000" oninput="formatCurrencyInput(this); syncSlider('revenue', 'revenueSlider'); updateEbitdaFromMargin()">
+                                    </div>
+                                    <div class="range-wrapper">
+                                        <input type="range" id="revenueSlider" class="range-slider" min="100000" max="50000000" step="100000" value="1000000" oninput="updateFromSlider('revenueSlider', 'revenue'); updateEbitdaFromMargin()">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">EBITDA Margin</label>
+                                    <div class="margin-input-row">
+                                        <div class="input-group" style="flex: 1;">
+                                            <input type="number" id="ebitdaMargin" class="form-input" value="20" min="0" max="100" step="0.5" oninput="updateEbitdaFromMargin()">
+                                            <span class="input-suffix">%</span>
+                                        </div>
+                                        <div class="calculated-value" id="ebitdaCalculated">$200,000</div>
+                                    </div>
+                                    <div class="range-wrapper">
+                                        <input type="range" id="ebitdaSlider" class="range-slider" min="0" max="50" step="0.5" value="20" oninput="updateMarginFromSlider()">
+                                    </div>
+                                    <p class="form-hint">EBITDA automatically calculated from revenue × margin</p>
+                                </div>
+                            </div>
+
+                            <!-- SDE Adjustments -->
+                            <div class="form-section">
+                                <div class="form-section-title">Seller's Discretionary Earnings (SDE)</div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Owner's Salary / Compensation</label>
+                                    <div class="input-group">
+                                        <span class="input-prefix">$</span>
+                                        <input type="text" id="ownerSalary" class="form-input" value="150,000" oninput="formatCurrencyInput(this); syncSlider('ownerSalary', 'ownerSalarySlider'); updateSdeTotal()">
+                                    </div>
+                                    <div class="range-wrapper">
+                                        <input type="range" id="ownerSalarySlider" class="range-slider" min="0" max="500000" step="5000" value="150000" oninput="updateFromSlider('ownerSalarySlider', 'ownerSalary'); updateSdeTotal()">
+                                    </div>
+                                    <p class="form-hint">Total owner compensation including salary, bonuses, and benefits</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Other Add-backs</label>
+                                    <div class="input-group">
+                                        <span class="input-prefix">$</span>
+                                        <input type="text" id="otherAddbacks" class="form-input" value="0" oninput="formatCurrencyInput(this); syncSlider('otherAddbacks', 'addbacksSlider'); updateSdeTotal()">
+                                    </div>
+                                    <div class="range-wrapper">
+                                        <input type="range" id="addbacksSlider" class="range-slider" min="0" max="500000" step="5000" value="0" oninput="updateFromSlider('addbacksSlider', 'otherAddbacks'); updateSdeTotal()">
+                                    </div>
+                                    <p class="form-hint">Personal expenses, one-time costs, non-recurring items</p>
+                                </div>
+
+                                <!-- Common Add-backs Checklist -->
+                                <div class="addbacks-helper">
+                                    <div class="addbacks-helper-title">Common Add-backs to Consider:</div>
+                                    <div class="addbacks-grid">
+                                        <div class="addback-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            Vehicle expenses
+                                        </div>
+                                        <div class="addback-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            Health insurance
+                                        </div>
+                                        <div class="addback-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            Travel & meals
+                                        </div>
+                                        <div class="addback-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            Family payroll
+                                        </div>
+                                        <div class="addback-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            One-time legal/accounting
+                                        </div>
+                                        <div class="addback-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            Rent above market
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- SDE Summary -->
+                                <div class="sde-summary">
+                                    <div class="sde-summary-row">
+                                        <span class="sde-label">EBITDA</span>
+                                        <span class="sde-value" id="sdeEbitdaDisplay">$200,000</span>
+                                    </div>
+                                    <div class="sde-summary-row">
+                                        <span class="sde-label">+ Owner's Salary</span>
+                                        <span class="sde-value" id="sdeOwnerDisplay">$150,000</span>
+                                    </div>
+                                    <div class="sde-summary-row">
+                                        <span class="sde-label">+ Other Add-backs</span>
+                                        <span class="sde-value" id="sdeAddbacksDisplay">$0</span>
+                                    </div>
+                                    <div class="sde-summary-row sde-total">
+                                        <span class="sde-label">= Total SDE</span>
+                                        <span class="sde-value" id="sdeTotalDisplay">$350,000</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Market Position -->
+                            <div class="form-section">
+                                <div class="form-section-title">Market Position</div>
+                                <div class="form-group">
+                                    <label class="form-label">Competitive Positioning</label>
+                                    <div class="toggle-group" id="competitorToggle">
+                                        <div class="toggle-option" data-value="low" onclick="setCompetitor('low')">
+                                            <div class="toggle-label">Emerging</div>
+                                            <div class="toggle-hint">Niche player</div>
+                                        </div>
+                                        <div class="toggle-option active" data-value="medium" onclick="setCompetitor('medium')">
+                                            <div class="toggle-label">Established</div>
+                                            <div class="toggle-hint">Market average</div>
+                                        </div>
+                                        <div class="toggle-option" data-value="high" onclick="setCompetitor('high')">
+                                            <div class="toggle-label">Leader</div>
+                                            <div class="toggle-hint">Premium position</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Asset Basis -->
+                            <div class="form-section">
+                                <div class="form-section-title">Asset Basis</div>
+                                <div class="form-group">
+                                    <label class="form-label">Net Tangible Assets<span class="form-label-hint">(Optional)</span></label>
+                                    <div class="input-group">
+                                        <span class="input-prefix">$</span>
+                                        <input type="text" id="netAssets" class="form-input" value="0" oninput="formatCurrencyInput(this); syncSlider('netAssets', 'assetsSlider')">
+                                    </div>
+                                    <div class="range-wrapper">
+                                        <input type="range" id="assetsSlider" class="range-slider" min="0" max="10000000" step="50000" value="0" oninput="updateFromSlider('assetsSlider', 'netAssets')">
+                                    </div>
+                                    <p class="form-hint">Total tangible assets less liabilities</p>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="btn-group">
+                                <button class="btn btn-primary" onclick="calculateValuation()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                    Calculate Valuation
+                                </button>
+                                <button class="btn btn-secondary" onclick="resetForm()">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="output-panel">
+                    <!-- Empty State -->
+                    <div class="card" id="emptyState">
+                        <div class="empty-state">
+                            <svg class="empty-state-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                            </svg>
+                            <h3 class="empty-state-title">Configure Your Analysis</h3>
+                            <p class="empty-state-text">
+                                Enter the company's financial parameters and click "Calculate Valuation" to generate a comprehensive multi-method valuation analysis.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Valuation Summary -->
+                    <div class="valuation-summary hidden" id="valuationSummary">
+                        <div class="valuation-summary-content">
+                            <div class="valuation-label">Estimated Enterprise Value</div>
+                            <div class="valuation-range" id="valuationRange">$0 – $0</div>
+                            <div class="valuation-midpoint" id="valuationMidpoint">Midpoint: $0</div>
+                            <div class="valuation-meta">
+                                <div class="valuation-meta-item">
+                                    <div class="valuation-meta-label">Implied Multiple</div>
+                                    <div class="valuation-meta-value" id="impliedMultiple">0.0x EBITDA</div>
+                                </div>
+                                <div class="valuation-meta-item">
+                                    <div class="valuation-meta-label">Revenue Multiple</div>
+                                    <div class="valuation-meta-value" id="revenueMultiple">0.0x Revenue</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Methods Breakdown -->
+                    <div class="card hidden" id="methodsCard">
+                        <div class="card-header">
+                            <h3 class="card-title">Valuation by Methodology</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="methods-grid">
+                                <div class="method-card">
+                                    <div class="method-header">
+                                        <span class="method-title">EBITDA Multiple</span>
+                                        <span class="method-weight">40%</span>
+                                    </div>
+                                    <div class="method-value" id="ebitdaValue">$0 – $0</div>
+                                    <div class="method-multiple" id="ebitdaMultipleRange">0.0x – 0.0x</div>
+                                </div>
+                                <div class="method-card">
+                                    <div class="method-header">
+                                        <span class="method-title">Revenue Multiple</span>
+                                        <span class="method-weight">20%</span>
+                                    </div>
+                                    <div class="method-value" id="revenueValue">$0 – $0</div>
+                                    <div class="method-multiple" id="revenueMultipleRange">0.0x – 0.0x</div>
+                                </div>
+                                <div class="method-card">
+                                    <div class="method-header">
+                                        <span class="method-title">SDE Multiple</span>
+                                        <span class="method-weight">25%</span>
+                                    </div>
+                                    <div class="method-value" id="sdeValue">$0 – $0</div>
+                                    <div class="method-multiple" id="sdeMultipleRange">0.0x – 0.0x</div>
+                                </div>
+                                <div class="method-card">
+                                    <div class="method-header">
+                                        <span class="method-title">Asset-Based</span>
+                                        <span class="method-weight">15%</span>
+                                    </div>
+                                    <div class="method-value" id="assetValue">$0 – $0</div>
+                                    <div class="method-multiple">Net Tangible Assets</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="chart-section hidden" id="chartSection">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Valuation Range Comparison</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-dot low"></span>
+                                    Low
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-dot mid"></span>
+                                    Mid
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-dot high"></span>
+                                    High
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-body">
+                            <div class="chart-wrapper">
+                                <canvas id="valuationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sensitivity Analysis -->
+                    <div class="sensitivity-section hidden" id="sensitivitySection">
+                        <div class="sensitivity-header">
+                            <h3 class="sensitivity-title">Sensitivity Analysis</h3>
+                            <p class="sensitivity-subtitle">Valuation impact across market conditions and competitive positioning</p>
+                        </div>
+                        <div class="sensitivity-body">
+                            <div id="heatmapContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <span class="footer-text">© 2025 Aryo Consulting Group. All rights reserved.</span>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Methodology</a>
+                    <a href="#" class="footer-link">Assumptions</a>
+                    <a href="#" class="footer-link">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Industry Valuation Data - Base multiples for $1-3M EBITDA companies
+        // Multiples scale based on company size (smaller = lower, larger = higher)
+        // Sources: First Page Sage, Pepperdine Private Capital Markets Report, DealStats
+        const industryData = {
+            saas: { 
+                revLow: 1.5, revHigh: 3.5, 
+                ebitdaLow: 4.0, ebitdaHigh: 7.0, 
+                sdeLow: 2.5, sdeHigh: 4.5,
+                label: 'SaaS / Software'
+            },
+            ecommerce: { 
+                revLow: 1.0, revHigh: 2.5, 
+                ebitdaLow: 3.5, ebitdaHigh: 6.0, 
+                sdeLow: 2.0, sdeHigh: 3.5,
+                label: 'E-commerce'
+            },
+            manufacturing: { 
+                revLow: 0.5, revHigh: 1.5, 
+                ebitdaLow: 3.5, ebitdaHigh: 6.0, 
+                sdeLow: 2.0, sdeHigh: 4.0,
+                label: 'Manufacturing'
+            },
+            services: { 
+                revLow: 0.4, revHigh: 1.2, 
+                ebitdaLow: 2.5, ebitdaHigh: 5.0, 
+                sdeLow: 1.5, sdeHigh: 3.0,
+                label: 'Professional Services'
+            },
+            retail: { 
+                revLow: 0.3, revHigh: 1.0, 
+                ebitdaLow: 2.5, ebitdaHigh: 4.5, 
+                sdeLow: 1.5, sdeHigh: 3.0,
+                label: 'Retail'
+            },
+            healthcare: { 
+                revLow: 0.8, revHigh: 2.0, 
+                ebitdaLow: 4.0, ebitdaHigh: 7.0, 
+                sdeLow: 2.5, sdeHigh: 4.5,
+                label: 'Healthcare Services'
+            },
+            construction: { 
+                revLow: 0.3, revHigh: 0.8, 
+                ebitdaLow: 2.5, ebitdaHigh: 5.0, 
+                sdeLow: 1.5, sdeHigh: 3.5,
+                label: 'Construction'
+            },
+            restaurant: { 
+                revLow: 0.3, revHigh: 0.8, 
+                ebitdaLow: 2.0, ebitdaHigh: 4.0, 
+                sdeLow: 1.5, sdeHigh: 2.5,
+                label: 'Restaurant / Food Service'
+            },
+            automotive: { 
+                revLow: 0.4, revHigh: 1.0, 
+                ebitdaLow: 3.0, ebitdaHigh: 5.0, 
+                sdeLow: 2.0, sdeHigh: 3.5,
+                label: 'Automotive'
+            },
+            franchise: { 
+                revLow: 0.5, revHigh: 1.2, 
+                ebitdaLow: 3.0, ebitdaHigh: 5.5, 
+                sdeLow: 2.0, sdeHigh: 3.5,
+                label: 'Franchise'
+            },
+            transportation: { 
+                revLow: 0.5, revHigh: 1.2, 
+                ebitdaLow: 3.5, ebitdaHigh: 6.0, 
+                sdeLow: 2.0, sdeHigh: 4.0,
+                label: 'Transportation / Logistics'
+            },
+            fitness: { 
+                revLow: 0.4, revHigh: 1.0, 
+                ebitdaLow: 2.5, ebitdaHigh: 4.5, 
+                sdeLow: 1.5, sdeHigh: 3.0,
+                label: 'Fitness / Wellness'
+            },
+            cleaning: { 
+                revLow: 0.3, revHigh: 0.8, 
+                ebitdaLow: 2.0, ebitdaHigh: 4.0, 
+                sdeLow: 1.5, sdeHigh: 2.5,
+                label: 'Cleaning / Janitorial'
+            },
+            landscaping: { 
+                revLow: 0.4, revHigh: 1.0, 
+                ebitdaLow: 2.5, ebitdaHigh: 4.5, 
+                sdeLow: 1.5, sdeHigh: 3.0,
+                label: 'Landscaping'
+            },
+            it_services: { 
+                revLow: 0.8, revHigh: 2.0, 
+                ebitdaLow: 3.5, ebitdaHigh: 6.5, 
+                sdeLow: 2.0, sdeHigh: 4.0,
+                label: 'IT Services / MSP'
+            },
+            digital_agency: { 
+                revLow: 0.6, revHigh: 1.5, 
+                ebitdaLow: 3.0, ebitdaHigh: 5.5, 
+                sdeLow: 2.0, sdeHigh: 3.5,
+                label: 'Digital Agency'
+            },
+            other: { 
+                revLow: 0.5, revHigh: 1.2, 
+                ebitdaLow: 3.0, ebitdaHigh: 5.0, 
+                sdeLow: 2.0, sdeHigh: 3.5,
+                label: 'Other / Custom'
+            }
+        };
+
+        // Size adjustment factors based on EBITDA
+        // Smaller companies trade at lower multiples, larger at higher
+        function getSizeMultiplier(ebitda) {
+            if (ebitda < 250000) return 0.75;        // <$250K EBITDA: 25% discount
+            if (ebitda < 500000) return 0.85;        // $250K-$500K: 15% discount
+            if (ebitda < 1000000) return 0.92;       // $500K-$1M: 8% discount
+            if (ebitda < 3000000) return 1.0;        // $1M-$3M: baseline
+            if (ebitda < 5000000) return 1.1;        // $3M-$5M: 10% premium
+            if (ebitda < 10000000) return 1.2;       // $5M-$10M: 20% premium
+            return 1.35;                              // >$10M: 35% premium
+        }
+
+        // Competitive position multipliers
+        const positionMultipliers = {
+            low: 0.85,
+            medium: 1.0,
+            high: 1.15
+        };
+
+        let currentPosition = 'medium';
+        let valuationChart = null;
+
+        // Utility Functions
+        function parseNumber(str) {
+            return parseFloat(str.replace(/[^0-9.-]/g, '')) || 0;
+        }
+
+        function formatCurrencyInput(input) {
+            let value = input.value.replace(/[^0-9]/g, '');
+            if (value) {
+                value = parseInt(value).toLocaleString('en-US');
+            }
+            input.value = value;
+        }
+
+        function formatCurrency(num) {
+            if (num >= 1000000) {
+                return '$' + (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return '$' + Math.round(num / 1000) + 'K';
+            }
+            return '$' + Math.round(num).toLocaleString();
+        }
+
+        function formatCurrencyFull(num) {
+            return '$' + Math.round(num).toLocaleString('en-US');
+        }
+
+        // Slider Synchronization
+        function syncSlider(inputId, sliderId) {
+            const value = parseNumber(document.getElementById(inputId).value);
+            document.getElementById(sliderId).value = value;
+        }
+
+        function updateFromSlider(sliderId, inputId) {
+            const value = parseInt(document.getElementById(sliderId).value);
+            document.getElementById(inputId).value = value.toLocaleString('en-US');
+        }
+
+        // EBITDA Margin Functions
+        function updateEbitdaFromMargin() {
+            const revenue = parseNumber(document.getElementById('revenue').value);
+            const margin = parseFloat(document.getElementById('ebitdaMargin').value) || 0;
+            const ebitda = revenue * (margin / 100);
+            document.getElementById('ebitdaCalculated').textContent = formatCurrencyFull(ebitda);
+            document.getElementById('ebitdaSlider').value = margin;
+            updateSdeTotal();
+        }
+
+        function updateMarginFromSlider() {
+            const margin = parseFloat(document.getElementById('ebitdaSlider').value);
+            document.getElementById('ebitdaMargin').value = margin;
+            updateEbitdaFromMargin();
+        }
+
+        function getEbitda() {
+            const revenue = parseNumber(document.getElementById('revenue').value);
+            const margin = parseFloat(document.getElementById('ebitdaMargin').value) || 0;
+            return revenue * (margin / 100);
+        }
+
+        // SDE Calculation
+        function getSdeAddback() {
+            const ownerSalary = parseNumber(document.getElementById('ownerSalary').value);
+            const otherAddbacks = parseNumber(document.getElementById('otherAddbacks').value);
+            return ownerSalary + otherAddbacks;
+        }
+
+        function updateSdeTotal() {
+            const ebitda = getEbitda();
+            const ownerSalary = parseNumber(document.getElementById('ownerSalary').value);
+            const otherAddbacks = parseNumber(document.getElementById('otherAddbacks').value);
+            const totalSde = ebitda + ownerSalary + otherAddbacks;
+
+            document.getElementById('sdeEbitdaDisplay').textContent = formatCurrencyFull(ebitda);
+            document.getElementById('sdeOwnerDisplay').textContent = formatCurrencyFull(ownerSalary);
+            document.getElementById('sdeAddbacksDisplay').textContent = formatCurrencyFull(otherAddbacks);
+            document.getElementById('sdeTotalDisplay').textContent = formatCurrencyFull(totalSde);
+        }
+
+        // Competitor Toggle
+        function setCompetitor(level) {
+            currentPosition = level;
+            document.querySelectorAll('.toggle-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.value === level);
+            });
+        }
+
+        // Industry Change Handler
+        function handleIndustryChange() {
+            const industry = document.getElementById('industry').value;
+            const customMultipleGroup = document.getElementById('customMultipleGroup');
+            
+            if (industry === 'other') {
+                customMultipleGroup.classList.remove('hidden');
+            } else {
+                customMultipleGroup.classList.add('hidden');
+            }
+        }
+
+        // Main Calculation
+        function calculateValuation() {
+            const revenue = parseNumber(document.getElementById('revenue').value);
+            const ebitda = getEbitda();
+            const sdeAddback = getSdeAddback();
+            const netAssets = parseNumber(document.getElementById('netAssets').value);
+            const industryKey = document.getElementById('industry').value;
+
+            if (!revenue || !industryKey) {
+                showEmptyState();
+                return;
+            }
+
+            let industry = { ...industryData[industryKey] };
+            
+            // If "Other" is selected, use custom multiples
+            if (industryKey === 'other') {
+                const customLow = parseFloat(document.getElementById('customMultipleLow').value) || 3.0;
+                const customHigh = parseFloat(document.getElementById('customMultipleHigh').value) || 5.0;
+                industry.ebitdaLow = customLow;
+                industry.ebitdaHigh = customHigh;
+                // Derive other multiples proportionally
+                industry.sdeLow = customLow * 0.65;
+                industry.sdeHigh = customHigh * 0.7;
+                industry.revLow = customLow * 0.15;
+                industry.revHigh = customHigh * 0.25;
+            }
+
+            const positionMult = positionMultipliers[currentPosition];
+            
+            // Apply size-based multiplier
+            const sizeMult = getSizeMultiplier(ebitda);
+            const combinedMult = positionMult * sizeMult;
+
+            // Calculate SDE
+            const sde = ebitda + sdeAddback;
+
+            // EBITDA Multiple Method (with size adjustment)
+            const ebitdaLow = ebitda * industry.ebitdaLow * combinedMult;
+            const ebitdaMid = ebitda * ((industry.ebitdaLow + industry.ebitdaHigh) / 2) * combinedMult;
+            const ebitdaHigh = ebitda * industry.ebitdaHigh * combinedMult;
+
+            // Revenue Multiple Method (with size adjustment)
+            const revLow = revenue * industry.revLow * combinedMult;
+            const revMid = revenue * ((industry.revLow + industry.revHigh) / 2) * combinedMult;
+            const revHigh = revenue * industry.revHigh * combinedMult;
+
+            // SDE Multiple Method (with size adjustment)
+            const sdeLow = sde * industry.sdeLow * combinedMult;
+            const sdeMid = sde * ((industry.sdeLow + industry.sdeHigh) / 2) * combinedMult;
+            const sdeHigh = sde * industry.sdeHigh * combinedMult;
+
+            // Asset-Based Method
+            const assetLow = netAssets * 0.9;
+            const assetMid = netAssets;
+            const assetHigh = netAssets * 1.1;
+
+            // Weighted Average (EBITDA 40%, Revenue 20%, SDE 25%, Asset 15%)
+            const weightedLow = (ebitdaLow * 0.40) + (revLow * 0.20) + (sdeLow * 0.25) + (assetLow * 0.15);
+            const weightedMid = (ebitdaMid * 0.40) + (revMid * 0.20) + (sdeMid * 0.25) + (assetMid * 0.15);
+            const weightedHigh = (ebitdaHigh * 0.40) + (revHigh * 0.20) + (sdeHigh * 0.25) + (assetHigh * 0.15);
+
+            // Show results
+            showResults();
+
+            // Update Summary
+            document.getElementById('valuationRange').textContent = 
+                formatCurrencyFull(weightedLow) + ' – ' + formatCurrencyFull(weightedHigh);
+            document.getElementById('valuationMidpoint').textContent = 
+                'Midpoint: ' + formatCurrencyFull(weightedMid);
+
+            // Implied multiples (show the actual applied multiples)
+            const appliedEbitdaMultLow = (industry.ebitdaLow * combinedMult).toFixed(1);
+            const appliedEbitdaMultHigh = (industry.ebitdaHigh * combinedMult).toFixed(1);
+            const impliedEbitdaMult = ebitda > 0 ? (weightedMid / ebitda).toFixed(1) : 'N/A';
+            const impliedRevMult = revenue > 0 ? (weightedMid / revenue).toFixed(2) : 'N/A';
+            document.getElementById('impliedMultiple').textContent = impliedEbitdaMult + 'x EBITDA';
+            document.getElementById('revenueMultiple').textContent = impliedRevMult + 'x Revenue';
+
+            // Update Method Cards with size-adjusted multiples
+            document.getElementById('ebitdaValue').textContent = 
+                formatCurrencyFull(ebitdaLow) + ' – ' + formatCurrencyFull(ebitdaHigh);
+            document.getElementById('ebitdaMultipleRange').textContent = 
+                appliedEbitdaMultLow + 'x – ' + appliedEbitdaMultHigh + 'x';
+
+            document.getElementById('revenueValue').textContent = 
+                formatCurrencyFull(revLow) + ' – ' + formatCurrencyFull(revHigh);
+            document.getElementById('revenueMultipleRange').textContent = 
+                (industry.revLow * combinedMult).toFixed(2) + 'x – ' + (industry.revHigh * combinedMult).toFixed(2) + 'x';
+
+            document.getElementById('sdeValue').textContent = 
+                formatCurrencyFull(sdeLow) + ' – ' + formatCurrencyFull(sdeHigh);
+            document.getElementById('sdeMultipleRange').textContent = 
+                (industry.sdeLow * combinedMult).toFixed(1) + 'x – ' + (industry.sdeHigh * combinedMult).toFixed(1) + 'x';
+
+            document.getElementById('assetValue').textContent = 
+                formatCurrencyFull(assetLow) + ' – ' + formatCurrencyFull(assetHigh);
+
+            // Update Chart
+            updateChart(
+                ebitdaLow, ebitdaMid, ebitdaHigh,
+                revLow, revMid, revHigh,
+                sdeLow, sdeMid, sdeHigh,
+                assetLow, assetMid, assetHigh,
+                weightedLow, weightedMid, weightedHigh
+            );
+
+            // Update Sensitivity Heatmap
+            updateHeatmap(weightedMid);
+        }
+
+        function showEmptyState() {
+            document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('valuationSummary').classList.add('hidden');
+            document.getElementById('methodsCard').classList.add('hidden');
+            document.getElementById('chartSection').classList.add('hidden');
+            document.getElementById('sensitivitySection').classList.add('hidden');
+        }
+
+        function showResults() {
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('valuationSummary').classList.remove('hidden');
+            document.getElementById('methodsCard').classList.remove('hidden');
+            document.getElementById('chartSection').classList.remove('hidden');
+            document.getElementById('sensitivitySection').classList.remove('hidden');
+
+            // Add fade-in animation
+            ['valuationSummary', 'methodsCard', 'chartSection', 'sensitivitySection'].forEach((id, index) => {
+                const el = document.getElementById(id);
+                el.style.animationDelay = (index * 0.1) + 's';
+                el.classList.add('fade-in');
+            });
+        }
+
+        function updateChart(ebLow, ebMid, ebHigh, revLow, revMid, revHigh, sdeLow, sdeMid, sdeHigh, asLow, asMid, asHigh, wLow, wMid, wHigh) {
+            const ctx = document.getElementById('valuationChart').getContext('2d');
+
+            if (valuationChart) {
+                valuationChart.destroy();
+            }
+
+            valuationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['EBITDA', 'Revenue', 'SDE', 'Asset', 'Weighted'],
+                    datasets: [{
+                        label: 'Low',
+                        data: [ebLow, revLow, sdeLow, asLow, wLow],
+                        backgroundColor: '#4EB9A7',
+                        borderRadius: 4,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }, {
+                        label: 'Mid',
+                        data: [ebMid, revMid, sdeMid, asMid, wMid],
+                        backgroundColor: '#274D8E',
+                        borderRadius: 4,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }, {
+                        label: 'High',
+                        data: [ebHigh, revHigh, sdeHigh, asHigh, wHigh],
+                        backgroundColor: '#47B5CB',
+                        borderRadius: 4,
+                        barPercentage: 0.7,
+                        categoryPercentage: 0.8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            display: false 
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleFont: { family: 'Inter', weight: '600' },
+                            bodyFont: { family: 'Inter' },
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrencyFull(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: 'Inter', size: 12, weight: '500' },
+                                color: '#64748b'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { 
+                                color: '#f1f5f9',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                font: { family: 'Inter', size: 11 },
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateHeatmap(baseValue) {
+            const positionLevels = [
+                { label: 'Emerging', mult: 0.85 },
+                { label: 'Established', mult: 1.0 },
+                { label: 'Leader', mult: 1.15 }
+            ];
+
+            const marketConditions = [
+                { label: 'Bearish', mult: 0.85 },
+                { label: 'Neutral', mult: 1.0 },
+                { label: 'Bullish', mult: 1.15 }
+            ];
+
+            let html = `
+                <table class="heatmap-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            ${marketConditions.map(mc => `<th>${mc.label}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            positionLevels.forEach(pl => {
+                html += `<tr><th>${pl.label}</th>`;
+                marketConditions.forEach(mc => {
+                    const adjustedValue = baseValue * pl.mult * mc.mult;
+                    const className = getHeatmapClass(adjustedValue, baseValue);
+                    html += `<td class="${className}">${formatCurrency(adjustedValue)}</td>`;
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            document.getElementById('heatmapContainer').innerHTML = html;
+        }
+
+        function getHeatmapClass(value, base) {
+            const ratio = value / base;
+            if (ratio >= 1.2) return 'heatmap-positive-strong';
+            if (ratio >= 1.0) return 'heatmap-positive';
+            if (ratio >= 0.85) return 'heatmap-negative';
+            return 'heatmap-negative-strong';
+        }
+
+        function resetForm() {
+            document.getElementById('industry').value = '';
+            document.getElementById('revenue').value = '1,000,000';
+            document.getElementById('revenueSlider').value = 1000000;
+            document.getElementById('ebitdaMargin').value = '20';
+            document.getElementById('ebitdaSlider').value = 20;
+            document.getElementById('ebitdaCalculated').textContent = '$200,000';
+            
+            // Reset SDE fields
+            document.getElementById('ownerSalary').value = '150,000';
+            document.getElementById('ownerSalarySlider').value = 150000;
+            document.getElementById('otherAddbacks').value = '0';
+            document.getElementById('addbacksSlider').value = 0;
+            
+            document.getElementById('netAssets').value = '0';
+            document.getElementById('assetsSlider').value = 0;
+            
+            // Reset custom multiple fields
+            document.getElementById('customMultipleLow').value = '3.0';
+            document.getElementById('customMultipleHigh').value = '5.0';
+            document.getElementById('customMultipleGroup').classList.add('hidden');
+
+            setCompetitor('medium');
+            showEmptyState();
+            updateSdeTotal();
+
+            if (valuationChart) {
+                valuationChart.destroy();
+                valuationChart = null;
+            }
+        }
+
+        // Initialize SDE display on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSdeTotal();
+        });
+    </script>
+</body>
+</html>

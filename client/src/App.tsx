@@ -30,6 +30,7 @@ import OperationalExcellence from "@/pages/operational-excellence";
 import TalentOrganization from "@/pages/talent-organization";
 import GrowthStrategy from "@/pages/growth-strategy";
 import PitchDecks from "@/pages/pitch-decks";
+import PEValuationTool from "@/pages/pe-valuation-tool";
 
 function Router() {
   return (
@@ -61,6 +62,7 @@ function Router() {
       <Route path="/talent-organization" component={TalentOrganization}/>
       <Route path="/growth-strategy" component={GrowthStrategy}/>
       <Route path="/pitch-decks" component={PitchDecks}/>
+      <Route path="/pe-valuation-tool" component={PEValuationTool}/>
       <Route component={NotFound} />
     </Switch>
   );
