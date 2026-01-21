@@ -208,7 +208,7 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="mb-6">
-              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo-footer" />
+              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain brightness-0 invert" data-testid="img-aryo-logo-footer" />
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
               Corporate strategy and governance consulting for enterprise transformation.
