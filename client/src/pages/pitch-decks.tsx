@@ -308,102 +308,99 @@ function Hero() {
   };
 
   return (
-    <div className="relative min-h-[750px] flex items-center overflow-hidden">
-      {/* Background with dark overlay */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-aryo-deepBlue via-[#1a3a6e] to-[#133055]"></div>
-        <div className="absolute inset-0 opacity-10">
-          <svg viewBox="0 0 800 800" className="h-full w-full">
-            <path d="M0 800 L400 0 L800 400 L400 800 Z" fill="#47B5CB" />
-            <path d="M200 800 L600 200 L800 600 L400 800 Z" fill="#4EB9A7" />
-          </svg>
-        </div>
+    <div className="relative pt-40 pb-24 bg-aryo-offWhite border-b border-aryo-lightGrey overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute right-0 top-0 h-full w-1/3 opacity-10 pointer-events-none">
+        <svg viewBox="0 0 200 800" className="h-full w-full">
+          <path d="M0 800 L200 0 L200 800 Z" fill="#274D8E" />
+          <path d="M50 800 L200 200 L200 800 Z" fill="#47B5CB" />
+        </svg>
       </div>
 
-      <div className="container mx-auto px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center py-32 pt-40">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
         
-        {/* LEFT COLUMN: Value Props */}
-        <div className="space-y-8 lg:pr-8">
+        {/* LEFT COLUMN: Value Props - Takes 3 of 5 columns */}
+        <div className="lg:col-span-3 space-y-8">
           
           {/* Trust Badges */}
           <div className="flex flex-wrap gap-6 text-sm font-semibold">
             <div className="flex items-center gap-3">
               <Award className="text-aryo-greenTeal w-10 h-10" />
               <div className="leading-tight">
-                <div className="text-white">200+ PITCH DECKS</div>
-                <div className="text-aryo-lightBlue/70">DELIVERED</div>
+                <div className="text-aryo-deepBlue">200+ PITCH DECKS</div>
+                <div className="text-slate-500">DELIVERED</div>
               </div>
             </div>
             
-            <div className="w-px h-10 bg-white/20 hidden md:block"></div>
+            <div className="w-px h-10 bg-aryo-lightGrey hidden md:block"></div>
 
             <div className="flex items-center gap-3">
               <ShieldCheck className="text-aryo-greenTeal w-10 h-10" />
               <div className="leading-tight">
-                <div className="text-white">85% FUNDING</div>
-                <div className="text-aryo-lightBlue/70">SUCCESS RATE</div>
+                <div className="text-aryo-deepBlue">85% FUNDING</div>
+                <div className="text-slate-500">SUCCESS RATE</div>
               </div>
             </div>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight text-aryo-deepBlue">
             #1 Top-Rated <br/>
             Pitch Deck <br/>
-            <span className="text-aryo-greenTeal">Design Agency</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">Design Agency</span>
           </h1>
 
           {/* Subtext */}
-          <p className="text-aryo-lightBlue/80 text-lg max-w-xl leading-relaxed">
+          <p className="text-slate-600 text-lg max-w-xl leading-relaxed">
             With over a decade of experience crafting investor presentations, our team transforms complex ideas into compelling visual stories. 
-            <span className="font-bold text-white"> We help startups and enterprises raise capital and close deals.</span>
+            <span className="font-bold text-aryo-deepBlue"> We help startups and enterprises raise capital and close deals.</span>
           </p>
 
           {/* Service Pills */}
           <div className="flex flex-wrap gap-3">
             {["Investor Decks", "Sales Presentations", "Data Visualization", "Brand Design"].map((tag, i) => (
-              <div key={i} className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-3 rounded-lg backdrop-blur-sm">
+              <div key={i} className="flex items-center gap-2 bg-white border border-aryo-lightGrey px-4 py-3 rounded-lg">
                 <Check size={16} className="text-aryo-greenTeal" />
-                <span className="font-semibold text-sm text-white">{tag}</span>
+                <span className="font-semibold text-sm text-aryo-deepBlue">{tag}</span>
               </div>
             ))}
           </div>
 
         </div>
 
-        {/* RIGHT COLUMN: Lead Capture Form */}
-        <div className="lg:pl-4">
-          <div className="bg-aryo-deepBlue/60 backdrop-blur-md border border-white/20 p-6 md:p-8 rounded-2xl shadow-2xl">
+        {/* RIGHT COLUMN: Skinny Lead Capture Form - Takes 2 of 5 columns */}
+        <div className="lg:col-span-2">
+          <div className="bg-aryo-deepBlue p-5 rounded-xl shadow-xl max-w-sm mx-auto lg:mx-0">
             
             {/* Form Header */}
-            <div className="text-center mb-6">
-              <p className="text-lg text-white">Schedule your <span className="font-bold border-b-2 border-aryo-greenTeal">FREE</span></p>
-              <h3 className="text-2xl font-serif font-bold text-white mt-1">Pitch Deck Consultation!</h3>
+            <div className="text-center mb-4">
+              <p className="text-sm text-white/80">Schedule your <span className="font-bold border-b border-aryo-greenTeal">FREE</span></p>
+              <h3 className="text-lg font-serif font-bold text-white mt-1">Consultation Today!</h3>
             </div>
 
             {submitStatus && (
-              <div className={`mb-4 p-3 rounded-lg text-sm ${submitStatus.success ? 'bg-green-500/20 border border-green-400/50 text-green-200' : 'bg-red-500/20 border border-red-400/50 text-red-200'}`} data-testid="status-hero-form">
+              <div className={`mb-3 p-2 rounded text-xs ${submitStatus.success ? 'bg-green-500/20 border border-green-400/50 text-green-200' : 'bg-red-500/20 border border-red-400/50 text-red-200'}`} data-testid="status-hero-form">
                 {submitStatus.message}
               </div>
             )}
 
-            <form className="space-y-4" onSubmit={handleSubmit}>
+            <form className="space-y-3" onSubmit={handleSubmit}>
               
               {/* Service Dropdown */}
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full h-12 px-4 rounded-md text-left bg-white flex items-center justify-between"
+                  className="w-full h-10 px-3 rounded text-sm text-left bg-white flex items-center justify-between"
                   data-testid="select-hero-service"
                 >
                   <span className={formData.service ? 'text-slate-800' : 'text-slate-400'}>
                     {formData.service || 'Choose Service*'}
                   </span>
-                  <ChevronDown className={`text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} size={20} />
+                  <ChevronDown className={`text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} size={16} />
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute z-20 w-full mt-1 bg-white rounded-md shadow-lg border border-slate-200 max-h-48 overflow-y-auto">
+                  <div className="absolute z-20 w-full mt-1 bg-white rounded shadow-lg border border-slate-200 max-h-40 overflow-y-auto">
                     {serviceOptions.map((option) => (
                       <button
                         key={option}
@@ -412,7 +409,7 @@ function Hero() {
                           setFormData({ ...formData, service: option });
                           setIsDropdownOpen(false);
                         }}
-                        className="w-full px-4 py-2.5 text-left text-slate-700 hover:bg-aryo-deepBlue/10 text-sm"
+                        className="w-full px-3 py-2 text-left text-slate-700 hover:bg-aryo-deepBlue/10 text-sm"
                         data-testid={`option-hero-${option.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {option}
@@ -428,7 +425,7 @@ function Hero() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full h-12 px-4 rounded-md text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
+                className="w-full h-10 px-3 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
                 data-testid="input-hero-name"
               />
 
@@ -438,7 +435,7 @@ function Hero() {
                 required 
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full h-12 px-4 rounded-md text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
+                className="w-full h-10 px-3 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
                 data-testid="input-hero-email"
               />
 
@@ -448,55 +445,48 @@ function Hero() {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full h-12 px-4 rounded-md text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
+                className="w-full h-10 px-3 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
                 data-testid="input-hero-phone"
               />
 
               {/* Terms Checkbox */}
-              <div className="flex items-start gap-3 mt-2">
+              <div className="flex items-start gap-2">
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })}
-                  className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-colors ${formData.agreedToTerms ? 'bg-aryo-greenTeal border-aryo-greenTeal' : 'bg-white/20 border-white/50'}`}
+                  className={`mt-0.5 w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center transition-colors ${formData.agreedToTerms ? 'bg-aryo-greenTeal border-aryo-greenTeal' : 'bg-white/20 border-white/50'}`}
                   data-testid="checkbox-hero-terms"
                 >
-                  {formData.agreedToTerms && <Check size={14} className="text-white" />}
+                  {formData.agreedToTerms && <Check size={10} className="text-white" />}
                 </button>
-                <p className="text-[11px] text-white/60 leading-tight">
-                  By pressing "Schedule FREE Consultation" you agree to our terms and conditions and privacy policy.
+                <p className="text-[10px] text-white/60 leading-tight">
+                  By submitting you agree to our terms and privacy policy.
                 </p>
               </div>
 
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-aryo-greenTeal hover:bg-aryo-teal text-white font-bold py-4 rounded-md transition duration-300 text-lg shadow-lg mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-aryo-greenTeal hover:bg-aryo-teal text-white font-bold py-3 rounded text-sm transition duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 data-testid="button-hero-submit"
               >
-                {isSubmitting ? 'Submitting...' : 'Schedule FREE Consultation'}
+                {isSubmitting ? 'Submitting...' : 'Get FREE Consultation'}
               </button>
 
             </form>
 
-            {/* Social Proof Footer */}
-            <div className="mt-6 flex justify-center items-center gap-4 md:gap-6 border-t border-white/20 pt-4">
+            {/* Compact Social Proof */}
+            <div className="mt-4 flex justify-center items-center gap-3 border-t border-white/20 pt-3">
               <div className="flex items-center gap-1">
-                <span className="font-bold text-lg text-white">G</span>
-                <div className="flex text-yellow-400 text-xs">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="currentColor" />)}
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={10} fill="currentColor" />)}
                 </div>
-                <div className="text-[10px] leading-tight ml-1 text-white/70">4.9<br/>RATING</div>
+                <span className="text-[9px] text-white/70 ml-1">4.9</span>
               </div>
-              <div className="w-px h-8 bg-white/20"></div>
-              <div className="flex items-center gap-1">
-                <Linkedin size={18} className="text-white" />
-                <div className="text-[10px] leading-tight ml-1 text-white/70">500+<br/>CLIENTS</div>
-              </div>
-              <div className="w-px h-8 bg-white/20"></div>
-              <div className="flex items-center gap-1">
-                <Award size={18} className="text-aryo-greenTeal" />
-                <div className="text-[10px] leading-tight ml-1 text-white/70">$50M+<br/>RAISED</div>
-              </div>
+              <div className="w-px h-4 bg-white/20"></div>
+              <span className="text-[9px] text-white/70">500+ Clients</span>
+              <div className="w-px h-4 bg-white/20"></div>
+              <span className="text-[9px] text-white/70">$50M+ Raised</span>
             </div>
 
           </div>
