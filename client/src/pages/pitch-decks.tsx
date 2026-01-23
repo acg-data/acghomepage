@@ -28,6 +28,8 @@ import {
   Award,
   ShieldCheck,
   Check,
+  Building2,
+  TrendingUp,
   ChevronDown,
   Star
 } from 'lucide-react';
@@ -345,9 +347,9 @@ function Hero() {
 
           {/* Headline */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight text-aryo-deepBlue">
-            #1 Top-Rated <br/>
-            Pitch Deck <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">Design Agency</span>
+            World Class Investor<br/>
+            Presentations to<br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">Get Funded Fast</span>
           </h1>
 
           {/* Subtext */}
@@ -356,51 +358,60 @@ function Hero() {
             <span className="font-bold text-aryo-deepBlue"> We help startups and enterprises raise capital and close deals.</span>
           </p>
 
-          {/* Service Pills */}
-          <div className="flex flex-wrap gap-3">
-            {["Investor Decks", "Sales Presentations", "Data Visualization", "Brand Design"].map((tag, i) => (
-              <div key={i} className="flex items-center gap-2 bg-white border border-aryo-lightGrey px-4 py-3 rounded-lg">
-                <Check size={16} className="text-aryo-greenTeal" />
-                <span className="font-semibold text-sm text-aryo-deepBlue">{tag}</span>
+          {/* Service Circles */}
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+            {[
+              { name: "Investor Decks", icon: Rocket },
+              { name: "Sales Presentations", icon: Target },
+              { name: "Corporate Presentations", icon: Building2 },
+              { name: "M&A Presentation", icon: TrendingUp },
+              { name: "Brand Design", icon: Palette },
+              { name: "Data Visualization", icon: BarChart3 }
+            ].map((service, i) => (
+              <div key={i} className="flex flex-col items-center text-center">
+                <div className="w-14 h-14 rounded-full bg-aryo-deepBlue flex items-center justify-center mb-2">
+                  <service.icon size={24} className="text-white" />
+                </div>
+                <span className="text-xs font-medium text-aryo-deepBlue leading-tight">{service.name}</span>
               </div>
             ))}
           </div>
 
         </div>
 
-        {/* RIGHT COLUMN: Skinny Lead Capture Form - Takes 2 of 5 columns */}
+        {/* RIGHT COLUMN: Taller Lead Capture Form - Takes 2 of 5 columns */}
         <div className="lg:col-span-2">
-          <div className="bg-aryo-deepBlue p-5 rounded-xl shadow-xl max-w-sm mx-auto lg:mx-0">
+          <div className="bg-aryo-deepBlue p-8 rounded-xl shadow-xl max-w-sm mx-auto lg:mx-0">
             
             {/* Form Header */}
-            <div className="text-center mb-4">
-              <p className="text-sm text-white/80">Schedule your <span className="font-bold border-b border-aryo-greenTeal">FREE</span></p>
-              <h3 className="text-lg font-serif font-bold text-white mt-1">Consultation Today!</h3>
+            <div className="text-center mb-6">
+              <p className="text-base text-white/80">Schedule your <span className="font-bold border-b-2 border-aryo-greenTeal">FREE</span></p>
+              <h3 className="text-xl font-serif font-bold text-white mt-2">Consultation Today!</h3>
             </div>
 
             {submitStatus && (
-              <div className={`mb-3 p-2 rounded text-xs ${submitStatus.success ? 'bg-green-500/20 border border-green-400/50 text-green-200' : 'bg-red-500/20 border border-red-400/50 text-red-200'}`} data-testid="status-hero-form">
+              <div className={`mb-4 p-3 rounded text-sm ${submitStatus.success ? 'bg-green-500/20 border border-green-400/50 text-green-200' : 'bg-red-500/20 border border-red-400/50 text-red-200'}`} data-testid="status-hero-form">
                 {submitStatus.message}
               </div>
             )}
 
-            <form className="space-y-3" onSubmit={handleSubmit}>
+            <form className="space-y-4" onSubmit={handleSubmit}>
               
               {/* Service Dropdown */}
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="w-full h-10 px-3 rounded text-sm text-left bg-white flex items-center justify-between"
+                  className="w-full h-12 px-4 rounded text-sm text-left bg-white flex items-center justify-between"
                   data-testid="select-hero-service"
                 >
                   <span className={formData.service ? 'text-slate-800' : 'text-slate-400'}>
                     {formData.service || 'Choose Service*'}
                   </span>
-                  <ChevronDown className={`text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} size={16} />
+                  <ChevronDown className={`text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} size={18} />
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute z-20 w-full mt-1 bg-white rounded shadow-lg border border-slate-200 max-h-40 overflow-y-auto">
+                  <div className="absolute z-20 w-full mt-1 bg-white rounded shadow-lg border border-slate-200 max-h-48 overflow-y-auto">
                     {serviceOptions.map((option) => (
                       <button
                         key={option}
@@ -409,7 +420,7 @@ function Hero() {
                           setFormData({ ...formData, service: option });
                           setIsDropdownOpen(false);
                         }}
-                        className="w-full px-3 py-2 text-left text-slate-700 hover:bg-aryo-deepBlue/10 text-sm"
+                        className="w-full px-4 py-3 text-left text-slate-700 hover:bg-aryo-deepBlue/10 text-sm"
                         data-testid={`option-hero-${option.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {option}
@@ -425,7 +436,7 @@ function Hero() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full h-10 px-3 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
+                className="w-full h-12 px-4 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
                 data-testid="input-hero-name"
               />
 
@@ -435,7 +446,7 @@ function Hero() {
                 required 
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full h-10 px-3 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
+                className="w-full h-12 px-4 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
                 data-testid="input-hero-email"
               />
 
@@ -445,21 +456,21 @@ function Hero() {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full h-10 px-3 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
+                className="w-full h-12 px-4 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
                 data-testid="input-hero-phone"
               />
 
               {/* Terms Checkbox */}
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-3 mt-2">
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, agreedToTerms: !formData.agreedToTerms })}
-                  className={`mt-0.5 w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center transition-colors ${formData.agreedToTerms ? 'bg-aryo-greenTeal border-aryo-greenTeal' : 'bg-white/20 border-white/50'}`}
+                  className={`mt-0.5 w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-colors ${formData.agreedToTerms ? 'bg-aryo-greenTeal border-aryo-greenTeal' : 'bg-white/20 border-white/50'}`}
                   data-testid="checkbox-hero-terms"
                 >
-                  {formData.agreedToTerms && <Check size={10} className="text-white" />}
+                  {formData.agreedToTerms && <Check size={12} className="text-white" />}
                 </button>
-                <p className="text-[10px] text-white/60 leading-tight">
+                <p className="text-xs text-white/60 leading-tight">
                   By submitting you agree to our terms and privacy policy.
                 </p>
               </div>
@@ -467,7 +478,7 @@ function Hero() {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-aryo-greenTeal hover:bg-aryo-teal text-white font-bold py-3 rounded text-sm transition duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-aryo-greenTeal hover:bg-aryo-teal text-white font-bold py-4 rounded text-base transition duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed mt-2"
                 data-testid="button-hero-submit"
               >
                 {isSubmitting ? 'Submitting...' : 'Get FREE Consultation'}
@@ -475,18 +486,18 @@ function Hero() {
 
             </form>
 
-            {/* Compact Social Proof */}
-            <div className="mt-4 flex justify-center items-center gap-3 border-t border-white/20 pt-3">
+            {/* Social Proof Footer */}
+            <div className="mt-6 flex justify-center items-center gap-4 border-t border-white/20 pt-4">
               <div className="flex items-center gap-1">
                 <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={10} fill="currentColor" />)}
+                  {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="currentColor" />)}
                 </div>
-                <span className="text-[9px] text-white/70 ml-1">4.9</span>
+                <span className="text-[10px] text-white/70 ml-1">4.9</span>
               </div>
-              <div className="w-px h-4 bg-white/20"></div>
-              <span className="text-[9px] text-white/70">500+ Clients</span>
-              <div className="w-px h-4 bg-white/20"></div>
-              <span className="text-[9px] text-white/70">$50M+ Raised</span>
+              <div className="w-px h-5 bg-white/20"></div>
+              <span className="text-[10px] text-white/70">500+ Clients</span>
+              <div className="w-px h-5 bg-white/20"></div>
+              <span className="text-[10px] text-white/70">$500M+ Raised</span>
             </div>
 
           </div>
