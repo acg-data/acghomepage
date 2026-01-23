@@ -260,6 +260,7 @@ function Hero() {
     name: '',
     email: '',
     phone: '',
+    details: '',
     agreedToTerms: false
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -291,14 +292,14 @@ function Hero() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: `Service: ${formData.service}\nPhone: ${formData.phone}\n\nPitch Deck Inquiry from hero form.`
+          message: `Service: ${formData.service}\nPhone: ${formData.phone}\n\nProject Details: ${formData.details || 'Not provided'}\n\nPitch Deck Inquiry from hero form.`
         })
       });
       const data = await response.json();
       
       if (data.success) {
         setSubmitStatus({ success: true, message: 'Thank you! We\'ll be in touch within 24 hours.' });
-        setFormData({ service: '', name: '', email: '', phone: '', agreedToTerms: false });
+        setFormData({ service: '', name: '', email: '', phone: '', details: '', agreedToTerms: false });
       } else {
         setSubmitStatus({ success: false, message: data.message || 'Failed to submit. Please try again.' });
       }
@@ -358,8 +359,8 @@ function Hero() {
             <span className="font-bold text-aryo-deepBlue"> We help startups and enterprises raise capital and close deals.</span>
           </p>
 
-          {/* Service Circles */}
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+          {/* Service Circles - 2 rows of 3 */}
+          <div className="grid grid-cols-3 gap-4 max-w-md">
             {[
               { name: "Investor Decks", icon: Rocket },
               { name: "Sales Presentations", icon: Target },
@@ -381,7 +382,7 @@ function Hero() {
 
         {/* RIGHT COLUMN: Taller Lead Capture Form - Takes 2 of 5 columns */}
         <div className="lg:col-span-2">
-          <div className="bg-aryo-deepBlue p-8 rounded-xl shadow-xl max-w-sm mx-auto lg:mx-0">
+          <div className="bg-aryo-deepBlue p-8 rounded-xl shadow-xl max-w-md mx-auto lg:mx-0">
             
             {/* Form Header */}
             <div className="text-center mb-6">
@@ -458,6 +459,15 @@ function Hero() {
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="w-full h-12 px-4 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400"
                 data-testid="input-hero-phone"
+              />
+
+              <textarea 
+                placeholder="Tell us about your project (optional)"
+                value={formData.details}
+                onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                rows={3}
+                className="w-full px-4 py-3 rounded text-sm text-slate-800 bg-white border-none focus:ring-2 focus:ring-aryo-teal focus:outline-none placeholder:text-slate-400 resize-none"
+                data-testid="input-hero-details"
               />
 
               {/* Terms Checkbox */}
