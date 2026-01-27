@@ -789,7 +789,7 @@ Be thorough, specific, and actionable. Return ONLY valid JSON.`;
     }
   }
 
-  app.post("/api/tools/cro-analyze", async (req: Request, res: Response) => {
+  app.post("/api/tools/website-analyze", async (req: Request, res: Response) => {
     try {
       const { url, viewport } = req.body;
 

@@ -187,7 +187,7 @@ export default function PEValuationTool() {
       <SEO 
         title="PE Valuation Tool | Aryo Consulting Group"
         description="Comprehensive private equity valuation suite with multiple methodologies including EBITDA, revenue, and SDE multiples."
-        canonical="/pe-valuation-tool"
+        canonical="/tools/pe-valuation-tool"
       />
       <Navbar />
       

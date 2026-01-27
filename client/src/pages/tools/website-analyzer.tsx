@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Search, Target, BarChart3, Zap, Shield, ArrowLeft, CheckCircle, AlertCircle, Lightbulb, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Navbar } from '@/components/layout';
+import { Navbar, Footer } from '@/components/layout';
 import { SEO } from '@/components/seo';
 import { useToast } from '@/hooks/use-toast';
 
@@ -26,7 +26,7 @@ interface AnalysisData {
   strengths: string[];
 }
 
-export default function CROAnalyzer() {
+export default function WebsiteAnalyzer() {
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<{
@@ -45,7 +45,7 @@ export default function CROAnalyzer() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/tools/cro-analyze', {
+      const response = await fetch('/api/tools/website-analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: url.trim() })
@@ -95,7 +95,7 @@ export default function CROAnalyzer() {
     {
       icon: Target,
       title: 'Comprehensive Analysis',
-      description: 'Deep dive into 10 critical CRO categories including CTA effectiveness, trust signals, and mobile optimization.'
+      description: 'Deep dive into 10 critical categories including CTA effectiveness, trust signals, and mobile optimization.'
     },
     {
       icon: BarChart3,
@@ -117,8 +117,8 @@ export default function CROAnalyzer() {
   return (
     <div className="min-h-screen bg-aryo-offWhite">
       <SEO 
-        title="CRO Analyzer | Aryo Consulting Group"
-        description="Analyze your website's conversion rate optimization with AI-powered insights and professional grading."
+        title="Website Analyzer | Aryo Consulting Group"
+        description="Analyze your website's performance and conversion optimization with AI-powered insights and professional grading."
       />
       <Navbar />
 
@@ -132,7 +132,7 @@ export default function CROAnalyzer() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase mb-4 block"
               >
-                Professional CRO Analysis
+                Professional Website Analysis
               </motion.span>
               
               <motion.h1 
@@ -151,7 +151,7 @@ export default function CROAnalyzer() {
                 transition={{ delay: 0.2 }}
                 className="text-xl text-slate-600 font-light mb-10 max-w-2xl mx-auto"
               >
-                Get a comprehensive CRO analysis with AI-powered insights, actionable recommendations, 
+                Get a comprehensive website analysis with AI-powered insights, actionable recommendations, 
                 and professional grading across 10 critical categories.
               </motion.p>
 
@@ -244,7 +244,7 @@ export default function CROAnalyzer() {
               <div className="text-center mb-12">
                 <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase mb-4 block">Categories</span>
                 <h2 className="text-4xl font-bold text-aryo-deepBlue mb-4">
-                  10 Critical CRO Categories
+                  10 Critical Website Categories
                 </h2>
                 <p className="text-slate-600 font-light">
                   We analyze every aspect that impacts your conversion rate
@@ -338,7 +338,7 @@ export default function CROAnalyzer() {
                 <div className={`text-6xl font-bold ${getScoreColor(result.analysis.overallScore)} mb-2`}>
                   {result.analysis.overallScore}/100
                 </div>
-                <h2 className="text-2xl font-bold text-aryo-deepBlue mb-3">Overall CRO Score</h2>
+                <h2 className="text-2xl font-bold text-aryo-deepBlue mb-3">Overall Website Score</h2>
                 <p className="text-slate-600 font-light text-lg">{result.analysis.summary}</p>
               </div>
             </div>
@@ -599,6 +599,7 @@ export default function CROAnalyzer() {
           )}
         </main>
       )}
+      <Footer />
     </div>
   );
 }

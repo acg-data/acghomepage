@@ -445,7 +445,7 @@ export default function StablecoinCalculator() {
       <SEO 
         title="Stablecoin Savings Calculator | Aryo Consulting Group"
         description="Calculate your potential savings from stablecoin adoption. Discover FX savings, treasury yield, and settlement efficiency gains."
-        canonical="/stablecoin-calculator"
+        canonical="/tools/stablecoin-calculator"
       />
       <Navbar />
       

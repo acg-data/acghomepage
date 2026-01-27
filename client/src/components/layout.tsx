@@ -14,9 +14,9 @@ const capabilitiesItems = [
 ];
 
 const toolsItems = [
-  { name: 'PE Valuation Tool', href: '/pe-valuation-tool' },
-  { name: 'Stablecoin Calculator', href: '/stablecoin-calculator' },
-  { name: 'CRO Analyzer', href: '/tools/cro-analyzer' },
+  { name: 'PE Valuation Tool', href: '/tools/pe-valuation-tool' },
+  { name: 'Stablecoin Calculator', href: '/tools/stablecoin-calculator' },
+  { name: 'Website Analyzer', href: '/tools/website-analyzer' },
 ];
 
 export function Navbar() {
