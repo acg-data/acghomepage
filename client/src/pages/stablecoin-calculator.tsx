@@ -247,6 +247,8 @@ export default function StablecoinCalculator() {
 
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<any>(null);
+  const savingsChartRef = useRef<HTMLCanvasElement>(null);
+  const savingsChartInstanceRef = useRef<any>(null);
 
   const selectedIndustry = industry ? industries[industry] : null;
   const selectedSize = companySize ? companySizes[companySize] : null;
@@ -332,37 +334,83 @@ export default function StablecoinCalculator() {
   };
 
   useEffect(() => {
-    if (showResults && results && chartRef.current) {
-      const loadChart = async () => {
+    if (showResults && results && results.best) {
+      const best = results.best;
+      const loadCharts = async () => {
         const { Chart, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend } = await import('chart.js');
         Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-        if (chartInstanceRef.current) {
-          chartInstanceRef.current.destroy();
+        // Savings Breakdown Chart
+        if (savingsChartRef.current) {
+          if (savingsChartInstanceRef.current) {
+            savingsChartInstanceRef.current.destroy();
+          }
+
+          const savingsData = [
+            { label: 'Card Processing', value: best.savings.cardInterchange + best.savings.cardFees, color: '#F97316' },
+            { label: 'Treasury Yield', value: best.treasuryYield, color: '#A855F7' },
+            { label: 'Settlement Speed', value: best.savings.settlement, color: '#3B82F6' },
+            { label: 'FX Costs', value: best.savings.fx, color: '#EF4444' },
+            { label: 'Fraud & Chargebacks', value: best.savings.fraud + best.savings.chargeback, color: '#F87171' },
+            { label: 'Automation', value: best.savings.automation, color: '#94A3B8' }
+          ].sort((a, b) => b.value - a.value);
+
+          savingsChartInstanceRef.current = new Chart(savingsChartRef.current!, {
+            type: 'bar',
+            data: {
+              labels: savingsData.map(d => d.label),
+              datasets: [{
+                label: 'Annual Savings',
+                data: savingsData.map(d => d.value),
+                backgroundColor: savingsData.map(d => d.color),
+                borderRadius: 4,
+              }],
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { 
+                legend: { display: false }, 
+                tooltip: { callbacks: { label: (ctx) => formatCurrency(ctx.raw as number) } } 
+              },
+              scales: { 
+                x: { beginAtZero: true, ticks: { callback: (value: number | string) => formatCurrency(Number(value)) } },
+                y: { grid: { display: false } }
+              },
+            },
+          });
         }
 
-        const labels = results.analysis.map(c => c.name);
-        chartInstanceRef.current = new Chart(chartRef.current!, {
-          type: 'bar',
-          data: {
-            labels,
-            datasets: [
-              { label: 'Cost Savings', data: results.analysis.map(c => c.totalSavings), backgroundColor: '#4EB9A7' },
-              { label: 'Treasury Yield', data: results.analysis.map(c => c.treasuryYield), backgroundColor: '#47B5CB' },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: (ctx: { dataset: { label: string }; raw: unknown }) => `${ctx.dataset.label}: ${formatCurrency(ctx.raw as number)}` } } },
-            scales: { 
-              x: { stacked: true },
-              y: { stacked: true, beginAtZero: true, ticks: { callback: (value: number | string) => formatCurrency(Number(value)) } } 
+        // Stablecoin Comparison Chart
+        if (chartRef.current) {
+          if (chartInstanceRef.current) {
+            chartInstanceRef.current.destroy();
+          }
+
+          const labels = results.analysis.map(c => c.name);
+          chartInstanceRef.current = new Chart(chartRef.current!, {
+            type: 'bar',
+            data: {
+              labels,
+              datasets: [
+                { label: 'Cost Savings', data: results.analysis.map(c => c.totalSavings), backgroundColor: '#4EB9A7' },
+                { label: 'Treasury Yield', data: results.analysis.map(c => c.treasuryYield), backgroundColor: '#47B5CB' },
+              ],
             },
-          },
-        });
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label || ''}: ${formatCurrency(ctx.raw as number)}` } } },
+              scales: { 
+                x: { stacked: true },
+                y: { stacked: true, beginAtZero: true, ticks: { callback: (value: number | string) => formatCurrency(Number(value)) } } 
+              },
+            },
+          });
+        }
       };
-      loadChart();
+      loadCharts();
     }
   }, [showResults, results]);
 
@@ -379,6 +427,10 @@ export default function StablecoinCalculator() {
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
       chartInstanceRef.current = null;
+    }
+    if (savingsChartInstanceRef.current) {
+      savingsChartInstanceRef.current.destroy();
+      savingsChartInstanceRef.current = null;
     }
   };
 
@@ -682,6 +734,17 @@ export default function StablecoinCalculator() {
                           <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.automationCosts)}</div>
                           <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.automation)}</div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl border border-slate-200">
+                    <div className="px-6 py-5 border-b border-slate-100">
+                      <h3 className="text-base font-semibold text-aryo-deepBlue">Savings by Category</h3>
+                    </div>
+                    <div className="p-6">
+                      <div className="h-[280px]">
+                        <canvas ref={savingsChartRef} data-testid="chart-savings-breakdown" />
                       </div>
                     </div>
                   </div>
