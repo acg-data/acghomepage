@@ -1,4 +1,358 @@
-ansition-colors" data-testid="button-reset">
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { Navbar, Footer } from '@/components/layout';
+import { Check, DollarSign, RotateCcw, Globe, Wallet, TrendingUp, Clock, Building2, Shield, Zap, RefreshCw } from 'lucide-react';
+import { SEO } from '@/components/seo';
+
+const stablecoinTypes = [
+  { id: 'usdc', name: 'USDC', type: 'Fiat-Backed', yieldPotential: 4.5, riskScore: 1, description: 'US Dollar-backed, regulated' },
+  { id: 'usdt', name: 'USDT', type: 'Fiat-Backed', yieldPotential: 4.2, riskScore: 2, description: 'Largest market cap' },
+  { id: 'dai', name: 'DAI', type: 'Crypto-Collateralized', yieldPotential: 5.0, riskScore: 3, description: 'Decentralized, over-collateralized' },
+  { id: 'pyusd', name: 'PYUSD', type: 'Fiat-Backed', yieldPotential: 4.0, riskScore: 1, description: 'PayPal-backed' },
+  { id: 'eurc', name: 'EURC', type: 'Fiat-Backed', yieldPotential: 3.8, riskScore: 1, description: 'Euro-denominated' },
+  { id: 'frax', name: 'FRAX', type: 'Hybrid', yieldPotential: 5.5, riskScore: 4, description: 'Partially algorithmic' }
+];
+
+const industries: Record<string, { crossBorderPct: number; avgTxSize: number; settlementDays: number; fxSpread: number; wireFeePct: number; compliance: number; label: string }> = {
+  fintech: { crossBorderPct: 0.45, avgTxSize: 500000, settlementDays: 3, fxSpread: 0.015, wireFeePct: 0.003, compliance: 0.002, label: 'Financial Services & Fintech' },
+  ecommerce: { crossBorderPct: 0.35, avgTxSize: 50000, settlementDays: 2.5, fxSpread: 0.02, wireFeePct: 0.025, compliance: 0.001, label: 'E-Commerce & Retail' },
+  manufacturing: { crossBorderPct: 0.55, avgTxSize: 250000, settlementDays: 4, fxSpread: 0.018, wireFeePct: 0.004, compliance: 0.0015, label: 'Manufacturing & Supply Chain' },
+  tech: { crossBorderPct: 0.60, avgTxSize: 100000, settlementDays: 2, fxSpread: 0.012, wireFeePct: 0.002, compliance: 0.001, label: 'Technology & SaaS' },
+  pharma: { crossBorderPct: 0.40, avgTxSize: 750000, settlementDays: 5, fxSpread: 0.02, wireFeePct: 0.005, compliance: 0.003, label: 'Pharmaceuticals & Healthcare' },
+  energy: { crossBorderPct: 0.70, avgTxSize: 2000000, settlementDays: 4, fxSpread: 0.01, wireFeePct: 0.002, compliance: 0.002, label: 'Energy & Commodities' },
+  logistics: { crossBorderPct: 0.65, avgTxSize: 150000, settlementDays: 3, fxSpread: 0.015, wireFeePct: 0.003, compliance: 0.0012, label: 'Logistics & Transportation' },
+  media: { crossBorderPct: 0.50, avgTxSize: 75000, settlementDays: 2, fxSpread: 0.018, wireFeePct: 0.025, compliance: 0.001, label: 'Media & Entertainment' }
+};
+
+const companySizes: Record<string, { treasuryPct: number; paymentFreq: number; label: string }> = {
+  smb: { treasuryPct: 0.12, paymentFreq: 200, label: 'SMB ($10M - $50M)' },
+  midmarket: { treasuryPct: 0.10, paymentFreq: 500, label: 'Mid-Market ($50M - $250M)' },
+  enterprise: { treasuryPct: 0.08, paymentFreq: 2000, label: 'Enterprise ($250M - $1B)' },
+  largeenterprise: { treasuryPct: 0.06, paymentFreq: 10000, label: 'Large Enterprise ($1B - $10B)' },
+  megacorp: { treasuryPct: 0.05, paymentFreq: 50000, label: 'Global Corporation ($10B+)' }
+};
+
+function formatCurrency(value: number): string {
+  if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`;
+  if (value >= 1e6) return `$${(value / 1e6).toFixed(1)}M`;
+  if (value >= 1e3) return `$${(value / 1e3).toFixed(0)}K`;
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+}
+
+function parseCurrency(value: string): number {
+  return parseInt(value.replace(/[^0-9.-]+/g, '')) || 0;
+}
+
+function formatInputCurrency(value: number): string {
+  return new Intl.NumberFormat('en-US').format(value);
+}
+
+export default function StablecoinCalculator() {
+  const [industry, setIndustry] = useState('');
+  const [companySize, setCompanySize] = useState('');
+  const [annualRevenue, setAnnualRevenue] = useState(100000000);
+  const [crossBorderPayments, setCrossBorderPayments] = useState(0);
+  const [treasuryAllocation, setTreasuryAllocation] = useState(20);
+  const [selectedStablecoins, setSelectedStablecoins] = useState<string[]>(['usdc', 'usdt']);
+  const [showResults, setShowResults] = useState(false);
+  const [results, setResults] = useState<{
+    crossBorder: number;
+    treasury: number;
+    traditional: { fxCosts: number; wireFees: number; settlementCost: number; complianceCost: number; correspondentFees: number; totalCost: number };
+    analysis: Array<{ id: string; name: string; type: string; yieldPotential: number; riskScore: number; totalSavings: number; treasuryYield: number; totalBenefit: number; savings: { fx: number; wire: number; settlement: number; compliance: number; correspondent: number } }>;
+    best: { id: string; name: string; type: string; yieldPotential: number; totalBenefit: number; savings: { fx: number; wire: number; settlement: number; compliance: number; correspondent: number }; treasuryYield: number } | null;
+    fiveYear: number;
+    revenue: number;
+  } | null>(null);
+
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstanceRef = useRef<any>(null);
+
+  const selectedIndustry = industry ? industries[industry] : null;
+  const selectedSize = companySize ? companySizes[companySize] : null;
+
+  const crossBorderEstimate = useMemo(() => {
+    if (!selectedIndustry) return 0;
+    return annualRevenue * selectedIndustry.crossBorderPct;
+  }, [annualRevenue, selectedIndustry]);
+
+  const effectiveCrossBorder = crossBorderPayments > 0 ? crossBorderPayments : crossBorderEstimate;
+
+  const calculateSavings = () => {
+    if (!industry || !companySize) {
+      alert('Please select an industry and company size');
+      return;
+    }
+
+    const ind = industries[industry];
+    const size = companySizes[companySize];
+    const crossBorder = effectiveCrossBorder;
+    const treasury = annualRevenue * size.treasuryPct;
+    const paymentFreq = size.paymentFreq;
+
+    const trad = {
+      fxCosts: crossBorder * ind.fxSpread,
+      wireFees: paymentFreq * 35,
+      settlementCost: (crossBorder * 0.05 * ind.settlementDays) / 365,
+      complianceCost: crossBorder * ind.compliance,
+      correspondentFees: crossBorder * 0.002,
+      totalCost: 0
+    };
+    trad.totalCost = trad.fxCosts + trad.wireFees + trad.settlementCost + trad.complianceCost + trad.correspondentFees;
+
+    const analysis = selectedStablecoins.map(coinId => {
+      const coin = stablecoinTypes.find(c => c.id === coinId)!;
+      const txCost = paymentFreq * 0.50;
+      const savings = {
+        fx: trad.fxCosts * 0.85,
+        wire: trad.wireFees * 0.90,
+        settlement: trad.settlementCost * 0.95,
+        compliance: trad.complianceCost * 0.40,
+        correspondent: trad.correspondentFees * 0.95
+      };
+      const totalSavings = savings.fx + savings.wire + savings.settlement + savings.compliance + savings.correspondent - txCost;
+      const treasuryYield = (treasury * (treasuryAllocation / 100)) * (coin.yieldPotential / 100);
+      return { ...coin, txCost, savings, totalSavings, treasuryYield, totalBenefit: totalSavings + treasuryYield };
+    });
+
+    const best = analysis.length > 0 ? analysis.reduce((a, b) => a.totalBenefit > b.totalBenefit ? a : b) : null;
+
+    setResults({
+      revenue: annualRevenue,
+      crossBorder,
+      treasury,
+      traditional: trad,
+      analysis,
+      best,
+      fiveYear: best ? best.totalBenefit * 5.5 : 0
+    });
+    setShowResults(true);
+  };
+
+  useEffect(() => {
+    if (showResults && results && chartRef.current) {
+      const loadChart = async () => {
+        const { Chart, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend } = await import('chart.js');
+        Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+        if (chartInstanceRef.current) {
+          chartInstanceRef.current.destroy();
+        }
+
+        const labels = results.analysis.map(c => c.name);
+        chartInstanceRef.current = new Chart(chartRef.current!, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Cost Savings', data: results.analysis.map(c => c.totalSavings), backgroundColor: '#4EB9A7' },
+              { label: 'Treasury Yield', data: results.analysis.map(c => c.treasuryYield), backgroundColor: '#47B5CB' },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: (ctx: { dataset: { label: string }; raw: unknown }) => `${ctx.dataset.label}: ${formatCurrency(ctx.raw as number)}` } } },
+            scales: { 
+              x: { stacked: true },
+              y: { stacked: true, beginAtZero: true, ticks: { callback: (value: number | string) => formatCurrency(Number(value)) } } 
+            },
+          },
+        });
+      };
+      loadChart();
+    }
+  }, [showResults, results]);
+
+  const resetForm = () => {
+    setIndustry('');
+    setCompanySize('');
+    setAnnualRevenue(100000000);
+    setCrossBorderPayments(0);
+    setTreasuryAllocation(20);
+    setSelectedStablecoins(['usdc', 'usdt']);
+    setShowResults(false);
+    setResults(null);
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+      chartInstanceRef.current = null;
+    }
+  };
+
+  const toggleCoin = (id: string) => {
+    setSelectedStablecoins(prev => 
+      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    );
+  };
+
+  const costBreakdownItems = ['FX conversion spreads', 'Wire transfer fees', 'Settlement float cost', 'Correspondent banking', 'Compliance overhead'];
+
+  return (
+    <>
+      <SEO 
+        title="Stablecoin Savings Calculator | Aryo Consulting Group"
+        description="Calculate your potential savings from stablecoin adoption. Discover FX savings, treasury yield, and settlement efficiency gains."
+        canonical="/stablecoin-calculator"
+      />
+      <Navbar />
+      
+      <header className="bg-gradient-to-br from-aryo-deepBlue to-[#1a3666] pt-32 pb-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full opacity-50" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} />
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-8 relative z-10">
+          <span className="text-xs font-bold text-aryo-greenTeal tracking-[0.2em] uppercase mb-4 block">Treasury Optimization Tool</span>
+          <h1 className="font-serif text-4xl md:text-5xl font-semibold text-white mb-4">Corporate Stablecoin Calculator</h1>
+          <p className="text-white/80 text-lg font-light max-w-xl">Quantify FX savings, treasury yield, and settlement efficiency from digital currency adoption.</p>
+        </div>
+      </header>
+
+      <main className="py-12 bg-aryo-offWhite">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-8 lg:gap-12">
+            <div className="bg-white rounded-xl border border-slate-200">
+              <div className="px-7 py-6 border-b border-slate-100">
+                <h2 className="font-serif text-xl font-semibold text-aryo-deepBlue">Calculator Parameters</h2>
+              </div>
+              <div className="p-7 space-y-8">
+                <div>
+                  <h3 className="text-xs font-bold text-aryo-greenTeal tracking-[0.15em] uppercase mb-5 pb-3 border-b border-slate-100">Company Profile</h3>
+                  <div className="space-y-5">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Industry Classification</label>
+                      <select 
+                        value={industry} 
+                        onChange={(e) => setIndustry(e.target.value)}
+                        className="w-full px-4 py-3 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-aryo-deepBlue focus:ring-2 focus:ring-aryo-deepBlue/10 appearance-none cursor-pointer"
+                        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '40px' }}
+                        data-testid="select-industry"
+                      >
+                        <option value="">Select Industry</option>
+                        <optgroup label="Technology">
+                          <option value="tech">Technology & SaaS</option>
+                          <option value="fintech">Financial Services & Fintech</option>
+                        </optgroup>
+                        <optgroup label="Consumer & Retail">
+                          <option value="ecommerce">E-Commerce & Retail</option>
+                          <option value="media">Media & Entertainment</option>
+                        </optgroup>
+                        <optgroup label="Industrial">
+                          <option value="manufacturing">Manufacturing & Supply Chain</option>
+                          <option value="logistics">Logistics & Transportation</option>
+                          <option value="energy">Energy & Commodities</option>
+                        </optgroup>
+                        <optgroup label="Healthcare">
+                          <option value="pharma">Pharmaceuticals & Healthcare</option>
+                        </optgroup>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Company Size</label>
+                      <select 
+                        value={companySize} 
+                        onChange={(e) => setCompanySize(e.target.value)}
+                        className="w-full px-4 py-3 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-aryo-deepBlue focus:ring-2 focus:ring-aryo-deepBlue/10 appearance-none cursor-pointer"
+                        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '40px' }}
+                        data-testid="select-company-size"
+                      >
+                        <option value="">Select Company Size</option>
+                        {Object.entries(companySizes).map(([key, val]) => (
+                          <option key={key} value={key}>{val.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-bold text-aryo-greenTeal tracking-[0.15em] uppercase mb-5 pb-3 border-b border-slate-100">Financial Parameters</h3>
+                  <div className="space-y-5">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Annual Revenue <span className="font-normal text-slate-400">(LTM)</span></label>
+                      <div className="flex">
+                        <span className="px-4 py-3 text-sm font-medium text-slate-500 bg-slate-50 border border-r-0 border-slate-200 rounded-l-lg">$</span>
+                        <input 
+                          type="text" 
+                          value={formatInputCurrency(annualRevenue)} 
+                          onChange={(e) => setAnnualRevenue(parseCurrency(e.target.value))}
+                          className="flex-1 px-4 py-3 text-sm border border-slate-200 rounded-r-lg focus:outline-none focus:border-aryo-deepBlue"
+                          data-testid="input-revenue"
+                        />
+                      </div>
+                      <input type="range" min={10000000} max={10000000000} step={10000000} value={annualRevenue} onChange={(e) => setAnnualRevenue(parseInt(e.target.value))} className="w-full mt-3 h-1 bg-slate-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-aryo-deepBlue [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow" data-testid="slider-revenue" />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Cross-Border Payment Volume <span className="font-normal text-slate-400">(Optional)</span></label>
+                      <div className="flex">
+                        <span className="px-4 py-3 text-sm font-medium text-slate-500 bg-slate-50 border border-r-0 border-slate-200 rounded-l-lg">$</span>
+                        <input 
+                          type="text" 
+                          value={crossBorderPayments > 0 ? formatInputCurrency(crossBorderPayments) : ''} 
+                          onChange={(e) => setCrossBorderPayments(parseCurrency(e.target.value))}
+                          placeholder={crossBorderEstimate > 0 ? `Est. ${formatCurrency(crossBorderEstimate)}` : 'Based on industry avg'}
+                          className="flex-1 px-4 py-3 text-sm border border-slate-200 rounded-r-lg focus:outline-none focus:border-aryo-deepBlue placeholder:text-slate-400"
+                          data-testid="input-crossborder"
+                        />
+                      </div>
+                      <p className="text-xs text-slate-400 mt-2">Defaults to industry average ({selectedIndustry ? `${(selectedIndustry.crossBorderPct * 100).toFixed(0)}%` : '—'})</p>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="text-sm font-medium text-slate-700">Treasury Allocation</label>
+                        <span className="text-base font-semibold text-aryo-deepBlue">{treasuryAllocation}%</span>
+                      </div>
+                      <input type="range" min={0} max={50} step={5} value={treasuryAllocation} onChange={(e) => setTreasuryAllocation(parseInt(e.target.value))} className="w-full h-1 bg-slate-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-aryo-deepBlue [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow" data-testid="slider-allocation" />
+                      <div className="flex justify-between text-xs text-slate-400 mt-2">
+                        <span>Conservative</span>
+                        <span>Aggressive</span>
+                      </div>
+                      <p className="text-xs text-slate-400 mt-2">% of idle cash deployed into yield-bearing stablecoins</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-bold text-aryo-greenTeal tracking-[0.15em] uppercase mb-5 pb-3 border-b border-slate-100">Stablecoin Selection</h3>
+                  <div className="space-y-2">
+                    {stablecoinTypes.map((coin) => (
+                      <button
+                        key={coin.id}
+                        onClick={() => toggleCoin(coin.id)}
+                        className={`w-full p-3 text-left rounded-lg border transition-all flex items-center justify-between ${selectedStablecoins.includes(coin.id) ? 'bg-aryo-deepBlue text-white border-aryo-deepBlue' : 'bg-slate-50 border-slate-200'}`}
+                        data-testid={`button-coin-${coin.id}`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${selectedStablecoins.includes(coin.id) ? 'bg-white border-white' : 'border-slate-300'}`}>
+                            {selectedStablecoins.includes(coin.id) && <Check size={12} className="text-aryo-deepBlue" />}
+                          </div>
+                          <div>
+                            <div className={`font-semibold text-sm ${selectedStablecoins.includes(coin.id) ? 'text-white' : 'text-slate-800'}`}>{coin.name}</div>
+                            <div className={`text-xs ${selectedStablecoins.includes(coin.id) ? 'text-white/70' : 'text-slate-500'}`}>{coin.type} • {coin.yieldPotential}% yield</div>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-slate-50 rounded-lg p-4">
+                  <div className="text-xs font-semibold text-slate-600 mb-3">Traditional Payment Costs Include:</div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {costBreakdownItems.map((item) => (
+                      <div key={item} className="flex items-center gap-2 text-xs text-slate-500">
+                        <Check size={14} className="text-aryo-greenTeal flex-shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-6 border-t border-slate-100">
+                  <button onClick={calculateSavings} className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-aryo-deepBlue text-white font-semibold rounded-lg transition-colors" data-testid="button-calculate">
+                    <DollarSign size={16} />
+                    Calculate Savings
+                  </button>
+                  <button onClick={resetForm} className="px-6 py-3.5 bg-white text-slate-600 font-semibold rounded-lg border border-slate-200 transition-colors" data-testid="button-reset">
                     <RotateCcw size={16} />
                   </button>
                 </div>
