@@ -655,20 +655,19 @@ export default function StablecoinCalculator() {
                 </div>
               ) : results && results.best && (
                 <>
-                  <div className="bg-gradient-to-br from-aryo-deepBlue to-[#1a3666] rounded-xl p-10 text-white relative overflow-hidden">
-                    <div className="absolute top-[-50%] right-[-20%] w-[60%] h-[200%] bg-[radial-gradient(circle,rgba(71,181,203,0.1)_0%,transparent_70%)]" />
+                  <div className="bg-white rounded-xl border border-slate-200 p-10 relative overflow-hidden">
                     <div className="relative z-10">
-                      <span className="text-xs font-bold tracking-[0.2em] uppercase text-aryo-greenTeal mb-4 block">Estimated Annual Savings</span>
-                      <div className="font-serif text-3xl md:text-4xl font-semibold mb-2" data-testid="text-total-savings">{formatCurrency(results.best.totalBenefit)}</div>
-                      <div className="text-lg opacity-90 font-light" data-testid="text-five-year">5-Year Projection: {formatCurrency(results.fiveYear)}</div>
-                      <div className="flex gap-6 mt-6 pt-6 border-t border-white/15">
+                      <span className="text-xs font-bold tracking-[0.2em] uppercase text-aryo-teal mb-4 block">Estimated Annual Savings</span>
+                      <div className="font-serif text-3xl md:text-4xl font-semibold text-aryo-deepBlue mb-2" data-testid="text-total-savings">{formatCurrency(results.best.totalBenefit)}</div>
+                      <div className="text-lg text-slate-600 font-light" data-testid="text-five-year">5-Year Projection: {formatCurrency(results.fiveYear)}</div>
+                      <div className="flex gap-6 mt-6 pt-6 border-t border-slate-200">
                         <div className="flex-1">
-                          <div className="text-xs uppercase tracking-wider opacity-70 mb-1">Recommended</div>
-                          <div className="text-base font-semibold" data-testid="text-recommended-coin">{results.best.name} ({results.best.type})</div>
+                          <div className="text-xs uppercase tracking-wider text-slate-400 mb-1">Recommended</div>
+                          <div className="text-base font-semibold text-aryo-deepBlue" data-testid="text-recommended-coin">{results.best.name} ({results.best.type})</div>
                         </div>
                         <div className="flex-1">
-                          <div className="text-xs uppercase tracking-wider opacity-70 mb-1">Treasury Yield</div>
-                          <div className="text-base font-semibold" data-testid="text-treasury-yield">{results.best.yieldPotential}% APY</div>
+                          <div className="text-xs uppercase tracking-wider text-slate-400 mb-1">Treasury Yield</div>
+                          <div className="text-base font-semibold text-aryo-deepBlue" data-testid="text-treasury-yield">{results.best.yieldPotential}% APY</div>
                         </div>
                       </div>
                     </div>
@@ -680,62 +679,62 @@ export default function StablecoinCalculator() {
                     </div>
                     <div className="p-6">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-orange-500 rounded-r" />
+                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-aryo-deepBlue rounded-r" />
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-bold bg-orange-100 text-orange-800 px-2 py-0.5 rounded">#1 Highest Impact</span>
+                            <span className="text-xs font-bold bg-aryo-deepBlue/10 text-aryo-deepBlue px-2 py-0.5 rounded">#1 Highest Impact</span>
                           </div>
                           <div className="flex items-center gap-2 mb-3">
-                            <Zap size={14} className="text-orange-500" />
+                            <Zap size={14} className="text-aryo-deepBlue" />
                             <span className="text-sm font-semibold text-aryo-deepBlue">Card Processing</span>
                           </div>
                           <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.cardInterchange + results.traditional.cardAcquirerFees)}</div>
                           <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.cardInterchange + results.best.savings.cardFees)}</div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-purple-500 rounded-r" />
+                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-aryo-teal rounded-r" />
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded">#2 Float Capture</span>
+                            <span className="text-xs font-bold bg-aryo-teal/10 text-aryo-teal px-2 py-0.5 rounded">#2 Float Capture</span>
                           </div>
                           <div className="flex items-center gap-2 mb-3">
-                            <RefreshCw size={14} className="text-purple-500" />
+                            <RefreshCw size={14} className="text-aryo-teal" />
                             <span className="text-sm font-semibold text-aryo-deepBlue">Reserves Yield</span>
                           </div>
                           <div className="text-lg font-bold text-aryo-greenTeal mb-1">+{formatCurrency(results.best.treasuryYield)}</div>
                           <div className="text-xs text-slate-500">{treasuryAllocation}% allocation @ {results.best.yieldPotential}%</div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-blue-500 rounded-r" />
+                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-aryo-greenTeal rounded-r" />
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded">#3 ROIC Gain</span>
+                            <span className="text-xs font-bold bg-aryo-greenTeal/10 text-aryo-greenTeal px-2 py-0.5 rounded">#3 ROIC Gain</span>
                           </div>
                           <div className="flex items-center gap-2 mb-3">
-                            <Clock size={14} className="text-blue-500" />
+                            <Clock size={14} className="text-aryo-greenTeal" />
                             <span className="text-sm font-semibold text-aryo-deepBlue">Settlement Speed</span>
                           </div>
                           <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.settlementCost)}</div>
                           <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.settlement)}</div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-red-400 rounded-r" />
+                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-aryo-deepBlue/70 rounded-r" />
                           <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><RefreshCw size={14} /> FX Costs (Current)</span>
+                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><RefreshCw size={14} className="text-aryo-deepBlue/70" /> FX Costs (Current)</span>
                           </div>
                           <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.fxCosts)}</div>
                           <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.fx)}</div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-red-400 rounded-r" />
+                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-aryo-teal/70 rounded-r" />
                           <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><AlertCircle size={14} /> Fraud & Chargebacks</span>
+                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><AlertCircle size={14} className="text-aryo-teal/70" /> Fraud & Chargebacks</span>
                           </div>
                           <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.fraudLosses + results.traditional.chargebacks)}</div>
                           <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.fraud + results.best.savings.chargeback)}</div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-slate-400 rounded-r" />
+                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-aryo-greenTeal/70 rounded-r" />
                           <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><Zap size={14} /> Automation</span>
+                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><Zap size={14} className="text-aryo-greenTeal/70" /> Automation</span>
                           </div>
                           <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.automationCosts)}</div>
                           <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.automation)}</div>
