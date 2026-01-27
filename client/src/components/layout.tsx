@@ -15,6 +15,7 @@ const capabilitiesItems = [
 
 const toolsItems = [
   { name: 'PE Valuation Tool', href: '/pe-valuation-tool' },
+  { name: 'Stablecoin Calculator', href: '/stablecoin-calculator' },
 ];
 
 export function Navbar() {
