@@ -176,12 +176,12 @@ const industries: Record<string, {
   }
 };
 
-const companySizes: Record<string, { treasuryPct: number; paymentFreq: number; operatingMarginPct: number; label: string }> = {
-  smb: { treasuryPct: 0.12, paymentFreq: 200, operatingMarginPct: 0.15, label: 'SMB ($10M - $50M)' },
-  midmarket: { treasuryPct: 0.10, paymentFreq: 500, operatingMarginPct: 0.18, label: 'Mid-Market ($50M - $250M)' },
-  enterprise: { treasuryPct: 0.08, paymentFreq: 2000, operatingMarginPct: 0.20, label: 'Enterprise ($250M - $1B)' },
-  largeenterprise: { treasuryPct: 0.06, paymentFreq: 10000, operatingMarginPct: 0.22, label: 'Large Enterprise ($1B - $10B)' },
-  megacorp: { treasuryPct: 0.05, paymentFreq: 50000, operatingMarginPct: 0.25, label: 'Global Corporation ($10B+)' }
+const companySizes: Record<string, { treasuryPct: number; paymentFreq: number; operatingMarginPct: number; revenueMidpoint: number; label: string }> = {
+  smb: { treasuryPct: 0.12, paymentFreq: 200, operatingMarginPct: 0.15, revenueMidpoint: 30000000, label: 'SMB ($10M - $50M)' },
+  midmarket: { treasuryPct: 0.10, paymentFreq: 500, operatingMarginPct: 0.18, revenueMidpoint: 150000000, label: 'Mid-Market ($50M - $250M)' },
+  enterprise: { treasuryPct: 0.08, paymentFreq: 2000, operatingMarginPct: 0.20, revenueMidpoint: 625000000, label: 'Enterprise ($250M - $1B)' },
+  largeenterprise: { treasuryPct: 0.06, paymentFreq: 10000, operatingMarginPct: 0.22, revenueMidpoint: 5500000000, label: 'Large Enterprise ($1B - $10B)' },
+  megacorp: { treasuryPct: 0.05, paymentFreq: 50000, operatingMarginPct: 0.25, revenueMidpoint: 25000000000, label: 'Global Corporation ($10B+)' }
 };
 
 const businessModels = [
@@ -347,12 +347,12 @@ export default function StablecoinCalculator() {
           }
 
           const savingsData = [
-            { label: 'Card Processing', value: best.savings.cardInterchange + best.savings.cardFees, color: '#F97316' },
-            { label: 'Treasury Yield', value: best.treasuryYield, color: '#A855F7' },
-            { label: 'Settlement Speed', value: best.savings.settlement, color: '#3B82F6' },
-            { label: 'FX Costs', value: best.savings.fx, color: '#EF4444' },
-            { label: 'Fraud & Chargebacks', value: best.savings.fraud + best.savings.chargeback, color: '#F87171' },
-            { label: 'Automation', value: best.savings.automation, color: '#94A3B8' }
+            { label: 'Card Processing', value: best.savings.cardInterchange + best.savings.cardFees, color: '#274D8E' },
+            { label: 'Treasury Yield', value: best.treasuryYield, color: '#47B5CB' },
+            { label: 'Settlement Speed', value: best.savings.settlement, color: '#4EB9A7' },
+            { label: 'FX Costs', value: best.savings.fx, color: 'rgba(39, 77, 142, 0.7)' },
+            { label: 'Fraud & Chargebacks', value: best.savings.fraud + best.savings.chargeback, color: 'rgba(71, 181, 203, 0.7)' },
+            { label: 'Automation', value: best.savings.automation, color: 'rgba(78, 185, 167, 0.7)' }
           ].sort((a, b) => b.value - a.value);
 
           savingsChartInstanceRef.current = new Chart(savingsChartRef.current!, {
@@ -502,7 +502,13 @@ export default function StablecoinCalculator() {
                       <label className="block text-sm font-medium text-slate-700 mb-2">Company Size</label>
                       <select 
                         value={companySize} 
-                        onChange={(e) => setCompanySize(e.target.value)}
+                        onChange={(e) => {
+                          const newSize = e.target.value;
+                          setCompanySize(newSize);
+                          if (newSize && companySizes[newSize]) {
+                            setAnnualRevenue(companySizes[newSize].revenueMidpoint);
+                          }
+                        }}
                         className="w-full px-4 py-3 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-aryo-deepBlue focus:ring-2 focus:ring-aryo-deepBlue/10 appearance-none cursor-pointer"
                         style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '40px' }}
                         data-testid="select-company-size"
@@ -786,29 +792,58 @@ export default function StablecoinCalculator() {
 
                   <div className="bg-white rounded-xl border border-slate-200">
                     <div className="px-6 py-5 border-b border-slate-100">
-                      <h3 className="font-serif text-lg font-semibold text-aryo-deepBlue">Margin Expansion Impact</h3>
+                      <h3 className="font-serif text-lg font-semibold text-aryo-deepBlue">EBITDA Margin Impact Analysis</h3>
                     </div>
-                    <div className="p-6">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="text-center p-4 bg-aryo-deepBlue/5 rounded-lg">
-                          <TrendingDown className="w-6 h-6 mx-auto text-aryo-greenTeal mb-2" />
-                          <div className="text-xs text-slate-500 mb-1">Current EBITDA Margin</div>
-                          <div className="text-lg font-bold text-slate-800">{(results.currentMargin / results.revenue * 100).toFixed(1)}%</div>
+                    <div className="p-6 space-y-6">
+                      <div className="flex items-center justify-center gap-4 md:gap-8">
+                        <div className="text-center">
+                          <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-2">Current Margin</div>
+                          <div className="text-3xl md:text-4xl font-bold text-slate-700">{(results.currentMargin / results.revenue * 100).toFixed(1)}%</div>
+                          <div className="text-sm text-slate-400 mt-1">{formatCurrency(results.currentMargin)}</div>
                         </div>
-                        <div className="text-center p-4 bg-aryo-greenTeal/10 rounded-lg">
-                          <TrendingUp className="w-6 h-6 mx-auto text-aryo-greenTeal mb-2" />
-                          <div className="text-xs text-slate-500 mb-1">Margin Uplift (bps)</div>
-                          <div className="text-lg font-bold text-aryo-greenTeal">+{results.marginUpliftBps.toFixed(0)}</div>
+                        <div className="flex flex-col items-center">
+                          <div className="w-16 md:w-24 h-0.5 bg-gradient-to-r from-slate-300 via-aryo-teal to-aryo-greenTeal relative">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white border-2 border-aryo-teal rounded-full p-1">
+                              <TrendingUp className="w-4 h-4 text-aryo-greenTeal" />
+                            </div>
+                          </div>
+                          <div className="mt-3 px-3 py-1 bg-aryo-greenTeal/10 rounded-full">
+                            <span className="text-sm font-bold text-aryo-greenTeal">+{results.marginUpliftBps.toFixed(0)} bps</span>
+                          </div>
                         </div>
-                        <div className="text-center p-4 bg-aryo-greenTeal/10 rounded-lg">
-                          <TrendingUp className="w-6 h-6 mx-auto text-aryo-greenTeal mb-2" />
-                          <div className="text-xs text-slate-500 mb-1">Projected Margin</div>
-                          <div className="text-lg font-bold text-aryo-greenTeal">{(results.newMargin / results.revenue * 100).toFixed(1)}%</div>
+                        <div className="text-center">
+                          <div className="text-xs font-medium text-aryo-greenTeal uppercase tracking-wide mb-2">Projected Margin</div>
+                          <div className="text-3xl md:text-4xl font-bold text-aryo-greenTeal">{(results.newMargin / results.revenue * 100).toFixed(1)}%</div>
+                          <div className="text-sm text-slate-400 mt-1">{formatCurrency(results.newMargin)}</div>
                         </div>
-                        <div className="text-center p-4 bg-aryo-teal/10 rounded-lg">
-                          <Wallet className="w-6 h-6 mx-auto text-aryo-teal mb-2" />
-                          <div className="text-xs text-slate-500 mb-1">Margin Improvement</div>
-                          <div className="text-lg font-bold text-aryo-teal">+{((results.best.totalBenefit / results.newMargin) * 100).toFixed(1)}%</div>
+                      </div>
+
+                      <div className="bg-gradient-to-r from-aryo-deepBlue/5 via-aryo-teal/5 to-aryo-greenTeal/5 rounded-lg p-5 border border-aryo-teal/20">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-full bg-aryo-greenTeal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <TrendingUp className="w-4 h-4 text-aryo-greenTeal" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-aryo-deepBlue mb-1">Margin Expansion Insight</div>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                              Stablecoin adoption drives a <span className="font-semibold text-aryo-greenTeal">{results.marginUpliftBps.toFixed(0)} basis point</span> improvement to your operating margin, translating to an additional <span className="font-semibold text-aryo-greenTeal">{formatCurrency(results.best.totalBenefit)}</span> in annual operating income. This represents a <span className="font-semibold text-aryo-greenTeal">{((results.best.totalBenefit / results.currentMargin) * 100).toFixed(1)}%</span> increase in bottom-line profitability without revenue growth.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="text-center p-3 bg-slate-50 rounded-lg">
+                          <div className="text-xs text-slate-500 mb-1">EBITDA Add-Back</div>
+                          <div className="text-lg font-bold text-aryo-deepBlue">{formatCurrency(results.best.totalBenefit)}</div>
+                        </div>
+                        <div className="text-center p-3 bg-slate-50 rounded-lg">
+                          <div className="text-xs text-slate-500 mb-1">% of Current EBITDA</div>
+                          <div className="text-lg font-bold text-aryo-teal">+{((results.best.totalBenefit / results.currentMargin) * 100).toFixed(1)}%</div>
+                        </div>
+                        <div className="text-center p-3 bg-slate-50 rounded-lg">
+                          <div className="text-xs text-slate-500 mb-1">5-Year Value</div>
+                          <div className="text-lg font-bold text-aryo-greenTeal">{formatCurrency(results.fiveYear)}</div>
                         </div>
                       </div>
                     </div>
