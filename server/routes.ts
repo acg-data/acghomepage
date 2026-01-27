@@ -13,6 +13,8 @@ import connectPgSimple from "connect-pg-simple";
 import { pool } from "./db";
 import { Client as ObjectStorageClient } from "@replit/object-storage";
 import { getResendClient } from "./integrations/resend";
+import OpenAI from "openai";
+import { chromium } from "playwright";
 
 // Load 301 redirects map
 let redirectsMap: Record<string, string> = {};
@@ -549,6 +551,272 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error serving Q4 report:", error);
       res.status(500).json({ message: "Failed to serve report" });
+    }
+  });
+
+  // CRO Analyzer endpoint
+  const openai = new OpenAI({
+    apiKey: process.env.OPENROUTER_API_KEY,
+    baseURL: "https://openrouter.ai/api/v1"
+  });
+
+  async function captureScreenshot(url: string, fullPage = true) {
+    const browser = await chromium.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
+    try {
+      const context = await browser.newContext({
+        viewport: { width: 1920, height: 1080 },
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      });
+
+      const page = await context.newPage();
+      
+      await page.goto(url, { 
+        waitUntil: 'networkidle',
+        timeout: 60000 
+      });
+
+      await page.waitForTimeout(2000);
+
+      const screenshotBuffer = await page.screenshot({
+        fullPage,
+        type: 'png'
+      });
+
+      const screenshotBase64 = screenshotBuffer.toString('base64');
+
+      const pageData = await page.evaluate(() => {
+        const title = document.title;
+        const metaDescription = document.querySelector('meta[name="description"]')?.content || '';
+        const h1s = Array.from(document.querySelectorAll('h1')).map(h => h.textContent?.trim()).filter(Boolean);
+        const h2s = Array.from(document.querySelectorAll('h2')).map(h => h.textContent?.trim()).filter(Boolean);
+        const ctas = Array.from(document.querySelectorAll('button, a[role="button"], .btn, .cta, [class*="button"]')).map(el => ({
+          text: el.textContent?.trim(),
+          tag: el.tagName.toLowerCase(),
+          href: el.href || null
+        })).filter(c => c.text);
+        
+        const forms = Array.from(document.querySelectorAll('form')).map(form => ({
+          action: form.action,
+          method: form.method,
+          inputs: Array.from(form.querySelectorAll('input, select, textarea')).map(input => ({
+            type: input.type,
+            name: input.name,
+            placeholder: input.placeholder,
+            required: input.required
+          }))
+        }));
+
+        const images = Array.from(document.querySelectorAll('img')).map(img => ({
+          src: img.src,
+          alt: img.alt,
+          width: img.width,
+          height: img.height
+        }));
+
+        const links = Array.from(document.querySelectorAll('a[href]')).map(a => ({
+          text: a.textContent?.trim(),
+          href: a.href,
+          isExternal: !a.href.includes(window.location.hostname)
+        }));
+
+        const socialProof = Array.from(document.querySelectorAll('body *')).some(el => {
+          const text = el.textContent?.toLowerCase() || '';
+          return text.includes('review') || 
+                 text.includes('testimonial') || 
+                 text.includes('customer') ||
+                 text.includes('rating') ||
+                 text.includes('stars');
+        });
+
+        const trustBadges = Array.from(document.querySelectorAll('img')).some(img => {
+          const alt = (img.alt || '').toLowerCase();
+          const src = (img.src || '').toLowerCase();
+          return alt.includes('secure') || 
+                 alt.includes('ssl') || 
+                 alt.includes('trust') ||
+                 src.includes('stripe') ||
+                 src.includes('paypal') ||
+                 src.includes('mcafee');
+        });
+
+        return {
+          title,
+          metaDescription,
+          h1s,
+          h2s,
+          ctas,
+          forms,
+          images,
+          links,
+          socialProof,
+          trustBadges,
+          url: window.location.href,
+          loadTime: performance.now()
+        };
+      });
+
+      return {
+        screenshot: screenshotBase64,
+        pageData,
+        timestamp: new Date().toISOString()
+      };
+    } finally {
+      await browser.close();
+    }
+  }
+
+  async function analyzeWithAI(screenshot: string, pageData: any) {
+    const prompt = `Analyze this website for Conversion Rate Optimization (CRO). Provide a comprehensive report with the following structure:
+
+**PAGE DATA:**
+- Title: ${pageData.title}
+- Meta Description: ${pageData.metaDescription}
+- H1 Tags: ${JSON.stringify(pageData.h1s)}
+- H2 Tags: ${JSON.stringify(pageData.h2s.slice(0, 10))}
+- CTAs Found: ${pageData.ctas.length} (${JSON.stringify(pageData.ctas.slice(0, 5).map((c: any) => c.text))})
+- Forms: ${pageData.forms.length}
+- Images: ${pageData.images.length}
+- Social Proof Detected: ${pageData.socialProof}
+- Trust Badges Detected: ${pageData.trustBadges}
+
+Provide analysis in this exact JSON format:
+
+{
+  "overallScore": 0-100,
+  "grade": "A-F",
+  "summary": "2-3 sentence summary of the page's CRO health",
+  "categories": [
+    {
+      "name": "Category Name",
+      "score": 0-100,
+      "grade": "A-F",
+      "findings": ["Finding 1", "Finding 2"],
+      "recommendations": ["Recommendation 1", "Recommendation 2"],
+      "priority": "high/medium/low"
+    }
+  ],
+  "quickWins": ["Quick win 1", "Quick win 2", "Quick win 3"],
+  "criticalIssues": ["Critical issue 1", "Critical issue 2"],
+  "strengths": ["Strength 1", "Strength 2"]
+}
+
+Analyze these categories:
+1. **Visual Hierarchy & Design** - Layout, whitespace, typography, color usage
+2. **Call-to-Action (CTA) Effectiveness** - Visibility, copy, placement, contrast
+3. **Value Proposition Clarity** - Headline clarity, benefits, differentiation
+4. **Trust & Credibility** - Social proof, trust badges, testimonials, security signals
+5. **Form Optimization** - Form length, field types, validation, mobile-friendliness
+6. **Mobile Responsiveness** - Layout adaptation, touch targets, readability
+7. **Page Speed & Performance** - Load time indicators, image optimization
+8. **Navigation & UX** - Menu clarity, breadcrumb, search functionality
+9. **Content Quality** - Copy persuasiveness, readability, scannability
+10. **Social Proof** - Reviews, testimonials, case studies, logos
+
+Be thorough, specific, and actionable. Return ONLY valid JSON.`;
+
+    try {
+      const response = await openai.chat.completions.create({
+        model: 'openai/gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert Conversion Rate Optimization (CRO) analyst with 15+ years of experience. Analyze websites comprehensively and provide actionable insights.'
+          },
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: prompt
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:image/png;base64,${screenshot}`
+                }
+              }
+            ]
+          }
+        ],
+        max_tokens: 4000,
+        temperature: 0.7
+      });
+
+      const analysis = response.choices[0].message.content;
+      return parseAnalysis(analysis);
+    } catch (error) {
+      console.error('OpenAI API error:', error);
+      throw new Error('Failed to analyze website');
+    }
+  }
+
+  function parseAnalysis(analysisText: string) {
+    try {
+      const jsonMatch = analysisText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+      
+      return {
+        overallScore: 50,
+        grade: 'C',
+        summary: 'Analysis completed but could not parse structured data',
+        categories: [],
+        quickWins: [],
+        criticalIssues: ['Could not parse AI response properly'],
+        strengths: [],
+        rawAnalysis: analysisText
+      };
+    } catch (error) {
+      return {
+        overallScore: 50,
+        grade: 'C',
+        summary: 'Analysis completed with errors',
+        categories: [],
+        quickWins: [],
+        criticalIssues: ['Parsing error: ' + (error as Error).message],
+        strengths: [],
+        rawAnalysis: analysisText
+      };
+    }
+  }
+
+  app.post("/api/tools/cro-analyze", async (req: Request, res: Response) => {
+    try {
+      const { url, viewport } = req.body;
+
+      if (!url) {
+        return res.status(400).json({ error: 'URL is required' });
+      }
+
+      const validUrl = url.startsWith('http') ? url : `https://${url}`;
+      
+      console.log(`Analyzing: ${validUrl}`);
+      
+      const { screenshot, pageData, timestamp } = await captureScreenshot(validUrl);
+
+      console.log('Screenshot captured, analyzing with AI...');
+      
+      const analysis = await analyzeWithAI(screenshot, pageData);
+
+      res.json({
+        success: true,
+        url: validUrl,
+        timestamp,
+        screenshot: `data:image/png;base64,${screenshot}`,
+        pageData,
+        analysis
+      });
+    } catch (error) {
+      console.error('Analysis error:', error);
+      res.status(500).json({
+        success: false,
+        error: (error as Error).message || 'Failed to analyze website'
+      });
     }
   });
 
