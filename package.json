@@ -62,10 +62,12 @@
     "lucide-react": "^0.453.0",
     "memorystore": "^1.6.7",
     "next-themes": "^0.4.6",
+    "openai": "^4.104.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pdfjs-dist": "^5.4.530",
     "pg": "^8.16.3",
+    "playwright": "^1.40.1",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
@@ -83,9 +85,7 @@
     "wouter": "^3.3.5",
     "ws": "^8.18.0",
     "zod": "^3.24.2",
-    "zod-validation-error": "^3.4.0",
-    "openai": "^4.20.1",
-    "playwright": "^1.40.1"
+    "zod-validation-error": "^3.4.0"
   },
   "devDependencies": {
     "@replit/vite-plugin-cartographer": "^0.4.4",

@@ -554,11 +554,11 @@ export async function registerRoutes(
     }
   });
 
-  // CRO Analyzer endpoint
-  const openai = new OpenAI({
+  // CRO Analyzer endpoint - only initialize if API key is available
+  const openai = process.env.OPENROUTER_API_KEY ? new OpenAI({
     apiKey: process.env.OPENROUTER_API_KEY,
     baseURL: "https://openrouter.ai/api/v1"
-  });
+  }) : null;
 
   async function captureScreenshot(url: string, fullPage = true) {
     const browser = await chromium.launch({
@@ -670,6 +670,10 @@ export async function registerRoutes(
   }
 
   async function analyzeWithAI(screenshot: string, pageData: any) {
+    if (!openai) {
+      throw new Error('CRO Analyzer is not configured. Please set up the OPENROUTER_API_KEY environment variable.');
+    }
+    
     const prompt = `Analyze this website for Conversion Rate Optimization (CRO). Provide a comprehensive report with the following structure:
 
 **PAGE DATA:**
@@ -746,7 +750,7 @@ Be thorough, specific, and actionable. Return ONLY valid JSON.`;
         temperature: 0.7
       });
 
-      const analysis = response.choices[0].message.content;
+      const analysis = response.choices[0].message.content || '';
       return parseAnalysis(analysis);
     } catch (error) {
       console.error('OpenAI API error:', error);
