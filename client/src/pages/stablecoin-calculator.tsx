@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Navbar, Footer } from '@/components/layout';
-import { Check, DollarSign, RotateCcw, Globe, Wallet, TrendingUp, Clock, Building2, Shield, Zap, RefreshCw } from 'lucide-react';
+import { Check, DollarSign, RotateCcw, Globe, Wallet, TrendingUp, TrendingDown, Clock, Zap, RefreshCw, AlertCircle } from 'lucide-react';
 import { SEO } from '@/components/seo';
 
 const stablecoinTypes = [
@@ -12,24 +12,186 @@ const stablecoinTypes = [
   { id: 'frax', name: 'FRAX', type: 'Hybrid', yieldPotential: 5.5, riskScore: 4, description: 'Partially algorithmic' }
 ];
 
-const industries: Record<string, { crossBorderPct: number; avgTxSize: number; settlementDays: number; fxSpread: number; wireFeePct: number; compliance: number; label: string }> = {
-  fintech: { crossBorderPct: 0.45, avgTxSize: 500000, settlementDays: 3, fxSpread: 0.015, wireFeePct: 0.003, compliance: 0.002, label: 'Financial Services & Fintech' },
-  ecommerce: { crossBorderPct: 0.35, avgTxSize: 50000, settlementDays: 2.5, fxSpread: 0.02, wireFeePct: 0.025, compliance: 0.001, label: 'E-Commerce & Retail' },
-  manufacturing: { crossBorderPct: 0.55, avgTxSize: 250000, settlementDays: 4, fxSpread: 0.018, wireFeePct: 0.004, compliance: 0.0015, label: 'Manufacturing & Supply Chain' },
-  tech: { crossBorderPct: 0.60, avgTxSize: 100000, settlementDays: 2, fxSpread: 0.012, wireFeePct: 0.002, compliance: 0.001, label: 'Technology & SaaS' },
-  pharma: { crossBorderPct: 0.40, avgTxSize: 750000, settlementDays: 5, fxSpread: 0.02, wireFeePct: 0.005, compliance: 0.003, label: 'Pharmaceuticals & Healthcare' },
-  energy: { crossBorderPct: 0.70, avgTxSize: 2000000, settlementDays: 4, fxSpread: 0.01, wireFeePct: 0.002, compliance: 0.002, label: 'Energy & Commodities' },
-  logistics: { crossBorderPct: 0.65, avgTxSize: 150000, settlementDays: 3, fxSpread: 0.015, wireFeePct: 0.003, compliance: 0.0012, label: 'Logistics & Transportation' },
-  media: { crossBorderPct: 0.50, avgTxSize: 75000, settlementDays: 2, fxSpread: 0.018, wireFeePct: 0.025, compliance: 0.001, label: 'Media & Entertainment' }
+const industries: Record<string, { 
+  crossBorderPct: number; 
+  domesticCardPct: number; 
+  payoutPct: number;
+  avgTxSize: number; 
+  settlementDays: number; 
+  fxSpread: number; 
+  wireFeePct: number; 
+  compliance: number; 
+  correspondentRate: number;
+  treasuryFloatRate: number;
+  cardInterchangeRate: number;
+  fraudRate: number;
+  chargebackRate: number;
+  label: string;
+  primaryDrivers: string[];
+  marginLeverage: string;
+}> = {
+  fintech: { 
+    crossBorderPct: 0.45, 
+    domesticCardPct: 0.80,
+    payoutPct: 0.15,
+    avgTxSize: 500000, 
+    settlementDays: 3, 
+    fxSpread: 0.015, 
+    wireFeePct: 0.003, 
+    compliance: 0.002, 
+    correspondentRate: 0.002,
+    treasuryFloatRate: 0.015,
+    cardInterchangeRate: 0.025,
+    fraudRate: 0.002,
+    chargebackRate: 0.0008,
+    label: 'Financial Services & Fintech',
+    primaryDrivers: ['Card interchange elimination (2.5% of domestic)', 'Floating yield on balances', 'Instant settlement'],
+    marginLeverage: 'Highest: Direct cost removal from card rails'
+  },
+  ecommerce: { 
+    crossBorderPct: 0.35, 
+    domesticCardPct: 0.90,
+    payoutPct: 0.05,
+    avgTxSize: 50000, 
+    settlementDays: 2.5, 
+    fxSpread: 0.02, 
+    wireFeePct: 0.025, 
+    compliance: 0.001, 
+    correspondentRate: 0.0025,
+    treasuryFloatRate: 0.012,
+    cardInterchangeRate: 0.028,
+    fraudRate: 0.003,
+    chargebackRate: 0.0015,
+    label: 'E-Commerce & Retail',
+    primaryDrivers: ['Card processing (2.8% interchange)', 'Fraud & chargeback elimination', 'FX optimization'],
+    marginLeverage: 'Highest: Card fee elimination + fraud reduction'
+  },
+  manufacturing: { 
+    crossBorderPct: 0.55, 
+    domesticCardPct: 0.20,
+    payoutPct: 0.40,
+    avgTxSize: 250000, 
+    settlementDays: 4, 
+    fxSpread: 0.018, 
+    wireFeePct: 0.004, 
+    compliance: 0.0015, 
+    correspondentRate: 0.003,
+    treasuryFloatRate: 0.018,
+    cardInterchangeRate: 0.022,
+    fraudRate: 0.001,
+    chargebackRate: 0.0005,
+    label: 'Manufacturing & Supply Chain',
+    primaryDrivers: ['Settlement float reduction (4 days → instant)', 'Working capital optimization', 'Payout automation'],
+    marginLeverage: 'High: ROIC improvement from faster settlement'
+  },
+  tech: { 
+    crossBorderPct: 0.60, 
+    domesticCardPct: 0.70,
+    payoutPct: 0.20,
+    avgTxSize: 100000, 
+    settlementDays: 2, 
+    fxSpread: 0.012, 
+    wireFeePct: 0.002, 
+    compliance: 0.001, 
+    correspondentRate: 0.0015,
+    treasuryFloatRate: 0.010,
+    cardInterchangeRate: 0.024,
+    fraudRate: 0.0015,
+    chargebackRate: 0.001,
+    label: 'Technology & SaaS',
+    primaryDrivers: ['Card interchange (2.4% of revenue)', 'Contractor payment speed', 'Float on subscription renewals'],
+    marginLeverage: 'Highest: Card rails + float on recurring revenue'
+  },
+  pharma: { 
+    crossBorderPct: 0.40, 
+    domesticCardPct: 0.30,
+    payoutPct: 0.50,
+    avgTxSize: 750000, 
+    settlementDays: 5, 
+    fxSpread: 0.02, 
+    wireFeePct: 0.005, 
+    compliance: 0.003, 
+    correspondentRate: 0.0035,
+    treasuryFloatRate: 0.022,
+    cardInterchangeRate: 0.020,
+    fraudRate: 0.0005,
+    chargebackRate: 0.0003,
+    label: 'Pharmaceuticals & Healthcare',
+    primaryDrivers: ['Compliance automation (0.3% AML/KYC)', 'FX (40% cross-border)', 'Regulatory cost reduction'],
+    marginLeverage: 'Medium: Compliance and FX optimization'
+  },
+  energy: { 
+    crossBorderPct: 0.70, 
+    domesticCardPct: 0.10,
+    payoutPct: 0.30,
+    avgTxSize: 2000000, 
+    settlementDays: 4, 
+    fxSpread: 0.01, 
+    wireFeePct: 0.002, 
+    compliance: 0.002, 
+    correspondentRate: 0.001,
+    treasuryFloatRate: 0.008,
+    cardInterchangeRate: 0.018,
+    fraudRate: 0.0008,
+    chargebackRate: 0.0002,
+    label: 'Energy & Commodities',
+    primaryDrivers: ['FX compression (70% cross-border)', 'Settlement (4 days → instant)', 'Volume efficiency at scale'],
+    marginLeverage: 'Highest: FX costs on massive volume'
+  },
+  logistics: { 
+    crossBorderPct: 0.65, 
+    domesticCardPct: 0.25,
+    payoutPct: 0.50,
+    avgTxSize: 150000, 
+    settlementDays: 3, 
+    fxSpread: 0.015, 
+    wireFeePct: 0.003, 
+    compliance: 0.0012, 
+    correspondentRate: 0.002,
+    treasuryFloatRate: 0.014,
+    cardInterchangeRate: 0.021,
+    fraudRate: 0.0012,
+    chargebackRate: 0.0006,
+    label: 'Logistics & Transportation',
+    primaryDrivers: ['High-frequency payout automation', 'Correspondent fee elimination', 'Just-in-time liquidity'],
+    marginLeverage: 'High: Payout automation at scale'
+  },
+  media: { 
+    crossBorderPct: 0.50, 
+    domesticCardPct: 0.85,
+    payoutPct: 0.15,
+    avgTxSize: 75000, 
+    settlementDays: 2, 
+    fxSpread: 0.018, 
+    wireFeePct: 0.025, 
+    compliance: 0.001, 
+    correspondentRate: 0.0028,
+    treasuryFloatRate: 0.011,
+    cardInterchangeRate: 0.027,
+    fraudRate: 0.0025,
+    chargebackRate: 0.002,
+    label: 'Media & Entertainment',
+    primaryDrivers: ['Card processing (2.7% interchange)', 'Royalty distribution automation', 'Fraud reduction'],
+    marginLeverage: 'Highest: Card fees + automation'
+  }
 };
 
-const companySizes: Record<string, { treasuryPct: number; paymentFreq: number; label: string }> = {
-  smb: { treasuryPct: 0.12, paymentFreq: 200, label: 'SMB ($10M - $50M)' },
-  midmarket: { treasuryPct: 0.10, paymentFreq: 500, label: 'Mid-Market ($50M - $250M)' },
-  enterprise: { treasuryPct: 0.08, paymentFreq: 2000, label: 'Enterprise ($250M - $1B)' },
-  largeenterprise: { treasuryPct: 0.06, paymentFreq: 10000, label: 'Large Enterprise ($1B - $10B)' },
-  megacorp: { treasuryPct: 0.05, paymentFreq: 50000, label: 'Global Corporation ($10B+)' }
+const companySizes: Record<string, { treasuryPct: number; paymentFreq: number; operatingMarginPct: number; label: string }> = {
+  smb: { treasuryPct: 0.12, paymentFreq: 200, operatingMarginPct: 0.15, label: 'SMB ($10M - $50M)' },
+  midmarket: { treasuryPct: 0.10, paymentFreq: 500, operatingMarginPct: 0.18, label: 'Mid-Market ($50M - $250M)' },
+  enterprise: { treasuryPct: 0.08, paymentFreq: 2000, operatingMarginPct: 0.20, label: 'Enterprise ($250M - $1B)' },
+  largeenterprise: { treasuryPct: 0.06, paymentFreq: 10000, operatingMarginPct: 0.22, label: 'Large Enterprise ($1B - $10B)' },
+  megacorp: { treasuryPct: 0.05, paymentFreq: 50000, operatingMarginPct: 0.25, label: 'Global Corporation ($10B+)' }
 };
+
+const businessModels = [
+  { id: 'marketplace', label: 'Marketplace Platform', cardPct: 0.85, payoutPct: 0.60, fraud: 0.003, chargeback: 0.0015, margin: 0.12, description: 'Two-sided markets with payouts to sellers' },
+  { id: 'saas', label: 'B2B SaaS', cardPct: 0.60, payoutPct: 0.20, fraud: 0.001, chargeback: 0.0008, margin: 0.25, description: 'Subscription-based business software' },
+  { id: 'payments', label: 'Payment Processor / PSP', cardPct: 0.95, payoutPct: 0.90, fraud: 0.004, chargeback: 0.002, margin: 0.08, description: 'Processing payments on behalf of merchants' },
+  { id: 'payroll', label: 'Payroll Platform', cardPct: 0.20, payoutPct: 0.85, fraud: 0.0005, chargeback: 0.0001, margin: 0.15, description: 'Employee and contractor payouts' },
+  { id: 'remittance', label: 'Cross-Border Remittance', cardPct: 0.70, payoutPct: 0.95, fraud: 0.001, chargeback: 0.0005, margin: 0.06, description: 'International money transfers' },
+  { id: 'b2b', label: 'Traditional B2B', cardPct: 0.15, payoutPct: 0.40, fraud: 0.0003, chargeback: 0.0002, margin: 0.18, description: 'Invoice-based B2B payments' }
+];
 
 function formatCurrency(value: number): string {
   if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`;
@@ -49,6 +211,7 @@ function formatInputCurrency(value: number): string {
 export default function StablecoinCalculator() {
   const [industry, setIndustry] = useState('');
   const [companySize, setCompanySize] = useState('');
+  const [businessModel, setBusinessModel] = useState('');
   const [annualRevenue, setAnnualRevenue] = useState(100000000);
   const [crossBorderPayments, setCrossBorderPayments] = useState(0);
   const [treasuryAllocation, setTreasuryAllocation] = useState(20);
@@ -56,12 +219,30 @@ export default function StablecoinCalculator() {
   const [showResults, setShowResults] = useState(false);
   const [results, setResults] = useState<{
     crossBorder: number;
+    domesticCard: number;
+    payoutVolume: number;
     treasury: number;
-    traditional: { fxCosts: number; wireFees: number; settlementCost: number; complianceCost: number; correspondentFees: number; totalCost: number };
-    analysis: Array<{ id: string; name: string; type: string; yieldPotential: number; riskScore: number; totalSavings: number; treasuryYield: number; totalBenefit: number; savings: { fx: number; wire: number; settlement: number; compliance: number; correspondent: number } }>;
-    best: { id: string; name: string; type: string; yieldPotential: number; totalBenefit: number; savings: { fx: number; wire: number; settlement: number; compliance: number; correspondent: number }; treasuryYield: number } | null;
+    traditional: { 
+      cardInterchange: number;
+      cardAcquirerFees: number;
+      chargebacks: number;
+      fraudLosses: number;
+      fxCosts: number;
+      wireFees: number;
+      settlementCost: number;
+      complianceCost: number;
+      correspondentFees: number;
+      automationCosts: number;
+      totalCost: number;
+      paymentFreq: number;
+    };
+    analysis: Array<{ id: string; name: string; type: string; yieldPotential: number; riskScore: number; totalSavings: number; treasuryYield: number; totalBenefit: number; savings: { cardInterchange: number; cardFees: number; chargeback: number; fraud: number; fx: number; wire: number; settlement: number; compliance: number; correspondent: number; automation: number } }>;
+    best: { id: string; name: string; type: string; yieldPotential: number; totalBenefit: number; savings: { cardInterchange: number; cardFees: number; chargeback: number; fraud: number; fx: number; wire: number; settlement: number; compliance: number; correspondent: number; automation: number }; treasuryYield: number } | null;
     fiveYear: number;
     revenue: number;
+    currentMargin: number;
+    marginUpliftBps: number;
+    newMargin: number;
   } | null>(null);
 
   const chartRef = useRef<HTMLCanvasElement>(null);
@@ -78,52 +259,74 @@ export default function StablecoinCalculator() {
   const effectiveCrossBorder = crossBorderPayments > 0 ? crossBorderPayments : crossBorderEstimate;
 
   const calculateSavings = () => {
-    if (!industry || !companySize) {
-      alert('Please select an industry and company size');
+    if (!industry || !companySize || !businessModel) {
+      alert('Please select industry, company size, and business model');
       return;
     }
 
     const ind = industries[industry];
     const size = companySizes[companySize];
+    const bm = businessModels.find(b => b.id === businessModel)!;
     const crossBorder = effectiveCrossBorder;
+    const domesticCard = (annualRevenue - crossBorder) * (ind.domesticCardPct || bm.cardPct);
+    const payoutVolume = annualRevenue * (ind.payoutPct || bm.payoutPct);
     const treasury = annualRevenue * size.treasuryPct;
     const paymentFreq = size.paymentFreq;
 
     const trad = {
+      cardInterchange: domesticCard * (ind.cardInterchangeRate || 0.025),
+      cardAcquirerFees: domesticCard * 0.005,
+      chargebacks: domesticCard * (ind.chargebackRate || bm.chargeback),
+      fraudLosses: domesticCard * (ind.fraudRate || bm.fraud),
       fxCosts: crossBorder * ind.fxSpread,
       wireFees: paymentFreq * 35,
-      settlementCost: (crossBorder * 0.05 * ind.settlementDays) / 365,
+      settlementCost: crossBorder * ind.treasuryFloatRate * ind.settlementDays / 365,
       complianceCost: crossBorder * ind.compliance,
-      correspondentFees: crossBorder * 0.002,
-      totalCost: 0
+      correspondentFees: crossBorder * ind.correspondentRate,
+      automationCosts: annualRevenue * 0.0015,
+      totalCost: 0,
+      paymentFreq
     };
-    trad.totalCost = trad.fxCosts + trad.wireFees + trad.settlementCost + trad.complianceCost + trad.correspondentFees;
+    trad.totalCost = trad.cardInterchange + trad.cardAcquirerFees + trad.chargebacks + trad.fraudLosses + trad.fxCosts + trad.wireFees + trad.settlementCost + trad.complianceCost + trad.correspondentFees + trad.automationCosts;
 
     const analysis = selectedStablecoins.map(coinId => {
       const coin = stablecoinTypes.find(c => c.id === coinId)!;
       const txCost = paymentFreq * 0.50;
       const savings = {
+        cardInterchange: trad.cardInterchange * 0.95,
+        cardFees: trad.cardAcquirerFees * 0.95,
+        chargeback: trad.chargebacks * 0.85,
+        fraud: trad.fraudLosses * 0.85,
         fx: trad.fxCosts * 0.85,
         wire: trad.wireFees * 0.90,
         settlement: trad.settlementCost * 0.95,
         compliance: trad.complianceCost * 0.40,
-        correspondent: trad.correspondentFees * 0.95
+        correspondent: trad.correspondentFees * 0.95,
+        automation: trad.automationCosts * 0.70
       };
-      const totalSavings = savings.fx + savings.wire + savings.settlement + savings.compliance + savings.correspondent - txCost;
+      const totalSavings = Object.values(savings).reduce((a, b) => a + b, 0) - txCost;
       const treasuryYield = (treasury * (treasuryAllocation / 100)) * (coin.yieldPotential / 100);
       return { ...coin, txCost, savings, totalSavings, treasuryYield, totalBenefit: totalSavings + treasuryYield };
     });
 
     const best = analysis.length > 0 ? analysis.reduce((a, b) => a.totalBenefit > b.totalBenefit ? a : b) : null;
 
+    const currentMargin = annualRevenue * size.operatingMarginPct;
+    const marginUpliftBps = best ? (best.totalBenefit / annualRevenue) * 10000 : 0;
+
     setResults({
       revenue: annualRevenue,
       crossBorder,
+      domesticCard,
+      payoutVolume,
       treasury,
       traditional: trad,
       analysis,
       best,
-      fiveYear: best ? best.totalBenefit * 5.5 : 0
+      fiveYear: best ? best.totalBenefit * 5.5 : 0,
+      currentMargin,
+      marginUpliftBps,
+      newMargin: currentMargin + (best ? best.totalBenefit : 0)
     });
     setShowResults(true);
   };
@@ -166,6 +369,7 @@ export default function StablecoinCalculator() {
   const resetForm = () => {
     setIndustry('');
     setCompanySize('');
+    setBusinessModel('');
     setAnnualRevenue(100000000);
     setCrossBorderPayments(0);
     setTreasuryAllocation(20);
@@ -183,8 +387,6 @@ export default function StablecoinCalculator() {
       prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
     );
   };
-
-  const costBreakdownItems = ['FX conversion spreads', 'Wire transfer fees', 'Settlement float cost', 'Correspondent banking', 'Compliance overhead'];
 
   return (
     <>
@@ -204,7 +406,7 @@ export default function StablecoinCalculator() {
         </div>
       </header>
 
-      <main className="py-12 bg-aryo-offWhite">
+      <main className="py-12 bg-slate-50">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-8 lg:gap-12">
             <div className="bg-white rounded-xl border border-slate-200">
@@ -258,6 +460,23 @@ export default function StablecoinCalculator() {
                           <option key={key} value={key}>{val.label}</option>
                         ))}
                       </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Business Model</label>
+                      <select 
+                        value={businessModel} 
+                        onChange={(e) => setBusinessModel(e.target.value)}
+                        className="w-full px-4 py-3 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-aryo-deepBlue focus:ring-2 focus:ring-aryo-deepBlue/10 appearance-none cursor-pointer"
+                        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: '40px' }}
+                        data-testid="select-business-model"
+                      >
+                        <option value="">Select Business Model</option>
+                        {businessModels.map(bm => (
+                          <option key={bm.id} value={bm.id}>{bm.label}</option>
+                        ))}
+                      </select>
+                      <p className="text-xs text-slate-400 mt-2">{businessModels.find(bm => bm.id === businessModel)?.description}</p>
                     </div>
                   </div>
                 </div>
@@ -338,7 +557,15 @@ export default function StablecoinCalculator() {
                 <div className="bg-slate-50 rounded-lg p-4">
                   <div className="text-xs font-semibold text-slate-600 mb-3">Traditional Payment Costs Include:</div>
                   <div className="grid grid-cols-1 gap-2">
-                    {costBreakdownItems.map((item) => (
+                    {[
+                      'Card interchange & acquirer fees (1.5-3.5%)',
+                      'FX conversion spreads & wire fees',
+                      'Settlement float cost',
+                      'Chargebacks & fraud losses',
+                      'Correspondent banking',
+                      'Compliance overhead',
+                      'Manual reconciliation'
+                    ].map((item) => (
                       <div key={item} className="flex items-center gap-2 text-xs text-slate-500">
                         <Check size={14} className="text-aryo-greenTeal flex-shrink-0" />
                         {item}
@@ -366,7 +593,7 @@ export default function StablecoinCalculator() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <h3 className="font-serif text-xl font-semibold text-aryo-deepBlue mb-3">Configure Your Analysis</h3>
-                  <p className="text-slate-500 max-w-md mx-auto">Select your industry and company parameters, then click "Calculate Savings" to generate a comprehensive stablecoin savings analysis.</p>
+                  <p className="text-slate-500 max-w-md mx-auto">Select your industry, company size, and business model, then click "Calculate Savings" to generate a comprehensive stablecoin savings analysis.</p>
                 </div>
               ) : results && results.best && (
                 <>
@@ -391,10 +618,46 @@ export default function StablecoinCalculator() {
 
                   <div className="bg-white rounded-xl border border-slate-200">
                     <div className="px-6 py-5 border-b border-slate-100">
-                      <h3 className="font-serif text-lg font-semibold text-aryo-deepBlue">Savings Breakdown</h3>
+                      <h3 className="font-serif text-lg font-semibold text-aryo-deepBlue">Savings Breakdown (Ranked by Impact)</h3>
                     </div>
                     <div className="p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-orange-500 rounded-r" />
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-bold bg-orange-100 text-orange-800 px-2 py-0.5 rounded">#1 Highest Impact</span>
+                          </div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <Zap size={14} className="text-orange-500" />
+                            <span className="text-sm font-semibold text-aryo-deepBlue">Card Processing</span>
+                          </div>
+                          <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.cardInterchange + results.traditional.cardAcquirerFees)}</div>
+                          <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.cardInterchange + results.best.savings.cardFees)}</div>
+                        </div>
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-purple-500 rounded-r" />
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded">#2 Float Capture</span>
+                          </div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <RefreshCw size={14} className="text-purple-500" />
+                            <span className="text-sm font-semibold text-aryo-deepBlue">Reserves Yield</span>
+                          </div>
+                          <div className="text-lg font-bold text-aryo-greenTeal mb-1">+{formatCurrency(results.best.treasuryYield)}</div>
+                          <div className="text-xs text-slate-500">{treasuryAllocation}% allocation @ {results.best.yieldPotential}%</div>
+                        </div>
+                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-blue-500 rounded-r" />
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded">#3 ROIC Gain</span>
+                          </div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <Clock size={14} className="text-blue-500" />
+                            <span className="text-sm font-semibold text-aryo-deepBlue">Settlement Speed</span>
+                          </div>
+                          <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.settlementCost)}</div>
+                          <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.settlement)}</div>
+                        </div>
                         <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
                           <div className="absolute left-0 top-4 bottom-4 w-1 bg-red-400 rounded-r" />
                           <div className="flex items-center justify-between mb-3">
@@ -406,26 +669,18 @@ export default function StablecoinCalculator() {
                         <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
                           <div className="absolute left-0 top-4 bottom-4 w-1 bg-red-400 rounded-r" />
                           <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><Zap size={14} /> Wire Fees (Current)</span>
+                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><AlertCircle size={14} /> Fraud & Chargebacks</span>
                           </div>
-                          <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.wireFees)}</div>
-                          <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.wire)}</div>
+                          <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.fraudLosses + results.traditional.chargebacks)}</div>
+                          <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.fraud + results.best.savings.chargeback)}</div>
                         </div>
                         <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-red-400 rounded-r" />
+                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-slate-400 rounded-r" />
                           <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><Clock size={14} /> Settlement Float</span>
+                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><Zap size={14} /> Automation</span>
                           </div>
-                          <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.settlementCost)}</div>
-                          <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.settlement)}</div>
-                        </div>
-                        <div className="bg-white border border-slate-200 rounded-xl p-5 relative">
-                          <div className="absolute left-0 top-4 bottom-4 w-1 bg-aryo-teal rounded-r" />
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-semibold text-aryo-deepBlue flex items-center gap-2"><Wallet size={14} /> Treasury Yield</span>
-                          </div>
-                          <div className="text-lg font-bold text-aryo-greenTeal mb-1">+{formatCurrency(results.best.treasuryYield)}</div>
-                          <div className="text-xs text-slate-500">{treasuryAllocation}% allocation @ {results.best.yieldPotential}%</div>
+                          <div className="text-lg font-bold text-slate-800 mb-1">{formatCurrency(results.traditional.automationCosts)}</div>
+                          <div className="text-xs text-aryo-greenTeal font-semibold">Save {formatCurrency(results.best.savings.automation)}</div>
                         </div>
                       </div>
                     </div>
@@ -446,6 +701,52 @@ export default function StablecoinCalculator() {
                     <div className="p-6">
                       <div className="h-[300px]">
                         <canvas ref={chartRef} data-testid="chart-comparison" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl border border-slate-200">
+                    <div className="px-6 py-5 border-b border-slate-100">
+                      <h3 className="font-serif text-lg font-semibold text-aryo-deepBlue">Industry-Specific Savings Drivers</h3>
+                    </div>
+                    <div className="p-6">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {selectedIndustry?.primaryDrivers.map((driver, idx) => (
+                          <div key={idx} className="bg-slate-50 rounded-lg p-4 flex items-start gap-3">
+                            <Check size={16} className="text-aryo-greenTeal mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-slate-700 font-medium">{driver}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl border border-slate-200">
+                    <div className="px-6 py-5 border-b border-slate-100">
+                      <h3 className="font-serif text-lg font-semibold text-aryo-deepBlue">Margin Expansion Impact</h3>
+                    </div>
+                    <div className="p-6">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="text-center p-4 bg-aryo-deepBlue/5 rounded-lg">
+                          <TrendingDown className="w-6 h-6 mx-auto text-aryo-greenTeal mb-2" />
+                          <div className="text-xs text-slate-500 mb-1">Current EBITDA Margin</div>
+                          <div className="text-lg font-bold text-slate-800">{(results.currentMargin / results.revenue * 100).toFixed(1)}%</div>
+                        </div>
+                        <div className="text-center p-4 bg-aryo-greenTeal/10 rounded-lg">
+                          <TrendingUp className="w-6 h-6 mx-auto text-aryo-greenTeal mb-2" />
+                          <div className="text-xs text-slate-500 mb-1">Margin Uplift (bps)</div>
+                          <div className="text-lg font-bold text-aryo-greenTeal">+{results.marginUpliftBps.toFixed(0)}</div>
+                        </div>
+                        <div className="text-center p-4 bg-aryo-greenTeal/10 rounded-lg">
+                          <TrendingUp className="w-6 h-6 mx-auto text-aryo-greenTeal mb-2" />
+                          <div className="text-xs text-slate-500 mb-1">Projected Margin</div>
+                          <div className="text-lg font-bold text-aryo-greenTeal">{(results.newMargin / results.revenue * 100).toFixed(1)}%</div>
+                        </div>
+                        <div className="text-center p-4 bg-aryo-teal/10 rounded-lg">
+                          <Wallet className="w-6 h-6 mx-auto text-aryo-teal mb-2" />
+                          <div className="text-xs text-slate-500 mb-1">Margin Improvement</div>
+                          <div className="text-lg font-bold text-aryo-teal">+{((results.best.totalBenefit / results.newMargin) * 100).toFixed(1)}%</div>
+                        </div>
                       </div>
                     </div>
                   </div>
