@@ -17,6 +17,7 @@ const toolsItems = [
   { name: 'PE Valuation Tool', href: '/tools/pe-valuation-tool' },
   { name: 'Stablecoin Calculator', href: '/tools/stablecoin-calculator' },
   { name: 'Website Analyzer', href: '/tools/website-analyzer' },
+  { name: 'Pitch Deck Analyzer', href: '/tools/pitch-deck-analyzer' },
 ];
 
 export function Navbar() {

@@ -824,6 +824,155 @@ Be thorough, specific, and actionable. Return ONLY valid JSON.`;
     }
   });
 
+  // Pitch Deck Analyzer endpoint
+  app.post("/api/tools/pitch-deck-analyze", async (req: Request, res: Response) => {
+    try {
+      if (!openai) {
+        return res.status(503).json({ 
+          success: false, 
+          error: 'Pitch deck analyzer service is temporarily unavailable' 
+        });
+      }
+
+      // Check if file was uploaded
+      if (!req.files || !req.files.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+
+      const uploadedFile = req.files.file as any;
+      const filename = uploadedFile.name;
+      const fileBuffer = uploadedFile.data;
+      
+      // Convert to base64 for AI analysis
+      const fileBase64 = fileBuffer.toString('base64');
+      
+      console.log(`Analyzing pitch deck: ${filename}`);
+      
+      const analysis = await analyzePitchDeck(fileBase64, filename);
+
+      res.json({
+        success: true,
+        filename,
+        timestamp: new Date().toISOString(),
+        analysis
+      });
+    } catch (error) {
+      console.error('Pitch deck analysis error:', error);
+      res.status(500).json({
+        success: false,
+        error: (error as Error).message || 'Failed to analyze pitch deck'
+      });
+    }
+  });
+
+  async function analyzePitchDeck(fileBase64: string, filename: string) {
+    const prompt = `Analyze this pitch deck for investment readiness and presentation quality. Provide a comprehensive report with the following structure:
+
+**FILE INFO:**
+- Filename: ${filename}
+
+Provide analysis in this exact JSON format:
+
+{
+  "overallScore": 0-100,
+  "grade": "A-F",
+  "summary": "2-3 sentence summary of the pitch deck's investment readiness",
+  "categories": [
+    {
+      "name": "Category Name",
+      "score": 0-100,
+      "grade": "A-F",
+      "findings": ["Finding 1", "Finding 2"],
+      "recommendations": ["Recommendation 1", "Recommendation 2"],
+      "priority": "high/medium/low"
+    }
+  ],
+  "quickWins": ["Quick win 1", "Quick win 2", "Quick win 3"],
+  "criticalIssues": ["Critical issue 1", "Critical issue 2"],
+  "strengths": ["Strength 1", "Strength 2"]
+}
+
+Analyze these categories:
+1. **Structure & Flow** - Logical progression, storytelling, narrative arc, slide transitions
+2. **Visual Design** - Consistency, professionalism, branding, color scheme, typography
+3. **Content Clarity** - Messaging, value proposition clarity, problem/solution fit, market opportunity
+4. **Financial Section** - Projections clarity, metrics presentation, unit economics, revenue model
+5. **Team Presentation** - Credibility, expertise showcase, relevant experience, advisory board
+6. **Market Analysis** - TAM/SAM/SOM clarity, competitive landscape, differentiation, go-to-market
+7. **Call to Action** - Clear next steps, contact info, funding ask, use of funds
+8. **Length & Density** - Appropriate slide count, information density, time to present
+9. **Data Visualization** - Charts effectiveness, graph clarity, data presentation, metrics visualization
+10. **Overall Impact** - Persuasiveness, investor appeal, memorability, emotional connection
+
+Be thorough, specific, and actionable. Return ONLY valid JSON.`;
+
+    try {
+      const response = await openai.chat.completions.create({
+        model: 'openai/gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert pitch deck analyst and venture capital advisor with 15+ years of experience. Analyze pitch decks comprehensively and provide actionable insights for securing funding.'
+          },
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: prompt
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:application/pdf;base64,${fileBase64}`
+                }
+              }
+            ]
+          }
+        ],
+        max_tokens: 4000,
+        temperature: 0.7
+      });
+
+      const analysis = response.choices[0].message.content;
+      return parsePitchDeckAnalysis(analysis);
+    } catch (error) {
+      console.error('OpenAI API error:', error);
+      throw new Error('Failed to analyze pitch deck');
+    }
+  }
+
+  function parsePitchDeckAnalysis(analysisText: string) {
+    try {
+      const jsonMatch = analysisText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+      
+      return {
+        overallScore: 50,
+        grade: 'C',
+        summary: 'Analysis completed but could not parse structured data',
+        categories: [],
+        quickWins: [],
+        criticalIssues: ['Could not parse AI response properly'],
+        strengths: [],
+        rawAnalysis: analysisText
+      };
+    } catch (error) {
+      return {
+        overallScore: 50,
+        grade: 'C',
+        summary: 'Analysis completed with errors',
+        categories: [],
+        quickWins: [],
+        criticalIssues: ['Parsing error: ' + (error as Error).message],
+        strengths: [],
+        rawAnalysis: analysisText
+      };
+    }
+  }
+
   return httpServer;
 }
 

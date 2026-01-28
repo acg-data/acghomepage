@@ -33,6 +33,7 @@ import PitchDecks from "@/pages/pitch-decks";
 import PEValuationTool from "@/pages/pe-valuation-tool";
 import StablecoinCalculator from "@/pages/stablecoin-calculator";
 import WebsiteAnalyzer from "@/pages/tools/website-analyzer";
+import PitchDeckAnalyzer from "@/pages/tools/pitch-deck-analyzer";
 
 function Router() {
   return (
@@ -67,6 +68,7 @@ function Router() {
       <Route path="/tools/pe-valuation-tool" component={PEValuationTool}/>
       <Route path="/tools/stablecoin-calculator" component={StablecoinCalculator}/>
       <Route path="/tools/website-analyzer" component={WebsiteAnalyzer}/>
+      <Route path="/tools/pitch-deck-analyzer" component={PitchDeckAnalyzer}/>
       <Route component={NotFound} />
     </Switch>
   );
