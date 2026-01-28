@@ -218,13 +218,16 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Capabilities</h4>
+            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Services</h4>
             <ul className="space-y-3">
-              <li><Link href="/capabilities" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">All Services</Link></li>
-              <li><Link href="/industries" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Industries</Link></li>
-              <li><Link href="/case-studies" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Case Studies</Link></li>
-              <li><Link href="/valuation-tool" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Valuation Tool</Link></li>
-              <li><Link href="/ai-consultant" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">AI Consultant</Link></li>
+              <li><Link href="/capabilities" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">All Capabilities</Link></li>
+              <li><Link href="/digital-transformation" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Digital Transformation</Link></li>
+              <li><Link href="/ma-advisory" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">M&A Advisory</Link></li>
+              <li><Link href="/governance-risk" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Governance & Risk</Link></li>
+              <li><Link href="/operational-excellence" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Operational Excellence</Link></li>
+              <li><Link href="/talent-organization" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Talent & Organization</Link></li>
+              <li><Link href="/growth-strategy" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Growth Strategy</Link></li>
+              <li><Link href="/pitch-decks" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Pitch Decks</Link></li>
             </ul>
           </div>
 
@@ -232,15 +235,29 @@ export function Footer() {
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Company</h4>
             <ul className="space-y-3">
               <li><Link href="/about" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">About Us</Link></li>
+              <li><Link href="/industries" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Industries</Link></li>
+              <li><Link href="/case-studies" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Case Studies</Link></li>
               <li><Link href="/insights" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Insights</Link></li>
               <li><Link href="/careers" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Careers</Link></li>
               <li><Link href="/contact" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Contact</Link></li>
+              <li><Link href="/value-creation" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Value Creation</Link></li>
+              <li><Link href="/nyc" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">NYC Office</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Connect</h4>
-            <div className="flex gap-4 mb-6">
+            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Tools & Resources</h4>
+            <ul className="space-y-3">
+              <li><Link href="/tools/pe-valuation-tool" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">PE Valuation Tool</Link></li>
+              <li><Link href="/tools/stablecoin-calculator" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Stablecoin Calculator</Link></li>
+              <li><Link href="/tools/website-analyzer" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Website Analyzer</Link></li>
+              <li><Link href="/valuation-tool" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Valuation Tool</Link></li>
+              <li><Link href="/ai-consultant" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">AI Consultant</Link></li>
+              <li><Link href="/pitch-deck" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Pitch Deck</Link></li>
+              <li><Link href="/reports/q4-hiring-abroad" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Q4 Hiring Report</Link></li>
+            </ul>
+            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mt-6 mb-4">Connect</h4>
+            <div className="flex gap-4">
               <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
                 <Linkedin size={18} />
               </a>
@@ -248,9 +265,6 @@ export function Footer() {
                 <SiInstagram size={18} />
               </a>
             </div>
-            <p className="text-aryo-lightBlue/50 text-xs">
-              Subscribe to our quarterly insights
-            </p>
           </div>
         </div>
 
