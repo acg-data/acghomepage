@@ -1,9 +1,10 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aryocg.com/sitemap.xml
+Sitemap: https://aryocg.com/sitemap_index.xml
 
 # Block login/auth pages from indexing
 Disallow: /login
 Disallow: /register
 Disallow: /partner
+Disallow: /admin

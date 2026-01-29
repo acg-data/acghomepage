@@ -824,6 +824,166 @@ Be thorough, specific, and actionable. Return ONLY valid JSON.`;
     }
   });
 
+  // ============================================
+  // DYNAMIC SITEMAP GENERATION (Yoast-style)
+  // ============================================
+  
+  const SITE_URL = "https://aryocg.com";
+  const today = new Date().toISOString().split('T')[0];
+
+  // Sitemap Index - main entry point
+  app.get("/sitemap_index.xml", (_req: Request, res: Response) => {
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${SITE_URL}/page-sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${SITE_URL}/service-sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${SITE_URL}/tools-sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${SITE_URL}/blog-sitemap.xml</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>
+</sitemapindex>`;
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+  });
+
+  // Page Sitemap - core pages (home, about, contact, etc.)
+  app.get("/page-sitemap.xml", (_req: Request, res: Response) => {
+    const pages = [
+      { loc: "/", priority: "1.0", changefreq: "weekly" },
+      { loc: "/nyc", priority: "0.9", changefreq: "weekly" },
+      { loc: "/about", priority: "0.8", changefreq: "monthly" },
+      { loc: "/capabilities", priority: "0.8", changefreq: "monthly" },
+      { loc: "/industries", priority: "0.8", changefreq: "monthly" },
+      { loc: "/case-studies", priority: "0.7", changefreq: "weekly" },
+      { loc: "/insights", priority: "0.7", changefreq: "weekly" },
+      { loc: "/careers", priority: "0.6", changefreq: "weekly" },
+      { loc: "/contact", priority: "0.8", changefreq: "monthly" },
+      { loc: "/value-creation", priority: "0.7", changefreq: "monthly" },
+    ];
+
+    const urlEntries = pages.map(p => `  <url>
+    <loc>${SITE_URL}${p.loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${p.changefreq}</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`).join('\n');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries}
+</urlset>`;
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+  });
+
+  // Service Sitemap - all service/capability pages
+  app.get("/service-sitemap.xml", (_req: Request, res: Response) => {
+    const services = [
+      { loc: "/digital-transformation", priority: "0.8" },
+      { loc: "/ma-advisory", priority: "0.8" },
+      { loc: "/governance-risk", priority: "0.8" },
+      { loc: "/operational-excellence", priority: "0.8" },
+      { loc: "/talent-organization", priority: "0.8" },
+      { loc: "/growth-strategy", priority: "0.8" },
+      { loc: "/pitch-decks", priority: "0.7" },
+      { loc: "/pitch-deck", priority: "0.7" },
+    ];
+
+    const urlEntries = services.map(s => `  <url>
+    <loc>${SITE_URL}${s.loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${s.priority}</priority>
+  </url>`).join('\n');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries}
+</urlset>`;
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+  });
+
+  // Tools Sitemap - all interactive tools and resources
+  app.get("/tools-sitemap.xml", (_req: Request, res: Response) => {
+    const tools = [
+      { loc: "/tools/pe-valuation-tool", priority: "0.8" },
+      { loc: "/tools/stablecoin-calculator", priority: "0.8" },
+      { loc: "/tools/website-analyzer", priority: "0.8" },
+      { loc: "/valuation-tool", priority: "0.6" },
+      { loc: "/ai-consultant", priority: "0.6" },
+      { loc: "/reports/q4-hiring-abroad", priority: "0.6" },
+    ];
+
+    const urlEntries = tools.map(t => `  <url>
+    <loc>${SITE_URL}${t.loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${t.priority}</priority>
+  </url>`).join('\n');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries}
+</urlset>`;
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+  });
+
+  // Blog Sitemap - dynamically generated from database
+  app.get("/blog-sitemap.xml", async (_req: Request, res: Response) => {
+    try {
+      // Get blog posts from database
+      const blogPosts = await storage.getBlogPosts();
+      const caseStudies = await storage.getCaseStudies();
+
+      const blogEntries = blogPosts.map(post => `  <url>
+    <loc>${SITE_URL}/insights/${post.slug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`).join('\n');
+
+      const caseStudyEntries = caseStudies.map(cs => `  <url>
+    <loc>${SITE_URL}/case-studies/${cs.slug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`).join('\n');
+
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${blogEntries}
+${caseStudyEntries}
+</urlset>`;
+      res.set('Content-Type', 'application/xml');
+      res.send(xml);
+    } catch (error) {
+      console.error('Blog sitemap error:', error);
+      // Return empty sitemap on error
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+</urlset>`;
+      res.set('Content-Type', 'application/xml');
+      res.send(xml);
+    }
+  });
+
+  // Legacy sitemap.xml redirect to sitemap_index.xml
+  app.get("/sitemap.xml", (_req: Request, res: Response) => {
+    res.redirect(301, "/sitemap_index.xml");
+  });
+
   return httpServer;
 }
 
