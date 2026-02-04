@@ -437,22 +437,24 @@ function ValueDrivers() {
   return (
     <div id="value-drivers" className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <FadeIn>
-          <div className="text-center mb-16">
-            <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Strategic Framework</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 leading-tight">
-              The Aryo Advantage
-            </h2>
-            <p className="text-slate-600 max-w-2xl mx-auto mt-6 text-lg font-light">
-              We operate across six core value drivers that most consultancies treat in isolation. Our integrated approach creates compounding returns.
-            </p>
-          </div>
-        </FadeIn>
-        <FadeIn delay={200}>
-          <div className="bg-white p-8 border border-aryo-lightGrey">
-            <RadarChart />
-          </div>
-        </FadeIn>
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <FadeIn>
+            <div>
+              <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Strategic Framework</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 leading-tight">
+                The Aryo Advantage
+              </h2>
+              <p className="text-slate-600 mt-6 text-lg font-light">
+                We operate across six core value drivers that most consultancies treat in isolation. Our integrated approach creates compounding returns.
+              </p>
+            </div>
+          </FadeIn>
+          <FadeIn delay={200}>
+            <div className="bg-white p-8 border border-aryo-lightGrey">
+              <RadarChart />
+            </div>
+          </FadeIn>
+        </div>
       </div>
     </div>
   );
