@@ -15,6 +15,7 @@ import { Client as ObjectStorageClient } from "@replit/object-storage";
 import { getResendClient } from "./integrations/resend";
 import OpenAI from "openai";
 import { chromium } from "playwright";
+import { prerenderMiddleware, isBot, getCacheStats } from "./prerender";
 
 // Load 301 redirects map
 let redirectsMap: Record<string, string> = {};
@@ -70,6 +71,10 @@ export async function registerRoutes(
     
     next();
   });
+
+  // Prerender middleware for SEO - serves pre-rendered HTML to search engine bots
+  // Must be before session middleware since bots don't need sessions
+  app.use(prerenderMiddleware());
 
   app.use(
     session({
@@ -982,6 +987,16 @@ ${caseStudyEntries}
   // Legacy sitemap.xml redirect to sitemap_index.xml
   app.get("/sitemap.xml", (_req: Request, res: Response) => {
     res.redirect(301, "/sitemap_index.xml");
+  });
+
+  // Prerender cache stats endpoint (for debugging)
+  app.get("/api/prerender/stats", (_req: Request, res: Response) => {
+    const stats = getCacheStats();
+    res.json({
+      cacheSize: stats.size,
+      cachedUrls: stats.entries,
+      description: "Pre-rendered pages cached for SEO bots"
+    });
   });
 
   return httpServer;
