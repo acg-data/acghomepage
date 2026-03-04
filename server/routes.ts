@@ -38,6 +38,15 @@ try {
   console.error("Failed to load Q4 Hiring Abroad report PDF:", error);
 }
 
+let greenAcePdfBuffer: Buffer | null = null;
+try {
+  const pdfPath = path.join(process.cwd(), "attached_assets", "GreenAce_Digital_Case_Study_1772643685693.pdf");
+  greenAcePdfBuffer = fs.readFileSync(pdfPath);
+  console.log("GreenAce case study PDF loaded successfully");
+} catch (error) {
+  console.error("Failed to load GreenAce case study PDF:", error);
+}
+
 const PgSession = connectPgSimple(session);
 
 export async function registerRoutes(
@@ -338,6 +347,16 @@ export async function registerRoutes(
       console.error("Case studies error:", error);
       res.status(500).json({ message: "Failed to fetch case studies" });
     }
+  });
+
+  app.get("/api/case-studies/greenace-digital/download", (_req: Request, res: Response) => {
+    if (!greenAcePdfBuffer) {
+      return res.status(404).json({ message: "PDF not available" });
+    }
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", 'attachment; filename="GreenAce_Digital_Case_Study_Aryo.pdf"');
+    res.setHeader("Content-Length", greenAcePdfBuffer.length.toString());
+    res.send(greenAcePdfBuffer);
   });
 
   app.get("/api/case-studies/:slug", async (req: Request, res: Response) => {

@@ -7,12 +7,38 @@ import {
   Building2, 
   TrendingUp, 
   CheckCircle,
-  ChevronRight
+  ChevronRight,
+  Download
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
 
-const sampleCaseStudies: CaseStudy[] = [
+interface CaseStudyExtended extends CaseStudy {
+  pdfDownload?: string;
+  stats?: { label: string; value: string }[];
+}
+
+const sampleCaseStudies: CaseStudyExtended[] = [
+  {
+    id: 'greenace',
+    title: 'How We Increased GreenAce\'s Revenue by 62% in 6 Months',
+    client: 'GreenAce Digital',
+    industry: 'Digital Marketing & Landscaping',
+    challenge: 'Despite strong operational performance and a solid local reputation, GreenAce faced stalled growth and inconsistent revenue predictability. Their online positioning emphasized general lawn care rather than higher-margin services like patios and drainage, attracting price-sensitive inquiries. They had limited visibility in high-income neighborhoods where larger projects were concentrated.',
+    solution: 'We replaced fragmented marketing efforts with a structured, profit-focused growth system. We aligned the website with the Google Business Profile, redesigned service pages around high-margin offerings, and strengthened local authority signals across target service areas. We implemented structured follow-up processes, targeted PPC campaigns separated by service type, and repositioned social media as a credibility tool highlighting real projects in specific neighborhoods.',
+    results: 'Website traffic increased by 58%. Conversion rate improved by 37%. Overall revenue grew by 62%. Growth became structured, lead quality improved, and marketing became measurable. Instead of chasing more jobs, GreenAce began attracting the right jobs.',
+    valueUnlocked: '+62% Revenue',
+    slug: 'greenace-digital-growth',
+    featured: true,
+    imageUrl: null,
+    createdAt: new Date(),
+    pdfDownload: '/api/case-studies/greenace-digital/download',
+    stats: [
+      { label: 'Website Traffic', value: '+58%' },
+      { label: 'Conversion Rate', value: '+37%' },
+      { label: 'Overall Revenue', value: '+62%' },
+    ],
+  },
   {
     id: '1',
     title: 'Private Equity Portfolio Optimization',
@@ -71,30 +97,54 @@ const sampleCaseStudies: CaseStudy[] = [
   },
 ];
 
-function CaseStudyCard({ study }: { study: CaseStudy }) {
+function CaseStudyCard({ study }: { study: CaseStudyExtended }) {
   return (
-    <Link href={`/case-studies/${study.slug}`}>
-      <div className="bg-white border border-aryo-lightGrey p-8 hover:border-aryo-deepBlue transition-all cursor-pointer group h-full flex flex-col" data-testid={`card-case-study-${study.id}`}>
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest">{study.industry}</span>
-          {study.featured && (
-            <span className="text-xs font-bold bg-aryo-deepBlue text-white px-2 py-0.5 uppercase tracking-wider">Featured</span>
-          )}
+    <div className="bg-white border border-aryo-lightGrey p-8 hover:border-aryo-deepBlue transition-all group h-full flex flex-col" data-testid={`card-case-study-${study.id}`}>
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest">{study.industry}</span>
+        {study.featured && (
+          <span className="text-xs font-bold bg-aryo-deepBlue text-white px-2 py-0.5 uppercase tracking-wider">Featured</span>
+        )}
+      </div>
+      <Link href={`/case-studies/${study.slug}`} className="cursor-pointer">
+        <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-2 group-hover:text-aryo-teal transition-colors">{study.title}</h3>
+      </Link>
+      <p className="text-sm text-slate-500 mb-4">{study.client}</p>
+      <p className="text-slate-600 mb-6 flex-1 line-clamp-3">{study.challenge}</p>
+      {study.stats && (
+        <div className="flex gap-4 mb-6">
+          {study.stats.map((stat) => (
+            <div key={stat.label} className="bg-aryo-offWhite px-3 py-2 flex-1 text-center">
+              <p className="text-lg font-serif font-bold text-aryo-deepBlue">{stat.value}</p>
+              <p className="text-[10px] text-slate-500 uppercase tracking-widest">{stat.label}</p>
+            </div>
+          ))}
         </div>
-        <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-2">{study.title}</h3>
-        <p className="text-sm text-slate-500 mb-4">{study.client}</p>
-        <p className="text-slate-600 mb-6 flex-1 line-clamp-3">{study.challenge}</p>
-        <div className="flex items-center justify-between pt-4 border-t border-aryo-lightGrey">
-          <div>
-            <p className="text-xs text-slate-500 uppercase tracking-widest">Value Unlocked</p>
-            <p className="text-2xl font-serif text-aryo-deepBlue">{study.valueUnlocked}</p>
-          </div>
-          <span className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest group-hover:text-aryo-teal transition-colors flex items-center gap-2">
+      )}
+      <div className="flex items-center justify-between pt-4 border-t border-aryo-lightGrey">
+        <div>
+          <p className="text-xs text-slate-500 uppercase tracking-widest">Value Unlocked</p>
+          <p className="text-2xl font-serif text-aryo-deepBlue">{study.valueUnlocked}</p>
+        </div>
+        <div className="flex items-center gap-3">
+          {study.pdfDownload && (
+            <a
+              href={study.pdfDownload}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs font-bold text-white bg-aryo-greenTeal px-3 py-2 uppercase tracking-widest hover:bg-aryo-teal transition-colors"
+              data-testid={`button-download-pdf-${study.id}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Download size={12} /> PDF
+            </a>
+          )}
+          <Link href={`/case-studies/${study.slug}`} className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest hover:text-aryo-teal transition-colors flex items-center gap-2" data-testid={`link-read-more-${study.id}`}>
             Read More <ArrowRight size={14} />
-          </span>
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -152,6 +202,24 @@ function CaseStudyDetail({ slug }: { slug: string }) {
               <p className="font-bold text-aryo-deepBlue">Completed</p>
             </div>
           </div>
+
+          {study.pdfDownload && (
+            <div className="bg-aryo-offWhite border border-aryo-lightGrey p-6 mb-12 flex items-center justify-between">
+              <div>
+                <p className="font-serif font-bold text-aryo-deepBlue text-lg">Download Full Case Study</p>
+                <p className="text-sm text-slate-500 mt-1">Get the complete report with detailed methodology and results</p>
+              </div>
+              <a
+                href={study.pdfDownload}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-aryo-deepBlue text-white px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-aryo-teal transition-colors"
+                data-testid="button-download-case-study-pdf"
+              >
+                <Download size={14} /> Download PDF
+              </a>
+            </div>
+          )}
 
           <div className="space-y-8">
             <div>
