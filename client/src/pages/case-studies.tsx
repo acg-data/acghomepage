@@ -22,8 +22,8 @@ const sampleCaseStudies: CaseStudyExtended[] = [
   {
     id: 'greenace',
     title: 'How We Increased GreenAce\'s Revenue by 62% in 6 Months',
-    client: 'GreenAce Digital',
-    industry: 'Digital Marketing & Landscaping',
+    client: 'GreenAce Lawn Care, LLC',
+    industry: 'Lawn Care & Landscaping',
     challenge: 'Despite strong operational performance and a solid local reputation, GreenAce faced stalled growth and inconsistent revenue predictability. Their online positioning emphasized general lawn care rather than higher-margin services like patios and drainage, attracting price-sensitive inquiries. They had limited visibility in high-income neighborhoods where larger projects were concentrated.',
     solution: 'We replaced fragmented marketing efforts with a structured, profit-focused growth system. We aligned the website with the Google Business Profile, redesigned service pages around high-margin offerings, and strengthened local authority signals across target service areas. We implemented structured follow-up processes, targeted PPC campaigns separated by service type, and repositioned social media as a credibility tool highlighting real projects in specific neighborhoods.',
     results: 'Website traffic increased by 58%. Conversion rate improved by 37%. Overall revenue grew by 62%. Growth became structured, lead quality improved, and marketing became measurable. Instead of chasing more jobs, GreenAce began attracting the right jobs.',
@@ -126,23 +126,9 @@ function CaseStudyCard({ study }: { study: CaseStudyExtended }) {
           <p className="text-xs text-slate-500 uppercase tracking-widest">Value Unlocked</p>
           <p className="text-2xl font-serif text-aryo-deepBlue">{study.valueUnlocked}</p>
         </div>
-        <div className="flex items-center gap-3">
-          {study.pdfDownload && (
-            <a
-              href={study.pdfDownload}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs font-bold text-white bg-aryo-greenTeal px-3 py-2 uppercase tracking-widest hover:bg-aryo-teal transition-colors"
-              data-testid={`button-download-pdf-${study.id}`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Download size={12} /> PDF
-            </a>
-          )}
-          <Link href={`/case-studies/${study.slug}`} className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest hover:text-aryo-teal transition-colors flex items-center gap-2" data-testid={`link-read-more-${study.id}`}>
+        <Link href={`/case-studies/${study.slug}`} className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest hover:text-aryo-teal transition-colors flex items-center gap-2" data-testid={`link-read-more-${study.id}`}>
             Read More <ArrowRight size={14} />
           </Link>
-        </div>
       </div>
     </div>
   );
