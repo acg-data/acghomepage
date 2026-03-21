@@ -1,0 +1,86 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "tnpHSAgzWUthZQpDW4tYa"
+uri = "file://logo-downloads/6721104979a94ef035ccd433_SportLync_lockup_blue.svg"
+type = "image"
+title = "SportLync Logo"
+
+[[outputs]]
+id = "9lTkX9J5b1YoQfRlsiERy"
+uri = "file://logo-downloads/Pfizer_(2021).svg"
+type = "image"
+title = "Pfizer Logo"
+
+[[outputs]]
+id = "gqDFCyp9coKCPBUwpE8wc"
+uri = "file://logo-downloads/SSC-Logo.png"
+type = "image"
+title = "SSC Logo"
+
+[[outputs]]
+id = "EUcGQ5mYimBSPRenTGjbr"
+uri = "file://logo-downloads/TWALKSLOGO_Horz.png"
+type = "image"
+title = "TWalks Logo"
+
+[[outputs]]
+id = "kW4fbB_xoHNSqvyBx596D"
+uri = "file://logo-downloads/ac-repair-charleston-orange-logo-cropped.png"
+type = "image"
+title = "AC Repair Charleston Logo"
+
+[[outputs]]
+id = "gHkknvp9DvLRi_Y8y_ioc"
+uri = "file://logo-downloads/aceticket-logo.png"
+type = "image"
+title = "AceTicket Logo"
+
+[[outputs]]
+id = "nzsaLPvof14QKh-zoCeeZ"
+uri = "file://logo-downloads/gfcboston.png"
+type = "image"
+title = "GFC Boston Logo"
+
+[[outputs]]
+id = "vyMK6tlAU4gajA44X47fz"
+uri = "file://logo-downloads/greenace.png"
+type = "image"
+title = "GreenAce Logo"
+
+[[outputs]]
+id = "w9C34eJ8CHwSX-sbIHsmO"
+uri = "file://logo-downloads/logoCorrecol.svg"
+type = "image"
+title = "Correcol Logo"
+
+[[outputs]]
+id = "wOtbrxudFXW12DcsRSf-B"
+uri = "file://logo-downloads/lumi.png"
+type = "image"
+title = "Lumi Logo"
+
+[[outputs]]
+id = "AJemk-UAkt1psG9l1U3SP"
+uri = "file://logo-downloads/lumieredental.png"
+type = "image"
+title = "Lumiere Dental Logo"
+
+[[outputs]]
+id = "W0mAAxrtLJAYOLfqollPJ"
+uri = "file://logo-downloads/pella_dot_2025.png"
+type = "image"
+title = "Pella Logo"
+
+[[outputs]]
+id = "omAK3FBB9UjNY_I6BDSYp"
+uri = "file://logo-downloads/sony-2.svg"
+type = "image"
+title = "Sony Logo"
+
+[[outputs]]
+id = "-YpdnNLz_NZtJg1aeLZ8f"
+uri = "file://logo-downloads/turfpro.png"
+type = "image"
+title = "TurfPro Logo"
