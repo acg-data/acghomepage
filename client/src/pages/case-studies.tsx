@@ -12,13 +12,14 @@ import {
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
+import { useWPCaseStudies, useWPCaseStudy, type WPCaseStudy } from '@/lib/wordpress';
 
 interface CaseStudyExtended extends CaseStudy {
   pdfDownload?: string;
   stats?: { label: string; value: string }[];
 }
 
-const sampleCaseStudies: CaseStudyExtended[] = [
+const fallbackCaseStudies: CaseStudyExtended[] = [
   {
     id: 'greenace',
     title: 'How We Increased GreenAce\'s Revenue by 62% in 6 Months',
@@ -134,8 +135,43 @@ function CaseStudyCard({ study }: { study: CaseStudyExtended }) {
   );
 }
 
+function wpToExtended(wp: WPCaseStudy): CaseStudyExtended {
+  return {
+    id: wp.id,
+    title: wp.title,
+    client: wp.client,
+    industry: wp.industry,
+    challenge: wp.challenge,
+    solution: wp.solution,
+    results: wp.results,
+    valueUnlocked: wp.valueUnlocked,
+    slug: wp.slug,
+    featured: wp.featured,
+    imageUrl: wp.imageUrl,
+    createdAt: new Date(),
+    pdfDownload: wp.pdfDownload,
+    stats: wp.stats,
+  };
+}
+
 function CaseStudyDetail({ slug }: { slug: string }) {
-  const study = sampleCaseStudies.find(s => s.slug === slug);
+  const { data: wpStudy, isLoading: wpLoading } = useWPCaseStudy(slug);
+  const fallback = fallbackCaseStudies.find(s => s.slug === slug);
+  const study = (wpStudy && wpStudy.title) ? wpToExtended(wpStudy) : fallback;
+
+  if (wpLoading && !fallback) {
+    return (
+      <PageLayout>
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-slate-200 rounded w-1/3"></div>
+            <div className="h-12 bg-slate-200 rounded w-2/3"></div>
+            <div className="h-64 bg-slate-200 rounded"></div>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (!study) {
     return (
@@ -248,10 +284,15 @@ function CaseStudyDetail({ slug }: { slug: string }) {
 export default function CaseStudies() {
   const params = useParams();
   const slug = params.slug as string | undefined;
+  const { data: wpStudies } = useWPCaseStudies();
 
   if (slug) {
     return <CaseStudyDetail slug={slug} />;
   }
+
+  const studies: CaseStudyExtended[] = (wpStudies && wpStudies.length > 0)
+    ? wpStudies.map(wpToExtended)
+    : fallbackCaseStudies;
 
   return (
     <>
@@ -277,7 +318,7 @@ export default function CaseStudies() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {sampleCaseStudies.map((study) => (
+          {studies.map((study) => (
             <CaseStudyCard key={study.id} study={study} />
           ))}
         </div>

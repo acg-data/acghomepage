@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { SEO } from '@/components/seo';
 import { Navbar } from '@/components/layout';
+import { useWPTestimonials, useWPStats, type WPTestimonial, type WPStat } from '@/lib/wordpress';
 import { 
   ArrowRight, 
   Activity,
@@ -506,12 +507,14 @@ function Process() {
 }
 
 function Stats() {
-  const stats = [
+  const { data: wpStats } = useWPStats();
+  const fallbackStats = [
     { value: 400, suffix: "+", label: "Engagements Completed" },
     { value: 1, suffix: ".5B", label: "Enterprise Value Unlocked" },
     { value: 98, suffix: "%", label: "Client Retention Rate" },
     { value: 75, suffix: "%", label: "Average Reduction in Fees" },
   ];
+  const stats = (wpStats && wpStats.length > 0) ? wpStats : fallbackStats;
 
   return (
     <div className="py-24 bg-aryo-deepBlue">
@@ -542,7 +545,9 @@ function Testimonials() {
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
-  const testimonials = [
+  const { data: wpTestimonials } = useWPTestimonials();
+
+  const fallbackTestimonials = [
     {
       quote: "Justin was instrumental in helping my company achieve its goals. Highly recommend. Not only is he knowledgeable in the field but he is also a good person.",
       author: "Youssef El Bandaki",
@@ -579,6 +584,8 @@ function Testimonials() {
       title: "Team PCOH",
     },
   ];
+
+  const testimonials = (wpTestimonials && wpTestimonials.length > 0) ? wpTestimonials : fallbackTestimonials;
 
   useEffect(() => {
     if (!emblaApi) return;

@@ -2,8 +2,9 @@ import { Link } from 'wouter';
 import { ArrowRight, ChevronRight, MapPin, Clock, Users, Target, Lightbulb, Heart } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
+import { useWPPositions, type WPPosition } from '@/lib/wordpress';
 
-const openPositions = [
+const fallbackPositions = [
   {
     title: "Senior Consultant, M&A Practice",
     location: "Boston / New York",
@@ -65,6 +66,9 @@ const values = [
 ];
 
 export default function Careers() {
+  const { data: wpPositions } = useWPPositions();
+  const positions = (wpPositions && wpPositions.length > 0) ? wpPositions : fallbackPositions;
+
   return (
     <PageLayout>
       <SEO 
@@ -145,7 +149,7 @@ export default function Careers() {
           </div>
 
           <div className="space-y-4">
-            {openPositions.map((position, i) => (
+            {positions.map((position, i) => (
               <div key={i} className="bg-white border border-aryo-lightGrey p-8 group hover:border-aryo-deepBlue transition-colors" data-testid={`card-position-${i}`}>
                 <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:justify-between">
                   <div className="flex-1">

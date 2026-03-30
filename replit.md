@@ -28,6 +28,7 @@ The application is a complete, multi-page corporate consulting website with:
 - **Backend**: Express.js with session-based authentication
 - **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: Passport.js with bcrypt password hashing
+- **CMS**: Headless WordPress (optional, via REST API)
 
 ### Key Files
 - `client/src/components/layout.tsx` - Shared PageLayout component (standardized header/footer)
@@ -47,11 +48,13 @@ The application is a complete, multi-page corporate consulting website with:
 - `client/src/pages/admin.tsx` - Contact management admin panel (partner-only)
 - `client/src/pages/report-q4-hiring-abroad.tsx` - Q4 Hiring Abroad Report signup page
 - `client/src/lib/auth.tsx` - Authentication context, ProtectedRoute, and PartnerRoute components
+- `client/src/lib/wordpress.ts` - WordPress REST API client, types, and custom hooks
 - `server/routes.ts` - API routes (auth, contact, case studies, blog, report, aryo-logo)
 - `server/storage.ts` - Database storage implementation
 - `shared/schema.ts` - Database schema definitions
 - `tailwind.config.ts` - Brand colors, fonts, and custom animations
 - `client/src/index.css` - CSS variables and utility classes
+- `wordpress-setup-guide.md` - Guide for configuring WordPress custom post types and ACF fields
 
 ### Database Schema
 - **users** - Partner accounts (id, username, email, password, fullName, company, isPartner)
@@ -155,6 +158,16 @@ The application is a complete, multi-page corporate consulting website with:
   - Report PDF ("Outsourcing Smartly") sent via email to users who sign up
   - Duplicate signup prevention to avoid spamming users
   - PDF cached at startup for performance
+
+### Headless WordPress Integration
+- **Configuration**: Set `VITE_WORDPRESS_URL` environment variable to WordPress URL (e.g., `https://cms.aryocg.com`)
+- **Fallback**: All pages gracefully fall back to hardcoded data when WordPress is not configured or unreachable
+- **WordPress client**: `client/src/lib/wordpress.ts` provides typed hooks for all content types
+- **Custom post types supported**: `case_study`, `testimonial`, `team_member`, `position`, `capability`, `industry`
+- **Standard posts**: WordPress blog posts map to the Insights/Blog section
+- **Pages with ACF**: Homepage stats via `homepage` page slug
+- **Setup guide**: See `wordpress-setup-guide.md` for complete WordPress configuration instructions
+- **Pages integrated**: home (testimonials, stats), about (team), capabilities, industries, careers (positions), case-studies, blog/insights
 
 ## Running the Project
 The application runs with `npm run dev` via the "Start application" workflow, serving on port 5000.

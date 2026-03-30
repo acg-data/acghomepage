@@ -1,9 +1,14 @@
 import { Link } from 'wouter';
-import { ArrowRight, ChevronRight, Building2, Cpu, HeartPulse, ShoppingBag, Factory, Briefcase } from 'lucide-react';
+import { ArrowRight, ChevronRight, Building2, Cpu, HeartPulse, ShoppingBag, Factory, Briefcase, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
+import { useWPIndustries, type WPIndustry } from '@/lib/wordpress';
 
-const industries = [
+const iconMap: Record<string, LucideIcon> = {
+  Building2, Cpu, HeartPulse, ShoppingBag, Factory, Briefcase,
+};
+
+const fallbackIndustries = [
   {
     icon: Building2,
     title: "Financial Services",
@@ -91,6 +96,19 @@ const industries = [
 ];
 
 export default function Industries() {
+  const { data: wpIndustries } = useWPIndustries();
+
+  const industries = (wpIndustries && wpIndustries.length > 0)
+    ? wpIndustries.map(wp => ({
+        icon: iconMap[wp.iconName] || Building2,
+        title: wp.title,
+        description: wp.description,
+        clients: wp.clients,
+        expertise: wp.expertise,
+        metric: wp.metric,
+      }))
+    : fallbackIndustries;
+
   return (
     <PageLayout>
       <SEO 

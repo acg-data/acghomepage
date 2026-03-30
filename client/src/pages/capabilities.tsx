@@ -1,13 +1,18 @@
 import { Link } from 'wouter';
-import { ArrowRight, ChevronRight, TrendingUp, Layers, Users, BarChart3, Shield, Zap, Presentation, ChevronDown, Check } from 'lucide-react';
+import { ArrowRight, ChevronRight, TrendingUp, Layers, Users, BarChart3, Shield, Zap, Presentation, ChevronDown, Check, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import { useWPCapabilities } from '@/lib/wordpress';
 
-const capabilities = [
+const capIconMap: Record<string, LucideIcon> = {
+  TrendingUp, Layers, Users, BarChart3, Shield, Zap, Presentation,
+};
+
+const fallbackCapabilities = [
   {
     icon: TrendingUp,
     title: "M&A Advisory",
@@ -316,6 +321,19 @@ const differentiators = [
 ];
 
 export default function Capabilities() {
+  const { data: wpCaps } = useWPCapabilities();
+  const capabilities = (wpCaps && wpCaps.length > 0)
+    ? wpCaps.map(wp => ({
+        icon: capIconMap[wp.iconName] || Layers,
+        title: wp.title,
+        subtitle: wp.subtitle,
+        description: wp.description,
+        services: wp.services,
+        outcome: wp.outcome,
+        link: wp.link,
+      }))
+    : fallbackCapabilities;
+
   return (
     <PageLayout>
       <SEO 

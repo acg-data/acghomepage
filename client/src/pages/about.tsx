@@ -2,8 +2,9 @@ import { Link } from 'wouter';
 import { ArrowRight, MapPin, Users, Target, Award, ChevronRight } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
+import { useWPTeamMembers, type WPTeamMember } from '@/lib/wordpress';
 
-const teamMembers = [
+const fallbackTeamMembers = [
   {
     name: "Justin Abrams",
     title: "Founder & CEO",
@@ -58,6 +59,9 @@ const values = [
 ];
 
 export default function About() {
+  const { data: wpTeam } = useWPTeamMembers();
+  const teamMembers = (wpTeam && wpTeam.length > 0) ? wpTeam : fallbackTeamMembers;
+
   return (
     <PageLayout>
       <SEO 

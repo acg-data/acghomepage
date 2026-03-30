@@ -10,8 +10,9 @@ import {
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
+import { useWPBlogPosts, useWPBlogPost, type WPBlogPost } from '@/lib/wordpress';
 
-const sampleBlogPosts: BlogPost[] = [
+const fallbackBlogPosts: BlogPost[] = [
   {
     id: '1',
     title: 'The Future of M&A: Navigating Uncertainty in 2025',
@@ -219,7 +220,37 @@ function BlogPostCard({ post }: { post: BlogPost }) {
 }
 
 function BlogPostDetail({ slug }: { slug: string }) {
-  const post = sampleBlogPosts.find(p => p.slug === slug);
+  const { data: wpPost, isLoading: wpLoading, isError } = useWPBlogPost(slug);
+  const fallback = fallbackBlogPosts.find(p => p.slug === slug);
+  
+  const post = (wpPost && wpPost.title) ? {
+    id: wpPost.id,
+    title: wpPost.title,
+    excerpt: wpPost.excerpt,
+    content: wpPost.content,
+    author: wpPost.author,
+    authorTitle: wpPost.authorTitle || '',
+    category: wpPost.category,
+    slug: wpPost.slug,
+    imageUrl: wpPost.imageUrl,
+    published: wpPost.published,
+    publishedAt: wpPost.publishedAt ? new Date(wpPost.publishedAt) : null,
+    createdAt: wpPost.publishedAt ? new Date(wpPost.publishedAt) : new Date(),
+  } as BlogPost : fallback;
+
+  if (wpLoading && !fallback) {
+    return (
+      <PageLayout>
+        <div className="max-w-4xl mx-auto px-6 py-12">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-slate-200 rounded w-1/3"></div>
+            <div className="h-12 bg-slate-200 rounded w-2/3"></div>
+            <div className="h-64 bg-slate-200 rounded"></div>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (!post) {
     return (
@@ -315,10 +346,28 @@ function BlogPostDetail({ slug }: { slug: string }) {
 export default function Blog() {
   const params = useParams();
   const slug = params.slug as string | undefined;
+  const { data: wpPosts } = useWPBlogPosts();
 
   if (slug) {
     return <BlogPostDetail slug={slug} />;
   }
+
+  const posts: BlogPost[] = (wpPosts && wpPosts.length > 0)
+    ? wpPosts.map(wp => ({
+        id: wp.id,
+        title: wp.title,
+        excerpt: wp.excerpt,
+        content: wp.content,
+        author: wp.author,
+        authorTitle: wp.authorTitle,
+        category: wp.category,
+        slug: wp.slug,
+        imageUrl: wp.imageUrl,
+        published: wp.published,
+        createdAt: wp.publishedAt ? new Date(wp.publishedAt) : new Date(),
+        publishedAt: wp.publishedAt ? new Date(wp.publishedAt) : null,
+      }))
+    : fallbackBlogPosts;
 
   return (
     <>
@@ -344,7 +393,7 @@ export default function Blog() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {sampleBlogPosts.map((post) => (
+          {posts.map((post) => (
             <BlogPostCard key={post.id} post={post} />
           ))}
         </div>
