@@ -4,7 +4,7 @@ import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { SEO } from '@/components/seo';
 import { Navbar } from '@/components/layout';
-import { useWPTestimonials, useWPHomepage, type WPTestimonial, type WPStat, type WPPillar, type WPProcessStep, type WPHeroContent, type WPDifferentiator } from '@/lib/wordpress';
+import { useWPTestimonials, useWPHomepage, type WPTestimonial, type WPStat, type WPPillar, type WPProcessStep, type WPHeroContent, type WPDifferentiator, type WPRadarData } from '@/lib/wordpress';
 import { 
   ArrowRight, 
   Activity,
@@ -287,8 +287,16 @@ function StageSpecialization({ wpPillars }: { wpPillars?: WPPillar[] }) {
   );
 }
 
-function RadarChart() {
-  const [competitor, setCompetitor] = useState("Marketing Agency");
+function RadarChart({ wpRadar }: { wpRadar?: WPRadarData | null }) {
+  const fallbackCompetitorData: Record<string, number[]> = COMPETITOR_DATA;
+  const fallbackAryoData = Aryo_DATA;
+  const fallbackLevers = ["Capital", "Market", "Digital", "M&A", "Talent", "Governance"];
+
+  const competitorData = (wpRadar?.competitors && Object.keys(wpRadar.competitors).length > 0) ? wpRadar.competitors : fallbackCompetitorData;
+  const aryoData = (wpRadar?.aryoValues && wpRadar.aryoValues.length > 0) ? wpRadar.aryoValues : fallbackAryoData;
+  const leverLabels = (wpRadar?.levers && wpRadar.levers.length > 0) ? wpRadar.levers : fallbackLevers;
+
+  const [competitor, setCompetitor] = useState(Object.keys(competitorData)[0]);
   const size = 400;
   const center = size / 2;
   const radius = 120;
@@ -296,14 +304,7 @@ function RadarChart() {
   const ref = useRef<HTMLDivElement>(null);
   const onScreen = useOnScreen(ref);
   
-  const levers = [
-    { label: "Capital" },
-    { label: "Market" },
-    { label: "Digital" },
-    { label: "M&A" },
-    { label: "Talent" },
-    { label: "Governance" }
-  ];
+  const levers = leverLabels.map(label => ({ label }));
 
   const getPoint = (index: number, value: number) => {
     const angle = (Math.PI * 2 * index) / 6 - Math.PI / 2;
@@ -312,15 +313,22 @@ function RadarChart() {
     return `${x},${y}`;
   };
 
-  const polyCompetitor = COMPETITOR_DATA[competitor].map((v, i) => getPoint(i, v)).join(" ");
-  const polyAryo = Aryo_DATA.map((v, i) => getPoint(i, v)).join(" ");
+  const numLevers = levers.length;
+  const getPointN = (index: number, value: number) => {
+    const angle = (Math.PI * 2 * index) / numLevers - Math.PI / 2;
+    const x = center + Math.cos(angle) * radius * value;
+    const y = center + Math.sin(angle) * radius * value;
+    return `${x},${y}`;
+  };
+  const polyCompetitor = (competitorData[competitor] || []).map((v, i) => getPointN(i, v)).join(" ");
+  const polyAryo = aryoData.map((v, i) => getPointN(i, v)).join(" ");
 
   return (
     <div className="flex flex-col items-center">
       <div className="mb-10 w-full text-center">
         <p className="text-xs font-bold text-aryo-greenTeal uppercase tracking-[0.2em] mb-4">Compare Our Model</p>
         <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
-          {Object.keys(COMPETITOR_DATA).map((key) => (
+          {Object.keys(competitorData).map((key) => (
             <button
               key={key}
               onClick={() => setCompetitor(key)}
@@ -339,14 +347,14 @@ function RadarChart() {
           {[...Array(levels)].map((_, i) => {
             const r = (radius / levels) * (i + 1);
             const points = levers.map((_, j) => {
-               const angle = (Math.PI * 2 * j) / 6 - Math.PI / 2;
+               const angle = (Math.PI * 2 * j) / numLevers - Math.PI / 2;
                return `${center + Math.cos(angle) * r},${center + Math.sin(angle) * r}`;
             }).join(" ");
             return <polygon key={i} points={points} fill="none" stroke="#E2E8F0" strokeWidth="1" />;
           })}
 
           {levers.map((_, i) => {
-             const angle = (Math.PI * 2 * i) / 6 - Math.PI / 2;
+             const angle = (Math.PI * 2 * i) / numLevers - Math.PI / 2;
              return (
                <line 
                  key={i} 
@@ -388,7 +396,7 @@ function RadarChart() {
           </defs>
 
           {levers.map((lever, i) => {
-            const angle = (Math.PI * 2 * i) / 6 - Math.PI / 2;
+            const angle = (Math.PI * 2 * i) / numLevers - Math.PI / 2;
             const labelR = radius + 35; 
             const x = center + Math.cos(angle) * labelR;
             const y = center + Math.sin(angle) * labelR;
@@ -420,7 +428,7 @@ function RadarChart() {
   );
 }
 
-function ValueDrivers() {
+function ValueDrivers({ wpRadar }: { wpRadar?: WPRadarData | null }) {
   return (
     <div id="value-drivers" className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -438,7 +446,7 @@ function ValueDrivers() {
           </FadeIn>
           <FadeIn delay={200}>
             <div className="bg-white p-8 border border-aryo-lightGrey">
-              <RadarChart />
+              <RadarChart wpRadar={wpRadar} />
             </div>
           </FadeIn>
         </div>
@@ -880,7 +888,7 @@ function Footer() {
 }
 
 export default function Home() {
-  const { data: wpHomepage } = useWPHomepage();
+  const { data: wpHomepage, isLoading: wpLoading } = useWPHomepage();
 
   return (
     <div className="min-h-screen bg-white">
@@ -892,7 +900,7 @@ export default function Home() {
       <Navbar />
       <Hero wpHero={wpHomepage?.hero} />
       <StageSpecialization wpPillars={wpHomepage?.pillars} />
-      <ValueDrivers />
+      <ValueDrivers wpRadar={wpHomepage?.radar} />
       <Process wpSteps={wpHomepage?.processSteps} />
       <Stats wpStats={wpHomepage?.stats} />
       <Testimonials />

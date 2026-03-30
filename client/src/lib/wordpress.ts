@@ -133,6 +133,17 @@ interface ACFHomepageProcessStep {
   description: string;
 }
 
+interface ACFRadarCompetitor {
+  name: string;
+  values: string;
+}
+
+interface ACFRadarConfig {
+  aryo_values?: string;
+  competitors?: ACFRadarCompetitor[];
+  levers?: { label: string }[];
+}
+
 interface ACFHomepageFields {
   stats?: ACFHomepageStatItem[];
   hero_headline?: string;
@@ -142,6 +153,7 @@ interface ACFHomepageFields {
   pillars?: ACFHomepagePillar[];
   process_steps?: ACFHomepageProcessStep[];
   differentiators?: ACFHomepageDifferentiator[];
+  radar?: ACFRadarConfig;
 }
 
 interface ACFHomepageBullet {
@@ -330,6 +342,12 @@ export interface WPProcessStep {
 export interface WPDifferentiator {
   title: string;
   description: string;
+}
+
+export interface WPRadarData {
+  aryoValues: number[];
+  competitors: Record<string, number[]>;
+  levers: string[];
 }
 
 export interface WPAboutContent {
@@ -714,6 +732,7 @@ export function useWPHomepage() {
     pillars: WPPillar[];
     processSteps: WPProcessStep[];
     differentiators: WPDifferentiator[];
+    radar: WPRadarData | null;
   } | null>({
     queryKey: ['wp', 'homepage'],
     queryFn: async () => {
@@ -753,7 +772,24 @@ export function useWPHomepage() {
         description: d.description,
       }));
 
-      return { stats, hero, pillars, processSteps, differentiators };
+      let radar: WPRadarData | null = null;
+      if (acf.radar) {
+        const parseValues = (str: string): number[] =>
+          str.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
+
+        const aryoValues = acf.radar.aryo_values ? parseValues(acf.radar.aryo_values) : [];
+        const competitors: Record<string, number[]> = {};
+        (acf.radar.competitors || []).forEach((c) => {
+          competitors[c.name] = parseValues(c.values);
+        });
+        const levers = (acf.radar.levers || []).map(l => l.label);
+
+        if (aryoValues.length > 0) {
+          radar = { aryoValues, competitors, levers };
+        }
+      }
+
+      return { stats, hero, pillars, processSteps, differentiators, radar };
     },
     enabled: isWPConfigured(),
     staleTime: 10 * 60 * 1000,

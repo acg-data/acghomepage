@@ -309,8 +309,9 @@ const fallbackDifferentiators = [
 ];
 
 export default function Capabilities() {
-  const { data: wpCaps } = useWPCapabilities();
-  const { data: wpHomepage } = useWPHomepage();
+  const { data: wpCaps, isLoading: capsLoading } = useWPCapabilities();
+  const { data: wpHomepage, isLoading: homepageLoading } = useWPHomepage();
+  const isLoading = capsLoading || homepageLoading;
   const capabilities = (wpCaps && wpCaps.length > 0)
     ? wpCaps.map(wp => ({
         icon: capIconMap[wp.iconName] || Layers,
@@ -351,7 +352,22 @@ export default function Capabilities() {
         <MobileConsultationForm />
 
         <div className="grid lg:grid-cols-2 gap-8 mb-24">
-          {capabilities.map((cap, i) => {
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 animate-pulse">
+                <div className="flex items-start gap-6">
+                  <div className="w-14 h-14 bg-slate-200 flex-shrink-0" />
+                  <div className="flex-1">
+                    <div className="h-5 w-40 bg-slate-200 rounded mb-2" />
+                    <div className="h-4 w-32 bg-slate-200 rounded mb-4" />
+                    <div className="h-4 w-full bg-slate-200 rounded mb-2" />
+                    <div className="h-4 w-2/3 bg-slate-200 rounded mb-4" />
+                    <div className="space-y-2">{Array.from({ length: 4 }).map((_, j) => (<div key={j} className="h-3 w-3/4 bg-slate-200 rounded" />))}</div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : capabilities.map((cap, i) => {
             const CardContent = (
               <div className="flex items-start gap-6">
                 <div className="w-14 h-14 bg-aryo-deepBlue flex items-center justify-center flex-shrink-0 group-hover:bg-aryo-teal transition-colors">

@@ -34,8 +34,9 @@ const fallbackWhyAryoParagraphs = [
 ];
 
 export default function Careers() {
-  const { data: wpPositions } = useWPPositions();
-  const { data: wpCareers } = useWPCareersPage();
+  const { data: wpPositions, isLoading: positionsLoading } = useWPPositions();
+  const { data: wpCareers, isLoading: careersLoading } = useWPCareersPage();
+  const isLoading = positionsLoading || careersLoading;
 
   const positions = (wpPositions && wpPositions.length > 0) ? wpPositions : fallbackPositions;
   const whyAryoParagraphs = (wpCareers?.whyAryoParagraphs && wpCareers.whyAryoParagraphs.length > 0) ? wpCareers.whyAryoParagraphs : fallbackWhyAryoParagraphs;
@@ -67,6 +68,23 @@ export default function Careers() {
           </p>
         </div>
 
+        {isLoading ? (
+          <div className="space-y-8 mb-24 animate-pulse">
+            <div className="grid lg:grid-cols-2 gap-8">
+              <div className="bg-slate-200 p-10 h-48" />
+              <div className="space-y-4">
+                {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="bg-white border border-aryo-lightGrey p-6 h-20" />))}
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="bg-white border border-aryo-lightGrey p-6 h-28" />))}
+            </div>
+            <div className="space-y-4">
+              {Array.from({ length: 3 }).map((_, i) => (<div key={i} className="bg-white border border-aryo-lightGrey p-8 h-24" />))}
+            </div>
+          </div>
+        ) : (
+        <>
         <div className="grid lg:grid-cols-2 gap-8 mb-24">
           <div className="bg-aryo-deepBlue p-10 text-white">
             <h2 className="text-2xl font-serif mb-6">Why Aryo?</h2>
@@ -159,6 +177,8 @@ export default function Careers() {
             General Inquiry <ArrowRight size={14} />
           </Link>
         </div>
+        </>
+        )}
       </div>
     </PageLayout>
   );

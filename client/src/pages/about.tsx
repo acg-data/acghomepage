@@ -72,6 +72,28 @@ export default function About() {
           </p>
         </div>
 
+        {isLoading ? (
+          <div className="space-y-8 mb-24 animate-pulse">
+            <div className="grid lg:grid-cols-2 gap-12">
+              <div className="bg-white border border-aryo-lightGrey p-10">
+                <div className="h-6 w-32 bg-slate-200 rounded mb-6" />
+                <div className="space-y-4">
+                  {Array.from({ length: 3 }).map((_, i) => (<div key={i} className="h-4 w-full bg-slate-200 rounded" />))}
+                </div>
+              </div>
+              <div className="bg-white border border-aryo-lightGrey p-10">
+                <div className="h-6 w-48 bg-slate-200 rounded mb-6" />
+                <div className="space-y-4">
+                  {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="h-4 w-full bg-slate-200 rounded" />))}
+                </div>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="bg-white border border-aryo-lightGrey p-6 h-32" />))}
+            </div>
+          </div>
+        ) : (
+        <>
         <div className="grid lg:grid-cols-2 gap-12 mb-24">
           <div className="bg-white border border-aryo-lightGrey p-10">
             <h2 className="text-2xl font-serif text-aryo-deepBlue mb-6">Our Story</h2>
@@ -164,6 +186,8 @@ export default function About() {
             Get in Touch <ArrowRight size={14} />
           </Link>
         </div>
+        </>
+        )}
       </div>
     </PageLayout>
   );
