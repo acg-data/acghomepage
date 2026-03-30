@@ -346,7 +346,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
 export default function Blog() {
   const params = useParams();
   const slug = params.slug as string | undefined;
-  const { data: wpPosts } = useWPBlogPosts();
+  const { data: wpPosts, isLoading: wpPostsLoading } = useWPBlogPosts();
 
   if (slug) {
     return <BlogPostDetail slug={slug} />;
@@ -393,9 +393,21 @@ export default function Blog() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {posts.map((post) => (
-            <BlogPostCard key={post.id} post={post} />
-          ))}
+          {wpPostsLoading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 animate-pulse">
+                <div className="h-4 w-20 bg-slate-200 rounded mb-4" />
+                <div className="h-6 w-3/4 bg-slate-200 rounded mb-3" />
+                <div className="h-4 w-full bg-slate-200 rounded mb-2" />
+                <div className="h-4 w-2/3 bg-slate-200 rounded mb-6" />
+                <div className="h-4 w-32 bg-slate-200 rounded" />
+              </div>
+            ))
+          ) : (
+            posts.map((post) => (
+              <BlogPostCard key={post.id} post={post} />
+            ))
+          )}
         </div>
 
         <div className="mt-16 bg-aryo-deepBlue p-12 text-center">

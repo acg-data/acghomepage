@@ -2,11 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 
 const WP_BASE_URL = import.meta.env.VITE_WORDPRESS_URL || '';
 
+interface WPMediaSize {
+  source_url: string;
+}
+
 interface WPMediaDetails {
   sizes?: {
-    full?: { source_url: string };
-    medium?: { source_url: string };
-    thumbnail?: { source_url: string };
+    full?: WPMediaSize;
+    medium?: WPMediaSize;
+    thumbnail?: WPMediaSize;
   };
 }
 
@@ -17,20 +21,194 @@ interface WPMedia {
   alt_text: string;
 }
 
+interface WPAuthorEmbed {
+  name: string;
+  description: string;
+}
+
+interface WPEmbedded {
+  'wp:featuredmedia'?: WPMedia[];
+  author?: WPAuthorEmbed[];
+}
+
+interface WPRendered {
+  rendered: string;
+}
+
+interface ACFBlogPostFields {
+  author_title?: string;
+  category?: string;
+}
+
+interface ACFCaseStudyStatItem {
+  label: string;
+  value: string;
+}
+
+interface ACFCaseStudyFields {
+  client?: string;
+  industry?: string;
+  challenge?: string;
+  solution?: string;
+  results?: string;
+  value_unlocked?: string;
+  featured?: boolean | string;
+  pdf_download?: string;
+  stats?: ACFCaseStudyStatItem[];
+}
+
+interface ACFTestimonialFields {
+  quote?: string;
+  author_name?: string;
+  author_title?: string;
+}
+
+interface ACFTeamMemberFields {
+  job_title?: string;
+  bio?: string;
+}
+
+interface ACFPositionRequirementItem {
+  requirement: string;
+}
+
+interface ACFPositionFields {
+  location?: string;
+  employment_type?: string;
+  description?: string;
+  requirements?: ACFPositionRequirementItem[] | string;
+}
+
+interface ACFCapabilityServiceItem {
+  service: string;
+}
+
+interface ACFCapabilityFields {
+  subtitle?: string;
+  description?: string;
+  services?: ACFCapabilityServiceItem[] | string;
+  outcome?: string;
+  link?: string;
+  icon_name?: string;
+}
+
+interface ACFIndustryListItem {
+  item: string;
+}
+
+interface ACFIndustryFields {
+  description?: string;
+  clients?: ACFIndustryListItem[] | string;
+  expertise?: ACFIndustryListItem[] | string;
+  metric?: string;
+  icon_name?: string;
+}
+
+interface ACFHomepageStatItem {
+  value: string | number;
+  suffix: string;
+  label: string;
+}
+
+interface ACFHomepageHeroBullet {
+  text: string;
+}
+
+interface ACFHomepagePillar {
+  name: string;
+  tagline: string;
+  description: string;
+  active: boolean | string;
+}
+
+interface ACFHomepageDifferentiator {
+  title: string;
+  description: string;
+}
+
+interface ACFHomepageProcessStep {
+  phase: string;
+  title: string;
+  time: string;
+  description: string;
+}
+
+interface ACFHomepageFields {
+  stats?: ACFHomepageStatItem[];
+  hero_headline?: string;
+  hero_subheadline?: string;
+  hero_description?: string;
+  hero_bullets?: ACFHomepageBullet[];
+  pillars?: ACFHomepagePillar[];
+  process_steps?: ACFHomepageProcessStep[];
+  differentiators?: ACFHomepageDifferentiator[];
+}
+
+interface ACFHomepageBullet {
+  text: string;
+}
+
+interface ACFAboutValue {
+  title: string;
+  description: string;
+  icon_name?: string;
+}
+
+interface ACFAboutLocation {
+  city: string;
+  status: string;
+  address: string;
+  description: string;
+}
+
+interface ACFAboutFields {
+  story_paragraphs?: { text: string }[];
+  story_metric?: string;
+  values?: ACFAboutValue[];
+  locations?: ACFAboutLocation[];
+}
+
+interface ACFCareersBenefit {
+  title: string;
+  description: string;
+  icon_name?: string;
+}
+
+interface ACFCareersValue {
+  title: string;
+  description: string;
+}
+
+interface ACFCareersFields {
+  why_aryo_paragraphs?: { text: string }[];
+  benefits?: ACFCareersBenefit[];
+  culture_values?: ACFCareersValue[];
+}
+
+type ACFFields =
+  | ACFBlogPostFields
+  | ACFCaseStudyFields
+  | ACFTestimonialFields
+  | ACFTeamMemberFields
+  | ACFPositionFields
+  | ACFCapabilityFields
+  | ACFIndustryFields
+  | ACFHomepageFields
+  | ACFAboutFields
+  | ACFCareersFields
+  | Record<string, unknown>;
+
 export interface WPPost {
   id: number;
   slug: string;
-  title: { rendered: string };
-  excerpt: { rendered: string };
-  content: { rendered: string };
+  title: WPRendered;
+  excerpt: WPRendered;
+  content: WPRendered;
   date: string;
   modified: string;
   featured_media: number;
-  _embedded?: {
-    'wp:featuredmedia'?: WPMedia[];
-    author?: { name: string; description: string }[];
-  };
-  acf?: Record<string, any>;
+  _embedded?: WPEmbedded;
+  acf?: Record<string, unknown>;
   categories?: number[];
   tags?: number[];
 }
@@ -38,19 +216,10 @@ export interface WPPost {
 export interface WPPage {
   id: number;
   slug: string;
-  title: { rendered: string };
-  content: { rendered: string };
-  acf?: Record<string, any>;
-  _embedded?: {
-    'wp:featuredmedia'?: WPMedia[];
-  };
-}
-
-export interface WPCategory {
-  id: number;
-  name: string;
-  slug: string;
-  count: number;
+  title: WPRendered;
+  content: WPRendered;
+  acf?: Record<string, unknown>;
+  _embedded?: WPEmbedded;
 }
 
 export interface WPTeamMember {
@@ -137,6 +306,56 @@ export interface WPStat {
   label: string;
 }
 
+export interface WPHeroContent {
+  headline: string;
+  subheadline: string;
+  description: string;
+  bullets: string[];
+}
+
+export interface WPPillar {
+  name: string;
+  tagline: string;
+  desc: string;
+  active: boolean;
+}
+
+export interface WPProcessStep {
+  phase: string;
+  title: string;
+  time: string;
+  desc: string;
+}
+
+export interface WPDifferentiator {
+  title: string;
+  description: string;
+}
+
+export interface WPAboutContent {
+  storyParagraphs: string[];
+  storyMetric: string;
+  values: { title: string; description: string; iconName: string }[];
+  locations: WPLocation[];
+}
+
+export interface WPCareersBenefit {
+  title: string;
+  description: string;
+  iconName: string;
+}
+
+export interface WPCareersValue {
+  title: string;
+  description: string;
+}
+
+export interface WPCareersContent {
+  whyAryoParagraphs: string[];
+  benefits: WPCareersBenefit[];
+  cultureValues: WPCareersValue[];
+}
+
 function stripHtml(html: string): string {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   return doc.body.textContent || '';
@@ -144,6 +363,29 @@ function stripHtml(html: string): string {
 
 function isWPConfigured(): boolean {
   return Boolean(WP_BASE_URL && WP_BASE_URL.length > 0);
+}
+
+function asString(val: unknown): string {
+  return typeof val === 'string' ? val : '';
+}
+
+function asBool(val: unknown): boolean {
+  return val === true || val === '1' || val === 'true';
+}
+
+function parseStringList(field: unknown): string[] {
+  if (Array.isArray(field)) {
+    return field.map((f: unknown) => {
+      if (typeof f === 'string') return f;
+      if (f && typeof f === 'object') {
+        const obj = f as Record<string, unknown>;
+        return asString(obj.item || obj.service || obj.requirement || obj.text || '');
+      }
+      return '';
+    }).filter(Boolean);
+  }
+  if (typeof field === 'string') return field.split('\n').filter(Boolean);
+  return [];
 }
 
 async function wpFetch<T>(endpoint: string, params: Record<string, string> = {}): Promise<T> {
@@ -166,9 +408,46 @@ async function wpFetch<T>(endpoint: string, params: Record<string, string> = {})
   return response.json();
 }
 
+async function wpFetchAll<T>(endpoint: string, params: Record<string, string> = {}): Promise<T[]> {
+  if (!isWPConfigured()) {
+    throw new Error('WordPress URL not configured');
+  }
+
+  const allItems: T[] = [];
+  let page = 1;
+  const perPage = '100';
+
+  while (true) {
+    const url = new URL(`/wp-json/wp/v2/${endpoint}`, WP_BASE_URL);
+    Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
+    url.searchParams.set('_embed', '1');
+    url.searchParams.set('per_page', perPage);
+    url.searchParams.set('page', String(page));
+
+    const response = await fetch(url.toString(), {
+      headers: { 'Accept': 'application/json' },
+    });
+
+    if (!response.ok) {
+      if (page > 1 && response.status === 400) break;
+      throw new Error(`WP API error: ${response.status} ${response.statusText}`);
+    }
+
+    const items: T[] = await response.json();
+    allItems.push(...items);
+
+    const totalPages = parseInt(response.headers.get('X-WP-TotalPages') || '1', 10);
+    if (page >= totalPages) break;
+    page++;
+  }
+
+  return allItems;
+}
+
 function mapWPPostToBlogPost(post: WPPost): WPBlogPost {
   const featuredImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
   const authorInfo = post._embedded?.author?.[0];
+  const acf = (post.acf || {}) as ACFBlogPostFields;
 
   return {
     id: String(post.id),
@@ -176,8 +455,8 @@ function mapWPPostToBlogPost(post: WPPost): WPBlogPost {
     excerpt: stripHtml(post.excerpt.rendered),
     content: post.content.rendered,
     author: authorInfo?.name || 'Aryo Consulting',
-    authorTitle: post.acf?.author_title || authorInfo?.description || '',
-    category: post.acf?.category || 'Insights',
+    authorTitle: acf.author_title || authorInfo?.description || '',
+    category: acf.category || 'Insights',
     slug: post.slug,
     imageUrl: featuredImage,
     published: true,
@@ -186,45 +465,45 @@ function mapWPPostToBlogPost(post: WPPost): WPBlogPost {
 }
 
 function mapWPPostToCaseStudy(post: WPPost): WPCaseStudy {
-  const acf = post.acf || {};
+  const acf = (post.acf || {}) as ACFCaseStudyFields;
   let stats: { label: string; value: string }[] | undefined;
 
   if (acf.stats && Array.isArray(acf.stats)) {
-    stats = acf.stats.map((s: any) => ({ label: s.label, value: s.value }));
+    stats = acf.stats.map((s) => ({ label: s.label, value: s.value }));
   }
 
   return {
     id: String(post.id),
     title: stripHtml(post.title.rendered),
-    client: acf.client || '',
-    industry: acf.industry || '',
-    challenge: acf.challenge || stripHtml(post.content.rendered),
-    solution: acf.solution || '',
-    results: acf.results || '',
-    valueUnlocked: acf.value_unlocked || '',
+    client: asString(acf.client),
+    industry: asString(acf.industry),
+    challenge: asString(acf.challenge) || stripHtml(post.content.rendered),
+    solution: asString(acf.solution),
+    results: asString(acf.results),
+    valueUnlocked: asString(acf.value_unlocked),
     slug: post.slug,
-    featured: acf.featured === true || acf.featured === '1',
+    featured: asBool(acf.featured),
     imageUrl: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || null,
-    pdfDownload: acf.pdf_download || undefined,
+    pdfDownload: asString(acf.pdf_download) || undefined,
     stats,
   };
 }
 
 function mapWPPostToTestimonial(post: WPPost): WPTestimonial {
-  const acf = post.acf || {};
+  const acf = (post.acf || {}) as ACFTestimonialFields;
   return {
-    quote: acf.quote || stripHtml(post.content.rendered),
-    author: acf.author_name || stripHtml(post.title.rendered),
-    title: acf.author_title || '',
+    quote: asString(acf.quote) || stripHtml(post.content.rendered),
+    author: asString(acf.author_name) || stripHtml(post.title.rendered),
+    title: asString(acf.author_title),
   };
 }
 
 function mapWPPostToPosition(post: WPPost): WPPosition {
-  const acf = post.acf || {};
+  const acf = (post.acf || {}) as ACFPositionFields;
   let requirements: string[] = [];
   if (acf.requirements) {
     if (Array.isArray(acf.requirements)) {
-      requirements = acf.requirements.map((r: any) => typeof r === 'string' ? r : r.requirement || '');
+      requirements = acf.requirements.map((r) => r.requirement || '').filter(Boolean);
     } else if (typeof acf.requirements === 'string') {
       requirements = acf.requirements.split('\n').filter(Boolean);
     }
@@ -232,9 +511,9 @@ function mapWPPostToPosition(post: WPPost): WPPosition {
 
   return {
     title: stripHtml(post.title.rendered),
-    location: acf.location || '',
-    type: acf.employment_type || 'Full-time',
-    description: acf.description || stripHtml(post.excerpt.rendered),
+    location: asString(acf.location),
+    type: asString(acf.employment_type) || 'Full-time',
+    description: asString(acf.description) || stripHtml(post.excerpt.rendered),
     requirements,
   };
 }
@@ -243,8 +522,7 @@ export function useWPBlogPosts() {
   return useQuery<WPBlogPost[]>({
     queryKey: ['wp', 'blog-posts'],
     queryFn: async () => {
-      const posts = await wpFetch<WPPost[]>('posts', {
-        per_page: '20',
+      const posts = await wpFetchAll<WPPost>('posts', {
         orderby: 'date',
         order: 'desc',
         status: 'publish',
@@ -275,8 +553,7 @@ export function useWPCaseStudies() {
   return useQuery<WPCaseStudy[]>({
     queryKey: ['wp', 'case-studies'],
     queryFn: async () => {
-      const posts = await wpFetch<WPPost[]>('case_study', {
-        per_page: '20',
+      const posts = await wpFetchAll<WPPost>('case_study', {
         orderby: 'date',
         order: 'desc',
       });
@@ -306,8 +583,7 @@ export function useWPTestimonials() {
   return useQuery<WPTestimonial[]>({
     queryKey: ['wp', 'testimonials'],
     queryFn: async () => {
-      const posts = await wpFetch<WPPost[]>('testimonial', {
-        per_page: '20',
+      const posts = await wpFetchAll<WPPost>('testimonial', {
         orderby: 'menu_order',
         order: 'asc',
       });
@@ -323,8 +599,7 @@ export function useWPPositions() {
   return useQuery<WPPosition[]>({
     queryKey: ['wp', 'positions'],
     queryFn: async () => {
-      const posts = await wpFetch<WPPost[]>('position', {
-        per_page: '20',
+      const posts = await wpFetchAll<WPPost>('position', {
         orderby: 'date',
         order: 'desc',
       });
@@ -354,20 +629,19 @@ export function useWPTeamMembers() {
   return useQuery<WPTeamMember[]>({
     queryKey: ['wp', 'team-members'],
     queryFn: async () => {
-      const posts = await wpFetch<WPPost[]>('team_member', {
-        per_page: '20',
+      const posts = await wpFetchAll<WPPost>('team_member', {
         orderby: 'menu_order',
         order: 'asc',
       });
       return posts.map((post) => {
-        const acf = post.acf || {};
+        const acf = (post.acf || {}) as ACFTeamMemberFields;
         const name = stripHtml(post.title.rendered);
         const nameParts = name.split(' ');
         const initials = nameParts.map(p => p[0]).join('').toUpperCase();
         return {
           name,
-          title: acf.job_title || '',
-          bio: acf.bio || stripHtml(post.content.rendered),
+          title: asString(acf.job_title),
+          bio: asString(acf.bio) || stripHtml(post.content.rendered),
           initials,
           imageUrl: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || undefined,
         };
@@ -383,29 +657,21 @@ export function useWPCapabilities() {
   return useQuery<WPCapability[]>({
     queryKey: ['wp', 'capabilities'],
     queryFn: async () => {
-      const posts = await wpFetch<WPPost[]>('capability', {
-        per_page: '20',
+      const posts = await wpFetchAll<WPPost>('capability', {
         orderby: 'menu_order',
         order: 'asc',
       });
       return posts.map((post) => {
-        const acf = post.acf || {};
-        let services: string[] = [];
-        if (acf.services) {
-          if (Array.isArray(acf.services)) {
-            services = acf.services.map((s: any) => typeof s === 'string' ? s : s.service || '');
-          } else if (typeof acf.services === 'string') {
-            services = acf.services.split('\n').filter(Boolean);
-          }
-        }
+        const acf = (post.acf || {}) as ACFCapabilityFields;
+        const services = parseStringList(acf.services);
         return {
           title: stripHtml(post.title.rendered),
-          subtitle: acf.subtitle || '',
-          description: acf.description || stripHtml(post.excerpt.rendered),
+          subtitle: asString(acf.subtitle),
+          description: asString(acf.description) || stripHtml(post.excerpt.rendered),
           services,
-          outcome: acf.outcome || '',
-          link: acf.link || '',
-          iconName: acf.icon_name || 'Layers',
+          outcome: asString(acf.outcome),
+          link: asString(acf.link),
+          iconName: asString(acf.icon_name) || 'Layers',
         };
       });
     },
@@ -419,25 +685,19 @@ export function useWPIndustries() {
   return useQuery<WPIndustry[]>({
     queryKey: ['wp', 'industries'],
     queryFn: async () => {
-      const posts = await wpFetch<WPPost[]>('industry', {
-        per_page: '20',
+      const posts = await wpFetchAll<WPPost>('industry', {
         orderby: 'menu_order',
         order: 'asc',
       });
       return posts.map((post) => {
-        const acf = post.acf || {};
-        const parseList = (field: any): string[] => {
-          if (Array.isArray(field)) return field.map((f: any) => typeof f === 'string' ? f : f.item || '');
-          if (typeof field === 'string') return field.split('\n').filter(Boolean);
-          return [];
-        };
+        const acf = (post.acf || {}) as ACFIndustryFields;
         return {
           title: stripHtml(post.title.rendered),
-          description: acf.description || stripHtml(post.excerpt.rendered),
-          clients: parseList(acf.clients),
-          expertise: parseList(acf.expertise),
-          metric: acf.metric || '',
-          iconName: acf.icon_name || 'Building2',
+          description: asString(acf.description) || stripHtml(post.excerpt.rendered),
+          clients: parseStringList(acf.clients),
+          expertise: parseStringList(acf.expertise),
+          metric: asString(acf.metric),
+          iconName: asString(acf.icon_name) || 'Building2',
         };
       });
     },
@@ -447,17 +707,110 @@ export function useWPIndustries() {
   });
 }
 
-export function useWPStats() {
-  return useQuery<WPStat[]>({
-    queryKey: ['wp', 'stats'],
+export function useWPHomepage() {
+  return useQuery<{
+    stats: WPStat[];
+    hero: WPHeroContent | null;
+    pillars: WPPillar[];
+    processSteps: WPProcessStep[];
+    differentiators: WPDifferentiator[];
+  } | null>({
+    queryKey: ['wp', 'homepage'],
     queryFn: async () => {
-      const page = await wpFetch<WPPage[]>('pages', { slug: 'homepage' });
-      if (page.length === 0 || !page[0].acf?.stats) return [];
-      return (page[0].acf.stats as any[]).map((s: any) => ({
+      const pages = await wpFetch<WPPage[]>('pages', { slug: 'homepage' });
+      if (pages.length === 0) return null;
+      const acf = (pages[0].acf || {}) as ACFHomepageFields;
+
+      const stats: WPStat[] = (acf.stats || []).map((s) => ({
         value: Number(s.value) || 0,
         suffix: s.suffix || '',
         label: s.label || '',
       }));
+
+      const hero: WPHeroContent | null = acf.hero_headline ? {
+        headline: asString(acf.hero_headline),
+        subheadline: asString(acf.hero_subheadline),
+        description: asString(acf.hero_description),
+        bullets: (acf.hero_bullets || []).map((b) => b.text),
+      } : null;
+
+      const pillars: WPPillar[] = (acf.pillars || []).map((p) => ({
+        name: p.name,
+        tagline: p.tagline,
+        desc: p.description,
+        active: asBool(p.active),
+      }));
+
+      const processSteps: WPProcessStep[] = (acf.process_steps || []).map((s) => ({
+        phase: s.phase,
+        title: s.title,
+        time: s.time,
+        desc: s.description,
+      }));
+
+      const differentiators: WPDifferentiator[] = (acf.differentiators || []).map((d) => ({
+        title: d.title,
+        description: d.description,
+      }));
+
+      return { stats, hero, pillars, processSteps, differentiators };
+    },
+    enabled: isWPConfigured(),
+    staleTime: 10 * 60 * 1000,
+    retry: 1,
+  });
+}
+
+export function useWPAboutPage() {
+  return useQuery<WPAboutContent | null>({
+    queryKey: ['wp', 'about-page'],
+    queryFn: async () => {
+      const pages = await wpFetch<WPPage[]>('pages', { slug: 'about' });
+      if (pages.length === 0) return null;
+      const acf = (pages[0].acf || {}) as ACFAboutFields;
+
+      return {
+        storyParagraphs: (acf.story_paragraphs || []).map((p) => p.text),
+        storyMetric: asString(acf.story_metric),
+        values: (acf.values || []).map((v) => ({
+          title: v.title,
+          description: v.description,
+          iconName: asString(v.icon_name) || 'Target',
+        })),
+        locations: (acf.locations || []).map((l) => ({
+          city: l.city,
+          status: (l.status === 'active' ? 'active' : 'coming') as 'active' | 'coming',
+          address: l.address,
+          description: l.description,
+        })),
+      };
+    },
+    enabled: isWPConfigured(),
+    staleTime: 10 * 60 * 1000,
+    retry: 1,
+  });
+}
+
+export function useWPCareersPage() {
+  return useQuery<WPCareersContent | null>({
+    queryKey: ['wp', 'careers-page'],
+    queryFn: async () => {
+      const pages = await wpFetch<WPPage[]>('pages', { slug: 'careers' });
+      if (pages.length === 0) return null;
+      const acf = (pages[0].acf || {}) as ACFCareersFields;
+
+      return {
+        whyAryoParagraphs: (acf.why_aryo_paragraphs || []).map((p) => p.text),
+        benefits: (acf.benefits || []).map((b) => ({
+          title: b.title,
+          description: b.description,
+          iconName: asString(b.icon_name) || 'Target',
+        })),
+        cultureValues: (acf.culture_values || []).map((v) => ({
+          title: v.title,
+          description: v.description,
+        })),
+      };
     },
     enabled: isWPConfigured(),
     staleTime: 10 * 60 * 1000,

@@ -1,66 +1,53 @@
 import { Link } from 'wouter';
-import { ArrowRight, MapPin, Users, Target, Award, ChevronRight } from 'lucide-react';
+import { ArrowRight, MapPin, Users, Target, Award, ChevronRight, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
-import { useWPTeamMembers, type WPTeamMember } from '@/lib/wordpress';
+import { useWPTeamMembers, useWPAboutPage } from '@/lib/wordpress';
+
+const aboutIconMap: Record<string, LucideIcon> = { Target, Users, Award, MapPin };
 
 const fallbackTeamMembers = [
-  {
-    name: "Justin Abrams",
-    title: "Founder & CEO",
-    bio: "Visionary leader driving Aryo's mission to transform consulting through outcome-based partnerships and deployed systems.",
-    initials: "JA"
-  },
-  {
-    name: "Josh Eissler",
-    title: "Head of Technology",
-    bio: "Technology strategist leading Aryo's digital capabilities and innovation initiatives across client engagements.",
-    initials: "JE"
-  },
-  {
-    name: "Vivian Sierra",
-    title: "Associate",
-    bio: "Strategic consultant specializing in operational excellence and client delivery across multiple industries.",
-    initials: "VS"
-  },
-  {
-    name: "Shohel Das",
-    title: "Associate",
-    bio: "Analytical consultant focused on data-driven insights and implementation support for enterprise clients.",
-    initials: "SD"
-  }
+  { name: "Justin Abrams", title: "Founder & CEO", bio: "Visionary leader driving Aryo's mission to transform consulting through outcome-based partnerships and deployed systems.", initials: "JA" },
+  { name: "Josh Eissler", title: "Head of Technology", bio: "Technology strategist leading Aryo's digital capabilities and innovation initiatives across client engagements.", initials: "JE" },
+  { name: "Vivian Sierra", title: "Associate", bio: "Strategic consultant specializing in operational excellence and client delivery across multiple industries.", initials: "VS" },
+  { name: "Shohel Das", title: "Associate", bio: "Analytical consultant focused on data-driven insights and implementation support for enterprise clients.", initials: "SD" }
 ];
 
-const locations = [
-  { city: "Boston", status: "active", address: "One Financial Center, Suite 2500", description: "Global Headquarters" },
-  { city: "New York", status: "active", address: "1 World Trade Center, Floor 85", description: "East Coast Hub" },
-  { city: "San Francisco", status: "coming", address: "Coming Q4 2026", description: "West Coast Expansion" },
-  { city: "London", status: "coming", address: "Coming Q4 2026", description: "European Operations" },
-  { city: "Singapore", status: "coming", address: "Coming Q4 2026", description: "Asia-Pacific Hub" },
-  { city: "Dubai", status: "coming", address: "Coming Q4 2026", description: "Middle East Office" },
+const fallbackLocations = [
+  { city: "Boston", status: "active" as const, address: "One Financial Center, Suite 2500", description: "Global Headquarters" },
+  { city: "New York", status: "active" as const, address: "1 World Trade Center, Floor 85", description: "East Coast Hub" },
+  { city: "San Francisco", status: "coming" as const, address: "Coming Q4 2026", description: "West Coast Expansion" },
+  { city: "London", status: "coming" as const, address: "Coming Q4 2026", description: "European Operations" },
+  { city: "Singapore", status: "coming" as const, address: "Coming Q4 2026", description: "Asia-Pacific Hub" },
+  { city: "Dubai", status: "coming" as const, address: "Coming Q4 2026", description: "Middle East Office" },
 ];
 
-const values = [
-  {
-    icon: Target,
-    title: "Outcome-Obsessed",
-    description: "We don't bill hours—we deliver results. Our compensation is tied to the value we create."
-  },
-  {
-    icon: Users,
-    title: "Embedded Partnership",
-    description: "We work alongside your team, not in isolation. Real change requires real collaboration."
-  },
-  {
-    icon: Award,
-    title: "Deployed Systems",
-    description: "No vague decks. We implement actual systems, processes, and capabilities that endure."
-  }
+const fallbackValues = [
+  { icon: Target, title: "Outcome-Obsessed", description: "We don't bill hours—we deliver results. Our compensation is tied to the value we create." },
+  { icon: Users, title: "Embedded Partnership", description: "We work alongside your team, not in isolation. Real change requires real collaboration." },
+  { icon: Award, title: "Deployed Systems", description: "No vague decks. We implement actual systems, processes, and capabilities that endure." }
 ];
+
+const fallbackStoryParagraphs = [
+  "Aryo was founded by a group of senior partners who left the world's top consulting firms with a shared conviction: the traditional consulting model is broken.",
+  "Too many engagements end with beautifully designed presentations that collect dust. Too many firms optimize for billable hours rather than client outcomes. Too many consultants fly in, diagnose, and disappear—leaving clients to implement alone.",
+  "We built Aryo to be different. We tie our compensation to results. We deploy actual systems rather than recommendations. We embed with client teams until the work is done.",
+];
+
+const fallbackStoryMetric = "The result? 400+ successful engagements, $1.5B in enterprise value created, and a 98% client retention rate.";
 
 export default function About() {
-  const { data: wpTeam } = useWPTeamMembers();
+  const { data: wpTeam, isLoading: teamLoading } = useWPTeamMembers();
+  const { data: wpAbout, isLoading: aboutLoading } = useWPAboutPage();
+
   const teamMembers = (wpTeam && wpTeam.length > 0) ? wpTeam : fallbackTeamMembers;
+  const storyParagraphs = (wpAbout?.storyParagraphs && wpAbout.storyParagraphs.length > 0) ? wpAbout.storyParagraphs : fallbackStoryParagraphs;
+  const storyMetric = wpAbout?.storyMetric || fallbackStoryMetric;
+  const values = (wpAbout?.values && wpAbout.values.length > 0)
+    ? wpAbout.values.map(v => ({ icon: aboutIconMap[v.iconName] || Target, title: v.title, description: v.description }))
+    : fallbackValues;
+  const locations = (wpAbout?.locations && wpAbout.locations.length > 0) ? wpAbout.locations : fallbackLocations;
+  const isLoading = teamLoading || aboutLoading;
 
   return (
     <PageLayout>
@@ -89,22 +76,11 @@ export default function About() {
           <div className="bg-white border border-aryo-lightGrey p-10">
             <h2 className="text-2xl font-serif text-aryo-deepBlue mb-6">Our Story</h2>
             <div className="space-y-4 text-slate-600">
-              <p>
-                Aryo was founded by a group of senior partners who left the world's top consulting firms with a 
-                shared conviction: the traditional consulting model is broken.
-              </p>
-              <p>
-                Too many engagements end with beautifully designed presentations that collect dust. Too many 
-                firms optimize for billable hours rather than client outcomes. Too many consultants fly in, 
-                diagnose, and disappear—leaving clients to implement alone.
-              </p>
-              <p>
-                We built Aryo to be different. We tie our compensation to results. We deploy actual systems 
-                rather than recommendations. We embed with client teams until the work is done.
-              </p>
+              {storyParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
               <p className="font-medium text-aryo-deepBlue">
-                The result? 400+ successful engagements, $1.5B in enterprise value created, and a 98% client 
-                retention rate.
+                {storyMetric}
               </p>
             </div>
           </div>

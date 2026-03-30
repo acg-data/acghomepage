@@ -284,7 +284,7 @@ function CaseStudyDetail({ slug }: { slug: string }) {
 export default function CaseStudies() {
   const params = useParams();
   const slug = params.slug as string | undefined;
-  const { data: wpStudies } = useWPCaseStudies();
+  const { data: wpStudies, isLoading: wpStudiesLoading } = useWPCaseStudies();
 
   if (slug) {
     return <CaseStudyDetail slug={slug} />;
@@ -318,9 +318,25 @@ export default function CaseStudies() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {studies.map((study) => (
-            <CaseStudyCard key={study.id} study={study} />
-          ))}
+          {wpStudiesLoading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 animate-pulse">
+                <div className="h-4 w-24 bg-slate-200 rounded mb-4" />
+                <div className="h-6 w-3/4 bg-slate-200 rounded mb-3" />
+                <div className="h-4 w-full bg-slate-200 rounded mb-2" />
+                <div className="h-4 w-2/3 bg-slate-200 rounded mb-6" />
+                <div className="flex gap-4">
+                  <div className="h-10 w-16 bg-slate-200 rounded" />
+                  <div className="h-10 w-16 bg-slate-200 rounded" />
+                  <div className="h-10 w-16 bg-slate-200 rounded" />
+                </div>
+              </div>
+            ))
+          ) : (
+            studies.map((study) => (
+              <CaseStudyCard key={study.id} study={study} />
+            ))
+          )}
         </div>
 
         <div className="mt-16 bg-aryo-deepBlue p-12 text-center">

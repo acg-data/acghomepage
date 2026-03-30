@@ -4,7 +4,7 @@ import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { SEO } from '@/components/seo';
 import { Navbar } from '@/components/layout';
-import { useWPTestimonials, useWPStats, type WPTestimonial, type WPStat } from '@/lib/wordpress';
+import { useWPTestimonials, useWPHomepage, type WPTestimonial, type WPStat, type WPPillar, type WPProcessStep, type WPHeroContent, type WPDifferentiator } from '@/lib/wordpress';
 import { 
   ArrowRight, 
   Activity,
@@ -122,12 +122,23 @@ function AryoLogo({ size = 96, className = "" }: { size?: number; className?: st
 }
 
 
-function Hero() {
+function Hero({ wpHero }: { wpHero?: WPHeroContent | null }) {
   const { data: logos = [] } = useQuery<string[]>({
     queryKey: ['/api/logos'],
   });
-  
-  // Cache buster to force fresh image loads
+
+  const fallbackHero = {
+    headline: "The Modern Consulting Firm that actually delivers results.",
+    subheadline: "Results-Driven Consulting",
+    description: "Traditional consulting has failed. It's expensive, vague, and puts the firm, not the client, first.",
+    bullets: [
+      "No hourly billing bloat.",
+      "No vague 100-page slide decks.",
+      "Deployed systems & infrastructure.",
+      "Outcome-based execution.",
+    ],
+  };
+  const hero = wpHero || fallbackHero;
   const cacheBuster = Date.now();
 
   return (
@@ -144,24 +155,28 @@ function Hero() {
           <div className="flex items-center gap-3 mb-8">
             <div className="h-px w-12 bg-aryo-greenTeal"></div>
             <span className="text-xs font-bold font-sans text-aryo-deepBlue tracking-[0.25em] uppercase">
-              Results-Driven Consulting
+              {hero.subheadline}
             </span>
           </div>
         </FadeIn>
         
         <FadeIn delay={200}>
           <h1 className="text-4xl md:text-6xl font-serif text-aryo-deepBlue tracking-tight mb-8 leading-[1.15] max-w-4xl">
-            The Modern Consulting Firm that actually{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">
-              delivers results.
-            </span>
+            {hero.headline.includes('delivers results') ? (
+              <>
+                The Modern Consulting Firm that actually{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">
+                  delivers results.
+                </span>
+              </>
+            ) : hero.headline}
           </h1>
         </FadeIn>
         
         <FadeIn delay={300}>
           <div className="max-w-2xl mb-10">
             <p className="text-xl md:text-2xl text-slate-600 mb-6 leading-relaxed font-sans font-light">
-              Traditional consulting has failed. It's expensive, vague, and puts the firm, not the client, first.
+              {hero.description}
             </p>
             <p className="text-lg text-slate-600 leading-relaxed font-sans">
               At ACG, we work to build the modern operating system and framework of the business. We align incentives to see you grow well before we do.
@@ -171,22 +186,12 @@ function Hero() {
 
         <FadeIn delay={350}>
           <div className="grid sm:grid-cols-2 gap-4 max-w-xl mb-12">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">No hourly billing bloat.</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">No vague 100-page slide decks.</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">Deployed systems & infrastructure.</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-              <span className="text-aryo-deepBlue font-sans font-medium">Outcome-based execution.</span>
-            </div>
+            {hero.bullets.map((bullet, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
+                <span className="text-aryo-deepBlue font-sans font-medium">{bullet}</span>
+              </div>
+            ))}
           </div>
         </FadeIn>
         
@@ -245,33 +250,14 @@ function Hero() {
   );
 }
 
-function StageSpecialization() {
-  const pillars = [
-    { 
-      name: "Pre-Revenue Startups", 
-      tagline: "From idea to first dollar",
-      desc: "We help founders build the foundational infrastructure that scales—go-to-market strategy, hiring frameworks, and operational architecture before product-market fit.",
-      active: true 
-    },
-    { 
-      name: "Series A to C", 
-      tagline: "Scaling without breaking",
-      desc: "The most dangerous phase of growth. We build the operational backbone—finance, HR, sales ops—that lets you 10x without the chaos that kills momentum.",
-      active: false 
-    },
-    { 
-      name: "SMEs", 
-      tagline: "Professionalizing the proven",
-      desc: "You've built something real. Now it's time to systemize it—modernize operations, implement governance, and prepare for aggressive growth or strategic exit.",
-      active: false 
-    },
-    { 
-      name: "Large Organizations", 
-      tagline: "Enterprise transformation",
-      desc: "Big doesn't have to mean slow. We cut through bureaucracy, implement agile operating models, and drive digital transformation that actually sticks.",
-      active: false 
-    },
+function StageSpecialization({ wpPillars }: { wpPillars?: WPPillar[] }) {
+  const fallbackPillars = [
+    { name: "Pre-Revenue Startups", tagline: "From idea to first dollar", desc: "We help founders build the foundational infrastructure that scales—go-to-market strategy, hiring frameworks, and operational architecture before product-market fit.", active: true },
+    { name: "Series A to C", tagline: "Scaling without breaking", desc: "The most dangerous phase of growth. We build the operational backbone—finance, HR, sales ops—that lets you 10x without the chaos that kills momentum.", active: false },
+    { name: "SMEs", tagline: "Professionalizing the proven", desc: "You've built something real. Now it's time to systemize it—modernize operations, implement governance, and prepare for aggressive growth or strategic exit.", active: false },
+    { name: "Large Organizations", tagline: "Enterprise transformation", desc: "Big doesn't have to mean slow. We cut through bureaucracy, implement agile operating models, and drive digital transformation that actually sticks.", active: false },
   ];
+  const pillars = (wpPillars && wpPillars.length > 0) ? wpPillars : fallbackPillars;
 
   return (
     <div id="sectors" className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
@@ -461,13 +447,14 @@ function ValueDrivers() {
   );
 }
 
-function Process() {
-  const steps = [
+function Process({ wpSteps }: { wpSteps?: WPProcessStep[] }) {
+  const fallbackSteps = [
     { phase: "Phase I", title: "Diagnostic & Audit", time: "Weeks 1-4", desc: "Full forensic audit of unit economics, tech stack, and leadership gaps." },
     { phase: "Phase II", title: "Strategic Architecture", time: "Weeks 5-8", desc: "Designing the target operating model and governance frameworks." },
     { phase: "Phase III", title: "Execution & Deployment", time: "Weeks 9-24", desc: "Interim executive placement and rapid implementation of growth drivers." },
     { phase: "Phase IV", title: "Handover & Governance", time: "Ongoing", desc: "Establishing KPIs and board-level reporting structures for long-term sustainability." },
   ];
+  const steps = (wpSteps && wpSteps.length > 0) ? wpSteps : fallbackSteps;
 
   return (
     <div id="process" className="py-32 bg-white border-b border-aryo-lightGrey">
@@ -506,8 +493,7 @@ function Process() {
   );
 }
 
-function Stats() {
-  const { data: wpStats } = useWPStats();
+function Stats({ wpStats }: { wpStats?: WPStat[] }) {
   const fallbackStats = [
     { value: 400, suffix: "+", label: "Engagements Completed" },
     { value: 1, suffix: ".5B", label: "Enterprise Value Unlocked" },
@@ -894,6 +880,8 @@ function Footer() {
 }
 
 export default function Home() {
+  const { data: wpHomepage } = useWPHomepage();
+
   return (
     <div className="min-h-screen bg-white">
       <SEO 
@@ -902,11 +890,11 @@ export default function Home() {
         canonical="https://aryocg.com/"
       />
       <Navbar />
-      <Hero />
-      <StageSpecialization />
+      <Hero wpHero={wpHomepage?.hero} />
+      <StageSpecialization wpPillars={wpHomepage?.pillars} />
       <ValueDrivers />
-      <Process />
-      <Stats />
+      <Process wpSteps={wpHomepage?.processSteps} />
+      <Stats wpStats={wpHomepage?.stats} />
       <Testimonials />
       <CTA />
       <Footer />

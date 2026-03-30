@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
-import { useWPCapabilities } from '@/lib/wordpress';
+import { useWPCapabilities, useWPHomepage, type WPDifferentiator } from '@/lib/wordpress';
 
 const capIconMap: Record<string, LucideIcon> = {
   TrendingUp, Layers, Users, BarChart3, Shield, Zap, Presentation,
@@ -301,27 +301,16 @@ function MobileConsultationForm() {
   );
 }
 
-const differentiators = [
-  {
-    title: "Outcome-Based Fees",
-    description: "We put our fees at risk. If we don't deliver agreed-upon outcomes, you don't pay full price. That's how confident we are."
-  },
-  {
-    title: "Deployed Systems",
-    description: "No 100-page decks that gather dust. We implement actual systems, processes, and tools that your team uses every day."
-  },
-  {
-    title: "Embedded Teams",
-    description: "Our consultants work alongside your people—not in a war room producing deliverables, but in the trenches driving change."
-  },
-  {
-    title: "Senior Leadership",
-    description: "Every engagement is led by a partner with 15+ years of experience. You won't be handed off to a team of recent graduates."
-  }
+const fallbackDifferentiators = [
+  { title: "Outcome-Based Fees", description: "We put our fees at risk. If we don't deliver agreed-upon outcomes, you don't pay full price. That's how confident we are." },
+  { title: "Deployed Systems", description: "No 100-page decks that gather dust. We implement actual systems, processes, and tools that your team uses every day." },
+  { title: "Embedded Teams", description: "Our consultants work alongside your people—not in a war room producing deliverables, but in the trenches driving change." },
+  { title: "Senior Leadership", description: "Every engagement is led by a partner with 15+ years of experience. You won't be handed off to a team of recent graduates." }
 ];
 
 export default function Capabilities() {
   const { data: wpCaps } = useWPCapabilities();
+  const { data: wpHomepage } = useWPHomepage();
   const capabilities = (wpCaps && wpCaps.length > 0)
     ? wpCaps.map(wp => ({
         icon: capIconMap[wp.iconName] || Layers,
@@ -333,6 +322,7 @@ export default function Capabilities() {
         link: wp.link,
       }))
     : fallbackCapabilities;
+  const differentiators = (wpHomepage?.differentiators && wpHomepage.differentiators.length > 0) ? wpHomepage.differentiators : fallbackDifferentiators;
 
   return (
     <PageLayout>

@@ -1,73 +1,48 @@
 import { Link } from 'wouter';
-import { ArrowRight, ChevronRight, MapPin, Clock, Users, Target, Lightbulb, Heart } from 'lucide-react';
+import { ArrowRight, ChevronRight, MapPin, Clock, Users, Target, Lightbulb, Heart, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO } from '@/components/seo';
-import { useWPPositions, type WPPosition } from '@/lib/wordpress';
+import { useWPPositions, useWPCareersPage } from '@/lib/wordpress';
+
+const careersIconMap: Record<string, LucideIcon> = { Target, Users, Lightbulb, Heart, MapPin, Clock };
 
 const fallbackPositions = [
-  {
-    title: "Senior Consultant, M&A Practice",
-    location: "Boston / New York",
-    type: "Full-time",
-    description: "Lead due diligence workstreams and post-merger integration programs for middle-market transactions.",
-    requirements: ["5+ years M&A experience", "MBA preferred", "Strong financial modeling skills"]
-  },
-  {
-    title: "Manager, Digital Transformation",
-    location: "Boston",
-    type: "Full-time",
-    description: "Drive technology-enabled transformation initiatives for clients across industries.",
-    requirements: ["7+ years consulting experience", "Technology implementation background", "Change management expertise"]
-  },
-  {
-    title: "Associate, Operations Practice",
-    location: "New York",
-    type: "Full-time",
-    description: "Support operational excellence and cost reduction engagements across portfolio companies.",
-    requirements: ["3+ years consulting or industry experience", "Lean/Six Sigma certification preferred", "Strong analytical skills"]
-  },
-  {
-    title: "Principal, Private Equity",
-    location: "Boston / New York",
-    type: "Full-time",
-    description: "Lead value creation programs for PE portfolio companies from 100-day plans through exit.",
-    requirements: ["10+ years relevant experience", "PE or operating partner background", "P&L ownership experience"]
-  }
+  { title: "Senior Consultant, M&A Practice", location: "Boston / New York", type: "Full-time", description: "Lead due diligence workstreams and post-merger integration programs for middle-market transactions.", requirements: ["5+ years M&A experience", "MBA preferred", "Strong financial modeling skills"] },
+  { title: "Manager, Digital Transformation", location: "Boston", type: "Full-time", description: "Drive technology-enabled transformation initiatives for clients across industries.", requirements: ["7+ years consulting experience", "Technology implementation background", "Change management expertise"] },
+  { title: "Associate, Operations Practice", location: "New York", type: "Full-time", description: "Support operational excellence and cost reduction engagements across portfolio companies.", requirements: ["3+ years consulting or industry experience", "Lean/Six Sigma certification preferred", "Strong analytical skills"] },
+  { title: "Principal, Private Equity", location: "Boston / New York", type: "Full-time", description: "Lead value creation programs for PE portfolio companies from 100-day plans through exit.", requirements: ["10+ years relevant experience", "PE or operating partner background", "P&L ownership experience"] }
 ];
 
-const benefits = [
-  {
-    icon: Target,
-    title: "Outcome-Based Compensation",
-    description: "Your bonus is tied to client outcomes, not utilization. When clients win, you win."
-  },
-  {
-    icon: Users,
-    title: "Small Team Culture",
-    description: "No 50-person project teams. You'll work closely with partners and make real impact from day one."
-  },
-  {
-    icon: Lightbulb,
-    title: "Continuous Learning",
-    description: "Dedicated learning budget, mentorship from senior partners, and exposure to diverse industries."
-  },
-  {
-    icon: Heart,
-    title: "Work-Life Integration",
-    description: "We work hard but respect boundaries. No Sunday deliverables culture. Remote flexibility."
-  }
+const fallbackBenefits = [
+  { icon: Target, title: "Outcome-Based Compensation", description: "Your bonus is tied to client outcomes, not utilization. When clients win, you win." },
+  { icon: Users, title: "Small Team Culture", description: "No 50-person project teams. You'll work closely with partners and make real impact from day one." },
+  { icon: Lightbulb, title: "Continuous Learning", description: "Dedicated learning budget, mentorship from senior partners, and exposure to diverse industries." },
+  { icon: Heart, title: "Work-Life Integration", description: "We work hard but respect boundaries. No Sunday deliverables culture. Remote flexibility." }
 ];
 
-const values = [
+const fallbackCultureValues = [
   { title: "Client Obsession", description: "Everything we do starts with understanding client needs and ends with measurable client outcomes." },
   { title: "Intellectual Honesty", description: "We tell clients what they need to hear, not what they want to hear. Candor builds trust." },
   { title: "Ownership Mentality", description: "We act like owners, not renters. We invest in relationships and stand behind our work." },
   { title: "Continuous Improvement", description: "We're never satisfied with 'good enough.' We push ourselves and each other to keep raising the bar." }
 ];
 
+const fallbackWhyAryoParagraphs = [
+  "At traditional firms, you'll spend years building slides for partners to present. At Aryo, you'll be in the room—and in the field—driving real change from day one.",
+  "We deliberately stay small so every person matters. No massive hierarchies. No pyramid economics. Just great people doing great work for clients who appreciate it.",
+  "And because our fees are tied to outcomes, you'll experience the satisfaction of seeing your work actually implemented—not gathering dust in a shared drive."
+];
+
 export default function Careers() {
   const { data: wpPositions } = useWPPositions();
+  const { data: wpCareers } = useWPCareersPage();
+
   const positions = (wpPositions && wpPositions.length > 0) ? wpPositions : fallbackPositions;
+  const whyAryoParagraphs = (wpCareers?.whyAryoParagraphs && wpCareers.whyAryoParagraphs.length > 0) ? wpCareers.whyAryoParagraphs : fallbackWhyAryoParagraphs;
+  const benefits = (wpCareers?.benefits && wpCareers.benefits.length > 0)
+    ? wpCareers.benefits.map(b => ({ icon: careersIconMap[b.iconName] || Target, title: b.title, description: b.description }))
+    : fallbackBenefits;
+  const cultureValues = (wpCareers?.cultureValues && wpCareers.cultureValues.length > 0) ? wpCareers.cultureValues : fallbackCultureValues;
 
   return (
     <PageLayout>
@@ -96,18 +71,9 @@ export default function Careers() {
           <div className="bg-aryo-deepBlue p-10 text-white">
             <h2 className="text-2xl font-serif mb-6">Why Aryo?</h2>
             <div className="space-y-4 text-aryo-lightBlue/90">
-              <p>
-                At traditional firms, you'll spend years building slides for partners to present. 
-                At Aryo, you'll be in the room—and in the field—driving real change from day one.
-              </p>
-              <p>
-                We deliberately stay small so every person matters. No massive hierarchies. 
-                No pyramid economics. Just great people doing great work for clients who appreciate it.
-              </p>
-              <p>
-                And because our fees are tied to outcomes, you'll experience the satisfaction of 
-                seeing your work actually implemented—not gathering dust in a shared drive.
-              </p>
+              {whyAryoParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
 
@@ -133,7 +99,7 @@ export default function Careers() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, i) => (
+            {cultureValues.map((value, i) => (
               <div key={i} className="bg-white border border-aryo-lightGrey p-6 text-center">
                 <h3 className="font-serif font-bold text-aryo-deepBlue mb-3">{value.title}</h3>
                 <p className="text-slate-600 text-sm">{value.description}</p>

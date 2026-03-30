@@ -96,7 +96,7 @@ const fallbackIndustries = [
 ];
 
 export default function Industries() {
-  const { data: wpIndustries } = useWPIndustries();
+  const { data: wpIndustries, isLoading: wpIndustriesLoading } = useWPIndustries();
 
   const industries = (wpIndustries && wpIndustries.length > 0)
     ? wpIndustries.map(wp => ({
@@ -133,7 +133,24 @@ export default function Industries() {
         </div>
 
         <div className="space-y-8 mb-24">
-          {industries.map((industry, i) => (
+          {wpIndustriesLoading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 lg:p-10 animate-pulse">
+                <div className="grid lg:grid-cols-3 gap-8">
+                  <div>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-slate-200" />
+                      <div className="h-6 w-40 bg-slate-200 rounded" />
+                    </div>
+                    <div className="h-4 w-full bg-slate-200 rounded mb-2" />
+                    <div className="h-4 w-2/3 bg-slate-200 rounded" />
+                  </div>
+                  <div><div className="h-4 w-24 bg-slate-200 rounded mb-4" /><div className="space-y-2">{Array.from({length:4}).map((_,j)=>(<div key={j} className="h-4 w-full bg-slate-200 rounded" />))}</div></div>
+                  <div><div className="h-4 w-24 bg-slate-200 rounded mb-4" /><div className="space-y-2">{Array.from({length:4}).map((_,j)=>(<div key={j} className="h-4 w-full bg-slate-200 rounded" />))}</div></div>
+                </div>
+              </div>
+            ))
+          ) : industries.map((industry, i) => (
             <div key={i} className="bg-white border border-aryo-lightGrey p-8 lg:p-10" data-testid={`card-industry-${i}`}>
               <div className="grid lg:grid-cols-3 gap-8">
                 <div>
