@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Navbar, Footer } from '@/components/layout';
+import { RelatedPages } from '@/components/related-pages';
 import { Check, DollarSign, RotateCcw } from 'lucide-react';
 import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
 
@@ -519,6 +520,17 @@ export default function PEValuationTool() {
           </div>
         </div>
       </main>
+
+      <section className="max-w-7xl mx-auto px-6 pb-16">
+        <RelatedPages
+          heading="Related Services"
+          pages={[
+            { title: "M&A Advisory", description: "Strategic M&A advisory for middle-market companies. Sell-side, buy-side, and corporate divestiture expertise.", href: "/ma-advisory" },
+            { title: "Value Creation Matrix", description: "Explore strategic value creation levers across industries with our interactive simulator.", href: "/value-creation" },
+            { title: "Growth Strategy", description: "Accelerate growth with data-driven strategies for market expansion and revenue optimization.", href: "/growth-strategy" },
+          ]}
+        />
+      </section>
 
       <Footer />
     </>

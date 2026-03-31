@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { ChevronDown, Filter, ArrowUpDown, Minimize2, Info, Building2 } from 'lucide-react';
 import { Link } from 'wouter';
 import { PageLayout } from '@/components/layout';
+import { RelatedPages } from '@/components/related-pages';
 import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
 import { Button } from '@/components/ui/button';
 
@@ -366,6 +367,17 @@ export default function ValueCreationPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="max-w-7xl mx-auto px-6 pb-16">
+        <RelatedPages
+          heading="Related Services & Tools"
+          pages={[
+            { title: "PE Valuation Tool", description: "Multi-method valuation analysis using EBITDA, revenue, and SDE multiples for small and mid-market businesses.", href: "/tools/pe-valuation-tool" },
+            { title: "Operational Excellence", description: "Transform operations with process excellence, cost optimization, and performance management.", href: "/operational-excellence" },
+            { title: "Case Studies", description: "See how we've helped clients achieve measurable results across industries and engagement types.", href: "/case-studies" },
+          ]}
+        />
       </section>
     </PageLayout>
   );

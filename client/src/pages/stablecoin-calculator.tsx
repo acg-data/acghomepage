@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Navbar, Footer } from '@/components/layout';
+import { RelatedPages } from '@/components/related-pages';
 import { Check, DollarSign, RotateCcw, Globe, Wallet, TrendingUp, TrendingDown, Clock, Zap, RefreshCw, AlertCircle } from 'lucide-react';
 import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
 
@@ -890,6 +891,17 @@ export default function StablecoinCalculator() {
           </div>
         </div>
       </main>
+
+      <section className="max-w-7xl mx-auto px-6 pb-16">
+        <RelatedPages
+          heading="Related Services"
+          pages={[
+            { title: "Digital Transformation", description: "Transform your business with strategic digital solutions, legacy modernization, and cloud architecture.", href: "/digital-transformation" },
+            { title: "Governance & Risk", description: "Modern governance frameworks and enterprise risk management that protect value and enable growth.", href: "/governance-risk" },
+            { title: "Contact Us", description: "Discuss how stablecoin adoption can benefit your business. Schedule a consultation with our team.", href: "/contact" },
+          ]}
+        />
+      </section>
 
       <Footer />
     </>

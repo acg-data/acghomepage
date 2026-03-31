@@ -2,6 +2,7 @@ import { Link } from 'wouter';
 import { ChevronRight, Calculator } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
+import { RelatedPages } from '@/components/related-pages';
 
 export default function ValuationTool() {
   return (
@@ -42,7 +43,20 @@ export default function ValuationTool() {
             Our interactive valuation tool is currently under development. 
             Check back soon for a comprehensive business valuation calculator.
           </p>
+          <p className="text-slate-500 text-sm mt-4">
+            In the meantime, try our <Link href="/tools/pe-valuation-tool" className="text-aryo-teal hover:underline" data-testid="link-pe-tool">PE Valuation Tool</Link> for
+            multi-method business analysis.
+          </p>
         </div>
+
+        <RelatedPages
+          heading="Related Tools & Services"
+          pages={[
+            { title: "PE Valuation Tool", description: "Multi-method valuation analysis using EBITDA, revenue, and SDE multiples for small and mid-market businesses.", href: "/tools/pe-valuation-tool" },
+            { title: "M&A Advisory", description: "Strategic M&A advisory for middle-market companies. Sell-side, buy-side, and corporate divestiture expertise.", href: "/ma-advisory" },
+            { title: "Case Studies", description: "See how we've helped clients achieve measurable results across industries and engagement types.", href: "/case-studies" },
+          ]}
+        />
       </div>
     </PageLayout>
   );

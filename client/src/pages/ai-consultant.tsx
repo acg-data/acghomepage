@@ -2,6 +2,7 @@ import { Link } from 'wouter';
 import { ChevronRight, Bot } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
+import { RelatedPages } from '@/components/related-pages';
 
 export default function AIConsultant() {
   return (
@@ -42,7 +43,19 @@ export default function AIConsultant() {
             Our AI-powered consulting assistant is currently under development. 
             Soon you'll be able to get instant strategic guidance based on Aryo's proven methodologies.
           </p>
+          <p className="text-slate-500 text-sm mt-4">
+            Need strategic advice now? <Link href="/contact" className="text-aryo-teal hover:underline" data-testid="link-contact-now">Schedule a briefing</Link> with our team.
+          </p>
         </div>
+
+        <RelatedPages
+          heading="Explore Our Capabilities"
+          pages={[
+            { title: "Digital Transformation", description: "Transform your business with strategic digital solutions, legacy modernization, and cloud architecture.", href: "/digital-transformation" },
+            { title: "Growth Strategy", description: "Accelerate growth with data-driven strategies for market expansion and revenue optimization.", href: "/growth-strategy" },
+            { title: "Website Analyzer", description: "Get AI-powered insights on your website's performance and conversion optimization potential.", href: "/tools/website-analyzer" },
+          ]}
+        />
       </div>
     </PageLayout>
   );

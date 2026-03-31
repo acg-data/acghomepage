@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { useState } from 'react';
 import { ChevronRight, Globe, Users, DollarSign, Briefcase, CheckCircle } from 'lucide-react';
+import { RelatedPages } from '@/components/related-pages';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -236,6 +237,17 @@ export default function ReportQ4HiringAbroad() {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <RelatedPages
+          heading="Related Insights"
+          pages={[
+            { title: "Talent & Organization", description: "Leadership development, culture transformation, organization design, and talent strategy consulting.", href: "/talent-organization" },
+            { title: "Insights & Blog", description: "Strategic insights and thought leadership on M&A, digital transformation, and corporate strategy.", href: "/insights" },
+            { title: "About Us", description: "Meet our team, learn about our mission, and see how we share in our clients' outcomes.", href: "/about" },
+          ]}
+        />
       </div>
     </PageLayout>
   );

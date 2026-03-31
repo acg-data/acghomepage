@@ -181,6 +181,23 @@ The application is a complete, multi-page corporate consulting website with:
   - Duplicate signup prevention to avoid spamming users
   - PDF cached at startup for performance
 
+### Server-Side SEO Injection
+- `server/seo-data.ts` exports `injectSEO(html, path)` which replaces default meta tags with route-specific title, description, canonical URL, OG tags, Twitter Card tags, and JSON-LD structured data
+- Wired into both dev (`server/vite.ts`) and prod (`server/static.ts`) HTML serving
+- Covers 24+ routes with unique SEO data per page
+- JSON-LD injection is XSS-hardened (escapes `<` / `>` characters)
+- Crawlers that don't execute JavaScript still see all metadata and structured data
+
+### Internal Linking
+- `client/src/components/related-pages.tsx` — Reusable RelatedPages component for contextual cross-links
+- Added "Related" sections to 6 previously dead-end pages:
+  - `/valuation-tool` → PE Valuation Tool, M&A Advisory, Case Studies
+  - `/ai-consultant` → Digital Transformation, Growth Strategy, Website Analyzer
+  - `/tools/pe-valuation-tool` → M&A Advisory, Value Creation, Growth Strategy
+  - `/tools/stablecoin-calculator` → Digital Transformation, Governance & Risk, Contact
+  - `/value-creation` → PE Valuation Tool, Operational Excellence, Case Studies
+  - `/reports/q4-hiring-abroad` → Talent & Organization, Insights, About
+
 ### Headless WordPress Integration
 - **Configuration**: Set `VITE_WORDPRESS_URL` environment variable to WordPress URL (e.g., `https://cms.aryocg.com`)
 - **Fallback**: All pages gracefully fall back to hardcoded data when WordPress is not configured or unreachable
