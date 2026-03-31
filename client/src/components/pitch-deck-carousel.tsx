@@ -7,17 +7,17 @@ const slides = [
   {
     id: 1,
     label: "Pitch Deck for AI Music SaaS Startup",
-    image: "/pitch-deck/pitch_deck_page-1.png",
+    image: "/pitch-deck/pitch_deck_page-1.webp",
   },
   {
     id: 2,
     label: "Pitch Deck for Food Delivery Startup",
-    image: "/pitch-deck/pitch_deck_page-2.png",
+    image: "/pitch-deck/pitch_deck_page-2.webp",
   },
   {
     id: 3,
     label: "Pitch Deck for Sexual Health Startup",
-    image: "/pitch-deck/pitch_deck_page-3.png",
+    image: "/pitch-deck/pitch_deck_page-3.webp",
   },
 ];
 

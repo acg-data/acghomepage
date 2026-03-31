@@ -749,10 +749,11 @@ function CTA() {
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">First Name</label>
+                    <label htmlFor="firstName" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">First Name</label>
                     <input 
                       type="text" 
                       required
+                      id="firstName"
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                       className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -760,10 +761,11 @@ function CTA() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Last Name</label>
+                    <label htmlFor="lastName" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Last Name</label>
                     <input 
                       type="text" 
                       required
+                      id="lastName"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                       className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -772,10 +774,11 @@ function CTA() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Corporate Email</label>
+                  <label htmlFor="email" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Corporate Email</label>
                   <input 
                     type="email" 
                     required
+                    id="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -783,10 +786,11 @@ function CTA() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Company</label>
+                  <label htmlFor="company" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Company</label>
                   <input 
                     type="text" 
                     required
+                    id="company"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -794,10 +798,11 @@ function CTA() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Message</label>
+                  <label htmlFor="message" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Message</label>
                   <textarea 
                     rows={4}
                     required
+                    id="message"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors resize-none"
@@ -860,10 +865,10 @@ function Footer() {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Connect</h4>
             <div className="flex gap-4 mb-6">
-              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
+              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
                 <Linkedin size={18} />
               </a>
-              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
+              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
                 <SiInstagram size={18} />
               </a>
             </div>
@@ -878,9 +883,9 @@ function Footer() {
             2024 Aryo Consulting Group. All rights reserved.
           </p>
           <div className="flex gap-8 flex-wrap justify-center">
-            <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>
-            <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Terms of Service</a>
-            <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Cookie Settings</a>
+            <a href="/privacy-policy" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>
+            <a href="/terms-of-service" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Terms of Service</a>
+            <a href="/cookie-settings" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Cookie Settings</a>
           </div>
         </div>
       </div>
@@ -920,13 +925,15 @@ export default function Home() {
         ]}
       />
       <Navbar />
-      <Hero wpHero={wpHomepage?.hero} />
-      <StageSpecialization wpPillars={wpHomepage?.pillars} />
-      <ValueDrivers wpRadar={wpHomepage?.radar} />
-      <Process wpSteps={wpHomepage?.processSteps} />
-      <Stats wpStats={wpHomepage?.stats} />
-      <Testimonials />
-      <CTA />
+      <main>
+        <Hero wpHero={wpHomepage?.hero} />
+        <StageSpecialization wpPillars={wpHomepage?.pillars} />
+        <ValueDrivers wpRadar={wpHomepage?.radar} />
+        <Process wpSteps={wpHomepage?.processSteps} />
+        <Stats wpStats={wpHomepage?.stats} />
+        <Testimonials />
+        <CTA />
+      </main>
       <Footer />
     </div>
   );

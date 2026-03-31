@@ -128,7 +128,7 @@ export function Navbar() {
           </div>
           
           <div className="-mr-2 flex md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-aryo-deepBlue p-2" data-testid="button-mobile-menu">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-aryo-deepBlue p-2" aria-label={isOpen ? "Close menu" : "Open menu"} data-testid="button-mobile-menu">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -258,10 +258,10 @@ export function Footer() {
             </ul>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mt-6 mb-4">Connect</h4>
             <div className="flex gap-4">
-              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
+              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
                 <Linkedin size={18} />
               </a>
-              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
+              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
                 <SiInstagram size={18} />
               </a>
             </div>
@@ -273,9 +273,9 @@ export function Footer() {
             2024 Aryo Consulting Group. All rights reserved.
           </p>
           <div className="flex gap-8 flex-wrap justify-center">
-            <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>
-            <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Terms of Service</a>
-            <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Cookie Settings</a>
+            <a href="/privacy-policy" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>
+            <a href="/terms-of-service" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Terms of Service</a>
+            <a href="/cookie-settings" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Cookie Settings</a>
           </div>
         </div>
       </div>
@@ -287,9 +287,9 @@ export function PageLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-aryo-offWhite">
       <Navbar />
-      <div className="pt-24">
+      <main className="pt-24">
         {children}
-      </div>
+      </main>
       <Footer />
     </div>
   );

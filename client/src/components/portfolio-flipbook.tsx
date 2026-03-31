@@ -9,7 +9,7 @@ const PageImage = forwardRef<HTMLDivElement, { pageNumber: number; isFullscreen:
   ({ pageNumber, isFullscreen }, ref) => {
     const [loaded, setLoaded] = useState(false);
     const paddedNumber = String(pageNumber).padStart(2, '0');
-    const imageSrc = `/portfolio/portfolio_page-${paddedNumber}.png`;
+    const imageSrc = `/portfolio/portfolio_page-${paddedNumber}.webp`;
 
     return (
       <div 

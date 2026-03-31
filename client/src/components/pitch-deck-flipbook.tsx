@@ -14,7 +14,7 @@ const slideLabels = [
 const PageImage = forwardRef<HTMLDivElement, { pageNumber: number; isFullscreen: boolean }>(
   ({ pageNumber, isFullscreen }, ref) => {
     const [loaded, setLoaded] = useState(false);
-    const imageSrc = `/pitch-deck/pitch_deck_page-${pageNumber}.png`;
+    const imageSrc = `/pitch-deck/pitch_deck_page-${pageNumber}.webp`;
 
     return (
       <div 

@@ -84,10 +84,11 @@ export default function Register() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Full Name</label>
+                <label htmlFor="reg-fullname" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Full Name</label>
                 <input
                   type="text"
                   required
+                  id="reg-fullname"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                   className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -95,10 +96,11 @@ export default function Register() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Username</label>
+                <label htmlFor="reg-username" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Username</label>
                 <input
                   type="text"
                   required
+                  id="reg-username"
                   value={formData.username}
                   onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                   className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -107,10 +109,11 @@ export default function Register() {
               </div>
             </div>
             <div>
-              <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Corporate Email</label>
+              <label htmlFor="reg-email" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Corporate Email</label>
               <input
                 type="email"
                 required
+                id="reg-email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -118,9 +121,10 @@ export default function Register() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Company</label>
+              <label htmlFor="reg-company" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Company</label>
               <input
                 type="text"
+                id="reg-company"
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                 className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -129,10 +133,11 @@ export default function Register() {
             </div>
             <div className="grid md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Password</label>
+                <label htmlFor="reg-password" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Password</label>
                 <input
                   type="password"
                   required
+                  id="reg-password"
                   minLength={8}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -141,10 +146,11 @@ export default function Register() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Confirm Password</label>
+                <label htmlFor="reg-confirm-password" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Confirm Password</label>
                 <input
                   type="password"
                   required
+                  id="reg-confirm-password"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"

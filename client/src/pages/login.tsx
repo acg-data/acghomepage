@@ -66,10 +66,11 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Email</label>
+              <label htmlFor="login-email" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Email</label>
               <input
                 type="email"
                 required
+                id="login-email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
@@ -77,10 +78,11 @@ export default function Login() {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Password</label>
+              <label htmlFor="login-password" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Password</label>
               <input
                 type="password"
                 required
+                id="login-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
