@@ -29,6 +29,7 @@ The application is a complete, multi-page corporate consulting website with:
 - **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: Passport.js with bcrypt password hashing
 - **CMS**: Headless WordPress (optional, via REST API)
+- **HTML Sanitization**: DOMPurify for WordPress content rendering
 
 ### Key Files
 - `client/src/components/layout.tsx` - Shared PageLayout component (standardized header/footer)

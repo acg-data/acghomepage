@@ -1,5 +1,6 @@
 import { Link, useParams } from 'wouter';
 import type { BlogPost } from '@shared/schema';
+import DOMPurify from 'dompurify';
 import { 
   ArrowRight, 
   ArrowLeft, 
@@ -315,7 +316,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
 
           <div className="prose prose-lg max-w-none text-slate-600" data-testid="blog-content">
             {/<[a-z][\s\S]*>/i.test(post.content) ? (
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
             ) : (
               post.content.split('\n').map((paragraph, i) => {
                 if (paragraph.startsWith('## ')) {
