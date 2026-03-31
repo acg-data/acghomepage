@@ -232,3 +232,151 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
     })),
   };
 }
+
+export function faqSchema(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export function webPageSchema(page: {
+  name: string;
+  description: string;
+  url: string;
+  type?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": page.type || "WebPage",
+    name: page.name,
+    description: page.description,
+    url: page.url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Aryo Consulting Group",
+      url: "https://aryocg.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Aryo Consulting Group",
+      url: "https://aryocg.com",
+    },
+  };
+}
+
+export function professionalServiceSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "Aryo Consulting Group",
+    url: "https://aryocg.com",
+    logo: "https://aryocg.com/og-image.png",
+    description: "Corporate strategy and governance consulting firm specializing in M&A advisory, digital transformation, operational excellence, and growth strategy.",
+    priceRange: "$$$$",
+    telephone: "1-508-545-7447",
+    email: "info@aryocg.com",
+    address: [
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Boston",
+        addressRegion: "MA",
+        addressCountry: "US",
+      },
+      {
+        "@type": "PostalAddress",
+        addressLocality: "New York",
+        addressRegion: "NY",
+        addressCountry: "US",
+      },
+    ],
+    areaServed: {
+      "@type": "Country",
+      name: "United States",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Consulting Services",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "M&A Advisory" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Digital Transformation" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Operational Excellence" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Talent & Organization" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Governance & Risk" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Growth Strategy" } },
+      ],
+    },
+    sameAs: ["https://www.linkedin.com/company/aryo-consulting-group"],
+  };
+}
+
+export function jobPostingSchema(job: {
+  title: string;
+  description: string;
+  location: string;
+  employmentType: string;
+}) {
+  const locations = job.location.split(" / ").map((loc) => ({
+    "@type": "Place" as const,
+    address: {
+      "@type": "PostalAddress" as const,
+      addressLocality: loc.trim(),
+      addressCountry: "US",
+    },
+  }));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: job.description,
+    employmentType: job.employmentType === "Full-time" ? "FULL_TIME" : job.employmentType,
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "Aryo Consulting Group",
+      sameAs: "https://aryocg.com",
+      logo: "https://aryocg.com/og-image.png",
+    },
+    jobLocation: locations.length === 1 ? locations[0] : locations,
+    datePosted: "2025-01-15",
+  };
+}
+
+export function collectionPageSchema(page: {
+  name: string;
+  description: string;
+  url: string;
+  items?: { name: string; url: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: page.name,
+    description: page.description,
+    url: page.url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Aryo Consulting Group",
+      url: "https://aryocg.com",
+    },
+    ...(page.items && page.items.length > 0 && {
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: page.items.map((item, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: item.name,
+          url: item.url,
+        })),
+      },
+    }),
+  };
+}

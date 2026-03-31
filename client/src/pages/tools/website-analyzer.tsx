@@ -4,7 +4,7 @@ import { Search, Target, BarChart3, Zap, Shield, ArrowLeft, CheckCircle, AlertCi
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Navbar, Footer } from '@/components/layout';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
 import { useToast } from '@/hooks/use-toast';
 
 interface Category {
@@ -120,10 +120,13 @@ export default function WebsiteAnalyzer() {
         title="Website Analyzer | Aryo Consulting Group"
         description="Analyze your website's performance and conversion optimization with AI-powered insights and professional grading."
         canonical="https://aryocg.com/tools/website-analyzer"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "Website Analyzer", url: "https://aryocg.com/tools/website-analyzer" },
-        ])}
+        jsonLd={[
+          webPageSchema({ name: "Website Analyzer", description: "AI-powered website performance analysis and conversion optimization insights.", url: "https://aryocg.com/tools/website-analyzer" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Website Analyzer", url: "https://aryocg.com/tools/website-analyzer" },
+          ]),
+        ]}
       />
       <Navbar />
 

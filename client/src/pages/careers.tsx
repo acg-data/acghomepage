@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, ChevronRight, MapPin, Clock, Users, Target, Lightbulb, Heart, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, jobPostingSchema, webPageSchema } from '@/components/seo';
 import { useWPPositions, useWPCareersPage } from '@/lib/wordpress';
 
 const careersIconMap: Record<string, LucideIcon> = { Target, Users, Lightbulb, Heart, MapPin, Clock };
@@ -51,10 +51,14 @@ export default function Careers() {
         title="Careers | Aryo Consulting Group"
         description="Join Aryo Consulting Group. We're looking for talented consultants who want to work on outcome-based engagements and make real impact. View open positions."
         canonical="https://aryocg.com/careers"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "Careers", url: "https://aryocg.com/careers" },
-        ])}
+        jsonLd={[
+          webPageSchema({ name: "Careers at Aryo Consulting Group", description: "Join our team of talented consultants working on outcome-based engagements.", url: "https://aryocg.com/careers" }),
+          ...positions.map(p => jobPostingSchema({ title: p.title, description: p.description, location: p.location, employmentType: p.type })),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Careers", url: "https://aryocg.com/careers" },
+          ]),
+        ]}
       />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">

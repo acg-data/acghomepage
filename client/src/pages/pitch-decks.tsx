@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, type ReactNode } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Link } from 'wouter';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, serviceSchema, faqSchema } from '@/components/seo';
 import { Navbar } from '@/components/layout';
 
 import acmeDeck from '@assets/Acme+Deck_1769021448733.png';
@@ -1041,10 +1041,18 @@ export default function PitchDecks() {
         title="Pitch Deck Design Services | Aryo Consulting Group"
         description="Compelling pitch decks for startups and enterprises. Investor-ready design, compelling narratives, and data visualization expertise. Get a custom quote today."
         canonical="https://aryocg.com/pitch-decks"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "Pitch Deck Design", url: "https://aryocg.com/pitch-decks" },
-        ])}
+        jsonLd={[
+          serviceSchema({ name: "Pitch Deck Design Services", description: "Compelling pitch decks for startups and enterprises. Investor-ready design, compelling narratives, and data visualization expertise.", url: "https://aryocg.com/pitch-decks" }),
+          faqSchema([
+            { question: "How long does it take to create a pitch deck?", answer: "Typically 2-3 weeks from kickoff to final delivery, depending on complexity and revision cycles." },
+            { question: "What industries do you create pitch decks for?", answer: "We create pitch decks across all industries including technology, healthcare, financial services, consumer goods, and more." },
+            { question: "Do you help with the narrative and content strategy?", answer: "Yes. Our process begins with understanding your story, market positioning, and investor expectations to craft a compelling narrative before design begins." },
+          ]),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Pitch Deck Design", url: "https://aryocg.com/pitch-decks" },
+          ]),
+        ]}
       />
       <Navbar />
       <Hero />

@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, MapPin, Users, Target, Award, ChevronRight, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, professionalServiceSchema, webPageSchema } from '@/components/seo';
 import { useWPTeamMembers, useWPAboutPage } from '@/lib/wordpress';
 
 const aboutIconMap: Record<string, LucideIcon> = { Target, Users, Award, MapPin };
@@ -55,10 +55,14 @@ export default function About() {
         title="About Aryo Consulting Group | Our Team & Mission"
         description="Meet Aryo Consulting Group's team, mission, and values. The consulting firm that shares in outcomes and deploys real systems."
         canonical="https://aryocg.com/about"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "About", url: "https://aryocg.com/about" },
-        ])}
+        jsonLd={[
+          webPageSchema({ name: "About Aryo Consulting Group", description: "Meet our team, mission, and values. The consulting firm that shares in outcomes and deploys real systems.", url: "https://aryocg.com/about", type: "AboutPage" }),
+          professionalServiceSchema(),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "About", url: "https://aryocg.com/about" },
+          ]),
+        ]}
       />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">

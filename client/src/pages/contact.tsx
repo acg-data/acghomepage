@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PageLayout } from '@/components/layout';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name is required'),
@@ -54,10 +54,13 @@ export default function Contact() {
       title="Contact Us | Aryo Consulting Group"
       description="Get in touch with Aryo Consulting Group. Contact our Boston headquarters or New York office to discuss how we can help transform your business."
       canonical="https://aryocg.com/contact"
-      jsonLd={breadcrumbSchema([
-        { name: "Home", url: "https://aryocg.com" },
-        { name: "Contact", url: "https://aryocg.com/contact" },
-      ])}
+      jsonLd={[
+        webPageSchema({ name: "Contact Aryo Consulting Group", description: "Get in touch with our Boston headquarters or New York office.", url: "https://aryocg.com/contact", type: "ContactPage" }),
+        breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Contact", url: "https://aryocg.com/contact" },
+        ]),
+      ]}
     />
   );
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, localBusinessSchema } from '@/components/seo';
 import { 
   ArrowRight, 
   Activity,
@@ -895,10 +895,13 @@ export default function NYC() {
         title="Aryo Consulting Group NYC | Strategy & Governance"
         description="New York City strategy and governance consulting. Partnering with Boards and C-Suites to harmonize operational levers and unlock enterprise value."
         canonical="https://aryocg.com/nyc"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "New York City", url: "https://aryocg.com/nyc" },
-        ])}
+        jsonLd={[
+          localBusinessSchema({ name: "Aryo Consulting Group - New York", city: "New York", state: "NY", address: "1 World Trade Center, Floor 85", postalCode: "10007" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "New York City", url: "https://aryocg.com/nyc" },
+          ]),
+        ]}
       />
       <Navbar />
       <Hero />

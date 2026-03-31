@@ -10,7 +10,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO, articleSchema, breadcrumbSchema } from '@/components/seo';
+import { SEO, articleSchema, breadcrumbSchema, collectionPageSchema } from '@/components/seo';
 import { useWPBlogPosts, useWPBlogPost, type WPBlogPost } from '@/lib/wordpress';
 
 const fallbackBlogPosts: BlogPost[] = [
@@ -399,10 +399,18 @@ export default function Blog() {
         title="Insights & Blog | Aryo Consulting Group"
         description="Strategic insights and thought leadership from Aryo Consulting Group. Expert perspectives on M&A, digital transformation, and corporate strategy."
         canonical="https://aryocg.com/insights"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "Insights", url: "https://aryocg.com/insights" },
-        ])}
+        jsonLd={[
+          collectionPageSchema({
+            name: "Insights & Blog",
+            description: "Strategic insights and thought leadership on M&A, digital transformation, and corporate strategy.",
+            url: "https://aryocg.com/insights",
+            items: posts.map(p => ({ name: p.title, url: `https://aryocg.com/insights/${p.slug}` })),
+          }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Insights", url: "https://aryocg.com/insights" },
+          ]),
+        ]}
       />
     <PageLayout>
       <div className="max-w-7xl mx-auto px-6 py-16">

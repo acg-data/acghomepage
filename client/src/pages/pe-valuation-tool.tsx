@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Navbar, Footer } from '@/components/layout';
 import { Check, DollarSign, RotateCcw } from 'lucide-react';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
 
 const industryData: Record<string, { revLow: number; revHigh: number; ebitdaLow: number; ebitdaHigh: number; sdeLow: number; sdeHigh: number; label: string }> = {
   saas: { revLow: 1.5, revHigh: 3.5, ebitdaLow: 4.0, ebitdaHigh: 7.0, sdeLow: 2.5, sdeHigh: 4.5, label: 'SaaS / Software' },
@@ -188,10 +188,13 @@ export default function PEValuationTool() {
         title="PE Valuation Tool | Aryo Consulting Group"
         description="Comprehensive private equity valuation suite with multiple methodologies including EBITDA, revenue, and SDE multiples."
         canonical="https://aryocg.com/tools/pe-valuation-tool"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "PE Valuation Tool", url: "https://aryocg.com/tools/pe-valuation-tool" },
-        ])}
+        jsonLd={[
+          webPageSchema({ name: "Private Equity Valuation Tool", description: "Multi-method valuation analysis for small and mid-market businesses.", url: "https://aryocg.com/tools/pe-valuation-tool" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "PE Valuation Tool", url: "https://aryocg.com/tools/pe-valuation-tool" },
+          ]),
+        ]}
       />
       <Navbar />
       

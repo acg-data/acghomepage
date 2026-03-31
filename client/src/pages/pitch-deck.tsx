@@ -1,5 +1,5 @@
 import { PageLayout } from "@/components/layout";
-import { SEO, breadcrumbSchema } from "@/components/seo";
+import { SEO, breadcrumbSchema, webPageSchema } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, Clock, BarChart3, DollarSign, UsersRound, TrendingUp, Target } from "lucide-react";
@@ -12,10 +12,13 @@ export default function PitchDeck() {
         title="Pitch Deck | Aryo Consulting Group"
         description="Explore our interactive pitch deck showcasing Aryo Consulting Group's mission, solutions, and growth strategy."
         canonical="https://aryocg.com/pitch-deck"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "Pitch Deck", url: "https://aryocg.com/pitch-deck" },
-        ])}
+        jsonLd={[
+          webPageSchema({ name: "Aryo Consulting Group Pitch Deck", description: "Interactive pitch deck showcasing our mission, solutions, and growth strategy.", url: "https://aryocg.com/pitch-deck" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Pitch Deck", url: "https://aryocg.com/pitch-deck" },
+          ]),
+        ]}
       />
 
       {/* Hero Section */}

@@ -152,10 +152,24 @@ The application is a complete, multi-page corporate consulting website with:
   - Dynamic title, description, canonical URL per page
   - Open Graph tags (og:title, og:description, og:image, og:url, og:type, og:site_name)
   - Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image)
-  - JSON-LD structured data support (Organization, LocalBusiness, Service, Article, BreadcrumbList schemas)
+  - JSON-LD structured data support (Organization, LocalBusiness, Service, Article, BreadcrumbList, FAQPage, WebPage, ProfessionalService, JobPosting, CollectionPage schemas)
   - Stale canonical/og:url cleanup on page transitions
-  - Schema helper exports: organizationSchema(), localBusinessSchema(), serviceSchema(), articleSchema(), breadcrumbSchema()
-- JSON-LD structured data on all pages: Organization + LocalBusiness on home, Service schemas on capability pages, Article schema on blog detail, BreadcrumbList on all pages
+  - Schema helper exports: organizationSchema(), localBusinessSchema(), serviceSchema(), articleSchema(), breadcrumbSchema(), faqSchema(), webPageSchema(), professionalServiceSchema(), jobPostingSchema(), collectionPageSchema()
+- Comprehensive JSON-LD structured data on all pages:
+  - Home: Organization + LocalBusiness (Boston, NYC)
+  - About: AboutPage + ProfessionalService + BreadcrumbList
+  - Careers: WebPage + JobPosting (per open position) + BreadcrumbList
+  - Contact: ContactPage + BreadcrumbList
+  - Capabilities overview: Service schemas for all 6 services + BreadcrumbList
+  - Capability sub-pages: Service + BreadcrumbList
+  - Industries: WebPage + BreadcrumbList
+  - Blog/Insights list: CollectionPage + BreadcrumbList
+  - Blog detail: Article + BreadcrumbList
+  - Case Studies list: CollectionPage + BreadcrumbList
+  - Pitch Decks: Service + FAQPage + BreadcrumbList
+  - NYC: LocalBusiness + BreadcrumbList
+  - Tool pages (PE Valuation, Stablecoin, Website Analyzer, Value Creation): WebPage + BreadcrumbList
+  - Placeholder pages (Valuation Tool, AI Consultant): WebPage + BreadcrumbList
 - Server-side /sitemap.xml endpoint covering all public routes with priority/changefreq
 - robots.txt with crawl directives and sitemap reference
 - Default OG image and Twitter Card tags in index.html

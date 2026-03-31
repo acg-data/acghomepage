@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { PageLayout } from '@/components/layout';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, webPageSchema } from '@/components/seo';
 
 const signupSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -53,10 +53,13 @@ export default function ReportQ4HiringAbroad() {
       title="Q4 Hiring Abroad Report | Aryo Consulting Group"
       description="Download our guide to global talent, costs, and collaboration. Build effective international teams with insights from Aryo Consulting Group."
       canonical="https://aryocg.com/reports/q4-hiring-abroad"
-      jsonLd={breadcrumbSchema([
-        { name: "Home", url: "https://aryocg.com" },
-        { name: "Q4 Hiring Abroad Report", url: "https://aryocg.com/reports/q4-hiring-abroad" },
-      ])}
+      jsonLd={[
+        webPageSchema({ name: "Q4 Hiring Abroad Report", description: "Download our guide to global talent, costs, and collaboration.", url: "https://aryocg.com/reports/q4-hiring-abroad" }),
+        breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Q4 Hiring Abroad Report", url: "https://aryocg.com/reports/q4-hiring-abroad" },
+        ]),
+      ]}
     />
   );
 

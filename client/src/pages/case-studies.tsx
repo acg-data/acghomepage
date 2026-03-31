@@ -11,7 +11,7 @@ import {
   Download
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO, breadcrumbSchema } from '@/components/seo';
+import { SEO, breadcrumbSchema, collectionPageSchema } from '@/components/seo';
 import { useWPCaseStudies, useWPCaseStudy, type WPCaseStudy } from '@/lib/wordpress';
 
 interface CaseStudyExtended extends CaseStudy {
@@ -300,10 +300,18 @@ export default function CaseStudies() {
         title="Case Studies | Aryo Consulting Group"
         description="Aryo Consulting Group case studies showcasing client results in M&A, digital transformation, operational excellence, and strategic advisory."
         canonical="https://aryocg.com/case-studies"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://aryocg.com" },
-          { name: "Case Studies", url: "https://aryocg.com/case-studies" },
-        ])}
+        jsonLd={[
+          collectionPageSchema({
+            name: "Case Studies",
+            description: "Client success stories showcasing results in M&A, digital transformation, operational excellence, and strategic advisory.",
+            url: "https://aryocg.com/case-studies",
+            items: studies.map(s => ({ name: s.title, url: `https://aryocg.com/case-studies/${s.slug}` })),
+          }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Case Studies", url: "https://aryocg.com/case-studies" },
+          ]),
+        ]}
       />
     <PageLayout>
       <div className="max-w-7xl mx-auto px-6 py-16">
