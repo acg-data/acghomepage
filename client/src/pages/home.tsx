@@ -890,6 +890,22 @@ function Footer() {
 export default function Home() {
   const { data: wpHomepage, isLoading: wpLoading } = useWPHomepage();
 
+  if (wpLoading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <div className="animate-pulse">
+          <div className="h-[80vh] bg-gradient-to-br from-slate-100 to-slate-200" />
+          <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="h-32 bg-slate-100 rounded" />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <SEO 

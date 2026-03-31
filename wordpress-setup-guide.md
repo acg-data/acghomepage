@@ -174,6 +174,68 @@ Blog posts use the standard WordPress `post` type. Add these ACF fields:
 | `stats > value` | Number | Numeric value |
 | `stats > suffix` | Text | Suffix (e.g., "+", "%", ".5B") |
 | `stats > label` | Text | Label text |
+| `hero_headline` | Text | Hero section main headline |
+| `hero_subheadline` | Text | Hero section sub-headline |
+| `hero_description` | Textarea | Hero section description paragraph |
+| `hero_bullets` | Repeater | Hero section bullet points |
+| `hero_bullets > text` | Text | Bullet point text |
+| `pillars` | Repeater | Four strategic pillars |
+| `pillars > name` | Text | Pillar name (e.g., "Capital") |
+| `pillars > tagline` | Text | Pillar tagline |
+| `pillars > description` | Textarea | Pillar description |
+| `pillars > active` | True/False | Whether this pillar is highlighted |
+| `process_steps` | Repeater | Engagement process timeline |
+| `process_steps > phase` | Text | Phase label (e.g., "Phase 1") |
+| `process_steps > title` | Text | Step title |
+| `process_steps > time` | Text | Time estimate (e.g., "Weeks 1-2") |
+| `process_steps > description` | Textarea | Step description |
+| `differentiators` | Repeater | Why Aryo differentiator items |
+| `differentiators > title` | Text | Differentiator title |
+| `differentiators > description` | Textarea | Differentiator description |
+| `radar` | Group | Radar chart / value driver data |
+| `radar > aryo_values` | Text | Comma-separated Aryo scores (e.g., "0.9,0.85,0.88,0.92,0.87,0.91") |
+| `radar > levers` | Repeater | Radar chart axis labels |
+| `radar > levers > label` | Text | Lever name (e.g., "Capital", "Market") |
+| `radar > competitors` | Repeater | Competitor comparison data |
+| `radar > competitors > name` | Text | Competitor name (e.g., "Marketing Agency") |
+| `radar > competitors > values` | Text | Comma-separated scores matching lever count |
+
+### 8. About Page (`about`)
+
+Create a WordPress **page** with the slug `about`.
+
+**ACF Fields:**
+| Field Name | Field Type | Description |
+|---|---|---|
+| `story_paragraphs` | Repeater | Company story paragraphs |
+| `story_paragraphs > text` | Textarea | Paragraph text |
+| `story_metric` | Text | Key metric (e.g., "Currently serving 30+ active engagements") |
+| `values` | Repeater | Core company values |
+| `values > title` | Text | Value name |
+| `values > description` | Textarea | Value description |
+| `values > icon_name` | Text | Lucide icon name (Target, Users, Lightbulb, Heart) |
+| `locations` | Repeater | Office locations |
+| `locations > city` | Text | City name |
+| `locations > status` | Select (active/coming) | Office status |
+| `locations > address` | Text | Office address |
+| `locations > description` | Text | Location description |
+
+### 9. Careers Page (`careers`)
+
+Create a WordPress **page** with the slug `careers`.
+
+**ACF Fields:**
+| Field Name | Field Type | Description |
+|---|---|---|
+| `why_aryo_paragraphs` | Repeater | "Why Aryo?" section paragraphs |
+| `why_aryo_paragraphs > text` | Textarea | Paragraph text |
+| `benefits` | Repeater | Employee benefits |
+| `benefits > title` | Text | Benefit title |
+| `benefits > description` | Textarea | Benefit description |
+| `benefits > icon_name` | Text | Lucide icon name |
+| `culture_values` | Repeater | Culture value cards |
+| `culture_values > title` | Text | Value title |
+| `culture_values > description` | Textarea | Value description |
 
 ## CORS Configuration
 
@@ -216,6 +278,8 @@ GET https://cms.aryocg.com/wp-json/wp/v2/position?_embed=1
 GET https://cms.aryocg.com/wp-json/wp/v2/capability?_embed=1
 GET https://cms.aryocg.com/wp-json/wp/v2/industry?_embed=1
 GET https://cms.aryocg.com/wp-json/wp/v2/pages?slug=homepage&_embed=1
+GET https://cms.aryocg.com/wp-json/wp/v2/pages?slug=about&_embed=1
+GET https://cms.aryocg.com/wp-json/wp/v2/pages?slug=careers&_embed=1
 ```
 
 ## Fallback Behavior
