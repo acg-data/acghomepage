@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { SEO } from '@/components/seo';
 import { Navbar } from '@/components/layout';
 import { useWPTestimonials, useWPHomepage, type WPTestimonial, type WPStat, type WPPillar, type WPProcessStep, type WPHeroContent, type WPDifferentiator, type WPRadarData } from '@/lib/wordpress';
+import { organizationSchema, localBusinessSchema, breadcrumbSchema } from '@/components/seo';
 import { 
   ArrowRight, 
   Activity,
@@ -912,6 +913,11 @@ export default function Home() {
         title="Aryo Consulting Group | Corporate Strategy & Governance Consulting"
         description="We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value. Boston-based strategic consulting for enterprise resilience."
         canonical="https://aryocg.com/"
+        jsonLd={[
+          organizationSchema(),
+          localBusinessSchema({ name: "Aryo Consulting Group - Boston", city: "Boston", state: "MA", address: "Boston, MA", postalCode: "02101" }),
+          localBusinessSchema({ name: "Aryo Consulting Group - New York", city: "New York", state: "NY", address: "New York, NY", postalCode: "10001" }),
+        ]}
       />
       <Navbar />
       <Hero wpHero={wpHomepage?.hero} />

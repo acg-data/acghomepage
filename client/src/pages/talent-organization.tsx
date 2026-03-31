@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
-import { SEO } from "@/components/seo";
+import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -418,6 +418,15 @@ export default function TalentOrganization() {
       <SEO
         title="Talent & Organization | Aryo Consulting Group"
         description="Transform your organization through leadership development, culture transformation, organization design, and talent strategy. Build the people capabilities that drive lasting success."
+        canonical="https://aryocg.com/talent-organization"
+        jsonLd={[
+          serviceSchema({ name: "Talent & Organization", description: "Transform your organization through leadership development, culture transformation, organization design, and talent strategy.", url: "https://aryocg.com/talent-organization" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Capabilities", url: "https://aryocg.com/capabilities" },
+            { name: "Talent & Organization", url: "https://aryocg.com/talent-organization" },
+          ]),
+        ]}
       />
       <div ref={containerRef} className="min-h-screen bg-white dark:bg-gray-950 overflow-x-hidden">
         

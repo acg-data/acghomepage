@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, MapPin, Users, Target, Award, ChevronRight, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO } from '@/components/seo';
+import { SEO, breadcrumbSchema } from '@/components/seo';
 import { useWPTeamMembers, useWPAboutPage } from '@/lib/wordpress';
 
 const aboutIconMap: Record<string, LucideIcon> = { Target, Users, Award, MapPin };
@@ -55,6 +55,10 @@ export default function About() {
         title="About Aryo Consulting Group | Our Team & Mission"
         description="Learn about Aryo Consulting Group's mission, team, and values. We're building the consulting firm we always wished existed—one that shares in outcomes and deploys real systems."
         canonical="https://aryocg.com/about"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "About", url: "https://aryocg.com/about" },
+        ])}
       />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">

@@ -14,7 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SEO } from "@/components/seo";
+import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { PageLayout } from "@/components/layout";
 import { PortfolioFlipbook } from "@/components/portfolio-flipbook";
 import {
@@ -501,7 +501,15 @@ export default function GrowthStrategy() {
       <SEO 
         title="Growth Strategy | Aryo Consulting Group"
         description="Accelerate growth with data-driven strategies for market expansion, revenue optimization, and sustainable value creation."
-        canonical="/growth-strategy"
+        canonical="https://aryocg.com/growth-strategy"
+        jsonLd={[
+          serviceSchema({ name: "Growth Strategy", description: "Accelerate growth with data-driven strategies for market expansion, revenue optimization, and sustainable value creation.", url: "https://aryocg.com/growth-strategy" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Capabilities", url: "https://aryocg.com/capabilities" },
+            { name: "Growth Strategy", url: "https://aryocg.com/growth-strategy" },
+          ]),
+        ]}
       />
       
       <div ref={containerRef} className="min-h-screen bg-background">

@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ChevronRight, Calculator } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO } from '@/components/seo';
+import { SEO, breadcrumbSchema } from '@/components/seo';
 
 export default function ValuationTool() {
   return (
@@ -10,6 +10,10 @@ export default function ValuationTool() {
         title="Business Valuation Tool | Aryo Consulting Group"
         description="Get a preliminary estimate of your company's value based on industry benchmarks and financial metrics. Free business valuation calculator coming soon."
         canonical="https://aryocg.com/valuation-tool"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Valuation Tool", url: "https://aryocg.com/valuation-tool" },
+        ])}
       />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">

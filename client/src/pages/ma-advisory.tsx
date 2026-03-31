@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
-import { SEO } from "@/components/seo";
+import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, ArrowDown, ChevronLeft, ChevronRight, Target, Shield, Handshake, TrendingUp, Users, BarChart3, CheckCircle2 } from "lucide-react";
@@ -153,6 +153,15 @@ export default function MAAdvisory() {
       <SEO
         title="M&A Advisory | Aryo Consulting Group"
         description="Strategic M&A advisory for middle-market companies. Sell-side, buy-side, and corporate divestiture expertise to maximize transaction value."
+        canonical="https://aryocg.com/ma-advisory"
+        jsonLd={[
+          serviceSchema({ name: "M&A Advisory", description: "Strategic M&A advisory for middle-market companies. Sell-side, buy-side, and corporate divestiture expertise to maximize transaction value.", url: "https://aryocg.com/ma-advisory" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Capabilities", url: "https://aryocg.com/capabilities" },
+            { name: "M&A Advisory", url: "https://aryocg.com/ma-advisory" },
+          ]),
+        ]}
       />
       <div ref={containerRef} className="min-h-screen bg-white dark:bg-gray-950">
         <div

@@ -10,7 +10,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO } from '@/components/seo';
+import { SEO, articleSchema, breadcrumbSchema } from '@/components/seo';
 import { useWPBlogPosts, useWPBlogPost, type WPBlogPost } from '@/lib/wordpress';
 
 const fallbackBlogPosts: BlogPost[] = [
@@ -274,6 +274,25 @@ function BlogPostDetail({ slug }: { slug: string }) {
 
   return (
     <PageLayout>
+      <SEO
+        title={`${post.title} | Aryo Consulting Group Insights`}
+        description={post.excerpt}
+        canonical={`https://aryocg.com/insights/${slug}`}
+        jsonLd={[
+          articleSchema({
+            title: post.title,
+            description: post.excerpt,
+            url: `https://aryocg.com/insights/${slug}`,
+            datePublished: post.publishedAt || '',
+            author: post.author,
+          }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Insights", url: "https://aryocg.com/insights" },
+            { name: post.title, url: `https://aryocg.com/insights/${slug}` },
+          ]),
+        ]}
+      />
       <div className="max-w-4xl mx-auto px-6 py-12">
         <Link href="/insights" className="flex items-center gap-2 text-aryo-deepBlue hover:text-aryo-teal transition-colors mb-8" data-testid="link-back-insights">
           <ArrowLeft size={16} />
@@ -380,6 +399,10 @@ export default function Blog() {
         title="Insights & Blog | Aryo Consulting Group"
         description="Strategic insights, industry analysis, and thought leadership from Aryo Consulting Group. Expert perspectives on M&A, digital transformation, and corporate strategy."
         canonical="https://aryocg.com/insights"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Insights", url: "https://aryocg.com/insights" },
+        ])}
       />
     <PageLayout>
       <div className="max-w-7xl mx-auto px-6 py-16">

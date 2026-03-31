@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, type ReactNode } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Link } from 'wouter';
-import { SEO } from '@/components/seo';
+import { SEO, breadcrumbSchema } from '@/components/seo';
 import { Navbar } from '@/components/layout';
 
 import acmeDeck from '@assets/Acme+Deck_1769021448733.png';
@@ -1041,6 +1041,10 @@ export default function PitchDecks() {
         title="Pitch Deck Design Services | Aryo Consulting Group"
         description="Compelling pitch decks for startups and enterprises. Investor-ready design, compelling narratives, and data visualization expertise. Get a custom quote today."
         canonical="https://aryocg.com/pitch-decks"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Pitch Deck Design", url: "https://aryocg.com/pitch-decks" },
+        ])}
       />
       <Navbar />
       <Hero />

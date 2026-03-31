@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowDown, Layers, Cpu, BarChart3, Cog, Users, Zap, Target, ChevronRight, Map, Database } from "lucide-react";
-import { SEO } from "@/components/seo";
+import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { Navbar, Footer } from "@/components/layout";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -214,6 +214,14 @@ export default function DigitalTransformation() {
         title="Digital Transformation | Aryo Consulting Group"
         description="Transform your business with strategic digital solutions. We specialize in legacy modernization, cloud architecture, and UX design."
         canonical="https://aryocg.com/digital-transformation"
+        jsonLd={[
+          serviceSchema({ name: "Digital Transformation", description: "Transform your business with strategic digital solutions. We specialize in legacy modernization, cloud architecture, and UX design.", url: "https://aryocg.com/digital-transformation" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Capabilities", url: "https://aryocg.com/capabilities" },
+            { name: "Digital Transformation", url: "https://aryocg.com/digital-transformation" },
+          ]),
+        ]}
       />
 
       <Navbar />

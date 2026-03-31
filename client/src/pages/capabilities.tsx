@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, ChevronRight, TrendingUp, Layers, Users, BarChart3, Shield, Zap, Presentation, ChevronDown, Check, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO } from '@/components/seo';
+import { SEO, serviceSchema, breadcrumbSchema } from '@/components/seo';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -331,6 +331,17 @@ export default function Capabilities() {
         title="Capabilities | Aryo Consulting Group"
         description="Explore Aryo's consulting capabilities: M&A Advisory, Digital Transformation, Operational Excellence, Talent & Organization, Risk & Governance, and Strategy & Growth."
         canonical="https://aryocg.com/capabilities"
+        jsonLd={[
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Capabilities", url: "https://aryocg.com/capabilities" },
+          ]),
+          ...capabilities.map(cap => serviceSchema({
+            name: cap.title,
+            description: cap.description,
+            url: cap.link ? `https://aryocg.com${cap.link}` : "https://aryocg.com/capabilities",
+          })),
+        ]}
       />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">

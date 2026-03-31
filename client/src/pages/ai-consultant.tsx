@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ChevronRight, Bot } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO } from '@/components/seo';
+import { SEO, breadcrumbSchema } from '@/components/seo';
 
 export default function AIConsultant() {
   return (
@@ -10,6 +10,10 @@ export default function AIConsultant() {
         title="AI Consultant | Aryo Consulting Group"
         description="Get instant strategic insights powered by AI, trained on Aryo's proven consulting methodology and best practices. AI-powered business consulting coming soon."
         canonical="https://aryocg.com/ai-consultant"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "AI Consultant", url: "https://aryocg.com/ai-consultant" },
+        ])}
       />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">

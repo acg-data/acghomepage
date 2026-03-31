@@ -148,10 +148,17 @@ The application is a complete, multi-page corporate consulting website with:
 - Removed redundant "Aryo Consulting Group" text (logo contains full name)
 - Migrated all pages to use PageLayout: about, capabilities, industries, careers, contact, valuation-tool, ai-consultant, case-studies, blog
 - Created custom branded 404 page with navigation to main sections
-- Added SEO component (client/src/components/seo.tsx) for dynamic meta tag management
-- Added SEO meta tags to all pages (title, description, canonical, Open Graph)
-- Created sitemap.xml (client/public/sitemap.xml) for search engines
-- Created robots.txt (client/public/robots.txt) with proper crawl directives
+- Added SEO component (client/src/components/seo.tsx) with full meta tag management:
+  - Dynamic title, description, canonical URL per page
+  - Open Graph tags (og:title, og:description, og:image, og:url, og:type, og:site_name)
+  - Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image)
+  - JSON-LD structured data support (Organization, LocalBusiness, Service, Article, BreadcrumbList schemas)
+  - Stale canonical/og:url cleanup on page transitions
+  - Schema helper exports: organizationSchema(), localBusinessSchema(), serviceSchema(), articleSchema(), breadcrumbSchema()
+- JSON-LD structured data on all pages: Organization + LocalBusiness on home, Service schemas on capability pages, Article schema on blog detail, BreadcrumbList on all pages
+- Server-side /sitemap.xml endpoint covering all public routes with priority/changefreq
+- robots.txt with crawl directives and sitemap reference
+- Default OG image and Twitter Card tags in index.html
 - Added email notification for contact form submissions (sends to justin@aryocg.com via Resend)
 - Added Q4 Hiring Abroad Report gated download feature:
   - Changed "View Q4 Market Report" to "View Q4 Hiring Abroad Report" on home and NYC pages

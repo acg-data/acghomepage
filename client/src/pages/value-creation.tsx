@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { ChevronDown, Filter, ArrowUpDown, Minimize2, Info, Building2 } from 'lucide-react';
 import { Link } from 'wouter';
 import { PageLayout } from '@/components/layout';
-import { SEO } from '@/components/seo';
+import { SEO, breadcrumbSchema } from '@/components/seo';
 import { Button } from '@/components/ui/button';
 
 const companySizes: Record<string, { roi: number; cost: number; time: number }> = {
@@ -107,7 +107,11 @@ export default function ValueCreationPage() {
       <SEO 
         title="Value Creation Matrix | Aryo Consulting Group"
         description="Explore strategic value creation levers across industries and company sizes. Our interactive simulator helps identify high-ROI opportunities for your organization."
-        canonical="/value-creation"
+        canonical="https://aryocg.com/value-creation"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Value Creation", url: "https://aryocg.com/value-creation" },
+        ])}
       />
       
       <section className="pt-32 pb-16 bg-aryo-offWhite border-b border-aryo-lightGrey">

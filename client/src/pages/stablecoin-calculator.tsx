@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Navbar, Footer } from '@/components/layout';
 import { Check, DollarSign, RotateCcw, Globe, Wallet, TrendingUp, TrendingDown, Clock, Zap, RefreshCw, AlertCircle } from 'lucide-react';
-import { SEO } from '@/components/seo';
+import { SEO, breadcrumbSchema } from '@/components/seo';
 
 const stablecoinTypes = [
   { id: 'usdc', name: 'USDC', type: 'Fiat-Backed', yieldPotential: 4.5, riskScore: 1, description: 'US Dollar-backed, regulated' },
@@ -445,7 +445,11 @@ export default function StablecoinCalculator() {
       <SEO 
         title="Stablecoin Savings Calculator | Aryo Consulting Group"
         description="Calculate your potential savings from stablecoin adoption. Discover FX savings, treasury yield, and settlement efficiency gains."
-        canonical="/tools/stablecoin-calculator"
+        canonical="https://aryocg.com/tools/stablecoin-calculator"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Stablecoin Calculator", url: "https://aryocg.com/tools/stablecoin-calculator" },
+        ])}
       />
       <Navbar />
       

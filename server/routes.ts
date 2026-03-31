@@ -81,6 +81,47 @@ export async function registerRoutes(
     next();
   });
 
+  app.get("/sitemap.xml", (_req: Request, res: Response) => {
+    const baseUrl = "https://aryocg.com";
+    const now = new Date().toISOString().split("T")[0];
+    const pages = [
+      { loc: "/", priority: "1.0", changefreq: "weekly" },
+      { loc: "/about", priority: "0.8", changefreq: "monthly" },
+      { loc: "/capabilities", priority: "0.8", changefreq: "monthly" },
+      { loc: "/industries", priority: "0.8", changefreq: "monthly" },
+      { loc: "/insights", priority: "0.7", changefreq: "weekly" },
+      { loc: "/case-studies", priority: "0.7", changefreq: "monthly" },
+      { loc: "/careers", priority: "0.7", changefreq: "weekly" },
+      { loc: "/contact", priority: "0.8", changefreq: "monthly" },
+      { loc: "/nyc", priority: "0.6", changefreq: "monthly" },
+      { loc: "/ma-advisory", priority: "0.7", changefreq: "monthly" },
+      { loc: "/digital-transformation", priority: "0.7", changefreq: "monthly" },
+      { loc: "/operational-excellence", priority: "0.7", changefreq: "monthly" },
+      { loc: "/talent-organization", priority: "0.7", changefreq: "monthly" },
+      { loc: "/governance-risk", priority: "0.7", changefreq: "monthly" },
+      { loc: "/growth-strategy", priority: "0.7", changefreq: "monthly" },
+      { loc: "/value-creation", priority: "0.6", changefreq: "monthly" },
+      { loc: "/pitch-deck", priority: "0.6", changefreq: "monthly" },
+      { loc: "/pitch-decks", priority: "0.6", changefreq: "monthly" },
+      { loc: "/tools/pe-valuation-tool", priority: "0.6", changefreq: "monthly" },
+      { loc: "/tools/stablecoin-calculator", priority: "0.5", changefreq: "monthly" },
+      { loc: "/tools/website-analyzer", priority: "0.5", changefreq: "monthly" },
+      { loc: "/valuation-tool", priority: "0.5", changefreq: "monthly" },
+      { loc: "/reports/q4-hiring-abroad", priority: "0.5", changefreq: "yearly" },
+    ];
+
+    const urls = pages
+      .map(
+        (p) =>
+          `  <url>\n    <loc>${baseUrl}${p.loc}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`
+      )
+      .join("\n");
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;
+    res.set("Content-Type", "application/xml");
+    res.send(xml);
+  });
+
   // Prerender middleware for SEO - serves pre-rendered HTML to search engine bots
   // Must be before session middleware since bots don't need sessions
   app.use(prerenderMiddleware());

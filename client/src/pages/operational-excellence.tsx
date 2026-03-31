@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
-import { SEO } from "@/components/seo";
+import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -331,6 +331,15 @@ export default function OperationalExcellence() {
       <SEO
         title="Operational Excellence | Aryo Consulting Group"
         description="Transform operations with process excellence, cost optimization, supply chain improvements, and performance management. Proven methodologies delivering 25%+ efficiency gains."
+        canonical="https://aryocg.com/operational-excellence"
+        jsonLd={[
+          serviceSchema({ name: "Operational Excellence", description: "Transform operations with process excellence, cost optimization, supply chain improvements, and performance management.", url: "https://aryocg.com/operational-excellence" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Capabilities", url: "https://aryocg.com/capabilities" },
+            { name: "Operational Excellence", url: "https://aryocg.com/operational-excellence" },
+          ]),
+        ]}
       />
       <div ref={containerRef} className="min-h-screen bg-white dark:bg-gray-950 overflow-x-hidden">
         

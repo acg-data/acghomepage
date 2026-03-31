@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
-import { SEO } from "@/components/seo";
+import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "wouter";
@@ -354,6 +354,15 @@ export default function GovernanceRisk() {
       <SEO
         title="Governance & Risk | Aryo Consulting Group"
         description="Modern governance frameworks and enterprise risk management that protect value and enable growth. Board effectiveness, compliance, cyber risk, and ESG expertise."
+        canonical="https://aryocg.com/governance-risk"
+        jsonLd={[
+          serviceSchema({ name: "Governance & Risk", description: "Modern governance frameworks and enterprise risk management that protect value and enable growth.", url: "https://aryocg.com/governance-risk" }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://aryocg.com" },
+            { name: "Capabilities", url: "https://aryocg.com/capabilities" },
+            { name: "Governance & Risk", url: "https://aryocg.com/governance-risk" },
+          ]),
+        ]}
       />
       <div ref={containerRef} className="min-h-screen bg-white dark:bg-gray-950 overflow-x-hidden">
         {/* Unique Hero - Shield Network Visualization */}

@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, ChevronRight, Building2, Cpu, HeartPulse, ShoppingBag, Factory, Briefcase, type LucideIcon } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
-import { SEO } from '@/components/seo';
+import { SEO, breadcrumbSchema } from '@/components/seo';
 import { useWPIndustries, type WPIndustry } from '@/lib/wordpress';
 
 const iconMap: Record<string, LucideIcon> = {
@@ -115,6 +115,10 @@ export default function Industries() {
         title="Industries | Aryo Consulting Group"
         description="Aryo serves Financial Services, Technology, Healthcare, Consumer & Retail, Industrial, and Professional Services industries with specialized consulting expertise."
         canonical="https://aryocg.com/industries"
+        jsonLd={breadcrumbSchema([
+          { name: "Home", url: "https://aryocg.com" },
+          { name: "Industries", url: "https://aryocg.com/industries" },
+        ])}
       />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center gap-2 text-slate-500 text-sm mb-4">
