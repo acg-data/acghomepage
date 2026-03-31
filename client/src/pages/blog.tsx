@@ -313,22 +313,26 @@ function BlogPostDetail({ slug }: { slug: string }) {
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-slate-600">
-            {post.content.split('\n').map((paragraph, i) => {
-              if (paragraph.startsWith('## ')) {
-                return <h2 key={i} className="text-2xl font-serif text-aryo-deepBlue mt-8 mb-4">{paragraph.replace('## ', '')}</h2>;
-              }
-              if (paragraph.startsWith('### ')) {
-                return <h3 key={i} className="text-xl font-serif text-aryo-deepBlue mt-6 mb-3">{paragraph.replace('### ', '')}</h3>;
-              }
-              if (paragraph.trim().startsWith('1.') || paragraph.trim().startsWith('2.') || paragraph.trim().startsWith('3.') || paragraph.trim().startsWith('4.') || paragraph.trim().startsWith('5.')) {
-                return <p key={i} className="mb-2 pl-4">{paragraph}</p>;
-              }
-              if (paragraph.trim()) {
-                return <p key={i} className="mb-4 leading-relaxed">{paragraph}</p>;
-              }
-              return null;
-            })}
+          <div className="prose prose-lg max-w-none text-slate-600" data-testid="blog-content">
+            {/<[a-z][\s\S]*>/i.test(post.content) ? (
+              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            ) : (
+              post.content.split('\n').map((paragraph, i) => {
+                if (paragraph.startsWith('## ')) {
+                  return <h2 key={i} className="text-2xl font-serif text-aryo-deepBlue mt-8 mb-4">{paragraph.replace('## ', '')}</h2>;
+                }
+                if (paragraph.startsWith('### ')) {
+                  return <h3 key={i} className="text-xl font-serif text-aryo-deepBlue mt-6 mb-3">{paragraph.replace('### ', '')}</h3>;
+                }
+                if (paragraph.trim().startsWith('1.') || paragraph.trim().startsWith('2.') || paragraph.trim().startsWith('3.') || paragraph.trim().startsWith('4.') || paragraph.trim().startsWith('5.')) {
+                  return <p key={i} className="mb-2 pl-4">{paragraph}</p>;
+                }
+                if (paragraph.trim()) {
+                  return <p key={i} className="mb-4 leading-relaxed">{paragraph}</p>;
+                }
+                return null;
+              })
+            )}
           </div>
         </article>
 
