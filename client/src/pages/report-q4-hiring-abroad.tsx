@@ -51,7 +51,7 @@ export default function ReportQ4HiringAbroad() {
   const seoContent = (
     <SEO 
       title="Q4 Hiring Abroad Report | Aryo Consulting Group"
-      description="Download our comprehensive guide to global talent, costs, and collaboration. Learn how to build effective international teams with insights from Aryo Consulting Group."
+      description="Download our guide to global talent, costs, and collaboration. Build effective international teams with insights from Aryo Consulting Group."
       canonical="https://aryocg.com/reports/q4-hiring-abroad"
       jsonLd={breadcrumbSchema([
         { name: "Home", url: "https://aryocg.com" },

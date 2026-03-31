@@ -106,7 +106,7 @@ export default function ValueCreationPage() {
     <PageLayout>
       <SEO 
         title="Value Creation Matrix | Aryo Consulting Group"
-        description="Explore strategic value creation levers across industries and company sizes. Our interactive simulator helps identify high-ROI opportunities for your organization."
+        description="Explore strategic value creation levers across industries and company sizes. Identify high-ROI opportunities with our interactive simulator."
         canonical="https://aryocg.com/value-creation"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://aryocg.com" },

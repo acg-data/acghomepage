@@ -397,7 +397,7 @@ export default function Blog() {
     <>
       <SEO 
         title="Insights & Blog | Aryo Consulting Group"
-        description="Strategic insights, industry analysis, and thought leadership from Aryo Consulting Group. Expert perspectives on M&A, digital transformation, and corporate strategy."
+        description="Strategic insights and thought leadership from Aryo Consulting Group. Expert perspectives on M&A, digital transformation, and corporate strategy."
         canonical="https://aryocg.com/insights"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://aryocg.com" },

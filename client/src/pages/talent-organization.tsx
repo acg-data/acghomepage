@@ -417,7 +417,7 @@ export default function TalentOrganization() {
     <PageLayout>
       <SEO
         title="Talent & Organization | Aryo Consulting Group"
-        description="Transform your organization through leadership development, culture transformation, organization design, and talent strategy. Build the people capabilities that drive lasting success."
+        description="Transform your organization through leadership development, culture transformation, organization design, and talent strategy for lasting success."
         canonical="https://aryocg.com/talent-organization"
         jsonLd={[
           serviceSchema({ name: "Talent & Organization", description: "Transform your organization through leadership development, culture transformation, organization design, and talent strategy.", url: "https://aryocg.com/talent-organization" }),

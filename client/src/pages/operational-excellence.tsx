@@ -330,7 +330,7 @@ export default function OperationalExcellence() {
     <PageLayout>
       <SEO
         title="Operational Excellence | Aryo Consulting Group"
-        description="Transform operations with process excellence, cost optimization, supply chain improvements, and performance management. Proven methodologies delivering 25%+ efficiency gains."
+        description="Transform operations with process excellence, cost optimization, supply chain improvements, and performance management. 25%+ efficiency gains."
         canonical="https://aryocg.com/operational-excellence"
         jsonLd={[
           serviceSchema({ name: "Operational Excellence", description: "Transform operations with process excellence, cost optimization, supply chain improvements, and performance management.", url: "https://aryocg.com/operational-excellence" }),

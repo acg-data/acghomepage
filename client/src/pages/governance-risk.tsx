@@ -353,7 +353,7 @@ export default function GovernanceRisk() {
     <PageLayout>
       <SEO
         title="Governance & Risk | Aryo Consulting Group"
-        description="Modern governance frameworks and enterprise risk management that protect value and enable growth. Board effectiveness, compliance, cyber risk, and ESG expertise."
+        description="Modern governance frameworks and enterprise risk management. Board effectiveness, compliance, cyber risk, and ESG expertise."
         canonical="https://aryocg.com/governance-risk"
         jsonLd={[
           serviceSchema({ name: "Governance & Risk", description: "Modern governance frameworks and enterprise risk management that protect value and enable growth.", url: "https://aryocg.com/governance-risk" }),

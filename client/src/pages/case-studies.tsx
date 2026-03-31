@@ -298,7 +298,7 @@ export default function CaseStudies() {
     <>
       <SEO 
         title="Case Studies | Aryo Consulting Group"
-        description="Explore Aryo Consulting Group's case studies showcasing successful client engagements in M&A, digital transformation, operational excellence, and strategic advisory."
+        description="Aryo Consulting Group case studies showcasing client results in M&A, digital transformation, operational excellence, and strategic advisory."
         canonical="https://aryocg.com/case-studies"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://aryocg.com" },

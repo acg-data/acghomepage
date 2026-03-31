@@ -329,7 +329,7 @@ export default function Capabilities() {
     <PageLayout>
       <SEO 
         title="Capabilities | Aryo Consulting Group"
-        description="Explore Aryo's consulting capabilities: M&A Advisory, Digital Transformation, Operational Excellence, Talent & Organization, Risk & Governance, and Strategy & Growth."
+        description="Aryo's consulting capabilities: M&A Advisory, Digital Transformation, Operational Excellence, Talent & Organization, Risk & Governance, and Growth Strategy."
         canonical="https://aryocg.com/capabilities"
         jsonLd={[
           breadcrumbSchema([

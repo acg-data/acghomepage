@@ -53,7 +53,7 @@ export default function About() {
     <PageLayout>
       <SEO 
         title="About Aryo Consulting Group | Our Team & Mission"
-        description="Learn about Aryo Consulting Group's mission, team, and values. We're building the consulting firm we always wished existed—one that shares in outcomes and deploys real systems."
+        description="Meet Aryo Consulting Group's team, mission, and values. The consulting firm that shares in outcomes and deploys real systems."
         canonical="https://aryocg.com/about"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://aryocg.com" },

@@ -113,7 +113,7 @@ export default function Industries() {
     <PageLayout>
       <SEO 
         title="Industries | Aryo Consulting Group"
-        description="Aryo serves Financial Services, Technology, Healthcare, Consumer & Retail, Industrial, and Professional Services industries with specialized consulting expertise."
+        description="Aryo serves Financial Services, Technology, Healthcare, Consumer & Retail, Industrial, and Professional Services with specialized consulting."
         canonical="https://aryocg.com/industries"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://aryocg.com" },
