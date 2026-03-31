@@ -32,6 +32,9 @@ const PageImage = forwardRef<HTMLDivElement, { pageNumber: number; isFullscreen:
         <img
           src={imageSrc}
           alt={slideLabels[pageNumber - 1] || `Pitch deck page ${pageNumber}`}
+          width={800}
+          height={1035}
+          loading="lazy"
           className={`w-full h-full object-contain transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setLoaded(true)}
           draggable={false}

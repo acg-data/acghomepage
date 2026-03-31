@@ -80,6 +80,9 @@ export function PitchDeckCarousel() {
                       <img
                         src={slide.image}
                         alt={slide.label}
+                        width={800}
+                        height={450}
+                        loading="lazy"
                         className="w-full h-full object-contain bg-slate-50"
                         data-testid={`img-pitch-slide-${slide.id}`}
                       />

@@ -225,6 +225,8 @@ function Hero({ wpHero }: { wpHero?: WPHeroContent | null }) {
                     <img 
                       src={`/api/logos/${encodeURIComponent(logo)}?v=${cacheBuster}`} 
                       alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      width={140}
+                      height={48}
                       className="h-full w-auto max-w-[140px] object-contain"
                       data-testid={`logo-${i}`}
                     />
@@ -238,6 +240,8 @@ function Hero({ wpHero }: { wpHero?: WPHeroContent | null }) {
                     <img 
                       src={`/api/logos/${encodeURIComponent(logo)}?v=${cacheBuster}`} 
                       alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      width={140}
+                      height={48}
                       className="h-full w-auto max-w-[140px] object-contain"
                     />
                   </div>
