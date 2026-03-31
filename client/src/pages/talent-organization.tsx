@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
 import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
+import { FAQSection } from "@/components/faq-section";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -1011,6 +1012,13 @@ export default function TalentOrganization() {
             </div>
           </div>
         </section>
+
+        <FAQSection faqs={[
+          { question: "What is talent and organization consulting?", answer: "Talent and organization consulting helps companies build leadership capacity, design effective organizational structures, develop talent strategies, and create cultures that drive performance and retention." },
+          { question: "How does Aryo approach culture transformation?", answer: "We assess current culture through surveys and interviews, define target culture aligned with strategy, then implement change through leadership development, communication, incentive redesign, and sustained reinforcement." },
+          { question: "Does Aryo help with executive hiring and succession?", answer: "We provide executive assessment, succession planning frameworks, and leadership development programs. For executive search, we partner with specialized firms while guiding the overall talent strategy." },
+          { question: "What industries benefit most from talent consulting?", answer: "All industries benefit, but we see particularly high impact in fast-growing technology companies, PE-backed firms undergoing transformation, healthcare organizations, and professional services firms scaling their teams." },
+        ]} />
       </div>
     </PageLayout>
   );

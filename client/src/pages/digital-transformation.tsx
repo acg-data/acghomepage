@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowDown, Layers, Cpu, BarChart3, Cog, Users, Zap, Target, ChevronRight, Map, Database } from "lucide-react";
 import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { Navbar, Footer } from "@/components/layout";
+import { FAQSection } from "@/components/faq-section";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -528,7 +529,13 @@ export default function DigitalTransformation() {
         </div>
       </section>
 
-      {/* Footer */}
+      <FAQSection faqs={[
+        { question: "What does digital transformation consulting include?", answer: "Our digital transformation services include legacy system modernization, cloud migration strategy, data analytics implementation, UX/UI redesign, and enterprise platform selection and integration." },
+        { question: "How long does a digital transformation initiative take?", answer: "Typical engagements range from 3-12 months depending on scope. We phase work into quick wins (30-90 days), medium-term improvements (3-6 months), and strategic initiatives (6-12+ months)." },
+        { question: "Does Aryo handle the technical implementation?", answer: "We provide strategic guidance, vendor selection, architecture design, and project oversight. For implementation, we work with your internal team or coordinate with trusted technology partners." },
+        { question: "What ROI can we expect from digital transformation?", answer: "Clients typically see 15-40% operational cost reduction, 20-50% improvement in process efficiency, and measurable revenue growth through digital channels within the first 12 months." },
+      ]} />
+
       <Footer />
     </div>
   );

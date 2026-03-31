@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
 import { PageLayout } from "@/components/layout";
+import { FAQSection } from "@/components/faq-section";
 import { PortfolioFlipbook } from "@/components/portfolio-flipbook";
 import {
   ArrowRight,
@@ -1108,6 +1109,13 @@ export default function GrowthStrategy() {
             </div>
           </div>
         </section>
+
+        <FAQSection faqs={[
+          { question: "What does a growth strategy engagement look like?", answer: "Growth strategy engagements typically include market analysis, competitive positioning, customer segmentation, pricing optimization, channel strategy, and a detailed implementation roadmap with financial projections." },
+          { question: "How does Aryo identify growth opportunities?", answer: "We use proprietary data analytics, market research, competitive benchmarking, and customer insights to identify addressable market gaps, underserved segments, and strategic adjacencies." },
+          { question: "What size companies benefit from growth strategy consulting?", answer: "We work with companies from $5M to $500M+ in revenue, with particular expertise helping mid-market companies scale past growth plateaus and prepare for exits or IPOs." },
+          { question: "How quickly can a growth strategy show results?", answer: "Quick-win initiatives typically show measurable results in 60-90 days. Comprehensive growth strategies show significant revenue impact within 6-12 months of implementation." },
+        ]} />
       </div>
     </PageLayout>
   );

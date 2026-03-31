@@ -3,7 +3,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
-import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
+import { SEO, serviceSchema, breadcrumbSchema, faqSchema } from "@/components/seo";
+import { FAQSection } from "@/components/faq-section";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, ArrowDown, ChevronLeft, ChevronRight, Target, Shield, Handshake, TrendingUp, Users, BarChart3, CheckCircle2 } from "lucide-react";
@@ -488,6 +489,13 @@ export default function MAAdvisory() {
             </div>
           </div>
         </section>
+
+        <FAQSection faqs={[
+          { question: "What types of M&A transactions does Aryo advise on?", answer: "Aryo advises on sell-side mandates, buy-side acquisitions, corporate divestitures, and strategic partnerships for middle-market companies typically valued between $10M and $500M." },
+          { question: "How long does a typical M&A engagement take?", answer: "Most M&A engagements run 4-9 months from initial preparation through closing, depending on deal complexity, regulatory requirements, and market conditions." },
+          { question: "What industries does Aryo cover for M&A?", answer: "Aryo has deep M&A expertise across Financial Services, Technology, Healthcare, Consumer & Retail, Industrial, and Professional Services sectors." },
+          { question: "How does Aryo's fee structure work for M&A advisory?", answer: "Aryo uses outcome-aligned fee structures that typically include a modest retainer plus a success fee tied to transaction completion, ensuring our incentives align with client outcomes." },
+        ]} />
       </div>
     </PageLayout>
   );

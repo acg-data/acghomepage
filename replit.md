@@ -161,7 +161,7 @@ The application is a complete, multi-page corporate consulting website with:
   - Careers: WebPage + JobPosting (per open position) + BreadcrumbList
   - Contact: ContactPage + BreadcrumbList
   - Capabilities overview: Service schemas for all 6 services + BreadcrumbList
-  - Capability sub-pages: Service + BreadcrumbList
+  - Capability sub-pages: Service + FAQPage + BreadcrumbList
   - Industries: WebPage + BreadcrumbList
   - Blog/Insights list: CollectionPage + BreadcrumbList
   - Blog detail: Article + BreadcrumbList

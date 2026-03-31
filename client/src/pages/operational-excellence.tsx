@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
 import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
+import { FAQSection } from "@/components/faq-section";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -862,6 +863,13 @@ export default function OperationalExcellence() {
             </div>
           </div>
         </section>
+
+        <FAQSection faqs={[
+          { question: "What is operational excellence consulting?", answer: "Operational excellence consulting focuses on optimizing business processes, reducing waste, improving quality, and building sustainable performance management systems that drive continuous improvement." },
+          { question: "How does Aryo measure operational improvement?", answer: "We establish baseline KPIs at engagement start and track improvements across cost reduction, cycle time, quality metrics, employee productivity, and customer satisfaction scores." },
+          { question: "What methodologies does Aryo use for operational excellence?", answer: "We blend Lean, Six Sigma, and Agile principles with modern data analytics to create customized improvement frameworks tailored to each client's industry and maturity level." },
+          { question: "Can operational excellence work alongside digital transformation?", answer: "Absolutely. We often combine operational excellence with digital transformation to ensure process improvements are sustained through technology enablement and automation." },
+        ]} />
       </div>
     </PageLayout>
   );

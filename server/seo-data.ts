@@ -95,6 +95,60 @@ function localBusiness(city: string, state: string, address: string, postalCode:
   };
 }
 
+function faqPage(faqs: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+}
+
+const MA_FAQS = [
+  { question: "What types of M&A transactions does Aryo advise on?", answer: "Aryo advises on sell-side mandates, buy-side acquisitions, corporate divestitures, and strategic partnerships for middle-market companies typically valued between $10M and $500M." },
+  { question: "How long does a typical M&A engagement take?", answer: "Most M&A engagements run 4-9 months from initial preparation through closing, depending on deal complexity, regulatory requirements, and market conditions." },
+  { question: "What industries does Aryo cover for M&A?", answer: "Aryo has deep M&A expertise across Financial Services, Technology, Healthcare, Consumer & Retail, Industrial, and Professional Services sectors." },
+  { question: "How does Aryo's fee structure work for M&A advisory?", answer: "Aryo uses outcome-aligned fee structures that typically include a modest retainer plus a success fee tied to transaction completion, ensuring our incentives align with client outcomes." },
+];
+
+const DT_FAQS = [
+  { question: "What does digital transformation consulting include?", answer: "Our digital transformation services include legacy system modernization, cloud migration strategy, data analytics implementation, UX/UI redesign, and enterprise platform selection and integration." },
+  { question: "How long does a digital transformation initiative take?", answer: "Typical engagements range from 3-12 months depending on scope. We phase work into quick wins (30-90 days), medium-term improvements (3-6 months), and strategic initiatives (6-12+ months)." },
+  { question: "Does Aryo handle the technical implementation?", answer: "We provide strategic guidance, vendor selection, architecture design, and project oversight. For implementation, we work with your internal team or coordinate with trusted technology partners." },
+  { question: "What ROI can we expect from digital transformation?", answer: "Clients typically see 15-40% operational cost reduction, 20-50% improvement in process efficiency, and measurable revenue growth through digital channels within the first 12 months." },
+];
+
+const OE_FAQS = [
+  { question: "What is operational excellence consulting?", answer: "Operational excellence consulting focuses on optimizing business processes, reducing waste, improving quality, and building sustainable performance management systems that drive continuous improvement." },
+  { question: "How does Aryo measure operational improvement?", answer: "We establish baseline KPIs at engagement start and track improvements across cost reduction, cycle time, quality metrics, employee productivity, and customer satisfaction scores." },
+  { question: "What methodologies does Aryo use for operational excellence?", answer: "We blend Lean, Six Sigma, and Agile principles with modern data analytics to create customized improvement frameworks tailored to each client's industry and maturity level." },
+  { question: "Can operational excellence work alongside digital transformation?", answer: "Absolutely. We often combine operational excellence with digital transformation to ensure process improvements are sustained through technology enablement and automation." },
+];
+
+const GS_FAQS = [
+  { question: "What does a growth strategy engagement look like?", answer: "Growth strategy engagements typically include market analysis, competitive positioning, customer segmentation, pricing optimization, channel strategy, and a detailed implementation roadmap with financial projections." },
+  { question: "How does Aryo identify growth opportunities?", answer: "We use proprietary data analytics, market research, competitive benchmarking, and customer insights to identify addressable market gaps, underserved segments, and strategic adjacencies." },
+  { question: "What size companies benefit from growth strategy consulting?", answer: "We work with companies from $5M to $500M+ in revenue, with particular expertise helping mid-market companies scale past growth plateaus and prepare for exits or IPOs." },
+  { question: "How quickly can a growth strategy show results?", answer: "Quick-win initiatives typically show measurable results in 60-90 days. Comprehensive growth strategies show significant revenue impact within 6-12 months of implementation." },
+];
+
+const GR_FAQS = [
+  { question: "What does governance and risk consulting cover?", answer: "Our governance and risk services include board effectiveness, compliance frameworks, enterprise risk management, regulatory readiness, cybersecurity governance, and ESG strategy development." },
+  { question: "Is governance consulting only for public companies?", answer: "No. Private companies, PE-backed firms, and nonprofits all benefit from strong governance. Good governance practices increase company value, reduce risk, and improve decision-making at any stage." },
+  { question: "How does Aryo approach enterprise risk management?", answer: "We build risk frameworks tailored to your industry, identifying key risk categories, establishing monitoring systems, defining risk appetite, and creating response protocols that protect enterprise value." },
+  { question: "What regulatory frameworks does Aryo help with?", answer: "We advise on SOX compliance, SEC reporting requirements, data privacy (GDPR, CCPA), industry-specific regulations (HIPAA, PCI-DSS), and emerging ESG disclosure requirements." },
+];
+
+const TO_FAQS = [
+  { question: "What is talent and organization consulting?", answer: "Talent and organization consulting helps companies build leadership capacity, design effective organizational structures, develop talent strategies, and create cultures that drive performance and retention." },
+  { question: "How does Aryo approach culture transformation?", answer: "We assess current culture through surveys and interviews, define target culture aligned with strategy, then implement change through leadership development, communication, incentive redesign, and sustained reinforcement." },
+  { question: "Does Aryo help with executive hiring and succession?", answer: "We provide executive assessment, succession planning frameworks, and leadership development programs. For executive search, we partner with specialized firms while guiding the overall talent strategy." },
+  { question: "What industries benefit most from talent consulting?", answer: "All industries benefit, but we see particularly high impact in fast-growing technology companies, PE-backed firms undergoing transformation, healthcare organizations, and professional services firms scaling their teams." },
+];
+
 const seoRoutes: Record<string, PageSEO> = {
   "/": {
     title: "Aryo Consulting Group | The Modern Consulting Firm",
@@ -190,6 +244,7 @@ const seoRoutes: Record<string, PageSEO> = {
     canonical: "https://aryocg.com/ma-advisory",
     jsonLd: [
       service("M&A Advisory", "Strategic M&A advisory for middle-market companies.", "https://aryocg.com/ma-advisory"),
+      faqPage(MA_FAQS),
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Capabilities", url: "https://aryocg.com/capabilities" }, { name: "M&A Advisory", url: "https://aryocg.com/ma-advisory" }]),
     ],
   },
@@ -199,6 +254,7 @@ const seoRoutes: Record<string, PageSEO> = {
     canonical: "https://aryocg.com/digital-transformation",
     jsonLd: [
       service("Digital Transformation", "Transform your business with strategic digital solutions.", "https://aryocg.com/digital-transformation"),
+      faqPage(DT_FAQS),
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Capabilities", url: "https://aryocg.com/capabilities" }, { name: "Digital Transformation", url: "https://aryocg.com/digital-transformation" }]),
     ],
   },
@@ -208,6 +264,7 @@ const seoRoutes: Record<string, PageSEO> = {
     canonical: "https://aryocg.com/operational-excellence",
     jsonLd: [
       service("Operational Excellence", "Transform operations with process excellence and cost optimization.", "https://aryocg.com/operational-excellence"),
+      faqPage(OE_FAQS),
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Capabilities", url: "https://aryocg.com/capabilities" }, { name: "Operational Excellence", url: "https://aryocg.com/operational-excellence" }]),
     ],
   },
@@ -217,6 +274,7 @@ const seoRoutes: Record<string, PageSEO> = {
     canonical: "https://aryocg.com/talent-organization",
     jsonLd: [
       service("Talent & Organization", "Leadership development, culture transformation, and talent strategy.", "https://aryocg.com/talent-organization"),
+      faqPage(TO_FAQS),
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Capabilities", url: "https://aryocg.com/capabilities" }, { name: "Talent & Organization", url: "https://aryocg.com/talent-organization" }]),
     ],
   },
@@ -226,6 +284,7 @@ const seoRoutes: Record<string, PageSEO> = {
     canonical: "https://aryocg.com/governance-risk",
     jsonLd: [
       service("Governance & Risk", "Modern governance frameworks and enterprise risk management.", "https://aryocg.com/governance-risk"),
+      faqPage(GR_FAQS),
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Capabilities", url: "https://aryocg.com/capabilities" }, { name: "Governance & Risk", url: "https://aryocg.com/governance-risk" }]),
     ],
   },
@@ -235,6 +294,7 @@ const seoRoutes: Record<string, PageSEO> = {
     canonical: "https://aryocg.com/growth-strategy",
     jsonLd: [
       service("Growth Strategy", "Data-driven strategies for market expansion and revenue optimization.", "https://aryocg.com/growth-strategy"),
+      faqPage(GS_FAQS),
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Capabilities", url: "https://aryocg.com/capabilities" }, { name: "Growth Strategy", url: "https://aryocg.com/growth-strategy" }]),
     ],
   },
@@ -244,6 +304,12 @@ const seoRoutes: Record<string, PageSEO> = {
     canonical: "https://aryocg.com/pitch-decks",
     jsonLd: [
       service("Pitch Deck Design Services", "Compelling pitch decks for startups and enterprises.", "https://aryocg.com/pitch-decks"),
+      faqPage([
+        { question: "How much does a pitch deck cost?", answer: "Our pitch deck projects typically range from $2,000-$15,000 depending on complexity, custom research requirements, and design specifications. We offer packages for startups and enterprises." },
+        { question: "How long does it take to create a pitch deck?", answer: "Standard pitch decks are delivered in 5-10 business days. Rush delivery is available for time-sensitive fundraising rounds or board presentations." },
+        { question: "What makes a great pitch deck?", answer: "A great pitch deck combines a compelling narrative, clear market opportunity sizing, strong financial projections, professional design, and a confident ask. We help with all of these elements." },
+        { question: "Do you help with investor presentations beyond the deck?", answer: "Yes. We provide presentation coaching, Q&A preparation, financial model review, and can join pitch meetings as strategic advisors when needed." },
+      ]),
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Pitch Deck Design", url: "https://aryocg.com/pitch-decks" }]),
     ],
   },

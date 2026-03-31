@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { PageLayout } from "@/components/layout";
 import { SEO, serviceSchema, breadcrumbSchema } from "@/components/seo";
+import { FAQSection } from "@/components/faq-section";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "wouter";
@@ -956,6 +957,13 @@ export default function GovernanceRisk() {
             </div>
           </div>
         </section>
+
+        <FAQSection faqs={[
+          { question: "What does governance and risk consulting cover?", answer: "Our governance and risk services include board effectiveness, compliance frameworks, enterprise risk management, regulatory readiness, cybersecurity governance, and ESG strategy development." },
+          { question: "Is governance consulting only for public companies?", answer: "No. Private companies, PE-backed firms, and nonprofits all benefit from strong governance. Good governance practices increase company value, reduce risk, and improve decision-making at any stage." },
+          { question: "How does Aryo approach enterprise risk management?", answer: "We build risk frameworks tailored to your industry, identifying key risk categories, establishing monitoring systems, defining risk appetite, and creating response protocols that protect enterprise value." },
+          { question: "What regulatory frameworks does Aryo help with?", answer: "We advise on SOX compliance, SEC reporting requirements, data privacy (GDPR, CCPA), industry-specific regulations (HIPAA, PCI-DSS), and emerging ESG disclosure requirements." },
+        ]} />
       </div>
     </PageLayout>
   );
