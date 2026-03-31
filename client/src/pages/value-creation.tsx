@@ -137,7 +137,7 @@ export default function ValueCreationPage() {
           <div className="bg-aryo-offWhite rounded-md border border-aryo-lightGrey p-6 md:p-8 mb-8">
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 mb-8">
               <div>
-                <h3 className="text-2xl font-serif text-aryo-deepBlue">Configure Your Scenario</h3>
+                <h2 className="text-2xl font-serif text-aryo-deepBlue">Configure Your Scenario</h2>
                 <p className="text-sm text-slate-500 mt-1">Adjust parameters to see customized benchmarks</p>
               </div>
               

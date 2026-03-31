@@ -989,7 +989,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Capabilities</h4>
+            <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Capabilities</h3>
             <ul className="space-y-3">
               <li><Link href="/capabilities" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">All Services</Link></li>
               <li><Link href="/industries" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Industries</Link></li>
@@ -998,7 +998,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Company</h4>
+            <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Company</h3>
             <ul className="space-y-3">
               <li><Link href="/about" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">About Us</Link></li>
               <li><Link href="/insights" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Insights</Link></li>

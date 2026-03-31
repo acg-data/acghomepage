@@ -173,7 +173,7 @@ export default function Careers() {
         </div>
 
         <div className="bg-white border border-aryo-lightGrey p-12 text-center">
-          <h3 className="text-2xl font-serif text-aryo-deepBlue mb-4">Don't see a perfect fit?</h3>
+          <h2 className="text-2xl font-serif text-aryo-deepBlue mb-4">Don't see a perfect fit?</h2>
           <p className="text-slate-600 mb-8 max-w-xl mx-auto">
             We're always looking for exceptional people. Send us your resume and tell us how you'd contribute to our mission.
           </p>

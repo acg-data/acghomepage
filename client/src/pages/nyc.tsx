@@ -470,7 +470,7 @@ function ValueDrivers() {
                     <d.icon size={24} strokeWidth={1} />
                   </div>
                   <div>
-                    <h4 className="font-serif font-bold text-aryo-deepBlue text-lg mb-2">{d.title}</h4>
+                    <h3 className="font-serif font-bold text-aryo-deepBlue text-lg mb-2">{d.title}</h3>
                     <p className="text-sm text-slate-500 leading-relaxed font-sans">{d.desc}</p>
                   </div>
                 </div>
@@ -837,7 +837,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Capabilities</h4>
+            <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Capabilities</h3>
             <ul className="space-y-3">
               <li><Link href="/capabilities" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">All Services</Link></li>
               <li><Link href="/industries" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Industries</Link></li>
@@ -848,7 +848,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Company</h4>
+            <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Company</h3>
             <ul className="space-y-3">
               <li><Link href="/about" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">About Us</Link></li>
               <li><Link href="/insights" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Insights</Link></li>
@@ -858,7 +858,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Connect</h4>
+            <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Connect</h3>
             <div className="flex gap-4 mb-6">
               <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
                 <Linkedin size={18} />

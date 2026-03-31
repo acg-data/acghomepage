@@ -257,7 +257,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
     return (
       <div className="min-h-screen bg-aryo-offWhite flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-serif text-aryo-deepBlue mb-4">Article Not Found</h1>
+          <h2 className="text-2xl font-serif text-aryo-deepBlue mb-4">Article Not Found</h2>
           <Link href="/insights" className="text-aryo-teal hover:text-aryo-deepBlue transition-colors">
             Back to Insights
           </Link>
@@ -357,7 +357,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
         </article>
 
         <div className="bg-aryo-deepBlue p-8 text-center">
-          <h3 className="text-xl font-serif text-white mb-4">Explore how these insights can apply to your organization</h3>
+          <h2 className="text-xl font-serif text-white mb-4">Explore how these insights can apply to your organization</h2>
           <Link href="/#contact" className="inline-flex items-center gap-2 bg-white text-aryo-deepBlue px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-aryo-offWhite transition-colors" data-testid="button-contact-cta">
             Request a Consultation <ArrowRight size={14} />
           </Link>
@@ -439,7 +439,7 @@ export default function Blog() {
         </div>
 
         <div className="mt-16 bg-aryo-deepBlue p-12 text-center">
-          <h3 className="text-2xl font-serif text-white mb-4">Subscribe to Aryo Insights</h3>
+          <h2 className="text-2xl font-serif text-white mb-4">Subscribe to Aryo Insights</h2>
           <p className="text-aryo-lightBlue/70 mb-8 max-w-xl mx-auto">
             Receive quarterly thought leadership and market analysis directly to your inbox.
           </p>

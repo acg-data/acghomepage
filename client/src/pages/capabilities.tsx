@@ -444,7 +444,7 @@ export default function Capabilities() {
         </div>
 
         <div className="bg-white border border-aryo-lightGrey p-12 text-center">
-          <h3 className="text-2xl font-serif text-aryo-deepBlue mb-4">Let's discuss your challenges</h3>
+          <h2 className="text-2xl font-serif text-aryo-deepBlue mb-4">Let's discuss your challenges</h2>
           <p className="text-slate-600 mb-8 max-w-xl mx-auto">
             Every engagement begins with understanding your unique situation. Schedule a confidential conversation with one of our partners.
           </p>

@@ -182,7 +182,7 @@ export default function About() {
         </div>
 
         <div className="bg-aryo-deepBlue p-12 text-center">
-          <h3 className="text-2xl font-serif text-white mb-4">Ready to work with a different kind of consulting firm?</h3>
+          <h2 className="text-2xl font-serif text-white mb-4">Ready to work with a different kind of consulting firm?</h2>
           <p className="text-aryo-lightBlue/70 mb-8 max-w-xl mx-auto">
             Let's discuss how our outcome-based approach can create real value for your organization.
           </p>

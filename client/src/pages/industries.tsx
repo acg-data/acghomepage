@@ -162,7 +162,7 @@ export default function Industries() {
                     <div className="w-12 h-12 bg-aryo-deepBlue flex items-center justify-center">
                       <industry.icon className="text-white" size={24} />
                     </div>
-                    <h3 className="text-2xl font-serif font-bold text-aryo-deepBlue">{industry.title}</h3>
+                    <h2 className="text-2xl font-serif font-bold text-aryo-deepBlue">{industry.title}</h2>
                   </div>
                   <p className="text-slate-600 mb-4">{industry.description}</p>
                   <div className="bg-aryo-offWhite p-4">
@@ -172,7 +172,7 @@ export default function Industries() {
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-4">Client Types</h4>
+                  <h3 className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-4">Client Types</h3>
                   <ul className="space-y-2">
                     {industry.clients.map((client, j) => (
                       <li key={j} className="flex items-center gap-2 text-slate-600">
@@ -184,7 +184,7 @@ export default function Industries() {
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-4">Our Expertise</h4>
+                  <h3 className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-4">Our Expertise</h3>
                   <ul className="space-y-2">
                     {industry.expertise.map((exp, j) => (
                       <li key={j} className="flex items-center gap-2 text-slate-600">
@@ -200,7 +200,7 @@ export default function Industries() {
         </div>
 
         <div className="bg-aryo-deepBlue p-12 text-center">
-          <h3 className="text-2xl font-serif text-white mb-4">Don't see your industry?</h3>
+          <h2 className="text-2xl font-serif text-white mb-4">Don't see your industry?</h2>
           <p className="text-aryo-lightBlue/70 mb-8 max-w-xl mx-auto">
             Our methodology translates across sectors. We've worked with organizations in 40+ industries. Let's discuss your specific situation.
           </p>
