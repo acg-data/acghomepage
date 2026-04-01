@@ -180,12 +180,10 @@ function Navbar() {
 }
 
 function Hero() {
-  const { data: logos = [] } = useQuery<string[]>({
-    queryKey: ['/api/logos'],
+  const { data: logos = [] } = useQuery<{ name: string; dataUri: string }[]>({
+    queryKey: ['/api/logos-bundle'],
+    staleTime: 3600000,
   });
-  
-  // Cache buster to force fresh image loads
-  const cacheBuster = Date.now();
 
   return (
     <div className="relative pt-40 pb-24 bg-aryo-offWhite border-b border-aryo-lightGrey overflow-hidden">
@@ -269,26 +267,28 @@ function Hero() {
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-aryo-offWhite to-transparent z-10"></div>
             
             <div className="flex animate-marquee">
-              {/* First set of logos */}
               <div className="flex shrink-0 items-center">
                 {logos.map((logo, i) => (
                   <div key={i} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center mx-8">
                     <img 
-                      src={`/api/logos/${encodeURIComponent(logo)}?v=${cacheBuster}`} 
-                      alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      src={logo.dataUri} 
+                      alt={logo.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      width={140}
+                      height={48}
                       className="h-full w-auto max-w-[140px] object-contain"
                       data-testid={`logo-${i}`}
                     />
                   </div>
                 ))}
               </div>
-              {/* Duplicate set for seamless loop */}
               <div className="flex shrink-0 items-center">
                 {logos.map((logo, i) => (
                   <div key={`dup-${i}`} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center mx-8">
                     <img 
-                      src={`/api/logos/${encodeURIComponent(logo)}?v=${cacheBuster}`} 
-                      alt={logo.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      src={logo.dataUri} 
+                      alt={logo.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
+                      width={140}
+                      height={48}
                       className="h-full w-auto max-w-[140px] object-contain"
                     />
                   </div>

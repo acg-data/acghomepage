@@ -513,19 +513,70 @@ export async function registerRoutes(
 
   const objectStorageClient = new ObjectStorageClient();
 
+  let cachedLogosBundle: { name: string; dataUri: string }[] | null = null;
+  let logosCacheTime = 0;
+  const LOGOS_CACHE_TTL = 3600000;
+
+  app.get("/api/logos-bundle", async (_req: Request, res: Response) => {
+    try {
+      if (cachedLogosBundle && Date.now() - logosCacheTime < LOGOS_CACHE_TTL) {
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        return res.json(cachedLogosBundle);
+      }
+
+      const result = await objectStorageClient.list();
+      if (!result.ok || !result.value) {
+        return res.json([]);
+      }
+
+      const imageExtensions = ['.svg', '.png', '.jpg', '.jpeg', '.webp'];
+      const logoNames = result.value
+        .map((obj: { name: string }) => obj.name)
+        .filter((name: string) => {
+          const lowerName = name.toLowerCase();
+          const isImage = imageExtensions.some(ext => lowerName.endsWith(ext));
+          const isAryoLogo = lowerName.includes("aryo");
+          return isImage && !isAryoLogo;
+        });
+
+      const logos = await Promise.all(
+        logoNames.map(async (name: string) => {
+          try {
+            const fileResult = await objectStorageClient.downloadAsBytes(name);
+            if (!fileResult.ok || !fileResult.value || !fileResult.value[0]) return null;
+            const ext = name.split('.').pop()?.toLowerCase();
+            let mime = 'image/png';
+            if (ext === 'svg') mime = 'image/svg+xml';
+            else if (ext === 'jpg' || ext === 'jpeg') mime = 'image/jpeg';
+            else if (ext === 'webp') mime = 'image/webp';
+            const b64 = Buffer.from(fileResult.value[0]).toString('base64');
+            return { name, dataUri: `data:${mime};base64,${b64}` };
+          } catch {
+            return null;
+          }
+        })
+      );
+
+      cachedLogosBundle = logos.filter(Boolean) as { name: string; dataUri: string }[];
+      logosCacheTime = Date.now();
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      res.json(cachedLogosBundle);
+    } catch (error) {
+      console.error("Error bundling logos:", error);
+      res.status(500).json({ message: "Failed to bundle logos" });
+    }
+  });
+
   app.get("/api/logos", async (_req: Request, res: Response) => {
     try {
       const result = await objectStorageClient.list();
       if (result.ok && result.value) {
-        // Only include image files (svg, png, jpg, jpeg) and exclude Aryo logo
         const imageExtensions = ['.svg', '.png', '.jpg', '.jpeg', '.webp'];
         const logos = result.value
           .map((obj: { name: string }) => obj.name)
           .filter((name: string) => {
             const lowerName = name.toLowerCase();
-            // Must be an image file
             const isImage = imageExtensions.some(ext => lowerName.endsWith(ext));
-            // Exclude Aryo logos
             const isAryoLogo = lowerName.includes("aryo");
             return isImage && !isAryoLogo;
           });
