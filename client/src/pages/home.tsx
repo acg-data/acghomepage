@@ -165,9 +165,9 @@ function Hero({ wpHero }: { wpHero?: WPHeroContent | null }) {
           <h1 className="text-4xl md:text-6xl font-serif text-aryo-deepBlue tracking-tight mb-8 leading-[1.15] max-w-4xl">
             {hero.headline.includes('delivers results') ? (
               <>
-                The Modern Consulting Firm that actually{' '}
+                Highly Effective Consulting That{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">
-                  delivers results.
+                  Works.
                 </span>
               </>
             ) : hero.headline}
@@ -473,7 +473,7 @@ function Process({ wpSteps }: { wpSteps?: WPProcessStep[] }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
             <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">The Engagement Model</span>
-            <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Predictable Transformation</h2>
+            <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Every Phase, Predictable Results</h2>
           </div>
           <p className="text-slate-600 max-w-xl text-lg font-light md:text-right">
             We operate on a fixed-timeline engagement model. No open-ended retainers. Just clear milestones and delivered outcomes.
@@ -610,7 +610,7 @@ function Testimonials() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Client Perspectives</span>
-          <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Trusted by Leaders</h2>
+          <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Trusted by Leaders Who Work With Justin</h2>
         </div>
 
         <div className="relative">
@@ -917,8 +917,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <SEO 
-        title="Aryo Consulting Group | Strategy & Governance Consulting"
-        description="We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value."
+        title="Aryo Consulting Group | Highly Effective Consulting That Works"
+        description="Aryo Consulting Group is a highly effective consulting firm. We work with Justin Abrams and a world-class team through every phase of growth to deliver results that transform businesses."
         canonical="https://aryocg.com/"
         jsonLd={[
           organizationSchema(),
