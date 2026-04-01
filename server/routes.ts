@@ -14,6 +14,7 @@ import { pool } from "./db";
 import { Client as ObjectStorageClient } from "@replit/object-storage";
 import { getResendClient } from "./integrations/resend";
 import OpenAI from "openai";
+import sharp from "sharp";
 import { chromium } from "playwright";
 import { prerenderMiddleware, isBot, getCacheStats } from "./prerender";
 
@@ -545,12 +546,16 @@ export async function registerRoutes(
             const fileResult = await objectStorageClient.downloadAsBytes(name);
             if (!fileResult.ok || !fileResult.value || !fileResult.value[0]) return null;
             const ext = name.split('.').pop()?.toLowerCase();
-            let mime = 'image/png';
-            if (ext === 'svg') mime = 'image/svg+xml';
-            else if (ext === 'jpg' || ext === 'jpeg') mime = 'image/jpeg';
-            else if (ext === 'webp') mime = 'image/webp';
-            const b64 = Buffer.from(fileResult.value[0]).toString('base64');
-            return { name, dataUri: `data:${mime};base64,${b64}` };
+            const rawBuffer = Buffer.from(fileResult.value[0]);
+
+            if (ext === 'svg') {
+              const b64 = rawBuffer.toString('base64');
+              return { name, dataUri: `data:image/svg+xml;base64,${b64}` };
+            }
+
+            const webpBuffer = await sharp(rawBuffer).webp({ quality: 80 }).toBuffer();
+            const b64 = webpBuffer.toString('base64');
+            return { name, dataUri: `data:image/webp;base64,${b64}` };
           } catch {
             return null;
           }
