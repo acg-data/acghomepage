@@ -464,7 +464,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
 
           <TableOfContents headings={headings} />
 
-          <div className="prose prose-lg max-w-none text-slate-600" data-testid="blog-content">
+          <div className="prose prose-lg max-w-none text-slate-600 prose-headings:font-serif prose-headings:text-aryo-deepBlue prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3" data-testid="blog-content">
             {/<[a-z][\s\S]*>/i.test(post.content) ? (
               <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
             ) : (
