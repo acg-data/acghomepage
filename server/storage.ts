@@ -34,8 +34,12 @@ export interface IStorage {
   createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy>;
   
   getBlogPosts(): Promise<BlogPost[]>;
+  getAllBlogPosts(): Promise<BlogPost[]>;
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
+  getBlogPostBySlugAdmin(slug: string): Promise<BlogPost | undefined>;
   createBlogPost(blogPost: InsertBlogPost): Promise<BlogPost>;
+  updateBlogPost(id: string, blogPost: Partial<InsertBlogPost>): Promise<BlogPost | undefined>;
+  deleteBlogPost(id: string): Promise<boolean>;
   
   createReportDownload(download: InsertReportDownload): Promise<ReportDownload>;
   getReportDownloads(): Promise<ReportDownload[]>;
@@ -105,13 +109,35 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    const [post] = await db.select().from(blogPosts).where(and(eq(blogPosts.slug, slug), eq(blogPosts.published, true)));
+    return post || undefined;
+  }
+
+  async getBlogPostBySlugAdmin(slug: string): Promise<BlogPost | undefined> {
     const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
     return post || undefined;
+  }
+
+  async getAllBlogPosts(): Promise<BlogPost[]> {
+    return db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
   }
 
   async createBlogPost(blogPost: InsertBlogPost): Promise<BlogPost> {
     const [post] = await db.insert(blogPosts).values(blogPost).returning();
     return post;
+  }
+
+  async updateBlogPost(id: string, blogPost: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
+    const [updated] = await db.update(blogPosts)
+      .set(blogPost)
+      .where(eq(blogPosts.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteBlogPost(id: string): Promise<boolean> {
+    const result = await db.delete(blogPosts).where(eq(blogPosts.id, id)).returning();
+    return result.length > 0;
   }
 
   async createReportDownload(download: InsertReportDownload): Promise<ReportDownload> {

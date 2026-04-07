@@ -391,9 +391,40 @@ function escapeHtml(str: string): string {
   return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-export function injectSEO(html: string, path: string): string {
+export function buildBlogPostSEO(post: { title: string; excerpt: string; slug: string; author: string; publishedAt: Date | string | null }): PageSEO {
+  const url = `https://aryocg.com/insights/${post.slug}`;
+  const dateStr = post.publishedAt ? new Date(post.publishedAt).toISOString() : new Date().toISOString();
+  return {
+    title: `${post.title} | Aryo Consulting Group Insights`,
+    description: post.excerpt,
+    canonical: url,
+    ogType: "article",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: post.title,
+        description: post.excerpt,
+        url,
+        datePublished: dateStr,
+        dateModified: dateStr,
+        author: { "@type": "Person", name: post.author },
+        publisher: { "@type": "Organization", name: "Aryo Consulting Group", url: "https://aryocg.com", logo: { "@type": "ImageObject", url: "https://aryocg.com/og-image.png" } },
+        image: "https://aryocg.com/og-image.png",
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      },
+      breadcrumb([
+        { name: "Home", url: "https://aryocg.com" },
+        { name: "Insights", url: "https://aryocg.com/insights" },
+        { name: post.title, url },
+      ]),
+    ],
+  };
+}
+
+export function injectSEO(html: string, path: string, dynamicSEO?: PageSEO): string {
   const normalizedPath = path.split("?")[0].replace(/\/$/, "") || "/";
-  const seo = seoRoutes[normalizedPath];
+  const seo = dynamicSEO || seoRoutes[normalizedPath];
   if (!seo) return html;
 
   const tags: string[] = [];

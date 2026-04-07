@@ -5,7 +5,8 @@ import viteConfig from "../vite.config";
 import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
-import { injectSEO } from "./seo-data";
+import { injectSEO, buildBlogPostSEO } from "./seo-data";
+import { storage } from "./storage";
 
 const viteLogger = createLogger();
 
@@ -48,7 +49,17 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
-      template = injectSEO(template, url);
+      const blogMatch = url.match(/^\/insights\/([^/?#]+)/);
+      if (blogMatch) {
+        const post = await storage.getBlogPostBySlug(blogMatch[1]);
+        if (post) {
+          template = injectSEO(template, url, buildBlogPostSEO(post));
+        } else {
+          template = injectSEO(template, url);
+        }
+      } else {
+        template = injectSEO(template, url);
+      }
       const page = await vite.transformIndexHtml(url, template);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {

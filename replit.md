@@ -112,6 +112,10 @@ The application is a complete, multi-page corporate consulting website with:
 - `GET /api/admin/contacts` - List all contact submissions (partner-only)
 - `PATCH /api/admin/contacts/:id/status` - Update contact status (partner-only)
 - `DELETE /api/admin/contacts/:id` - Delete contact submission (partner-only)
+- `GET /api/admin/blog` - List all blog posts including drafts (partner-only)
+- `POST /api/admin/blog` - Create new blog post (partner-only)
+- `PUT /api/admin/blog/:id` - Update blog post (partner-only)
+- `DELETE /api/admin/blog/:id` - Delete blog post (partner-only)
 - `POST /api/reports/q4-hiring-abroad/signup` - Submit email for Q4 report (sends PDF via email)
 - `GET /api/reports/q4-hiring-abroad/download` - Download Q4 Hiring Abroad Report PDF
 
@@ -181,9 +185,21 @@ The application is a complete, multi-page corporate consulting website with:
   - Duplicate signup prevention to avoid spamming users
   - PDF cached at startup for performance
 
+### Blog CMS & Admin Management
+- Admin panel (`/admin`) now has tabbed interface: Contacts + Blog Posts
+- Blog CRUD API routes: `GET/POST/PUT/DELETE /api/admin/blog` (partner-protected)
+- Blog post editor with title, slug (auto-generated), excerpt, content (markdown/HTML), author, category, publish toggle
+- Public blog page (`/insights`) fetches from DB API first, falls back to WordPress then hardcoded data
+- Category filter tabs on blog listing page
+- Pagination (6 posts per page)
+- Read time calculation on cards and detail pages
+- Draft posts are NOT publicly accessible (published-only filter on public endpoints)
+- Storage methods: `getAllBlogPosts()`, `getBlogPostBySlug()` (published only), `getBlogPostBySlugAdmin()`, `updateBlogPost()`, `deleteBlogPost()`
+
 ### Server-Side SEO Injection
-- `server/seo-data.ts` exports `injectSEO(html, path)` which replaces default meta tags with route-specific title, description, canonical URL, OG tags, Twitter Card tags, and JSON-LD structured data
-- Wired into both dev (`server/vite.ts`) and prod (`server/static.ts`) HTML serving
+- `server/seo-data.ts` exports `injectSEO(html, path, dynamicSEO?)` which replaces default meta tags with route-specific title, description, canonical URL, OG tags, Twitter Card tags, and JSON-LD structured data
+- Dynamic blog post SEO: `buildBlogPostSEO()` generates Article schema + breadcrumbs for `/insights/:slug` routes
+- Wired into both dev (`server/vite.ts`) and prod (`server/static.ts`) HTML serving with dynamic blog post lookup
 - Covers 24+ routes with unique SEO data per page
 - JSON-LD injection is XSS-hardened (escapes `<` / `>` characters)
 - Crawlers that don't execute JavaScript still see all metadata and structured data

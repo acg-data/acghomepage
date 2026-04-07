@@ -1,17 +1,22 @@
 import { Link, useParams } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
 import type { BlogPost } from '@shared/schema';
 import DOMPurify from 'dompurify';
+import { useState } from 'react';
 import { 
   ArrowRight, 
   ArrowLeft, 
   Calendar,
-  User,
   Clock,
-  ChevronRight
+  ChevronRight,
+  ChevronLeft,
+  Tag
 } from 'lucide-react';
 import { PageLayout } from '@/components/layout';
 import { SEO, articleSchema, breadcrumbSchema, collectionPageSchema } from '@/components/seo';
 import { useWPBlogPosts, useWPBlogPost, type WPBlogPost } from '@/lib/wordpress';
+
+const POSTS_PER_PAGE = 6;
 
 const fallbackBlogPosts: BlogPost[] = [
   {
@@ -186,10 +191,15 @@ Our analysis suggests that most organizations have 15-25% operational improvemen
   },
 ];
 
+function getReadTime(content: string): number {
+  return Math.ceil(content.split(' ').length / 200);
+}
+
 function BlogPostCard({ post }: { post: BlogPost }) {
   const formattedDate = post.publishedAt 
     ? new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
     : '';
+  const readTime = getReadTime(post.content);
 
   return (
     <Link href={`/insights/${post.slug}`}>
@@ -199,6 +209,10 @@ function BlogPostCard({ post }: { post: BlogPost }) {
           <span className="flex items-center gap-1">
             <Calendar size={14} />
             {formattedDate}
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock size={14} />
+            {readTime} min
           </span>
         </div>
         <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-3 group-hover:text-aryo-teal transition-colors">{post.title}</h3>
@@ -221,10 +235,20 @@ function BlogPostCard({ post }: { post: BlogPost }) {
 }
 
 function BlogPostDetail({ slug }: { slug: string }) {
-  const { data: wpPost, isLoading: wpLoading, isError } = useWPBlogPost(slug);
+  const { data: dbPost, isLoading: dbLoading } = useQuery<BlogPost>({
+    queryKey: ['/api/blog', slug],
+    queryFn: async () => {
+      const res = await fetch(`/api/blog/${slug}`);
+      if (!res.ok) throw new Error('Not found');
+      return res.json();
+    },
+    retry: false,
+  });
+
+  const { data: wpPost, isLoading: wpLoading } = useWPBlogPost(slug);
   const fallback = fallbackBlogPosts.find(p => p.slug === slug);
   
-  const post = (wpPost && wpPost.title) ? {
+  const wpMapped = (wpPost && wpPost.title) ? {
     id: wpPost.id,
     title: wpPost.title,
     excerpt: wpPost.excerpt,
@@ -237,9 +261,12 @@ function BlogPostDetail({ slug }: { slug: string }) {
     published: wpPost.published,
     publishedAt: wpPost.publishedAt ? new Date(wpPost.publishedAt) : null,
     createdAt: wpPost.publishedAt ? new Date(wpPost.publishedAt) : new Date(),
-  } as BlogPost : fallback;
+  } as BlogPost : null;
 
-  if (wpLoading && !fallback) {
+  const post = dbPost || wpMapped || fallback;
+  const isLoading = dbLoading && wpLoading && !fallback;
+
+  if (isLoading) {
     return (
       <PageLayout>
         <div className="max-w-4xl mx-auto px-6 py-12">
@@ -270,7 +297,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
     ? new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : '';
 
-  const readTime = Math.ceil(post.content.split(' ').length / 200);
+  const readTime = getReadTime(post.content);
 
   return (
     <PageLayout>
@@ -311,7 +338,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
           <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest">{post.category}</span>
           <h1 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-6">{post.title}</h1>
           
-          <div className="flex items-center gap-6 mb-8 pb-8 border-b border-aryo-lightGrey">
+          <div className="flex items-center gap-6 mb-8 pb-8 border-b border-aryo-lightGrey flex-wrap">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold">
                 {post.author.split(' ').map(n => n[0]).join('')}
@@ -344,7 +371,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
                 if (paragraph.startsWith('### ')) {
                   return <h3 key={i} className="text-xl font-serif text-aryo-deepBlue mt-6 mb-3">{paragraph.replace('### ', '')}</h3>;
                 }
-                if (paragraph.trim().startsWith('1.') || paragraph.trim().startsWith('2.') || paragraph.trim().startsWith('3.') || paragraph.trim().startsWith('4.') || paragraph.trim().startsWith('5.')) {
+                if (paragraph.trim().match(/^\d+\./)) {
                   return <p key={i} className="mb-2 pl-4">{paragraph}</p>;
                 }
                 if (paragraph.trim()) {
@@ -370,13 +397,20 @@ function BlogPostDetail({ slug }: { slug: string }) {
 export default function Blog() {
   const params = useParams();
   const slug = params.slug as string | undefined;
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data: dbPosts, isLoading: dbLoading } = useQuery<BlogPost[]>({
+    queryKey: ['/api/blog'],
+  });
+
   const { data: wpPosts, isLoading: wpPostsLoading } = useWPBlogPosts();
 
   if (slug) {
     return <BlogPostDetail slug={slug} />;
   }
 
-  const posts: BlogPost[] = (wpPosts && wpPosts.length > 0)
+  const wpMapped: BlogPost[] = (wpPosts && wpPosts.length > 0)
     ? wpPosts.map(wp => ({
         id: wp.id,
         title: wp.title,
@@ -391,7 +425,30 @@ export default function Blog() {
         createdAt: wp.publishedAt ? new Date(wp.publishedAt) : new Date(),
         publishedAt: wp.publishedAt ? new Date(wp.publishedAt) : null,
       }))
-    : fallbackBlogPosts;
+    : [];
+
+  const allPosts: BlogPost[] = (dbPosts && dbPosts.length > 0)
+    ? dbPosts
+    : (wpMapped.length > 0 ? wpMapped : fallbackBlogPosts);
+
+  const categories = ['All', ...Array.from(new Set(allPosts.map(p => p.category)))];
+
+  const filteredPosts = activeCategory === 'All'
+    ? allPosts
+    : allPosts.filter(p => p.category === activeCategory);
+
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
+
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    setCurrentPage(1);
+  };
+
+  const isLoading = dbLoading && wpPostsLoading;
 
   return (
     <>
@@ -404,7 +461,7 @@ export default function Blog() {
             name: "Insights & Blog",
             description: "Strategic insights and thought leadership on M&A, digital transformation, and corporate strategy.",
             url: "https://aryocg.com/insights",
-            items: posts.map(p => ({ name: p.title, url: `https://aryocg.com/insights/${p.slug}` })),
+            items: allPosts.map(p => ({ name: p.title, url: `https://aryocg.com/insights/${p.slug}` })),
           }),
           breadcrumbSchema([
             { name: "Home", url: "https://aryocg.com" },
@@ -428,8 +485,30 @@ export default function Blog() {
           </p>
         </div>
 
+        {categories.length > 2 && (
+          <div className="flex flex-wrap gap-2 mb-8">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => handleCategoryChange(cat)}
+                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border transition-colors ${
+                  activeCategory === cat
+                    ? 'bg-aryo-deepBlue text-white border-aryo-deepBlue'
+                    : 'bg-white text-slate-600 border-aryo-lightGrey hover:border-aryo-deepBlue hover:text-aryo-deepBlue'
+                }`}
+                data-testid={`filter-category-${cat.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+              >
+                <span className="flex items-center gap-1.5">
+                  <Tag size={12} />
+                  {cat}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="grid md:grid-cols-2 gap-8">
-          {wpPostsLoading ? (
+          {isLoading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="bg-white border border-aryo-lightGrey p-8 animate-pulse">
                 <div className="h-4 w-20 bg-slate-200 rounded mb-4" />
@@ -439,12 +518,51 @@ export default function Blog() {
                 <div className="h-4 w-32 bg-slate-200 rounded" />
               </div>
             ))
+          ) : paginatedPosts.length === 0 ? (
+            <div className="col-span-2 text-center py-12 text-slate-500">
+              No posts found in this category.
+            </div>
           ) : (
-            posts.map((post) => (
+            paginatedPosts.map((post) => (
               <BlogPostCard key={post.id} post={post} />
             ))
           )}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-12">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="flex items-center gap-1 px-4 py-2 text-sm border border-aryo-lightGrey bg-white text-aryo-deepBlue hover:border-aryo-deepBlue disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              data-testid="button-prev-page"
+            >
+              <ChevronLeft size={14} /> Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`px-4 py-2 text-sm border transition-colors ${
+                  currentPage === page
+                    ? 'bg-aryo-deepBlue text-white border-aryo-deepBlue'
+                    : 'bg-white text-aryo-deepBlue border-aryo-lightGrey hover:border-aryo-deepBlue'
+                }`}
+                data-testid={`button-page-${page}`}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="flex items-center gap-1 px-4 py-2 text-sm border border-aryo-lightGrey bg-white text-aryo-deepBlue hover:border-aryo-deepBlue disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              data-testid="button-next-page"
+            >
+              Next <ChevronRight size={14} />
+            </button>
+          </div>
+        )}
 
         <div className="mt-16 bg-aryo-deepBlue p-12 text-center">
           <h2 className="text-2xl font-serif text-white mb-4">Subscribe to Aryo Insights</h2>
