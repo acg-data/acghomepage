@@ -82,7 +82,7 @@ export async function registerRoutes(
     next();
   });
 
-  app.get("/sitemap.xml", (_req: Request, res: Response) => {
+  app.get("/sitemap.xml", async (_req: Request, res: Response) => {
     const baseUrl = "https://aryocg.com";
     const now = new Date().toISOString().split("T")[0];
     const pages = [
@@ -111,14 +111,39 @@ export async function registerRoutes(
       { loc: "/reports/q4-hiring-abroad", priority: "0.5", changefreq: "yearly" },
     ];
 
-    const urls = pages
+    const staticUrls = pages
       .map(
         (p) =>
           `  <url>\n    <loc>${baseUrl}${p.loc}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`
       )
       .join("\n");
 
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;
+    let dynamicUrls = "";
+    try {
+      const publishedPosts = await storage.getBlogPosts();
+      const postUrls = publishedPosts.map((post) => {
+        const lastmod = post.publishedAt
+          ? new Date(post.publishedAt).toISOString().split("T")[0]
+          : post.createdAt
+            ? new Date(post.createdAt).toISOString().split("T")[0]
+            : now;
+        const escapedSlug = post.slug.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        return `  <url>\n    <loc>${baseUrl}/insights/${escapedSlug}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`;
+      });
+
+      const caseStudies = await storage.getCaseStudies();
+      const csUrls = caseStudies.map((cs) => {
+        const escapedSlug = cs.slug.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        return `  <url>\n    <loc>${baseUrl}/case-studies/${escapedSlug}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`;
+      });
+
+      dynamicUrls = [...postUrls, ...csUrls].join("\n");
+    } catch (error) {
+      console.error("Error fetching dynamic sitemap entries:", error);
+    }
+
+    const allUrls = dynamicUrls ? `${staticUrls}\n${dynamicUrls}` : staticUrls;
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${allUrls}\n</urlset>`;
     res.set("Content-Type", "application/xml");
     res.send(xml);
   });
