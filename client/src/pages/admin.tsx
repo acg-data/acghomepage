@@ -58,6 +58,7 @@ function BlogEditor({ post, onClose }: { post?: BlogPost; onClose: () => void })
   const [author, setAuthor] = useState(post?.author || '');
   const [authorTitle, setAuthorTitle] = useState(post?.authorTitle || '');
   const [category, setCategory] = useState(post?.category || 'Insights');
+  const [imageUrl, setImageUrl] = useState(post?.imageUrl || '');
   const [published, setPublished] = useState(post?.published ?? false);
   const [autoSlug, setAutoSlug] = useState(!post);
 
@@ -111,6 +112,7 @@ function BlogEditor({ post, onClose }: { post?: BlogPost; onClose: () => void })
       author,
       authorTitle: authorTitle || null,
       category,
+      imageUrl: imageUrl || null,
       published,
       publishedAt: published ? (post?.publishedAt || new Date().toISOString()) : null,
     };
@@ -223,6 +225,18 @@ function BlogEditor({ post, onClose }: { post?: BlogPost; onClose: () => void })
               data-testid="input-blog-category"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-bold text-aryo-deepBlue mb-1">Featured Image URL</label>
+          <input
+            type="text"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            className="w-full border border-aryo-lightGrey px-4 py-2 text-sm focus:outline-none focus:border-aryo-teal"
+            placeholder="https://example.com/image.jpg (optional)"
+            data-testid="input-blog-image-url"
+          />
         </div>
 
         <div>

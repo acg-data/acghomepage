@@ -407,12 +407,17 @@ export async function registerRoutes(
 
   app.put("/api/admin/blog/:id", requirePartner, async (req: Request, res: Response) => {
     try {
-      const updated = await storage.updateBlogPost(req.params.id, req.body);
+      const partialSchema = insertBlogPostSchema.partial();
+      const validated = partialSchema.parse(req.body);
+      const updated = await storage.updateBlogPost(req.params.id, validated);
       if (!updated) {
         return res.status(404).json({ message: "Blog post not found" });
       }
       res.json(updated);
     } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Validation error", errors: error.errors });
+      }
       console.error("Error updating blog post:", error);
       res.status(500).json({ message: "Failed to update blog post" });
     }

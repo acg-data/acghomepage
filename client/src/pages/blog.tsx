@@ -16,7 +16,7 @@ import { PageLayout } from '@/components/layout';
 import { SEO, articleSchema, breadcrumbSchema, collectionPageSchema } from '@/components/seo';
 import { useWPBlogPosts, useWPBlogPost, type WPBlogPost } from '@/lib/wordpress';
 
-const POSTS_PER_PAGE = 6;
+const POSTS_PER_PAGE = 10;
 
 const fallbackBlogPosts: BlogPost[] = [
   {
@@ -195,6 +195,97 @@ function getReadTime(content: string): number {
   return Math.ceil(content.split(' ').length / 200);
 }
 
+function extractHeadings(content: string): { level: number; text: string; id: string }[] {
+  if (/<[a-z][\s\S]*>/i.test(content)) return [];
+  const headings: { level: number; text: string; id: string }[] = [];
+  content.split('\n').forEach(line => {
+    if (line.startsWith('## ')) {
+      const text = line.replace('## ', '').trim();
+      headings.push({ level: 2, text, id: text.toLowerCase().replace(/[^a-z0-9]+/g, '-') });
+    } else if (line.startsWith('### ')) {
+      const text = line.replace('### ', '').trim();
+      headings.push({ level: 3, text, id: text.toLowerCase().replace(/[^a-z0-9]+/g, '-') });
+    }
+  });
+  return headings;
+}
+
+function TableOfContents({ headings }: { headings: { level: number; text: string; id: string }[] }) {
+  if (headings.length < 3) return null;
+  return (
+    <div className="bg-aryo-offWhite border border-aryo-lightGrey p-6 mb-8" data-testid="table-of-contents">
+      <h2 className="text-sm font-bold text-aryo-deepBlue uppercase tracking-widest mb-4">In This Article</h2>
+      <nav>
+        <ul className="space-y-2">
+          {headings.filter(h => h.level === 2).map(h => (
+            <li key={h.id}>
+              <a href={`#${h.id}`} className="text-sm text-slate-600 hover:text-aryo-teal transition-colors">
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  );
+}
+
+function AuthorBio({ author, authorTitle }: { author: string; authorTitle: string }) {
+  return (
+    <div className="bg-aryo-offWhite border border-aryo-lightGrey p-8 mb-8" data-testid="author-bio">
+      <div className="flex items-start gap-4">
+        <div className="w-16 h-16 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+          {author.split(' ').map(n => n[0]).join('')}
+        </div>
+        <div>
+          <h3 className="font-bold text-aryo-deepBlue text-lg">{author}</h3>
+          {authorTitle && <p className="text-sm text-aryo-teal mb-2">{authorTitle}</p>}
+          <p className="text-sm text-slate-600">
+            {author} is a member of the Aryo Consulting Group team, bringing deep expertise in corporate strategy and operational improvement to help organizations unlock enterprise value.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RelatedPosts({ currentSlug, currentCategory, allPosts }: { currentSlug: string; currentCategory: string; allPosts: BlogPost[] }) {
+  const related = allPosts
+    .filter(p => p.slug !== currentSlug)
+    .sort((a, b) => {
+      const aMatch = a.category === currentCategory ? 1 : 0;
+      const bMatch = b.category === currentCategory ? 1 : 0;
+      return bMatch - aMatch;
+    })
+    .slice(0, 3);
+
+  if (related.length === 0) return null;
+
+  return (
+    <div className="mb-8" data-testid="related-posts">
+      <h2 className="text-2xl font-serif text-aryo-deepBlue mb-6">Related Insights</h2>
+      <div className="grid md:grid-cols-3 gap-6">
+        {related.map(post => (
+          <Link key={post.id} href={`/insights/${post.slug}`}>
+            <div className="bg-white border border-aryo-lightGrey p-6 hover:border-aryo-deepBlue transition-all cursor-pointer group h-full flex flex-col" data-testid={`related-post-${post.id}`}>
+              <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest mb-2">{post.category}</span>
+              <h3 className="text-lg font-serif font-bold text-aryo-deepBlue mb-2 group-hover:text-aryo-teal transition-colors">{post.title}</h3>
+              <p className="text-sm text-slate-600 line-clamp-2 flex-1">{post.excerpt}</p>
+              <div className="flex items-center gap-2 mt-4 pt-3 border-t border-aryo-lightGrey text-xs text-slate-500">
+                <span>{post.author}</span>
+                <span className="flex items-center gap-1">
+                  <Clock size={12} />
+                  {getReadTime(post.content)} min
+                </span>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function BlogPostCard({ post }: { post: BlogPost }) {
   const formattedDate = post.publishedAt 
     ? new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -245,6 +336,10 @@ function BlogPostDetail({ slug }: { slug: string }) {
     retry: false,
   });
 
+  const { data: dbAllPosts } = useQuery<BlogPost[]>({
+    queryKey: ['/api/blog'],
+  });
+
   const { data: wpPost, isLoading: wpLoading } = useWPBlogPost(slug);
   const fallback = fallbackBlogPosts.find(p => p.slug === slug);
   
@@ -264,6 +359,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
   } as BlogPost : null;
 
   const post = dbPost || wpMapped || fallback;
+  const allPosts = (dbAllPosts && dbAllPosts.length > 0) ? dbAllPosts : fallbackBlogPosts;
   const isLoading = dbLoading && wpLoading && !fallback;
 
   if (isLoading) {
@@ -298,6 +394,7 @@ function BlogPostDetail({ slug }: { slug: string }) {
     : '';
 
   const readTime = getReadTime(post.content);
+  const headings = extractHeadings(post.content);
 
   return (
     <PageLayout>
@@ -360,16 +457,22 @@ function BlogPostDetail({ slug }: { slug: string }) {
             </div>
           </div>
 
+          <TableOfContents headings={headings} />
+
           <div className="prose prose-lg max-w-none text-slate-600" data-testid="blog-content">
             {/<[a-z][\s\S]*>/i.test(post.content) ? (
               <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
             ) : (
               post.content.split('\n').map((paragraph, i) => {
                 if (paragraph.startsWith('## ')) {
-                  return <h2 key={i} className="text-2xl font-serif text-aryo-deepBlue mt-8 mb-4">{paragraph.replace('## ', '')}</h2>;
+                  const text = paragraph.replace('## ', '').trim();
+                  const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                  return <h2 key={i} id={id} className="text-2xl font-serif text-aryo-deepBlue mt-8 mb-4">{text}</h2>;
                 }
                 if (paragraph.startsWith('### ')) {
-                  return <h3 key={i} className="text-xl font-serif text-aryo-deepBlue mt-6 mb-3">{paragraph.replace('### ', '')}</h3>;
+                  const text = paragraph.replace('### ', '').trim();
+                  const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                  return <h3 key={i} id={id} className="text-xl font-serif text-aryo-deepBlue mt-6 mb-3">{text}</h3>;
                 }
                 if (paragraph.trim().match(/^\d+\./)) {
                   return <p key={i} className="mb-2 pl-4">{paragraph}</p>;
@@ -382,6 +485,10 @@ function BlogPostDetail({ slug }: { slug: string }) {
             )}
           </div>
         </article>
+
+        <AuthorBio author={post.author} authorTitle={post.authorTitle || ''} />
+
+        <RelatedPosts currentSlug={slug} currentCategory={post.category} allPosts={allPosts} />
 
         <div className="bg-aryo-deepBlue p-8 text-center">
           <h2 className="text-xl font-serif text-white mb-4">Explore how these insights can apply to your organization</h2>
