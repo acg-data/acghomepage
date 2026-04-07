@@ -359,7 +359,12 @@ function BlogPostDetail({ slug }: { slug: string }) {
   } as BlogPost : null;
 
   const post = dbPost || wpMapped || fallback;
-  const allPosts = (dbAllPosts && dbAllPosts.length > 0) ? dbAllPosts : fallbackBlogPosts;
+  const allPosts = (() => {
+    const dbList = dbAllPosts || [];
+    const slugSet = new Set(dbList.map(p => p.slug));
+    const fallbackFiltered = fallbackBlogPosts.filter(p => !slugSet.has(p.slug));
+    return [...dbList, ...fallbackFiltered];
+  })();
   const isLoading = dbLoading && wpLoading && !fallback;
 
   if (isLoading) {
@@ -534,9 +539,20 @@ export default function Blog() {
       }))
     : [];
 
-  const allPosts: BlogPost[] = (dbPosts && dbPosts.length > 0)
-    ? dbPosts
-    : (wpMapped.length > 0 ? wpMapped : fallbackBlogPosts);
+  const mergedPosts: BlogPost[] = (() => {
+    const dbList = dbPosts || [];
+    const wpList = wpMapped.length > 0 ? wpMapped : [];
+    const combined = [...dbList, ...wpList];
+    const slugSet = new Set(combined.map(p => p.slug));
+    const fallbackFiltered = fallbackBlogPosts.filter(p => !slugSet.has(p.slug));
+    const all = [...combined, ...fallbackFiltered];
+    return all.sort((a, b) => {
+      const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+      const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+      return dateB - dateA;
+    });
+  })();
+  const allPosts = mergedPosts;
 
   const categories = ['All', ...Array.from(new Set(allPosts.map(p => p.category)))];
 
