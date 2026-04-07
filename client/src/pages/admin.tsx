@@ -23,8 +23,7 @@ import {
   Eye,
   EyeOff,
   ArrowLeft,
-  Save,
-  X
+  Save
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -46,6 +45,7 @@ function generateSlug(title: string): string {
     .replace(/[^a-z0-9\s-]/g, '')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
     .trim();
 }
 
