@@ -3,6 +3,7 @@ import compression from "compression";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import { seedBlogPosts } from "./seed-blog";
 
 const app = express();
 const httpServer = createServer(app);
@@ -64,6 +65,10 @@ app.use((req, res, next) => {
 
 (async () => {
   await registerRoutes(httpServer, app);
+
+  await seedBlogPosts().catch((err) => {
+    console.error("Blog seed error:", err);
+  });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
