@@ -18,7 +18,9 @@ import { useWPBlogPosts, useWPBlogPost, type WPBlogPost } from '@/lib/wordpress'
 
 const POSTS_PER_PAGE = 10;
 
-const fallbackBlogPosts: BlogPost[] = [
+const fallbackBlogPosts: BlogPost[] = [];
+
+const _unusedFallbackBlogPosts: BlogPost[] = [
   {
     id: '1',
     title: 'The Future of M&A: Navigating Uncertainty in 2025',
