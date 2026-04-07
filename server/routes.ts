@@ -391,9 +391,17 @@ export async function registerRoutes(
     }
   });
 
+  function coerceBlogDates(body: Record<string, unknown>) {
+    const data = { ...body };
+    if (typeof data.publishedAt === 'string') {
+      data.publishedAt = data.publishedAt ? new Date(data.publishedAt) : null;
+    }
+    return data;
+  }
+
   app.post("/api/admin/blog", requirePartner, async (req: Request, res: Response) => {
     try {
-      const validated = insertBlogPostSchema.parse(req.body);
+      const validated = insertBlogPostSchema.parse(coerceBlogDates(req.body));
       const post = await storage.createBlogPost(validated);
       res.status(201).json(post);
     } catch (error) {
@@ -408,7 +416,7 @@ export async function registerRoutes(
   app.put("/api/admin/blog/:id", requirePartner, async (req: Request, res: Response) => {
     try {
       const partialSchema = insertBlogPostSchema.partial();
-      const validated = partialSchema.parse(req.body);
+      const validated = partialSchema.parse(coerceBlogDates(req.body));
       const updated = await storage.updateBlogPost(req.params.id, validated);
       if (!updated) {
         return res.status(404).json({ message: "Blog post not found" });
