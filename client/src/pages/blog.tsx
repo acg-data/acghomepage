@@ -198,17 +198,31 @@ function getReadTime(content: string): number {
 }
 
 function extractHeadings(content: string): { level: number; text: string; id: string }[] {
-  if (/<[a-z][\s\S]*>/i.test(content)) return [];
   const headings: { level: number; text: string; id: string }[] = [];
-  content.split('\n').forEach(line => {
-    if (line.startsWith('## ')) {
-      const text = line.replace('## ', '').trim();
+  if (/<[a-z][\s\S]*>/i.test(content)) {
+    const h2Regex = /<h2[^>]*>(.*?)<\/h2>/gi;
+    const h3Regex = /<h3[^>]*>(.*?)<\/h3>/gi;
+    let match;
+    while ((match = h2Regex.exec(content)) !== null) {
+      const text = match[1].replace(/<[^>]*>/g, '').trim();
       headings.push({ level: 2, text, id: text.toLowerCase().replace(/[^a-z0-9]+/g, '-') });
-    } else if (line.startsWith('### ')) {
-      const text = line.replace('### ', '').trim();
+    }
+    while ((match = h3Regex.exec(content)) !== null) {
+      const text = match[1].replace(/<[^>]*>/g, '').trim();
       headings.push({ level: 3, text, id: text.toLowerCase().replace(/[^a-z0-9]+/g, '-') });
     }
-  });
+    headings.sort((a, b) => content.indexOf(a.text) - content.indexOf(b.text));
+  } else {
+    content.split('\n').forEach(line => {
+      if (line.startsWith('## ')) {
+        const text = line.replace('## ', '').trim();
+        headings.push({ level: 2, text, id: text.toLowerCase().replace(/[^a-z0-9]+/g, '-') });
+      } else if (line.startsWith('### ')) {
+        const text = line.replace('### ', '').trim();
+        headings.push({ level: 3, text, id: text.toLowerCase().replace(/[^a-z0-9]+/g, '-') });
+      }
+    });
+  }
   return headings;
 }
 
@@ -468,7 +482,14 @@ function BlogPostDetail({ slug }: { slug: string }) {
 
           <div className="prose prose-lg max-w-none text-slate-600 prose-headings:font-serif prose-headings:text-aryo-deepBlue prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3" data-testid="blog-content">
             {/<[a-z][\s\S]*>/i.test(post.content) ? (
-              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(
+                post.content.replace(/<(h[23])([^>]*)>(.*?)<\/\1>/gi, (_match, tag, attrs, text) => {
+                  const plainText = text.replace(/<[^>]*>/g, '').trim();
+                  const id = plainText.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                  return `<${tag}${attrs} id="${id}">${text}</${tag}>`;
+                }),
+                { ADD_ATTR: ['id'] }
+              ) }} />
             ) : (
               post.content.split('\n').map((paragraph, i) => {
                 if (paragraph.startsWith('## ')) {
