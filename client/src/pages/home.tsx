@@ -198,17 +198,24 @@ function Hero({ wpHero }: { wpHero?: WPHeroContent | null }) {
         
         <FadeIn delay={400}>
           <div className="flex flex-col sm:flex-row gap-6 flex-wrap">
-            <a href="#contact" className="bg-aryo-deepBlue text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all shadow-lg shadow-aryo-deepBlue/20 flex items-center gap-3 group" data-testid="button-request-briefing">
+            <Link href="/contact" className="bg-aryo-deepBlue text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all shadow-lg shadow-aryo-deepBlue/20 flex items-center gap-3 group" data-testid="button-request-briefing">
               Get Started
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
-            </a>
-            <a 
-              href="/reports/q4-hiring-abroad" 
+            </Link>
+            <Link 
+              href="/case-studies" 
               className="bg-white text-aryo-deepBlue border border-aryo-lightGrey px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:border-aryo-deepBlue hover:bg-aryo-offWhite transition-all inline-block text-center" 
+              data-testid="button-view-case-studies"
+            >
+              View Case Studies
+            </Link>
+            <Link 
+              href="/reports/q4-hiring-abroad" 
+              className="text-aryo-deepBlue px-2 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:text-aryo-teal transition-colors inline-flex items-center gap-2" 
               data-testid="button-view-report"
             >
-              View Q4 Hiring Abroad Report
-            </a>
+              Q4 Hiring Report <ArrowRight size={14} />
+            </Link>
           </div>
         </FadeIn>
 
@@ -269,6 +276,9 @@ function StageSpecialization({ wpPillars }: { wpPillars?: WPPillar[] }) {
            <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Who We Work With</span>
            <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-6">Four Pillars</h2>
            <p className="text-slate-600 max-w-2xl mx-auto text-lg font-light">Every stage of growth has unique challenges. Our frameworks adapt to where you are and where you're going.</p>
+           <Link href="/industries" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-4 hover:text-aryo-deepBlue transition-colors" data-testid="link-industries-cta">
+             See Industries We Serve <ArrowRight size={14} />
+           </Link>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -445,6 +455,9 @@ function ValueDrivers({ wpRadar }: { wpRadar?: WPRadarData | null }) {
               <p className="text-slate-600 mt-6 text-lg font-light">
                 We operate across six core value drivers that most consultancies treat in isolation. Our integrated approach creates compounding returns.
               </p>
+              <Link href="/capabilities" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-6 hover:text-aryo-deepBlue transition-colors" data-testid="link-capabilities-cta">
+                Explore Our Capabilities <ArrowRight size={14} />
+              </Link>
             </div>
           </FadeIn>
           <FadeIn delay={200}>
@@ -475,9 +488,14 @@ function Process({ wpSteps }: { wpSteps?: WPProcessStep[] }) {
             <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">The Engagement Model</span>
             <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Predictable Transformation</h2>
           </div>
-          <p className="text-slate-600 max-w-xl text-lg font-light md:text-right">
-            We operate on a fixed-timeline engagement model. No open-ended retainers. Just clear milestones and delivered outcomes.
-          </p>
+          <div className="md:text-right">
+            <p className="text-slate-600 max-w-xl text-lg font-light ml-auto">
+              We operate on a fixed-timeline engagement model. No open-ended retainers. Just clear milestones and delivered outcomes.
+            </p>
+            <Link href="/about" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-4 hover:text-aryo-deepBlue transition-colors" data-testid="link-about-cta">
+              Learn About Our Team <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
 
         <div className="relative">
@@ -611,6 +629,9 @@ function Testimonials() {
         <div className="text-center mb-16">
           <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Client Perspectives</span>
           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Trusted by Leaders</h2>
+          <Link href="/insights" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-4 hover:text-aryo-deepBlue transition-colors" data-testid="link-insights-cta">
+            Read Our Latest Insights <ArrowRight size={14} />
+          </Link>
         </div>
 
         <div className="relative">
@@ -917,8 +938,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <SEO 
-        title="Aryo Consulting Group | Strategy & Governance Consulting"
-        description="We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value."
+        title="Aryo Consulting Group | Strategy, M&A & Growth Consulting"
+        description="Aryo Consulting Group is a modern consulting firm partnering with Boards and C-Suites to drive growth strategy, M&A advisory, digital transformation, and operational excellence."
         canonical="https://aryocg.com/"
         jsonLd={[
           organizationSchema(),

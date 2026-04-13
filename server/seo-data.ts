@@ -151,8 +151,8 @@ const TO_FAQS = [
 
 const seoRoutes: Record<string, PageSEO> = {
   "/": {
-    title: "Aryo Consulting Group | The Modern Consulting Firm",
-    description: "The modern consulting firm. We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value.",
+    title: "Aryo Consulting Group | Strategy, M&A & Growth Consulting",
+    description: "Aryo Consulting Group is a modern consulting firm partnering with Boards and C-Suites to drive growth strategy, M&A advisory, digital transformation, and operational excellence.",
     canonical: "https://aryocg.com",
     jsonLd: [
       ORG_SCHEMA,

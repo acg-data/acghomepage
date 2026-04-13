@@ -55,6 +55,16 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   
+  app.use((req, res, next) => {
+    const host = req.hostname || req.headers.host || '';
+    if (host.startsWith('www.')) {
+      const newHost = host.replace(/^www\./, '');
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+      return res.redirect(301, `${protocol}://${newHost}${req.originalUrl}`);
+    }
+    next();
+  });
+
   // 301 Redirect middleware - must be early in the chain
   app.use((req, res, next) => {
     // Normalize the path - add trailing slash if missing for matching
