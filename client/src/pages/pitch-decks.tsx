@@ -1022,7 +1022,7 @@ function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-aryo-lightBlue/50 text-xs">
-            2024 Aryo Consulting Group. All rights reserved.
+            2026 Aryo Consulting Group. All rights reserved.
           </p>
           <div className="flex gap-8 flex-wrap justify-center">
             <a href="#" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>
