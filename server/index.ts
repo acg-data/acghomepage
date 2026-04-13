@@ -6,6 +6,7 @@ import { createServer } from "http";
 import { seedBlogPosts } from "./seed-blog";
 
 const app = express();
+app.disable("x-powered-by");
 const httpServer = createServer(app);
 
 declare module "http" {

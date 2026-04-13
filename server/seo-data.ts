@@ -447,6 +447,7 @@ const ssrContent: Record<string, string> = {
     <a href="/contact">Request a Briefing</a>
     <a href="/case-studies">View Case Studies</a>
     <a href="/careers">Careers at Aryo</a>
+    <a href="https://www.linkedin.com/company/aryo-consulting-group" rel="noopener" target="_blank">Follow Aryo on LinkedIn</a>
   `,
   "/about": `
     <h1>About Aryo Consulting Group</h1>
@@ -559,7 +560,7 @@ export function injectSEO(html: string, path: string, dynamicSEO?: PageSEO): str
   if (content) {
     modified = modified.replace(
       '<div id="root"></div>',
-      `<div id="root"><div id="ssr-content" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">${content.trim()}</div></div>`
+      `<div id="root"><div id="ssr-content">${content.trim()}</div></div>`
     );
   }
 
