@@ -422,6 +422,94 @@ export function buildBlogPostSEO(post: { title: string; excerpt: string; slug: s
   };
 }
 
+const ssrContent: Record<string, string> = {
+  "/": `
+    <h1>Aryo Consulting Group — Strategy, M&amp;A &amp; Growth Consulting</h1>
+    <p>Aryo Consulting Group is the modern consulting firm that actually delivers results. We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value. Our team brings deep expertise in strategy, mergers and acquisitions, digital transformation, and operational excellence.</p>
+    <h2>Who We Work With</h2>
+    <p>We serve organizations at every stage of growth — from pre-revenue startups building foundational infrastructure, to Series A through C companies scaling without breaking, to SMEs professionalizing proven models, and large organizations driving enterprise transformation. Every stage of growth has unique challenges, and our frameworks adapt to where you are and where you are going.</p>
+    <h2>Our Six Core Capabilities</h2>
+    <p>Aryo Consulting Group operates across six integrated value drivers that most consultancies treat in isolation. Our approach creates compounding returns across Capital Markets and M&amp;A Advisory, Digital Transformation, Operational Excellence, Talent and Organization, Governance and Risk, and Growth Strategy. We deliver outcome-based execution with measurable results.</p>
+    <a href="/capabilities">Explore Our Capabilities</a>
+    <h2>The Aryo Advantage — Strategic Framework</h2>
+    <p>We operate across six core value drivers that most consultancies treat in isolation. Our integrated approach creates compounding returns. From diagnostic audits and strategic architecture to execution, deployment, and governance handover, our fixed-timeline engagement model delivers predictable transformation without open-ended retainers.</p>
+    <h2>Our Engagement Process</h2>
+    <p>Phase I: Diagnostic and Audit (Weeks 1-4) — Full forensic audit of unit economics, tech stack, and leadership gaps. Phase II: Strategic Architecture (Weeks 5-8) — Designing the target operating model and governance frameworks. Phase III: Execution and Deployment (Weeks 9-24) — Interim executive placement and rapid implementation of growth drivers. Phase IV: Handover and Governance (Ongoing) — Establishing KPIs and board-level reporting structures for long-term sustainability.</p>
+    <a href="/about">Learn About Our Team</a>
+    <h2>Results That Speak</h2>
+    <p>With over 400 engagements completed, $2.8 billion in enterprise value unlocked, 127 percent average revenue increase for our clients, and a leadership team with 94 years of combined experience, Aryo Consulting Group delivers measurable impact across industries including Financial Services, Technology, Healthcare, Consumer and Retail, Industrial, and Professional Services.</p>
+    <a href="/industries">See Industries We Serve</a>
+    <h2>Client Testimonials</h2>
+    <p>Our clients trust us to drive real transformation. From PE-backed portfolio companies to mid-market firms preparing for strategic exits, Aryo Consulting Group has earned a reputation for delivering outcomes — not just recommendations.</p>
+    <a href="/insights">Read Our Latest Insights</a>
+    <h2>Contact Aryo Consulting Group</h2>
+    <p>Schedule a confidential executive briefing with our Managing Partners. We will provide an initial diagnostic assessment of your operational levers at no obligation. Email info@aryocg.com or call 1-508-545-7447. Offices in Boston (HQ), New York City, and Miami (Coming Soon).</p>
+    <a href="/contact">Request a Briefing</a>
+    <a href="/case-studies">View Case Studies</a>
+    <a href="/careers">Careers at Aryo</a>
+  `,
+  "/about": `
+    <h1>About Aryo Consulting Group</h1>
+    <p>Aryo Consulting Group was founded with a simple thesis: consulting should be measured by outcomes, not hours billed. We share in the risk and reward of every engagement because we believe the best consultants are the ones who have skin in the game.</p>
+    <h2>Our Team</h2>
+    <p>Justin Abrams — Founder and CEO. Josh Eissler — Head of Technology. Vivian Sierra — Associate. Shohel Das — Associate. Our team combines deep industry expertise with hands-on execution capability.</p>
+    <h2>Our Locations</h2>
+    <p>Headquartered in Boston, Massachusetts with an office in New York City. Four additional offices opening Q4 2026.</p>
+    <a href="/contact">Contact Us</a>
+    <a href="/capabilities">Our Capabilities</a>
+  `,
+  "/capabilities": `
+    <h1>Consulting Capabilities — Aryo Consulting Group</h1>
+    <p>Six core consulting capabilities designed to create compounding returns for your organization. Each capability is delivered through our proven engagement model with measurable outcomes.</p>
+    <h2>M&amp;A Advisory</h2>
+    <p>Strategic M&amp;A advisory for middle-market companies. From target identification and due diligence to integration planning and post-merger optimization.</p>
+    <h2>Digital Transformation</h2>
+    <p>Transform your business with strategic digital solutions. Technology modernization, data strategy, and digital operating models.</p>
+    <h2>Operational Excellence</h2>
+    <p>Process optimization, cost reduction, and operational restructuring to drive sustainable efficiency gains.</p>
+    <h2>Talent &amp; Organization</h2>
+    <p>Leadership development, organizational design, culture transformation, and talent acquisition strategy.</p>
+    <h2>Governance &amp; Risk</h2>
+    <p>Modern governance frameworks, enterprise risk management, and regulatory compliance for growing organizations.</p>
+    <h2>Growth Strategy</h2>
+    <p>Data-driven strategies for market expansion, revenue optimization, and sustainable growth trajectories.</p>
+    <a href="/contact">Get Started</a>
+    <a href="/case-studies">View Case Studies</a>
+  `,
+  "/industries": `
+    <h1>Industries We Serve — Aryo Consulting Group</h1>
+    <p>Deep sector knowledge across six major industries allows us to deliver specialized consulting that accounts for unique market dynamics, regulatory environments, and competitive landscapes.</p>
+    <h2>Financial Services</h2><h2>Technology</h2><h2>Healthcare</h2><h2>Consumer &amp; Retail</h2><h2>Industrial</h2><h2>Professional Services</h2>
+    <a href="/capabilities">Our Capabilities</a>
+    <a href="/contact">Contact Us</a>
+  `,
+  "/contact": `
+    <h1>Contact Aryo Consulting Group</h1>
+    <p>Schedule a confidential executive briefing with our Managing Partners. We will provide an initial diagnostic assessment of your operational levers at no obligation.</p>
+    <p>Email: info@aryocg.com. Phone: 1-508-545-7447. Boston (HQ) and New York City offices.</p>
+    <a href="/about">About Us</a>
+    <a href="/capabilities">Our Capabilities</a>
+  `,
+  "/careers": `
+    <h1>Careers at Aryo Consulting Group</h1>
+    <p>Join a team where your work creates measurable impact. We are looking for talented consultants who want outcome-based engagements and real influence on client success.</p>
+    <a href="/about">About Our Team</a>
+    <a href="/contact">Contact Us</a>
+  `,
+  "/insights": `
+    <h1>Insights &amp; Research — Aryo Consulting Group</h1>
+    <p>Expert analysis, market research, and thought leadership from Aryo Consulting Group. Explore our latest articles on strategy, M&amp;A, digital transformation, and operational excellence.</p>
+    <a href="/capabilities">Our Capabilities</a>
+    <a href="/contact">Contact Us</a>
+  `,
+  "/case-studies": `
+    <h1>Case Studies — Aryo Consulting Group</h1>
+    <p>Real results from real engagements. Explore how Aryo Consulting Group has helped organizations unlock enterprise value through strategy, M&amp;A advisory, digital transformation, and operational excellence.</p>
+    <a href="/capabilities">Our Capabilities</a>
+    <a href="/contact">Contact Us</a>
+  `,
+};
+
 export function injectSEO(html: string, path: string, dynamicSEO?: PageSEO): string {
   const normalizedPath = path.split("?")[0].replace(/\/$/, "") || "/";
   const seo = dynamicSEO || seoRoutes[normalizedPath];
@@ -466,6 +554,14 @@ export function injectSEO(html: string, path: string, dynamicSEO?: PageSEO): str
   modified = modified.replace(/<meta\s+name="twitter:image"[^>]*>/i, "");
 
   modified = modified.replace("</head>", tags.join("\n    ") + "\n  </head>");
+
+  const content = ssrContent[normalizedPath];
+  if (content) {
+    modified = modified.replace(
+      '<div id="root"></div>',
+      `<div id="root"><div id="ssr-content" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">${content.trim()}</div></div>`
+    );
+  }
 
   return modified;
 }
