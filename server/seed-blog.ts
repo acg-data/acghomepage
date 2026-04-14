@@ -422,7 +422,7 @@ const SEED_POSTS = [
     category: "Market Research",
     imageUrl: "/market-research-firm-presentation.png",
     published: true,
-    publishedAt: new Date("2025-04-10"),
+    publishedAt: new Date("2026-04-14"),
     content: `<img src="/market-research-firm-presentation.png" alt="Market research strategist presenting consumer insights to a team" style="width:70%;border-radius:8px;margin:0 auto 2rem;display:block;" />
 
 <p>Finding the right market research firm can feel overwhelming. You want someone who gets your business, delivers actionable insights, and doesn't blow your budget. Whether you're a startup trying to understand your first customers or an established company launching a new product, the right research partner makes all the difference.</p>
