@@ -174,16 +174,14 @@ function Hero() {
   return (
     <section id="buy" className="bg-white pt-10 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1200px] mx-auto">
-        <div className="flex flex-col lg:flex-row gap-10 items-center">
+        <div className="flex flex-col lg:flex-row gap-10 items-start">
           {/* Left — Book Mockup */}
-          <div className="lg:w-[50%] flex items-center justify-center">
-            <div className="relative w-full max-w-[480px]">
-              <img
-                src="/market-research-reports/report-book-mockup.jpg"
-                alt="2026 US Landscaping Industry Market Report — Book Mockup"
-                className="w-full h-auto"
-              />
-            </div>
+          <div className="lg:w-[55%] flex items-center justify-center">
+            <img
+              src="/market-research-reports/report-book-mockup.jpg"
+              alt="2026 US Landscaping Industry Market Report — Book Mockup"
+              className="w-full h-auto"
+            />
           </div>
 
           {/* Right — Purchase Card */}
