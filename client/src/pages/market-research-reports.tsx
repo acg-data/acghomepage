@@ -48,7 +48,7 @@ function AnnouncementBar() {
         style={{ background: C.primary }}
       >
         <span style={{ color: C.tealLight }}>⚡</span>
-        <span>Limited Time — Get the 2025 Landscaping Market Report for $97 (Reg. $497)</span>
+        <span>Limited Time — Get the 2026 Landscaping Market Report for $97 (Reg. $497)</span>
         <ChevronDown
           size={16}
           className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
@@ -64,7 +64,7 @@ function AnnouncementBar() {
         >
           <p className="text-lg font-semibold mb-2">Early-Bird Pricing Ends Soon</p>
           <p className="text-sm opacity-80 mb-3">
-            The first 100 landscapers get the complete 2025 Market Research Report for just $97.
+            The first 100 landscapers get the complete 2026 Market Research Report for just $97.
             After that, it goes back to the regular $497 price.
           </p>
           <div className="grid grid-cols-2 gap-3 text-sm">
@@ -128,7 +128,7 @@ const reportChapters = [
 const purchaseOptions = [
   {
     id: "report",
-    name: "2025 Landscaping Market Report",
+    name: "2026 Landscaping Market Report",
     save: "80%",
     saveAmount: "$400",
     regularPrice: "$497",
@@ -136,8 +136,8 @@ const purchaseOptions = [
     billing: "One-time payment — instant PDF download",
     popular: true,
     features: [
-      { label: "120+", text: "Pages of original research", highlight: true },
-      { label: "50+", text: "Data visualizations & charts", highlight: true },
+      { label: "30", text: "Pages of original research", highlight: true },
+      { label: "25+", text: "Data visualizations & charts", highlight: true },
       { label: "", text: "Pricing benchmarks by region", highlight: false },
       { label: "", text: "Competitor analysis toolkit", highlight: false },
       { label: "BONUS", text: "Landscaping Pricing Calculator (Excel)", highlight: true },
@@ -196,20 +196,20 @@ function Hero() {
               </div>
 
               <h1 className="text-[26px] font-bold leading-tight tracking-tight mb-1" style={{ color: C.charcoal }}>
-                2025 LANDSCAPING INDUSTRY MARKET REPORT
+                2026 LANDSCAPING INDUSTRY MARKET REPORT
               </h1>
               <p className="text-lg font-medium mb-3" style={{ color: C.primary }}>
                 The Data-Driven Blueprint to Grow Your Landscaping Business
               </p>
               <p className="text-[15px] leading-relaxed mb-4" style={{ color: C.slate }}>
                 Stop guessing what to charge, who to target, and where the industry is headed. This
-                120+ page report gives you the exact market intelligence, pricing benchmarks, and
+                30-page report gives you the exact market intelligence, pricing benchmarks, and
                 competitive analysis that top-performing landscaping firms use to stay ahead.
               </p>
 
               {/* Badges */}
               <div className="flex flex-wrap gap-2 mb-5">
-                {["120+ Pages", "50+ Charts", "2025 Data", "Instant Download"].map((badge) => (
+                {["30 Pages", "25+ Charts", "2026 Data", "Instant Download"].map((badge) => (
                   <span
                     key={badge}
                     className="text-[11px] font-semibold px-2.5 py-1 rounded-full border"
@@ -402,7 +402,7 @@ function WhyItMatters() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
             <h2 className="text-2xl md:text-4xl font-bold">Why This Report Matters</h2>
             <span className="inline-flex items-center border border-white/30 rounded-full px-4 py-1.5 text-[11px] font-semibold tracking-widest uppercase self-start">
-              2025 Industry Data
+              2026 Industry Data
             </span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-6">
@@ -417,7 +417,7 @@ function WhyItMatters() {
             ))}
           </div>
           <p className="text-[12px] opacity-60">
-            *Data sourced from IBISWorld, National Association of Landscape Professionals (NALP), U.S. Bureau of Labor Statistics, and Aryo Consulting Group primary research (2025).
+            *Data sourced from IBISWorld, National Association of Landscape Professionals (NALP), U.S. Bureau of Labor Statistics, and Aryo Consulting Group primary research (2026).
           </p>
         </div>
       </div>
@@ -427,9 +427,9 @@ function WhyItMatters() {
 
 // ────────────────────────── CERTIFICATIONS BAR ──────────────────────────
 const certs = [
-  "120+ Pages of Research",
+  "30 Pages of Research",
   "500+ Firms Surveyed",
-  "50+ Data Visualizations",
+  "25+ Data Visualizations",
   "All 50 States Covered",
   "NALP Data Partnership",
   "Instant PDF Delivery",
@@ -457,7 +457,7 @@ function CertificationsBar() {
 
 // ────────────────────────── HOW IT WORKS ──────────────────────────
 const steps = [
-  { num: "1", title: "Download the PDF", desc: "Get instant access to the full 120+ page report", image: "/market-research-reports/report-cover.jpg" },
+  { num: "1", title: "Download the PDF", desc: "Get instant access to the full 30-page report", image: "/market-research-reports/report-cover.jpg" },
   { num: "2", title: "Review the data", desc: "Study benchmarks, trends, and competitor intel for your region", image: "/market-research-reports/landscaping-hero.jpg" },
   { num: "3", title: "Apply the insights", desc: "Implement pricing changes, targeting shifts, and growth strategies", image: "/market-research-reports/landscape-complete.jpg" },
 ];
@@ -515,7 +515,7 @@ function HowItWorks() {
               Report Contents
             </span>
             <h3 className="text-2xl font-bold mt-3 mb-1" style={{ color: C.charcoal }}>What's Inside</h3>
-            <p className="text-[14px]" style={{ color: C.slateLight }}>120+ pages organized into 7 deep-dive chapters</p>
+            <p className="text-[14px]" style={{ color: C.slateLight }}>30 pages organized into 5 deep-dive chapters</p>
           </div>
           <div className="space-y-2">
             {reportSections.map((sec, i) => (
@@ -987,8 +987,8 @@ function Reviews() {
 // ────────────────────────── FAQ ──────────────────────────
 const faqs = [
   {
-    question: "What exactly is in the 2025 Landscaping Industry Market Report?",
-    answer: "The report is a comprehensive 120+ page market intelligence document covering: market sizing and growth projections, regional pricing benchmarks for all 50 states, competitive analysis of the top 50 firms, customer segmentation data, seasonal revenue patterns, growth opportunity analysis, and operational benchmarks. It also includes 3 bonus tools: a Pricing Calculator (Excel), a Seasonal Revenue Planning Guide, and a Customer Acquisition Playbook.",
+    question: "What exactly is in the 2026 Landscaping Industry Market Report?",
+    answer: "The report is a concise 30-page market intelligence document covering: market sizing and growth projections, regional pricing benchmarks for all 50 states, competitive analysis of the top 50 firms, customer segmentation data, seasonal revenue patterns, growth opportunity analysis, and operational benchmarks. It also includes 3 bonus tools: a Pricing Calculator (Excel), a Seasonal Revenue Planning Guide, and a Customer Acquisition Playbook.",
   },
   {
     question: "How is this different from free industry reports I can find online?",
@@ -1173,8 +1173,8 @@ export default function MarketResearchReports() {
   return (
     <>
       <SEO
-        title="2025 Landscaping Industry Market Report | Aryo Consulting Group"
-        description="120+ pages of primary research on the $176B landscaping market. Pricing benchmarks, competitive analysis, regional deep-dives, and growth opportunities for landscaping business owners."
+        title="2026 Landscaping Industry Market Report | Aryo Consulting Group"
+        description="30 pages of primary research on the $176B landscaping market. Pricing benchmarks, competitive analysis, regional deep-dives, and growth opportunities for landscaping business owners."
         canonical="https://aryocg.com/market-research-reports"
       />
       <div className="min-h-screen" style={{ background: C.cream }}>
