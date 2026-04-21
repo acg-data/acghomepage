@@ -382,39 +382,70 @@ function Hero() {
 
 // ────────────────────────── STATS (WHY IT MATTERS) ──────────────────────────
 const whyStats = [
-  { Icon: TrendingUp, value: "$176B", label: "U.S. Landscaping Market by 2028" },
-  { Icon: DollarSign, value: "47%", label: "of landscapers undercharge by 20%+" },
-  { Icon: Users, value: "634K", label: "Landscaping businesses in the U.S." },
-  { Icon: MapPin, value: "12%", label: "Avg. annual industry growth rate" },
+  { Icon: TrendingUp, value: "$176B", heading: "U.S. Market Size", sub: "Projected by 2028" },
+  { Icon: DollarSign, value: "47%", heading: "Undercharge Rates", sub: "Firms leaving money behind" },
+  { Icon: Users, value: "634K", heading: "Businesses Nationwide", sub: "Your competitive landscape" },
+  { Icon: MapPin, value: "12%", heading: "Annual Growth Rate", sub: "Industry CAGR 2024–2028" },
 ];
 
 function WhyItMatters() {
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8" style={{ background: `${C.cream}` }}>
+    <section id="why" className="py-12 px-4 sm:px-6 lg:px-8" style={{ background: C.cream }}>
       <div className="max-w-[1200px] mx-auto">
         <div
-          className="rounded-xl p-8 md:p-10 text-white"
+          className="rounded-2xl p-8 md:p-12 text-white"
           style={{ background: `linear-gradient(135deg, ${C.primaryDark} 0%, ${C.primaryDeep} 100%)` }}
         >
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-            <h2 className="text-2xl md:text-4xl font-bold">Why This Report Matters</h2>
-            <span className="inline-flex items-center border border-white/30 rounded-full px-4 py-1.5 text-[11px] font-semibold tracking-widest uppercase self-start">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-10">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold leading-tight">Why This Report Matters</h2>
+              <p className="text-[14px] mt-1" style={{ color: "rgba(255,255,255,0.55)" }}>
+                The numbers behind the $176B opportunity
+              </p>
+            </div>
+            <span
+              className="inline-flex items-center border rounded-full px-4 py-1.5 text-[11px] font-semibold tracking-widest uppercase self-start sm:self-auto whitespace-nowrap"
+              style={{ borderColor: "rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.7)" }}
+            >
               2026 Industry Data
             </span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-6">
-            {whyStats.map(({ Icon, value, label }) => (
-              <div key={label} className="text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-                  <Icon size={24} style={{ color: C.tealLight }} />
-                  <span className="text-4xl md:text-5xl font-bold">{value}</span>
+
+          {/* Stats grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px"
+            style={{ background: "rgba(255,255,255,0.08)", borderRadius: "12px", overflow: "hidden" }}
+          >
+            {whyStats.map(({ Icon, value, heading, sub }) => (
+              <div
+                key={heading}
+                className="flex flex-col gap-3 p-6 md:p-8"
+                style={{ background: `linear-gradient(135deg, ${C.primaryDark} 0%, ${C.primaryDeep} 100%)` }}
+              >
+                <div
+                  className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{ background: "rgba(255,255,255,0.08)" }}
+                >
+                  <Icon size={18} style={{ color: C.tealLight }} />
                 </div>
-                <p className="text-[15px] opacity-90">{label}</p>
+                <div>
+                  <div className="text-3xl md:text-4xl font-bold tracking-tight leading-none mb-1">
+                    {value}
+                  </div>
+                  <div
+                    className="w-8 h-[2px] mb-3 rounded-full"
+                    style={{ background: C.tealLight }}
+                  />
+                  <p className="text-[14px] font-semibold leading-snug mb-0.5">{heading}</p>
+                  <p className="text-[12px] leading-snug" style={{ color: "rgba(255,255,255,0.5)" }}>{sub}</p>
+                </div>
               </div>
             ))}
           </div>
-          <p className="text-[12px] opacity-60">
-            *Data sourced from IBISWorld, National Association of Landscape Professionals (NALP), U.S. Bureau of Labor Statistics, and Aryo Consulting Group primary research (2026).
+
+          {/* Footnote */}
+          <p className="text-[11px] mt-6" style={{ color: "rgba(255,255,255,0.35)" }}>
+            *Data sourced from IBISWorld, NALP, U.S. Bureau of Labor Statistics, and Aryo Consulting Group primary research (2026).
           </p>
         </div>
       </div>
