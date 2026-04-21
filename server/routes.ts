@@ -119,6 +119,7 @@ export async function registerRoutes(
       { loc: "/tools/website-analyzer", priority: "0.5", changefreq: "monthly" },
       { loc: "/valuation-tool", priority: "0.5", changefreq: "monthly" },
       { loc: "/reports/q4-hiring-abroad", priority: "0.5", changefreq: "yearly" },
+      { loc: "/market-research-reports", priority: "0.7", changefreq: "monthly" },
     ];
 
     const staticUrls = pages

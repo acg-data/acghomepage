@@ -385,6 +385,15 @@ const seoRoutes: Record<string, PageSEO> = {
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Q4 Hiring Abroad Report", url: "https://aryocg.com/reports/q4-hiring-abroad" }]),
     ],
   },
+  "/market-research-reports": {
+    title: "2025 Landscaping Industry Market Report | Aryo Consulting Group",
+    description: "120+ pages of primary research on the $176B landscaping market. Pricing benchmarks by region, competitive analysis of the top 50 firms, and growth strategies for landscaping business owners.",
+    canonical: "https://aryocg.com/market-research-reports",
+    jsonLd: [
+      webPage("2025 Landscaping Industry Market Report", "Primary market research covering pricing benchmarks, competitive analysis, and growth opportunities for landscaping businesses.", "https://aryocg.com/market-research-reports"),
+      breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "Market Research Reports", url: "https://aryocg.com/market-research-reports" }]),
+    ],
+  },
 };
 
 function escapeHtml(str: string): string {
@@ -508,6 +517,19 @@ const ssrContent: Record<string, string> = {
     <p>Real results from real engagements. Explore how Aryo Consulting Group has helped organizations unlock enterprise value through strategy, M&amp;A advisory, digital transformation, and operational excellence.</p>
     <a href="/capabilities">Our Capabilities</a>
     <a href="/contact">Contact Us</a>
+  `,
+  "/market-research-reports": `
+    <h1>2025 Landscaping Industry Market Report — Aryo Consulting Group</h1>
+    <p>Stop guessing what to charge, who to target, and where the industry is headed. The 2025 Landscaping Industry Market Report gives you 120+ pages of primary research, pricing benchmarks by region, and competitive analysis of the top 50 landscaping firms — everything you need to grow your business with confidence.</p>
+    <h2>What's Inside the Report</h2>
+    <p>Comprehensive market intelligence for landscaping business owners: market sizing and growth projections through 2028, regional pricing benchmarks for all 50 states, competitive analysis of the top 50 firms, customer segmentation data, seasonal revenue patterns, growth opportunity analysis, and operational benchmarks. Includes three bonus tools: a Pricing Calculator (Excel), a Seasonal Revenue Planning Guide, and a Customer Acquisition Playbook.</p>
+    <h2>Why Landscaping Businesses Need This Report</h2>
+    <p>The U.S. landscaping market is a $176 billion industry growing at 12 percent annually, yet 47 percent of landscapers undercharge by 20 percent or more. Without data, you are leaving significant revenue on the table. This report is built on primary research — 500+ firms surveyed, 75 owner interviews, and cross-referenced proprietary data sources.</p>
+    <h2>Report Pricing: $97 (Regular Price $497)</h2>
+    <p>Get the complete 2025 Landscaping Market Report for $97 — one-time payment with instant PDF delivery. Or upgrade to the Report + Strategy Call package for $497, which includes a private 90-minute consultation with an ACG consultant.</p>
+    <a href="/capabilities">Our Consulting Capabilities</a>
+    <a href="/contact">Contact Aryo Consulting Group</a>
+    <a href="/insights">Read Our Latest Insights</a>
   `,
 };
 

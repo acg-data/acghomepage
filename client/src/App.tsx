@@ -34,6 +34,7 @@ const PitchDecks = lazy(() => import("@/pages/pitch-decks"));
 const PEValuationTool = lazy(() => import("@/pages/pe-valuation-tool"));
 const StablecoinCalculator = lazy(() => import("@/pages/stablecoin-calculator"));
 const WebsiteAnalyzer = lazy(() => import("@/pages/tools/website-analyzer"));
+const MarketResearchReports = lazy(() => import("@/pages/market-research-reports"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -78,6 +79,7 @@ function Router() {
         <Route path="/tools/pe-valuation-tool" component={PEValuationTool}/>
         <Route path="/tools/stablecoin-calculator" component={StablecoinCalculator}/>
         <Route path="/tools/website-analyzer" component={WebsiteAnalyzer}/>
+        <Route path="/market-research-reports" component={MarketResearchReports}/>
         <Route component={NotFound} />
       </Switch>
     </Suspense>

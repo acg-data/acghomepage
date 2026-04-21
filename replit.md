@@ -1,232 +1,47 @@
 # Aryo Consulting Group Website
 
 ## Overview
-A professional corporate consulting firm website featuring sophisticated animations, interactive data visualizations, premium brand identity, partner authentication, case studies, and blog/insights sections built with React, TypeScript, Tailwind CSS, and Express.js.
+Aryo Consulting Group's website is a professional corporate consulting platform designed to showcase their services, expertise, and thought leadership. It features sophisticated animations, interactive data visualizations, and a premium brand identity. The site includes sections for public marketing, company information, service capabilities, industry specializations, case studies, and a blog. It also incorporates partner authentication, a gated content download, and placeholders for advanced tools like a Valuation Tool and an AI Consultant. The project aims to enhance Aryo Consulting Group's online presence, attract new clients, and provide valuable resources.
 
-## Current State
-The application is a complete, multi-page corporate consulting website with:
-- Public landing page with all marketing sections
-- About page with team, locations (Boston, NYC + 4 coming Q4 2026), and company story
-- Capabilities page showcasing 6 service areas
-- Industries page with 6 sector specializations
-- Case studies and blog/insights content sections
-- Careers page with open positions and culture
-- Dedicated Contact page with form
-- Valuation Tool placeholder (for custom implementation)
-- AI Consultant placeholder (for custom implementation)
-- Partner authentication system (login/register/protected dashboard)
-- Q4 Hiring Abroad Report gated download with email signup
-- Email notifications for contact form submissions (via Resend)
+## User Preferences
+I prefer iterative development with a focus on delivering functional, tested components. For communication, I appreciate clear, concise explanations and prefer to be asked before major architectural changes or significant code refactoring. I expect detailed explanations when new features are implemented or complex issues are resolved. Do not make changes to the `wordpress-setup-guide.md` file.
 
-## Project Architecture
+## System Architecture
+The project is built with a modern web stack.
 
-### Tech Stack
-- **Frontend**: React 18 with TypeScript, Vite bundler
-- **Styling**: Tailwind CSS with custom design tokens
-- **Routing**: Wouter for client-side navigation
-- **State Management**: TanStack React Query, Context API for auth
-- **Backend**: Express.js with session-based authentication
-- **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: Passport.js with bcrypt password hashing
-- **CMS**: Headless WordPress (optional, via REST API)
-- **HTML Sanitization**: DOMPurify for WordPress content rendering
+### Frontend
+- **Framework**: React 18 with TypeScript.
+- **Bundler**: Vite.
+- **Styling**: Tailwind CSS, utilizing custom design tokens for brand consistency.
+- **Routing**: Wouter for efficient client-side navigation.
+- **State Management**: TanStack React Query for data fetching and caching, and React's Context API for authentication state.
+- **UI/UX**: Features sophisticated animations (animated gradient text, scroll-triggered fade-ins, counting animations), interactive data visualizations (RadarChart), and a fixed, responsive Navbar. The design adheres to a premium brand identity with a deep blue primary color and teal accents.
+- **SEO**: Comprehensive SEO component with dynamic title, description, canonical URLs, Open Graph tags, Twitter Card tags, and extensive JSON-LD structured data for various content types, supporting server-side injection for crawlers.
 
-### Key Files
-- `client/src/components/layout.tsx` - Shared PageLayout component (standardized header/footer)
-- `client/src/pages/home.tsx` - Main landing page with all sections
-- `client/src/pages/about.tsx` - About page with team (4 members), locations, company story
-- `client/src/pages/capabilities.tsx` - Service offerings page
-- `client/src/pages/industries.tsx` - Industry expertise page
-- `client/src/pages/careers.tsx` - Careers and open positions
-- `client/src/pages/contact.tsx` - Dedicated contact page
-- `client/src/pages/valuation-tool.tsx` - Placeholder for valuation calculator
-- `client/src/pages/ai-consultant.tsx` - Placeholder for AI consultant feature
-- `client/src/pages/case-studies.tsx` - Case studies list and detail views
-- `client/src/pages/blog.tsx` - Blog/insights list and detail views
-- `client/src/pages/login.tsx` - Partner login page
-- `client/src/pages/register.tsx` - Partner registration page
-- `client/src/pages/partner.tsx` - Protected partner dashboard
-- `client/src/pages/admin.tsx` - Contact management admin panel (partner-only)
-- `client/src/pages/report-q4-hiring-abroad.tsx` - Q4 Hiring Abroad Report signup page
-- `client/src/lib/auth.tsx` - Authentication context, ProtectedRoute, and PartnerRoute components
-- `client/src/lib/wordpress.ts` - WordPress REST API client, types, and custom hooks
-- `server/routes.ts` - API routes (auth, contact, case studies, blog, report, aryo-logo)
-- `server/storage.ts` - Database storage implementation
-- `shared/schema.ts` - Database schema definitions
-- `tailwind.config.ts` - Brand colors, fonts, and custom animations
-- `client/src/index.css` - CSS variables and utility classes
-- `wordpress-setup-guide.md` - Guide for configuring WordPress custom post types and ACF fields
+### Backend
+- **Framework**: Express.js, handling API routes and server-side rendering support.
+- **Authentication**: Session-based authentication using Passport.js with bcrypt for secure password hashing.
+- **Database**: PostgreSQL, managed with Drizzle ORM.
+- **Content Management**: Headless WordPress integration (optional) via REST API for dynamic content like case studies, blog posts, team members, and testimonials. DOMPurify is used for HTML sanitization of WordPress content.
 
-### Database Schema
-- **users** - Partner accounts (id, username, email, password, fullName, company, isPartner)
-- **contactSubmissions** - Contact form submissions
-- **caseStudies** - Case study content
-- **blogPosts** - Blog/insights articles
-- **reportDownloads** - Report download signups (firstName, lastName, email, reportSlug, emailSent)
+### Core Features
+- **Partner Authentication**: Secure login, registration, and a protected dashboard for partners, including role-based access control and an admin panel for contact management.
+- **Content Sections**: Dedicated pages for Case Studies and Blog/Insights, with content managed either via the database or a Headless WordPress instance.
+- **Interactive Elements**: RadarChart for competitive analysis, AnimatedNumber for statistics, and FadeIn effects for visual engagement.
+- **Contact Management**: A working contact form integrated with a backend API, sending email notifications via Resend, and an admin interface for partners to manage submissions.
+- **Gated Content**: A system for gated report downloads (e.g., Q4 Hiring Abroad Report) requiring email signup, with PDF delivery via email.
+- **Market Research Reports Landing Page**: A self-contained sales landing page for specific market reports, featuring a unique navigation, purchase options, and detailed report breakdowns.
 
 ### Brand Identity
-- **Deep Blue** (#274D8E) - Primary brand color
-- **Teal** (#47B5CB) - Accent color
-- **Green-Teal** (#4EB9A7) - Secondary accent
-- **Typography**: Playfair Display (serif headings), Inter (sans-serif body)
+- **Primary Color**: Deep Blue (#274D8E)
+- **Accent Colors**: Teal (#47B5CB), Green-Teal (#4EB9A7)
+- **Typography**: Playfair Display (serif for headings), Inter (sans-serif for body text)
 
-## Features
-
-### Interactive Components
-1. **Navbar** - Fixed with scroll effects, mobile responsive menu, links to all sections
-2. **Hero Section** - Animated gradient text, client ticker tape (marquee), Q4 report download
-3. **RadarChart** - Interactive comparison between Aryo and competitors
-4. **AnimatedNumber** - Scroll-triggered counting animation for stats
-5. **FadeIn** - Scroll-triggered fade-in animations for all sections
-6. **Contact Form** - Working form with API integration and success/error feedback
-
-### Page Sections (Home)
-- Hero with client logos ticker and CTAs
-- Industries/Sectors grid
-- Value Drivers methodology with radar chart
-- Process timeline
-- Statistics with animated counters
-- Testimonials
-- Contact form with API integration
-- Footer with navigation
-
-### Authentication System
-- Session-based authentication with PostgreSQL session store
-- Password hashing with bcrypt
-- Protected routes with automatic redirect to login
-- Partner dashboard with engagement tracking
-- Role-based access control (isPartner flag)
-- Admin panel for contact management (partner-only access)
-
-### API Endpoints
-- `POST /api/contact` - Submit contact form
-- `POST /api/auth/register` - Register new partner
-- `POST /api/auth/login` - Partner login
-- `POST /api/auth/logout` - Partner logout
-- `GET /api/auth/me` - Check authentication status
-- `GET /api/case-studies` - List case studies
-- `GET /api/case-studies/:slug` - Get case study by slug
-- `GET /api/blog` - List blog posts
-- `GET /api/blog/:slug` - Get blog post by slug
-- `GET /api/report/q4-2024` - Download Q4 market report PDF
-- `GET /api/admin/contacts` - List all contact submissions (partner-only)
-- `PATCH /api/admin/contacts/:id/status` - Update contact status (partner-only)
-- `DELETE /api/admin/contacts/:id` - Delete contact submission (partner-only)
-- `GET /api/admin/blog` - List all blog posts including drafts (partner-only)
-- `POST /api/admin/blog` - Create new blog post (partner-only)
-- `PUT /api/admin/blog/:id` - Update blog post (partner-only)
-- `DELETE /api/admin/blog/:id` - Delete blog post (partner-only)
-- `POST /api/reports/q4-hiring-abroad/signup` - Submit email for Q4 report (sends PDF via email)
-- `GET /api/reports/q4-hiring-abroad/download` - Download Q4 Hiring Abroad Report PDF
-
-## Recent Changes
-- December 2024: Initial build with complete landing page
-- Fixed AnimatedNumber with StrictMode-safe animation guard
-- Fixed marquee with consistent gap spacing for seamless loop
-- Added PostgreSQL database with Drizzle ORM
-- Implemented partner authentication system (login/register/logout)
-- Created protected partner dashboard with engagement data
-- Added case studies section with list and detail views
-- Added blog/insights section with list and detail views
-- Connected contact form to backend API
-- Added Q4 market report download functionality
-- Fixed ProtectedRoute to properly guard authenticated routes
-- Fixed object storage logo serving (access result.value[0] for Buffer)
-- Added cache-busting to logo images to prevent broken image caching
-- Fixed AnimatedNumber using ref instead of state for StrictMode compatibility
-- Added About page with team (6 members), locations (Boston, NYC + 4 coming Q4 2026)
-- Added Capabilities page with 6 service areas
-- Added Industries page with 6 sector specializations
-- Added Careers page with open positions and culture
-- Added dedicated Contact page with form
-- Added Valuation Tool placeholder page
-- Added AI Consultant placeholder page
-- Updated navigation with all new pages
-- Added admin panel for contact form submission management (partner-only)
-- Added PartnerRoute component for role-based access control
-- Contact management features: search, filter by status, update status, delete
-- Updated team to 4 members: Justin Abrams (Founder & CEO), Josh Eissler (Head of Technology), Vivian Sierra (Associate), Shohel Das (Associate)
-- Created shared PageLayout component for standardized header/footer across all pages
-- Integrated Aryo logo from object storage via /api/aryo-logo endpoint
-- Doubled logo size (80px in header) for better visibility
-- Removed redundant "Aryo Consulting Group" text (logo contains full name)
-- Migrated all pages to use PageLayout: about, capabilities, industries, careers, contact, valuation-tool, ai-consultant, case-studies, blog
-- Created custom branded 404 page with navigation to main sections
-- Added SEO component (client/src/components/seo.tsx) with full meta tag management:
-  - Dynamic title, description, canonical URL per page
-  - Open Graph tags (og:title, og:description, og:image, og:url, og:type, og:site_name)
-  - Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image)
-  - JSON-LD structured data support (Organization, LocalBusiness, Service, Article, BreadcrumbList, FAQPage, WebPage, ProfessionalService, JobPosting, CollectionPage schemas)
-  - Stale canonical/og:url cleanup on page transitions
-  - Schema helper exports: organizationSchema(), localBusinessSchema(), serviceSchema(), articleSchema(), breadcrumbSchema(), faqSchema(), webPageSchema(), professionalServiceSchema(), jobPostingSchema(), collectionPageSchema()
-- Comprehensive JSON-LD structured data on all pages:
-  - Home: Organization + LocalBusiness (Boston, NYC)
-  - About: AboutPage + ProfessionalService + BreadcrumbList
-  - Careers: WebPage + JobPosting (per open position) + BreadcrumbList
-  - Contact: ContactPage + BreadcrumbList
-  - Capabilities overview: Service schemas for all 6 services + BreadcrumbList
-  - Capability sub-pages: Service + FAQPage + BreadcrumbList
-  - Industries: WebPage + BreadcrumbList
-  - Blog/Insights list: CollectionPage + BreadcrumbList
-  - Blog detail: Article + BreadcrumbList
-  - Case Studies list: CollectionPage + BreadcrumbList
-  - Pitch Decks: Service + FAQPage + BreadcrumbList
-  - NYC: LocalBusiness + BreadcrumbList
-  - Tool pages (PE Valuation, Stablecoin, Website Analyzer, Value Creation): WebPage + BreadcrumbList
-  - Placeholder pages (Valuation Tool, AI Consultant): WebPage + BreadcrumbList
-- Server-side /sitemap.xml endpoint covering all public routes with priority/changefreq
-- robots.txt with crawl directives and sitemap reference
-- Default OG image and Twitter Card tags in index.html
-- Added email notification for contact form submissions (sends to justin@aryocg.com via Resend)
-- Added Q4 Hiring Abroad Report gated download feature:
-  - Changed "View Q4 Market Report" to "View Q4 Hiring Abroad Report" on home and NYC pages
-  - Created /reports/q4-hiring-abroad page with email signup form
-  - Report PDF ("Outsourcing Smartly") sent via email to users who sign up
-  - Duplicate signup prevention to avoid spamming users
-  - PDF cached at startup for performance
-
-### Blog CMS & Admin Management
-- Admin panel (`/admin`) now has tabbed interface: Contacts + Blog Posts
-- Blog CRUD API routes: `GET/POST/PUT/DELETE /api/admin/blog` (partner-protected)
-- Blog post editor with title, slug (auto-generated), excerpt, content (markdown/HTML), author, category, publish toggle
-- Public blog page (`/insights`) fetches from DB API first, falls back to WordPress then hardcoded data
-- Category filter tabs on blog listing page
-- Pagination (6 posts per page)
-- Read time calculation on cards and detail pages
-- Draft posts are NOT publicly accessible (published-only filter on public endpoints)
-- Storage methods: `getAllBlogPosts()`, `getBlogPostBySlug()` (published only), `getBlogPostBySlugAdmin()`, `updateBlogPost()`, `deleteBlogPost()`
-
-### Server-Side SEO Injection
-- `server/seo-data.ts` exports `injectSEO(html, path, dynamicSEO?)` which replaces default meta tags with route-specific title, description, canonical URL, OG tags, Twitter Card tags, and JSON-LD structured data
-- Dynamic blog post SEO: `buildBlogPostSEO()` generates Article schema + breadcrumbs for `/insights/:slug` routes
-- Wired into both dev (`server/vite.ts`) and prod (`server/static.ts`) HTML serving with dynamic blog post lookup
-- Covers 24+ routes with unique SEO data per page
-- JSON-LD injection is XSS-hardened (escapes `<` / `>` characters)
-- Crawlers that don't execute JavaScript still see all metadata and structured data
-
-### Internal Linking
-- `client/src/components/related-pages.tsx` — Reusable RelatedPages component for contextual cross-links
-- Added "Related" sections to 6 previously dead-end pages:
-  - `/valuation-tool` → PE Valuation Tool, M&A Advisory, Case Studies
-  - `/ai-consultant` → Digital Transformation, Growth Strategy, Website Analyzer
-  - `/tools/pe-valuation-tool` → M&A Advisory, Value Creation, Growth Strategy
-  - `/tools/stablecoin-calculator` → Digital Transformation, Governance & Risk, Contact
-  - `/value-creation` → PE Valuation Tool, Operational Excellence, Case Studies
-  - `/reports/q4-hiring-abroad` → Talent & Organization, Insights, About
-
-### Headless WordPress Integration
-- **Configuration**: Set `VITE_WORDPRESS_URL` environment variable to WordPress URL (e.g., `https://cms.aryocg.com`)
-- **Fallback**: All pages gracefully fall back to hardcoded data when WordPress is not configured or unreachable
-- **WordPress client**: `client/src/lib/wordpress.ts` provides typed hooks for all content types
-- **Custom post types supported**: `case_study`, `testimonial`, `team_member`, `position`, `capability`, `industry`
-- **Standard posts**: WordPress blog posts map to the Insights/Blog section
-- **Pages with ACF**: Homepage stats via `homepage` page slug
-- **Setup guide**: See `wordpress-setup-guide.md` for complete WordPress configuration instructions
-- **Pages integrated**: home (testimonials, stats), about (team), capabilities, industries, careers (positions), case-studies, blog/insights
-
-## Running the Project
-The application runs with `npm run dev` via the "Start application" workflow, serving on port 5000.
-
-## Database Commands
-- `npm run db:push` - Push schema changes to database
-- `npm run db:push --force` - Force push schema changes
+## External Dependencies
+- **PostgreSQL**: Relational database for persistent storage.
+- **Drizzle ORM**: TypeScript ORM for interacting with PostgreSQL.
+- **Express.js**: Backend web application framework.
+- **Passport.js**: Authentication middleware for Node.js.
+- **Resend**: Email API for sending transactional emails (e.g., contact form notifications, gated content delivery).
+- **Headless WordPress**: Optional external CMS for dynamic content.
+- **TanStack React Query**: Library for data fetching, caching, and state management.
