@@ -482,7 +482,7 @@ function CertificationsBar() {
 
 // ────────────────────────── HOW IT WORKS ──────────────────────────
 const steps = [
-  { num: "1", title: "Download the PDF", desc: "Get instant access to the full 30-page report", image: "/market-research-reports/report-cover.jpg" },
+  { num: "1", title: "Download the PDF", desc: "Get instant access to the full 30-page report", image: "/market-research-reports/step-1-flatlay.png" },
   { num: "2", title: "Review the data", desc: "Study benchmarks, trends, and competitor intel for your region", image: "/market-research-reports/landscaping-hero.jpg" },
   { num: "3", title: "Apply the insights", desc: "Implement pricing changes, targeting shifts, and growth strategies", image: "/market-research-reports/landscape-complete.jpg" },
 ];
