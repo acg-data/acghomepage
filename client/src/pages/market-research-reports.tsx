@@ -181,7 +181,7 @@ function Hero() {
               <img
                 src="/market-research-reports/report-book-mockup.jpg"
                 alt="2026 US Landscaping Industry Market Report — Book Mockup"
-                className="w-full h-auto drop-shadow-2xl"
+                className="w-full h-auto"
               />
             </div>
           </div>
