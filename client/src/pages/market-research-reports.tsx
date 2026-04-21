@@ -514,13 +514,7 @@ function HowItWorks() {
           {steps.map((step) => (
             <div key={step.num} className="text-center">
               <div className="relative mb-4 rounded-xl overflow-hidden aspect-[4/3] shadow-md">
-                {step.num === "1" ? (
-                  <div className="w-full h-full" style={{ background: C.primaryDeep }}>
-                    <BookMockup3D />
-                  </div>
-                ) : (
-                  <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
-                )}
+                <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
                 <div
                   className="absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm"
                   style={{ background: C.primary }}
