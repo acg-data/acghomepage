@@ -116,13 +116,6 @@ function Navigation() {
 }
 
 // ────────────────────────── HERO ──────────────────────────
-const galleryTabs = [
-  { id: "cover", label: "Cover", image: "/market-research-reports/report-cover.jpg" },
-  { id: "preview", label: "Preview", image: "/market-research-reports/landscaping-hero.jpg" },
-  { id: "results", label: "Results", image: "/market-research-reports/landscape-complete.jpg" },
-  { id: "inside", label: "Inside", image: "/market-research-reports/report-cover.jpg" },
-  { id: "data", label: "Data", image: "/market-research-reports/product-hero.jpg" },
-];
 
 const reportChapters = [
   { id: "market", name: "Market Overview", desc: "Industry size, growth trends, and forecast through 2028", color: C.primary },
@@ -174,69 +167,27 @@ const purchaseOptions = [
 ];
 
 function Hero() {
-  const [activeTab, setActiveTab] = useState(0);
   const [selectedChapter, setSelectedChapter] = useState(reportChapters[3]);
   const [showChapterDropdown, setShowChapterDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState("report");
 
-  const nextImage = () => setActiveTab((prev) => (prev + 1) % galleryTabs.length);
-  const prevImage = () => setActiveTab((prev) => (prev - 1 + galleryTabs.length) % galleryTabs.length);
-
   return (
     <section id="buy" className="bg-white pt-10 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1200px] mx-auto">
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Left — Image Gallery */}
-          <div className="lg:w-[55%] flex gap-3">
-            <div className="hidden lg:flex flex-col gap-2 shrink-0">
-              {galleryTabs.map((tab, i) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(i)}
-                  className={`w-12 h-12 rounded-lg border-2 overflow-hidden transition-all`}
-                  style={{ borderColor: activeTab === i ? C.primary : C.borderLight }}
-                >
-                  <img src={tab.image} alt={tab.label} className="w-full h-full object-cover rounded" />
-                </button>
-              ))}
-            </div>
-            <div className="flex-1 relative">
-              <div className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-lg bg-white">
-                <img
-                  src={galleryTabs[activeTab].image}
-                  alt={galleryTabs[activeTab].label}
-                  className="w-full h-full object-cover transition-opacity duration-300"
-                />
-                <button
-                  onClick={prevImage}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-              <div className="flex gap-2 mt-3 overflow-x-auto">
-                {galleryTabs.map((tab, i) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(i)}
-                    className="w-16 h-16 rounded-lg border-2 overflow-hidden shrink-0 transition-all"
-                    style={{ borderColor: activeTab === i ? C.primary : C.borderLight }}
-                  >
-                    <img src={tab.image} alt={tab.label} className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
+        <div className="flex flex-col lg:flex-row gap-10 items-center">
+          {/* Left — Book Mockup */}
+          <div className="lg:w-[50%] flex items-center justify-center">
+            <div className="relative w-full max-w-[480px]">
+              <img
+                src="/market-research-reports/report-book-mockup.jpg"
+                alt="2026 US Landscaping Industry Market Report — Book Mockup"
+                className="w-full h-auto drop-shadow-2xl"
+              />
             </div>
           </div>
 
           {/* Right — Purchase Card */}
-          <div className="lg:w-[45%]">
+          <div className="lg:w-[50%]">
             <div className="lg:sticky lg:top-24">
               {/* Social Proof */}
               <div className="flex items-center gap-2 text-[13px] mb-3 flex-wrap" style={{ color: C.slateLight }}>
