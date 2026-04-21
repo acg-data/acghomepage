@@ -95,11 +95,8 @@ function Navigation() {
       style={{ borderBottom: `1px solid ${C.borderLight}` }}
     >
       <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={36} height={36} className="object-contain" />
-          <span className="font-semibold text-[15px] tracking-wide" style={{ color: C.primary }}>
-            ARYO CONSULTING GROUP
-          </span>
+        <div className="flex items-center">
+          <img src="/api/aryo-logo" alt="Aryo Consulting Group" className="h-9 w-auto object-contain" />
         </div>
         <a
           href="#buy"
@@ -823,7 +820,7 @@ const testimonials = [
     title: "Owner, Thornton Landscaping",
     location: "Dallas, TX",
     revenue: "$2.4M/yr",
-    image: "/market-research-reports/landscaper-1.jpg",
+    image: "/market-research-reports/ambassador-bobby.jpg",
     quote: "The pricing data alone paid for this report 20 times over. I discovered we were undercharging our commercial clients by 35%. Implemented the new pricing structure and added $180K in revenue the first quarter.",
   },
   {
@@ -831,7 +828,7 @@ const testimonials = [
     title: "Founder, GreenScape Design",
     location: "Portland, OR",
     revenue: "$890K/yr",
-    image: "/market-research-reports/landscaper-2.jpg",
+    image: "/market-research-reports/ambassador-amy.jpg",
     quote: "I bought the report + strategy call package. The 90-minute session completely changed how I position my design-build services. We raised our project minimums and started attracting better clients. Revenue is up 40%.",
   },
   {
@@ -839,7 +836,7 @@ const testimonials = [
     title: "Owner, Mendez Outdoor Solutions",
     location: "Miami, FL",
     revenue: "$1.6M/yr",
-    image: "/market-research-reports/landscaper-3.jpg",
+    image: "/market-research-reports/ambassador-david.jpg",
     quote: "The regional data for Florida was spot-on. Used the competitor analysis to find a gap in the high-end residential hardscaping market. That insight alone was worth $497, let alone $97.",
   },
   {
@@ -847,7 +844,7 @@ const testimonials = [
     title: "CEO, Walsh Grounds Management",
     location: "Chicago, IL",
     revenue: "$4.2M/yr",
-    image: "/market-research-reports/landscaper-2.jpg",
+    image: "/market-research-reports/ambassador-mona.jpg",
     quote: "We used the seasonal revenue planning guide to smooth out our cash flow. Added snow removal and holiday lighting based on the data. Winter used to be our dead zone — now it's 25% of revenue.",
   },
   {
@@ -855,7 +852,7 @@ const testimonials = [
     title: "Owner, Roberts Lawn & Landscape",
     location: "Denver, CO",
     revenue: "$1.1M/yr",
-    image: "/market-research-reports/landscaper-1.jpg",
+    image: "/market-research-reports/ambassador-tim.jpg",
     quote: "I've been in this business 22 years and thought I knew my market. This report proved me wrong on at least 5 assumptions. The irrigation service opportunity data helped us launch a new division.",
   },
   {
@@ -863,7 +860,7 @@ const testimonials = [
     title: "Founder, Urban Garden Studio",
     location: "Austin, TX",
     revenue: "$650K/yr",
-    image: "/market-research-reports/landscaper-2.jpg",
+    image: "/market-research-reports/ambassador-tavi.jpg",
     quote: "As a newer landscaping business, this gave me the confidence to price my services properly from day one. Avoided the underpricing trap that kills most new operations.",
   },
 ];
@@ -1146,8 +1143,7 @@ function PageFooter() {
     <footer className="py-16 px-4 sm:px-6 lg:px-8" style={{ background: C.primaryDeep }}>
       <div className="max-w-[1200px] mx-auto text-center">
         <div className="flex items-center justify-center gap-2 mb-3">
-          <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={40} height={40} className="object-contain brightness-0 invert" />
-          <span className="font-semibold text-[18px] tracking-wide text-white">ARYO CONSULTING GROUP</span>
+          <img src="/api/aryo-logo" alt="Aryo Consulting Group" className="h-10 w-auto object-contain brightness-0 invert" />
         </div>
         <p className="text-[13px] mb-6" style={{ color: "rgba(255,255,255,0.6)" }}>
           Strategy, M&A & Growth Consulting — Built for the Modern Business
