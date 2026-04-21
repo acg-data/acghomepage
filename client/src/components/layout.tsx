@@ -122,9 +122,6 @@ export function Navbar() {
               <Link href="/insights" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-insights">Insights</Link>
               <Link href="/about" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-about">About</Link>
               <Link href="/contact" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-contact">Contact</Link>
-              <Link href="/market-research-reports" className="border border-aryo-teal text-aryo-teal hover:bg-aryo-teal hover:text-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300" data-testid="link-reports">
-                Reports
-              </Link>
               <Link href="/login" className="bg-aryo-deepBlue text-white hover:bg-[#1a3668] px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 shadow-sm" data-testid="button-partner-login">
                 Partner Login
               </Link>
@@ -199,8 +196,7 @@ export function Navbar() {
             <Link href="/about" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-about-mobile">About</Link>
             <Link href="/careers" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-careers-mobile">Careers</Link>
             <Link href="/contact" className="block text-sm font-sans uppercase tracking-widest text-aryo-deepBlue" data-testid="link-contact-mobile">Contact</Link>
-            <Link href="/market-research-reports" className="block text-sm font-sans uppercase tracking-widest font-bold text-aryo-teal" data-testid="link-reports-mobile">Reports</Link>
-            <Link href="/login" className="block text-sm font-sans uppercase tracking-widest font-bold text-aryo-deepBlue" data-testid="link-partner-login-mobile">Partner Login</Link>
+            <Link href="/login" className="block text-sm font-sans uppercase tracking-widest font-bold text-aryo-teal" data-testid="link-partner-login-mobile">Partner Login</Link>
           </div>
         </div>
       )}
