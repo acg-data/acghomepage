@@ -96,10 +96,7 @@ function Navigation() {
     >
       <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4">
         <div className="flex items-center gap-2">
-          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-            <path d="M20 4L4 36H12L20 20L28 36H36L20 4Z" fill={C.primary} />
-            <path d="M20 12L14 24H18L20 20L22 24H26L20 12Z" fill={C.teal} />
-          </svg>
+          <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={36} height={36} className="object-contain" />
           <span className="font-semibold text-[15px] tracking-wide" style={{ color: C.primary }}>
             ARYO CONSULTING GROUP
           </span>
@@ -463,13 +460,11 @@ const steps = [
 ];
 
 const reportSections = [
-  { name: "Executive Summary", count: "8 pages", items: "Market size, growth trajectory, key findings, strategic recommendations" },
-  { name: "Industry Overview & Trends", count: "18 pages", items: "Market segmentation, growth drivers, technology disruption, sustainability trends, labor challenges" },
-  { name: "Pricing Benchmarks", count: "22 pages", items: "Residential vs commercial rates, regional price maps, seasonal adjustments, maintenance vs installation pricing" },
-  { name: "Competitive Analysis", count: "20 pages", items: "Market share by region, top 50 firms profiled, service mix comparison, positioning strategies" },
-  { name: "Customer Segmentation", count: "16 pages", items: "Residential homeowners, commercial property managers, HOAs, municipal contracts, luxury estate clients" },
-  { name: "Regional Market Deep-Dives", count: "24 pages", items: "Northeast, Southeast, Midwest, Southwest, West Coast — demand, pricing, seasonality per region" },
-  { name: "Growth Opportunities", count: "14 pages", items: "Hardscaping, outdoor living, smart irrigation, commercial maintenance, snow removal, organic services" },
+  { name: "Executive Summary", count: "3 pages", items: "Market size, growth trajectory, key findings, strategic recommendations" },
+  { name: "Pricing Benchmarks", count: "7 pages", items: "Residential vs commercial rates, regional price maps, seasonal adjustments, maintenance vs installation pricing" },
+  { name: "Competitive Analysis", count: "6 pages", items: "Market share by region, top 50 firms profiled, service mix comparison, positioning strategies" },
+  { name: "Regional Market Deep-Dives", count: "8 pages", items: "Northeast, Southeast, Midwest, Southwest, West Coast — demand, pricing, seasonality per region" },
+  { name: "Growth Opportunities", count: "6 pages", items: "Hardscaping, outdoor living, smart irrigation, commercial maintenance, snow removal, organic services" },
 ];
 
 function HowItWorks() {
@@ -559,13 +554,11 @@ function HowItWorks() {
 
 // ────────────────────────── CHAPTERS ──────────────────────────
 const chapters = [
-  { num: "01", name: "Market Sizing & Growth", icon: "📊", description: "Understand the $176B landscaping market: current size, projected growth through 2028, and where the biggest opportunities are emerging.", tags: ["Market Size", "CAGR Analysis", "Segment Breakdown", "Growth Forecast"] },
+  { num: "01", name: "Executive Summary", icon: "📋", description: "Key findings at a glance: market size, top growth drivers, and the strategic recommendations every landscaping owner needs to act on first.", tags: ["Key Findings", "Strategic Recommendations", "Market Snapshot"] },
   { num: "02", name: "Pricing Intelligence", icon: "💰", description: "Access granular pricing data: what top firms charge for maintenance, design-build, hardscaping, and seasonal services — by region and client type.", tags: ["Hourly Rates", "Project Pricing", "Regional Benchmarks", "Seasonal Adjustments"] },
   { num: "03", name: "Competitive Landscape", icon: "🎯", description: "See exactly who your competitors are, what they charge, how they market, and where the gaps in your local market exist.", tags: ["Top 50 Firms", "Market Share", "Service Mix", "Positioning Map"] },
-  { num: "04", name: "Customer Segmentation", icon: "👥", description: "Know your ideal clients: demographics, psychographics, willingness to pay, and how to reach each segment effectively.", tags: ["Residential", "Commercial", "HOAs", "Luxury Estates", "Municipal"] },
-  { num: "05", name: "Regional Deep-Dives", icon: "🗺️", description: "Northeast, Southeast, Midwest, Southwest, and West Coast — each region analyzed for demand patterns, pricing norms, and seasonal dynamics.", tags: ["5 U.S. Regions", "Demand Curves", "Seasonality", "Local Regulations"] },
-  { num: "06", name: "Growth Opportunities", icon: "🚀", description: "Emerging service categories, technology adoption trends, and new revenue streams that forward-thinking landscaping firms are already capturing.", tags: ["Hardscaping", "Smart Irrigation", "Outdoor Living", "Snow Removal", "Organic"] },
-  { num: "07", name: "Operational Benchmarks", icon: "⚙️", description: "Compare your labor costs, equipment spend, marketing budgets, and profit margins against firms at your revenue level.", tags: ["Labor Costs", "Equipment ROI", "Marketing Spend", "Profit Margins"] },
+  { num: "04", name: "Regional Deep-Dives", icon: "🗺️", description: "Northeast, Southeast, Midwest, Southwest, and West Coast — each region analyzed for demand patterns, pricing norms, and seasonal dynamics.", tags: ["5 U.S. Regions", "Demand Curves", "Seasonality", "Local Regulations"] },
+  { num: "05", name: "Growth Opportunities", icon: "🚀", description: "Emerging service categories, technology adoption trends, and new revenue streams that forward-thinking landscaping firms are already capturing.", tags: ["Hardscaping", "Smart Irrigation", "Outdoor Living", "Snow Removal", "Organic"] },
 ];
 
 function Chapters() {
@@ -575,7 +568,7 @@ function Chapters() {
     <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: C.cream }}>
       <div className="max-w-[1200px] mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: C.charcoal }}>7 In-Depth Research Chapters</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: C.charcoal }}>5 In-Depth Research Chapters</h2>
           <p className="text-[16px]" style={{ color: C.slateLight }}>Every section is built for action, not just awareness</p>
         </div>
 
@@ -1122,10 +1115,7 @@ function PageFooter() {
     <footer className="py-16 px-4 sm:px-6 lg:px-8" style={{ background: C.primaryDeep }}>
       <div className="max-w-[1200px] mx-auto text-center">
         <div className="flex items-center justify-center gap-2 mb-3">
-          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-            <path d="M20 4L4 36H12L20 20L28 36H36L20 4Z" fill="white" />
-            <path d="M20 12L14 24H18L20 20L22 24H26L20 12Z" fill={C.tealLight} />
-          </svg>
+          <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={40} height={40} className="object-contain brightness-0 invert" />
           <span className="font-semibold text-[18px] tracking-wide text-white">ARYO CONSULTING GROUP</span>
         </div>
         <p className="text-[13px] mb-6" style={{ color: "rgba(255,255,255,0.6)" }}>
