@@ -482,10 +482,10 @@ function CertificationsBar() {
 
 // ────────────────────────── HOW IT WORKS ──────────────────────────
 const steps = [
-  { num: "1", title: "Download the PDF", desc: "Get instant access to the full 30-page report", image: "/market-research-reports/step-1-flatlay.png" },
+  { num: "1", title: "Download the PDF", desc: "Get instant access to the full 30-page report", html: "/market-research-reports/flatlay-scene.html" },
   { num: "2", title: "Review the data", desc: "Study benchmarks, trends, and competitor intel for your region", image: "/market-research-reports/landscaping-hero.jpg" },
   { num: "3", title: "Apply the insights", desc: "Implement pricing changes, targeting shifts, and growth strategies", image: "/market-research-reports/landscape-complete.jpg" },
-];
+] as { num: string; title: string; desc: string; image?: string; html?: string }[];
 
 const reportSections = [
   { name: "Executive Summary", count: "3 pages", items: "Market size, growth trajectory, key findings, strategic recommendations" },
@@ -514,7 +514,26 @@ function HowItWorks() {
           {steps.map((step) => (
             <div key={step.num} className="text-center">
               <div className="relative mb-4 rounded-xl overflow-hidden aspect-[4/3] shadow-md">
-                <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
+                {step.html ? (
+                  /* Scale the 760×900 scene to fill the 4:3 card */
+                  <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+                    <iframe
+                      src={step.html}
+                      title={step.title}
+                      scrolling="no"
+                      style={{
+                        width: 760,
+                        height: 900,
+                        border: "none",
+                        transformOrigin: "top left",
+                        transform: "scale(0.5)",
+                        pointerEvents: "none",
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
+                )}
                 <div
                   className="absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm"
                   style={{ background: C.primary }}

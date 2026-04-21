@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Landscaping Industry Market Report – Scene</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #e8e8e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── Scene canvas ── */
+  .scene {
+    position: relative;
+    width: 760px;
+    height: 900px;
+    background: radial-gradient(ellipse at 40% 35%, #f5f5f5 0%, #dcdcdc 100%);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.18);
+  }
+
+  /* ── Ambient floor shadow ── */
+  .scene::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.06) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* ────────────────────────────────
+     MACBOOK
+  ──────────────────────────────── */
+  .macbook {
+    position: absolute;
+    top: -30px;
+    left: -60px;
+    width: 360px;
+    transform: rotate(-12deg) perspective(800px) rotateX(8deg);
+    transform-origin: center top;
+    filter: drop-shadow(8px 16px 24px rgba(0,0,0,0.22));
+  }
+
+  /* ────────────────────────────────
+     DATA SHEETS
+  ──────────────────────────────── */
+  .data-sheets {
+    position: absolute;
+    top: 90px;
+    right: -20px;
+    width: 310px;
+    transform: rotate(4deg);
+    filter: drop-shadow(4px 10px 18px rgba(0,0,0,0.14));
+  }
+
+  /* ────────────────────────────────
+     PEN
+  ──────────────────────────────── */
+  .pen {
+    position: absolute;
+    top: 310px;
+    right: 48px;
+    width: 14px;
+    height: 220px;
+    transform: rotate(30deg);
+    transform-origin: center center;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+    z-index: 10;
+  }
+
+  /* ────────────────────────────────
+     REPORT COVER
+  ──────────────────────────────── */
+  .report-wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 420px;
+    transform: translate(-50%, -45%) rotate(-3deg);
+    filter: drop-shadow(6px 14px 28px rgba(0,0,0,0.2));
+    z-index: 5;
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+  <!-- ── MacBook ───────────────────────────────── -->
+  <div class="macbook">
+    <svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- Screen lid -->
+      <rect x="10" y="4" width="360" height="220" rx="8" fill="#c8c8c8"/>
+      <rect x="14" y="8" width="352" height="212" rx="6" fill="#1a1a1a"/>
+      <!-- Screen content -->
+      <rect x="14" y="8" width="352" height="212" rx="6" fill="#f0f4f8"/>
+      <!-- Toolbar -->
+      <rect x="14" y="8" width="352" height="22" rx="6" fill="#e2e8ed"/>
+      <rect x="14" y="22" width="352" height="8" fill="#e2e8ed"/>
+      <circle cx="28" cy="19" r="4" fill="#ff5f57"/>
+      <circle cx="42" cy="19" r="4" fill="#febc2e"/>
+      <circle cx="56" cy="19" r="4" fill="#28c840"/>
+      <!-- App sidebar -->
+      <rect x="14" y="30" width="52" height="190" fill="#f8f9fa"/>
+      <!-- Sidebar icons -->
+      <rect x="22" y="42" width="36" height="6" rx="3" fill="#d0d5db"/>
+      <rect x="22" y="54" width="36" height="6" rx="3" fill="#d0d5db"/>
+      <rect x="22" y="66" width="36" height="6" rx="3" fill="#2e86ab"/>
+      <rect x="22" y="78" width="36" height="6" rx="3" fill="#d0d5db"/>
+      <rect x="22" y="90" width="36" height="6" rx="3" fill="#d0d5db"/>
+      <!-- Main chart area -->
+      <rect x="70" y="30" width="296" height="190" fill="white"/>
+      <!-- Chart title -->
+      <rect x="80" y="40" width="100" height="5" rx="2" fill="#ccc"/>
+      <rect x="80" y="50" width="70" height="4" rx="2" fill="#e0e0e0"/>
+      <!-- Bar chart -->
+      <!-- Group 1 -->
+      <rect x="90" y="130" width="18" height="70" rx="2" fill="#2e86ab" opacity="0.85"/>
+      <rect x="112" y="110" width="18" height="90" rx="2" fill="#48c9b0" opacity="0.85"/>
+      <rect x="134" y="150" width="18" height="50" rx="2" fill="#2e86ab" opacity="0.5"/>
+      <!-- Group 2 -->
+      <rect x="165" y="100" width="18" height="100" rx="2" fill="#2e86ab" opacity="0.85"/>
+      <rect x="187" y="120" width="18" height="80" rx="2" fill="#48c9b0" opacity="0.85"/>
+      <rect x="209" y="140" width="18" height="60" rx="2" fill="#2e86ab" opacity="0.5"/>
+      <!-- Group 3 -->
+      <rect x="240" y="90" width="18" height="110" rx="2" fill="#2e86ab" opacity="0.85"/>
+      <rect x="262" y="115" width="18" height="85" rx="2" fill="#48c9b0" opacity="0.85"/>
+      <rect x="284" y="135" width="18" height="65" rx="2" fill="#2e86ab" opacity="0.5"/>
+      <!-- X axis -->
+      <line x1="80" y1="200" x2="355" y2="200" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- Legend -->
+      <rect x="80" y="210" width="8" height="5" rx="1" fill="#2e86ab"/>
+      <rect x="80" y="218" width="50" height="3" rx="1" fill="#e0e0e0"/>
+      <rect x="110" y="210" width="8" height="5" rx="1" fill="#48c9b0"/>
+      <rect x="120" y="218" width="50" height="3" rx="1" fill="#e0e0e0"/>
+      <!-- Bottom base -->
+      <rect x="0" y="224" width="380" height="18" rx="4" fill="#b0b0b0"/>
+      <rect x="0" y="228" width="380" height="10" fill="#b8b8b8"/>
+      <!-- Hinge detail -->
+      <rect x="120" y="224" width="140" height="4" rx="2" fill="#a0a0a0"/>
+      <!-- Trackpad -->
+      <rect x="140" y="238" width="100" height="60" rx="6" fill="#c8c8c8"/>
+      <rect x="143" y="241" width="94" height="54" rx="5" fill="#c0c0c0"/>
+    </svg>
+  </div>
+
+  <!-- ── Data Sheets ────────────────────────────── -->
+  <div class="data-sheets">
+    <svg viewBox="0 0 310 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- Paper shadow -->
+      <rect x="6" y="6" width="298" height="388" rx="3" fill="rgba(0,0,0,0.08)"/>
+      <!-- Paper -->
+      <rect x="0" y="0" width="298" height="388" rx="3" fill="white"/>
+      <!-- Top bar accent -->
+      <rect x="0" y="0" width="298" height="4" rx="2" fill="#2e86ab"/>
+
+      <!-- Section 1: Line chart -->
+      <rect x="16" y="16" width="120" height="8" rx="3" fill="#ccc"/>
+      <rect x="16" y="28" width="80" height="5" rx="2" fill="#e0e0e0"/>
+      <!-- Line chart grid -->
+      <line x1="16" y1="80" x2="280" y2="80" stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="16" y1="64" x2="280" y2="64" stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="16" y1="48" x2="280" y2="48" stroke="#f0f0f0" stroke-width="1"/>
+      <!-- Line chart path -->
+      <polyline points="16,75 50,62 84,68 118,44 152,50 186,38 220,55 254,42 280,35"
+                fill="none" stroke="#2e86ab" stroke-width="2.5" stroke-linejoin="round"/>
+      <polyline points="16,78 50,70 84,72 118,60 152,65 186,55 220,68 254,58 280,52"
+                fill="none" stroke="#48c9b0" stroke-width="2" stroke-linejoin="round" stroke-dasharray="4,2"/>
+      <!-- Dots on line -->
+      <circle cx="16" cy="75" r="3" fill="white" stroke="#2e86ab" stroke-width="2"/>
+      <circle cx="84" cy="68" r="3" fill="white" stroke="#2e86ab" stroke-width="2"/>
+      <circle cx="152" cy="50" r="3" fill="white" stroke="#2e86ab" stroke-width="2"/>
+      <circle cx="220" cy="55" r="3" fill="white" stroke="#2e86ab" stroke-width="2"/>
+      <circle cx="280" cy="35" r="3" fill="white" stroke="#2e86ab" stroke-width="2"/>
+
+      <!-- Section 2: Pie + Bar side by side -->
+      <line x1="16" y1="100" x2="280" y2="100" stroke="#f0f0f0" stroke-width="1"/>
+      <!-- Pie chart label -->
+      <rect x="16" y="108" width="80" height="6" rx="2" fill="#ddd"/>
+      <!-- Pie chart -->
+      <!-- Circle base -->
+      <circle cx="80" cy="170" r="48" fill="#e8f4f8"/>
+      <!-- Pie slices -->
+      <path d="M80,170 L80,122 A48,48 0 0,1 121,194 Z" fill="#2e86ab"/>
+      <path d="M80,170 L121,194 A48,48 0 0,1 52,215 Z" fill="#48c9b0"/>
+      <path d="M80,170 L52,215 A48,48 0 0,1 35,140 Z" fill="#7bc8e2"/>
+      <path d="M80,170 L35,140 A48,48 0 0,1 80,122 Z" fill="#b8e2f0"/>
+      <!-- Pie labels -->
+      <rect x="16" y="228" width="8" height="5" rx="1" fill="#2e86ab"/>
+      <rect x="28" y="229" width="30" height="4" rx="1" fill="#ddd"/>
+      <rect x="16" y="237" width="8" height="5" rx="1" fill="#48c9b0"/>
+      <rect x="28" y="238" width="30" height="4" rx="1" fill="#ddd"/>
+
+      <!-- Bar chart (right side) -->
+      <rect x="165" y="108" width="80" height="6" rx="2" fill="#ddd"/>
+      <!-- Bars -->
+      <rect x="168" y="148" width="16" height="40" rx="2" fill="#2e86ab" opacity="0.7"/>
+      <rect x="188" y="138" width="16" height="50" rx="2" fill="#48c9b0" opacity="0.9"/>
+      <rect x="208" y="130" width="16" height="58" rx="2" fill="#2e86ab"/>
+      <rect x="228" y="142" width="16" height="46" rx="2" fill="#48c9b0" opacity="0.7"/>
+      <rect x="248" y="125" width="16" height="63" rx="2" fill="#2e86ab" opacity="0.9"/>
+      <line x1="165" y1="188" x2="280" y2="188" stroke="#e8e8e8" stroke-width="1"/>
+      <!-- X labels -->
+      <rect x="168" y="192" width="12" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="188" y="192" width="12" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="208" y="192" width="12" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="228" y="192" width="12" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="248" y="192" width="12" height="4" rx="1" fill="#e0e0e0"/>
+
+      <!-- Section 3: Another bar chart -->
+      <line x1="16" y1="260" x2="280" y2="260" stroke="#f0f0f0" stroke-width="1"/>
+      <rect x="16" y="268" width="100" height="6" rx="2" fill="#ddd"/>
+      <!-- Bars horizontal -->
+      <rect x="16" y="284" width="180" height="10" rx="2" fill="#2e86ab" opacity="0.8"/>
+      <rect x="16" y="298" width="140" height="10" rx="2" fill="#48c9b0" opacity="0.8"/>
+      <rect x="16" y="312" width="220" height="10" rx="2" fill="#2e86ab" opacity="0.6"/>
+      <rect x="16" y="326" width="160" height="10" rx="2" fill="#48c9b0" opacity="0.9"/>
+      <rect x="16" y="340" width="200" height="10" rx="2" fill="#2e86ab"/>
+      <!-- Y labels -->
+      <rect x="200" y="285" width="30" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="160" y="299" width="30" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="240" y="313" width="30" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="180" y="327" width="30" height="4" rx="1" fill="#e0e0e0"/>
+      <rect x="220" y="341" width="30" height="4" rx="1" fill="#e0e0e0"/>
+
+      <!-- Bottom footer -->
+      <rect x="16" y="368" width="60" height="4" rx="2" fill="#e8e8e8"/>
+      <rect x="16" y="376" width="40" height="4" rx="2" fill="#e8e8e8"/>
+    </svg>
+  </div>
+
+  <!-- ── Pen ─────────────────────────────────────── -->
+  <div class="pen">
+    <svg viewBox="0 0 14 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pen body -->
+      <rect x="2" y="10" width="10" height="180" rx="2" fill="#3a7bbf"/>
+      <!-- Pen clip -->
+      <rect x="9" y="12" width="3" height="100" rx="1" fill="#2a5f9e"/>
+      <!-- Pen top -->
+      <rect x="2" y="4" width="10" height="10" rx="2" fill="#2a5f9e"/>
+      <rect x="4" y="0" width="6" height="6" rx="1" fill="#1a4f8e"/>
+      <!-- Pen grip -->
+      <rect x="2" y="165" width="10" height="18" rx="1" fill="#2a5f9e"/>
+      <!-- Pen tip -->
+      <polygon points="7,220 3,185 11,185" fill="#1a3a6e"/>
+      <polygon points="7,218 5,190 9,190" fill="#silver"/>
+      <!-- Highlight -->
+      <rect x="4" y="15" width="2" height="140" rx="1" fill="rgba(255,255,255,0.2)"/>
+    </svg>
+  </div>
+
+  <!-- ── Report Cover ───────────────────────────── -->
+  <div class="report-wrap">
+    <svg viewBox="0 0 420 560" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cover shadow -->
+      <rect x="6" y="8" width="408" height="548" rx="4" fill="rgba(0,0,0,0.12)"/>
+      <!-- Cover white background -->
+      <rect x="0" y="0" width="408" height="548" rx="4" fill="white"/>
+
+      <!-- Top teal accent bar -->
+      <rect x="0" y="0" width="408" height="6" rx="2" fill="#2e86ab"/>
+
+      <!-- Left stripe accent -->
+      <rect x="0" y="0" width="5" height="548" rx="2" fill="#2e86ab" opacity="0.3"/>
+
+      <!-- Title area -->
+      <!-- "2026 Landscaping" — large bold dark navy -->
+      <text x="24" y="72" font-family="Inter, sans-serif" font-size="46" font-weight="900"
+            fill="#1a2e4a" letter-spacing="-1">2026</text>
+      <text x="24" y="118" font-family="Inter, sans-serif" font-size="38" font-weight="800"
+            fill="#1a2e4a" letter-spacing="-0.5">Landscaping</text>
+
+      <!-- Teal underline beneath Landscaping -->
+      <rect x="24" y="126" width="280" height="3" rx="1.5" fill="#2e86ab"/>
+
+      <!-- "Industry Market Report" — teal italic -->
+      <text x="24" y="158" font-family="Inter, sans-serif" font-size="26" font-weight="600"
+            fill="#2e86ab" font-style="italic">Industry Market Report</text>
+
+      <!-- ── Isometric Garden Illustration ── -->
+      <!-- Background wash -->
+      <rect x="0" y="180" width="408" height="320" fill="#f0f8fb"/>
+      <rect x="0" y="180" width="408" height="6" fill="#d8eef5"/>
+
+      <!-- Ground plane tiles (isometric grid) -->
+      <g opacity="0.3">
+        <path d="M0,380 L204,310 L408,380 L204,450 Z" fill="#c8e8f0"/>
+        <path d="M0,355 L204,285 L408,355 L204,425 Z" fill="none" stroke="#a8d8e8" stroke-width="0.8"/>
+        <path d="M0,330 L204,260 L408,330 L204,400 Z" fill="none" stroke="#a8d8e8" stroke-width="0.8"/>
+      </g>
+
+      <!-- Garden beds (isometric boxes) -->
+      <!-- Bottom-left garden bed -->
+      <g transform="translate(20, 320)">
+        <path d="M0,60 L60,30 L60,70 L0,100 Z" fill="#1a6b4a"/>
+        <path d="M60,30 L110,60 L110,100 L60,70 Z" fill="#145a3c"/>
+        <path d="M0,60 L60,30 L110,60 L50,90 Z" fill="#48c9b0"/>
+        <!-- Plants on top -->
+        <circle cx="20" cy="45" r="14" fill="#2e9b6e"/>
+        <circle cx="20" cy="45" r="10" fill="#48c9b0"/>
+        <circle cx="45" cy="35" r="12" fill="#2e9b6e"/>
+        <circle cx="45" cy="35" r="8" fill="#48c9b0"/>
+        <rect x="16" y="54" width="8" height="12" fill="#5a3a1a"/>
+        <rect x="41" y="44" width="8" height="12" fill="#5a3a1a"/>
+      </g>
+
+      <!-- Bottom-right garden bed -->
+      <g transform="translate(270, 320)">
+        <path d="M0,60 L60,30 L60,70 L0,100 Z" fill="#1a6b4a"/>
+        <path d="M60,30 L110,60 L110,100 L60,70 Z" fill="#145a3c"/>
+        <path d="M0,60 L60,30 L110,60 L50,90 Z" fill="#48c9b0"/>
+        <!-- Plants -->
+        <circle cx="25" cy="45" r="13" fill="#2e9b6e"/>
+        <circle cx="25" cy="45" r="9" fill="#48c9b0"/>
+        <circle cx="50" cy="35" r="11" fill="#2e9b6e"/>
+        <circle cx="50" cy="35" r="7" fill="#48c9b0"/>
+        <rect x="21" y="54" width="8" height="12" fill="#5a3a1a"/>
+        <rect x="46" y="44" width="8" height="12" fill="#5a3a1a"/>
+      </g>
+
+      <!-- Left tall garden beds -->
+      <g transform="translate(18, 230)">
+        <path d="M0,50 L50,25 L50,70 L0,95 Z" fill="#1a6b4a"/>
+        <path d="M50,25 L90,50 L90,95 L50,70 Z" fill="#145a3c"/>
+        <path d="M0,50 L50,25 L90,50 L40,75 Z" fill="#3ab88a"/>
+        <!-- Shrubs -->
+        <circle cx="22" cy="36" r="11" fill="#2e9b6e"/>
+        <circle cx="22" cy="36" r="7" fill="#5dd4a8"/>
+        <circle cx="42" cy="28" r="9" fill="#2e9b6e"/>
+        <circle cx="42" cy="28" r="6" fill="#5dd4a8"/>
+      </g>
+
+      <!-- Right tall garden beds -->
+      <g transform="translate(295, 230)">
+        <path d="M0,50 L50,25 L50,70 L0,95 Z" fill="#1a6b4a"/>
+        <path d="M50,25 L90,50 L90,95 L50,70 Z" fill="#145a3c"/>
+        <path d="M0,50 L50,25 L90,50 L40,75 Z" fill="#3ab88a"/>
+        <circle cx="22" cy="36" r="11" fill="#2e9b6e"/>
+        <circle cx="22" cy="36" r="7" fill="#5dd4a8"/>
+        <circle cx="42" cy="28" r="9" fill="#2e9b6e"/>
+        <circle cx="42" cy="28" r="6" fill="#5dd4a8"/>
+      </g>
+
+      <!-- Central pond/fountain -->
+      <g transform="translate(154, 320)">
+        <ellipse cx="50" cy="30" rx="48" ry="28" fill="#1a7ab0" opacity="0.25"/>
+        <ellipse cx="50" cy="30" rx="40" ry="22" fill="#2e86ab" opacity="0.35"/>
+        <ellipse cx="50" cy="30" rx="30" ry="16" fill="#48c9b0" opacity="0.6"/>
+        <ellipse cx="50" cy="30" rx="18" ry="10" fill="#7be0d4" opacity="0.8"/>
+        <!-- Fountain spray -->
+        <line x1="50" y1="30" x2="46" y2="16" stroke="#a8f0e8" stroke-width="1.5" opacity="0.8"/>
+        <line x1="50" y1="30" x2="50" y2="13" stroke="#a8f0e8" stroke-width="2" opacity="0.9"/>
+        <line x1="50" y1="30" x2="54" y2="16" stroke="#a8f0e8" stroke-width="1.5" opacity="0.8"/>
+        <circle cx="50" cy="12" r="3" fill="#c8f8f4" opacity="0.9"/>
+      </g>
+
+      <!-- Pathways (isometric) -->
+      <g opacity="0.6">
+        <!-- Center path -->
+        <path d="M170,340 L204,325 L238,340 L204,355 Z" fill="#d8c8a0"/>
+        <path d="M170,360 L204,345 L238,360 L204,375 Z" fill="#d8c8a0"/>
+        <path d="M170,380 L204,365 L238,380 L204,395 Z" fill="#d8c8a0"/>
+      </g>
+
+      <!-- ── Pergola structure ── -->
+      <!-- Posts -->
+      <rect x="148" y="240" width="8" height="80" fill="#8B5E3C"/>
+      <rect x="252" y="240" width="8" height="80" fill="#7a5230"/>
+      <rect x="148" y="200" width="8" height="50" fill="#8B5E3C"/>
+      <rect x="252" y="200" width="8" height="50" fill="#7a5230"/>
+
+      <!-- Horizontal beams -->
+      <rect x="140" y="198" width="128" height="8" rx="2" fill="#6B4423"/>
+      <rect x="140" y="215" width="128" height="6" rx="2" fill="#7a5230"/>
+
+      <!-- Pergola cross slats -->
+      <rect x="140" y="198" width="6" height="50" rx="1" fill="#9B6E4C"/>
+      <rect x="162" y="198" width="5" height="50" rx="1" fill="#9B6E4C"/>
+      <rect x="182" y="198" width="5" height="50" rx="1" fill="#9B6E4C"/>
+      <rect x="202" y="198" width="5" height="50" rx="1" fill="#9B6E4C"/>
+      <rect x="222" y="198" width="5" height="50" rx="1" fill="#9B6E4C"/>
+      <rect x="242" y="198" width="5" height="50" rx="1" fill="#9B6E4C"/>
+      <rect x="257" y="198" width="6" height="50" rx="1" fill="#9B6E4C"/>
+
+      <!-- Patio furniture beneath pergola -->
+      <!-- Table -->
+      <ellipse cx="204" cy="290" rx="22" ry="12" fill="#c8a87a" opacity="0.8"/>
+      <rect x="200" y="288" width="8" height="20" fill="#a88858" opacity="0.7"/>
+      <!-- Chairs -->
+      <rect x="178" y="285" width="16" height="12" rx="3" fill="#d4b896" opacity="0.8"/>
+      <rect x="214" y="285" width="16" height="12" rx="3" fill="#d4b896" opacity="0.8"/>
+
+      <!-- Tall trees (back) -->
+      <!-- Left back tree -->
+      <rect x="90" y="200" width="7" height="60" fill="#5a3a1a"/>
+      <circle cx="93" cy="188" r="22" fill="#1a6b4a"/>
+      <circle cx="93" cy="188" r="16" fill="#2e9b6e"/>
+      <circle cx="93" cy="185" r="10" fill="#48c9b0"/>
+
+      <!-- Right back tree -->
+      <rect x="305" y="200" width="7" height="60" fill="#5a3a1a"/>
+      <circle cx="308" cy="188" r="22" fill="#1a6b4a"/>
+      <circle cx="308" cy="188" r="16" fill="#2e9b6e"/>
+      <circle cx="308" cy="185" r="10" fill="#48c9b0"/>
+
+      <!-- Light overlay on illustration -->
+      <rect x="0" y="180" width="408" height="320" fill="url(#illumGrad)" opacity="0.15"/>
+      <defs>
+        <linearGradient id="illumGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="white"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Bottom info bar -->
+      <rect x="0" y="500" width="408" height="48" fill="#f8fafb"/>
+      <rect x="0" y="500" width="408" height="1" fill="#e0edf3"/>
+      <text x="24" y="522" font-family="Inter, sans-serif" font-size="9" font-weight="700"
+            fill="#2e86ab" letter-spacing="2">ARYO CONSULTING GROUP</text>
+      <text x="24" y="536" font-family="Inter, sans-serif" font-size="8" font-weight="400"
+            fill="#8aa0b0" letter-spacing="1">INDUSTRY INTELLIGENCE DIVISION</text>
+      <!-- Right badge -->
+      <circle cx="378" cy="524" r="18" fill="none" stroke="#2e86ab" stroke-width="1.5" opacity="0.5"/>
+      <text x="378" y="521" font-family="Inter, sans-serif" font-size="9" font-weight="800"
+            fill="#2e86ab" text-anchor="middle">2026</text>
+      <text x="378" y="531" font-family="Inter, sans-serif" font-size="6" font-weight="500"
+            fill="#8aa0b0" text-anchor="middle" letter-spacing="1">ED.</text>
+    </svg>
+  </div>
+
+</div>
+
+</body>
+</html>
