@@ -55,7 +55,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
           <Link href="/" className="flex-shrink-0 flex items-center cursor-pointer" data-testid="link-home">
-            <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo" />
+            <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = '/favicon.png'; }} />
           </Link>
           
           <div className="hidden md:block">
@@ -212,7 +212,7 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="mb-6">
-              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain brightness-0 invert" data-testid="img-aryo-logo-footer" />
+              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain brightness-0 invert" data-testid="img-aryo-logo-footer" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = '/favicon.png'; }} />
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
               Corporate strategy and governance consulting for enterprise transformation.
