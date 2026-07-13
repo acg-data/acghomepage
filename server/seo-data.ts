@@ -238,6 +238,42 @@ const seoRoutes: Record<string, PageSEO> = {
       breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "New York City", url: "https://aryocg.com/nyc" }]),
     ],
   },
+  "/services/ai-hardtech": {
+    title: "AI & HardTech Implementation | Aryo Consulting Group",
+    description: "AI implementation consulting for manufacturing, CAD engineering, and photonics automation—from workflow diagnostic through governed scale.",
+    canonical: "https://aryocg.com/services/ai-hardtech",
+    jsonLd: [
+      webPage("AI & HardTech Implementation", "AI implementation consulting for manufacturing, CAD engineering, and photonics automation.", "https://aryocg.com/services/ai-hardtech", "CollectionPage"),
+      breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "AI & HardTech Implementation", url: "https://aryocg.com/services/ai-hardtech" }]),
+    ],
+  },
+  "/services/manufacturing-ai": {
+    title: "AI Implementation for Manufacturing | Aryo Consulting Group",
+    description: "Implement AI on the manufacturing floor across quality, maintenance, scheduling, and frontline knowledge with accountable controls and measurable economics.",
+    canonical: "https://aryocg.com/services/manufacturing-ai",
+    jsonLd: [
+      service("AI Implementation for Manufacturing", "Implement AI across manufacturing quality, maintenance, scheduling, and frontline operations.", "https://aryocg.com/services/manufacturing-ai"),
+      breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "AI & HardTech", url: "https://aryocg.com/services/ai-hardtech" }, { name: "Manufacturing AI", url: "https://aryocg.com/services/manufacturing-ai" }]),
+    ],
+  },
+  "/services/cad-ai": {
+    title: "AI-Assisted CAD Implementation | Aryo Consulting Group",
+    description: "Operationalize CAD copilots, programmatic CAD, simulation automation, engineering knowledge, and PLM release controls.",
+    canonical: "https://aryocg.com/services/cad-ai",
+    jsonLd: [
+      service("AI-Assisted CAD Implementation", "Operationalize CAD copilots, programmatic CAD, simulation automation, and PLM controls.", "https://aryocg.com/services/cad-ai"),
+      breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "AI & HardTech", url: "https://aryocg.com/services/ai-hardtech" }, { name: "AI-Assisted CAD", url: "https://aryocg.com/services/cad-ai" }]),
+    ],
+  },
+  "/services/photonics-automation": {
+    title: "AI & Automation for Photonics | Aryo Consulting Group",
+    description: "Connect inverse design, simulation, lab automation, test data, and manufacturing controls in a governed photonics workflow.",
+    canonical: "https://aryocg.com/services/photonics-automation",
+    jsonLd: [
+      service("AI & Automation for Photonics", "Connect inverse design, simulation, lab automation, test data, and manufacturing controls.", "https://aryocg.com/services/photonics-automation"),
+      breadcrumb([{ name: "Home", url: "https://aryocg.com" }, { name: "AI & HardTech", url: "https://aryocg.com/services/ai-hardtech" }, { name: "Photonics Automation", url: "https://aryocg.com/services/photonics-automation" }]),
+    ],
+  },
   "/ma-advisory": {
     title: "M&A Advisory | Aryo Consulting Group",
     description: "Strategic M&A advisory for middle-market companies. Sell-side, buy-side, and corporate divestiture expertise to maximize transaction value.",

@@ -4,6 +4,7 @@ import { Menu, X, Linkedin, ChevronDown } from 'lucide-react';
 import { SiInstagram } from 'react-icons/si';
 
 const capabilitiesItems = [
+  { name: 'AI & HardTech Implementation', href: '/services/ai-hardtech' },
   { name: 'Digital Transformation', href: '/digital-transformation' },
   { name: 'M&A Advisory', href: '/ma-advisory' },
   { name: 'Governance & Risk', href: '/governance-risk' },
@@ -222,6 +223,7 @@ export function Footer() {
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Services</h4>
             <ul className="space-y-3">
               <li><Link href="/capabilities" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">All Capabilities</Link></li>
+              <li><Link href="/services/ai-hardtech" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">AI & HardTech Implementation</Link></li>
               <li><Link href="/digital-transformation" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Digital Transformation</Link></li>
               <li><Link href="/ma-advisory" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">M&A Advisory</Link></li>
               <li><Link href="/governance-risk" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Governance & Risk</Link></li>

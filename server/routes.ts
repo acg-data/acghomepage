@@ -120,6 +120,10 @@ export async function registerRoutes(
       { loc: "/valuation-tool", priority: "0.5", changefreq: "monthly" },
       { loc: "/reports/q4-hiring-abroad", priority: "0.5", changefreq: "yearly" },
       { loc: "/market-research-reports", priority: "0.7", changefreq: "monthly" },
+      { loc: "/services/ai-hardtech", priority: "0.9", changefreq: "monthly" },
+      { loc: "/services/manufacturing-ai", priority: "0.9", changefreq: "monthly" },
+      { loc: "/services/cad-ai", priority: "0.8", changefreq: "monthly" },
+      { loc: "/services/photonics-automation", priority: "0.8", changefreq: "monthly" },
     ];
 
     const staticUrls = pages
@@ -1109,6 +1113,10 @@ ${urlEntries}
   // Service Sitemap - all service/capability pages
   app.get("/service-sitemap.xml", (_req: Request, res: Response) => {
     const services = [
+      { loc: "/services/ai-hardtech", priority: "0.9" },
+      { loc: "/services/manufacturing-ai", priority: "0.9" },
+      { loc: "/services/cad-ai", priority: "0.8" },
+      { loc: "/services/photonics-automation", priority: "0.8" },
       { loc: "/digital-transformation", priority: "0.8" },
       { loc: "/ma-advisory", priority: "0.8" },
       { loc: "/governance-risk", priority: "0.8" },
