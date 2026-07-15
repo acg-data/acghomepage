@@ -102,7 +102,7 @@ export function organizationSchema() {
     name: "Aryo Consulting Group",
     url: "https://aryocg.com",
     logo: "https://aryocg.com/og-image.png",
-    description: "We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value.",
+    description: "Aryo turns strategic priorities into governed operating systems, AI implementations, and measurable enterprise value.",
     foundingDate: "2024",
     founder: {
       "@type": "Person",
@@ -125,6 +125,8 @@ export function organizationSchema() {
       "Talent & Organization",
       "Governance & Risk",
       "Growth Strategy",
+      "AI Implementation",
+      "Manufacturing Transformation",
     ],
   };
 }

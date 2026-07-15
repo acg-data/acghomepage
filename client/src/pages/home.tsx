@@ -1,963 +1,202 @@
-import { useState, useEffect, useRef, useCallback, type ReactNode } from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import { Link } from 'wouter';
-import { useQuery } from '@tanstack/react-query';
-import { SEO } from '@/components/seo';
-import { Navbar } from '@/components/layout';
-import { useWPTestimonials, useWPHomepage, type WPTestimonial, type WPStat, type WPPillar, type WPProcessStep, type WPHeroContent, type WPDifferentiator, type WPRadarData } from '@/lib/wordpress';
-import { organizationSchema, localBusinessSchema, breadcrumbSchema } from '@/components/seo';
-import { 
-  ArrowRight, 
-  Activity,
-  Globe, 
-  Users, 
-  Cpu,
-  Clock,
-  Layout,
-  Hexagon,
-  Triangle,
-  Circle,
-  Mail,
-  Phone,
-  MapPin,
-  Linkedin,
-  ChevronLeft,
-  ChevronRight
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { SiInstagram } from 'react-icons/si';
+import { ArrowRight, Check, MoveUpRight } from "lucide-react";
+import { Link } from "wouter";
+import { PageLayout } from "@/components/layout";
+import { SEO, breadcrumbSchema, organizationSchema } from "@/components/seo";
+import { useWPHomepage, useWPTestimonials } from "@/lib/wordpress";
+import "./home.css";
 
-const COMPETITOR_DATA: Record<string, number[]> = {
-  "Marketing Agency": [0.2, 0.95, 0.4, 0.1, 0.2, 0.1], 
-  "Business Broker": [0.5, 0.3, 0.1, 0.95, 0.1, 0.2],
-  "PE Firm": [0.95, 0.2, 0.2, 0.9, 0.4, 0.6],        
-  "Recruiting Co": [0.1, 0.2, 0.1, 0.1, 0.95, 0.2],   
-  "Tech Consulting": [0.2, 0.2, 0.95, 0.2, 0.2, 0.4],
-  "Research Org": [0.1, 0.8, 0.2, 0.3, 0.1, 0.1]
-};
+const fallbackStats = [
+  { value: "400+", label: "engagements completed" },
+  { value: "$1.5B", label: "enterprise value unlocked" },
+  { value: "98%", label: "client retention rate" },
+  { value: "75%", label: "average reduction in fees" },
+];
 
-const Aryo_DATA = [0.9, 0.9, 0.95, 0.8, 0.9, 0.95];
+const capabilities = [
+  {
+    number: "01",
+    title: "Enterprise transformation",
+    copy: "Turn strategic priorities into an operating model with clear ownership, systems, and measurable value creation.",
+    href: "/capabilities",
+    signal: "Strategy / execution",
+  },
+  {
+    number: "02",
+    title: "AI & HardTech implementation",
+    copy: "Deploy governed AI across manufacturing, engineering, CAD, photonics, and frontline workflows.",
+    href: "/services/ai-hardtech",
+    signal: "Workflow / control / ROI",
+  },
+  {
+    number: "03",
+    title: "M&A and value creation",
+    copy: "Connect diligence, integration, and operational improvement to the value thesis behind the transaction.",
+    href: "/ma-advisory",
+    signal: "Thesis / integration",
+  },
+  {
+    number: "04",
+    title: "Governance and risk",
+    copy: "Build decision rights, reporting, and control systems that let teams move faster without losing accountability.",
+    href: "/governance-risk",
+    signal: "Decisions / assurance",
+  },
+];
 
-function useOnScreen(ref: React.RefObject<HTMLElement | null>, rootMargin = '0px') {
-  const [isIntersecting, setIntersecting] = useState(false);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIntersecting(true);
-          observer.disconnect(); 
-        }
-      },
-      { rootMargin }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref, rootMargin]);
-  
-  return isIntersecting;
-}
+const process = [
+  { phase: "01", time: "Weeks 1–4", title: "Diagnose", copy: "Establish the baseline, isolate the constraint, and name the accountable owner." },
+  { phase: "02", time: "Weeks 5–8", title: "Architect", copy: "Design the operating model, decision rights, economics, and implementation path." },
+  { phase: "03", time: "Weeks 9–24", title: "Implement", copy: "Deploy the workflow, connect the systems, and measure what changed in production." },
+  { phase: "04", time: "Handover", title: "Govern", copy: "Transfer ownership with controls, dashboards, training, and a repeatable scale model." },
+];
 
-function AnimatedNumber({ end, suffix = "", duration = 2500, className = "" }: { end: number; suffix?: string; duration?: number; className?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const hasAnimatedRef = useRef(false);
-  const onScreen = useOnScreen(ref);
+const aiDeltas = [
+  { label: "Machined component", before: 100, after: 65, delta: "−35%" },
+  { label: "Molded enclosure", before: 100, after: 64, delta: "−36%" },
+  { label: "Mechatronic assembly", before: 100, after: 69, delta: "−31%" },
+];
 
-  useEffect(() => {
-    if (!onScreen || hasAnimatedRef.current) return;
-    
-    hasAnimatedRef.current = true;
-    let startTime: number | null = null;
-    let animationFrame: number;
-
-    const animate = (timestamp: number) => {
-      if (startTime === null) startTime = timestamp;
-      const progress = timestamp - startTime;
-      const percentage = Math.min(progress / duration, 1);
-      const easeOutQuart = 1 - Math.pow(1 - percentage, 4);
-      setCount(Math.floor(end * easeOutQuart));
-
-      if (progress < duration) {
-        animationFrame = requestAnimationFrame(animate);
-      } else {
-        setCount(end); // Ensure final value is exact
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-    return () => {
-      cancelAnimationFrame(animationFrame);
-    };
-  }, [end, duration, onScreen]);
-
-  return <span ref={ref} className={`font-serif tracking-tight ${className || 'text-aryo-deepBlue'}`}>{count}{suffix}</span>;
-}
-
-function FadeIn({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const onScreen = useOnScreen(ref, "-50px");
-  
-  return (
-    <div 
-      ref={ref} 
-      className={`transition-all duration-1000 ease-out transform ${onScreen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function AryoLogo({ size = 96, className = "" }: { size?: number; className?: string }) {
-  return (
-    <img 
-      src="/api/aryo-logo" 
-      alt="Aryo Consulting Group" 
-      width={size} 
-      height={size} 
-      className={`object-contain ${className}`}
-      data-testid="img-aryo-logo"
-    />
-  );
-}
-
-
-function Hero({ wpHero }: { wpHero?: WPHeroContent | null }) {
-  const { data: logos = [] } = useQuery<{ name: string; dataUri: string }[]>({
-    queryKey: ['/api/logos-bundle'],
-    staleTime: 3600000,
-  });
-
-  const fallbackHero = {
-    headline: "The Modern Consulting Firm that actually delivers results.",
-    subheadline: "Results-Driven Consulting",
-    description: "Traditional consulting has failed. It's expensive, vague, and puts the firm, not the client, first.",
-    bullets: [
-      "No hourly billing bloat.",
-      "No vague 100-page slide decks.",
-      "Deployed systems & infrastructure.",
-      "Outcome-based execution.",
-    ],
-  };
-  const hero = wpHero || fallbackHero;
-
-  return (
-    <div className="relative pt-40 pb-24 bg-aryo-offWhite border-b border-aryo-lightGrey overflow-hidden">
-      <div className="absolute right-0 top-0 h-full w-1/3 opacity-10 pointer-events-none">
-        <svg viewBox="0 0 200 800" className="h-full w-full">
-           <path d="M0 800 L200 0 L200 800 Z" fill="#274D8E" />
-           <path d="M50 800 L200 200 L200 800 Z" fill="#47B5CB" />
-        </svg>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-        <FadeIn>
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px w-12 bg-aryo-greenTeal"></div>
-            <span className="text-xs font-bold font-sans text-aryo-deepBlue tracking-[0.25em] uppercase">
-              {hero.subheadline}
-            </span>
-          </div>
-        </FadeIn>
-        
-        <FadeIn delay={200}>
-          <h1 className="text-4xl md:text-6xl font-serif text-aryo-deepBlue tracking-tight mb-8 leading-[1.15] max-w-4xl">
-            {hero.headline.includes('delivers results') ? (
-              <>
-                The Modern Consulting Firm that actually{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-aryo-deepBlue to-aryo-greenTeal">
-                  delivers results.
-                </span>
-              </>
-            ) : hero.headline}
-          </h1>
-        </FadeIn>
-        
-        <FadeIn delay={300}>
-          <div className="max-w-2xl mb-10">
-            <p className="text-xl md:text-2xl text-slate-600 mb-6 leading-relaxed font-sans font-light">
-              {hero.description}
-            </p>
-            <p className="text-lg text-slate-600 leading-relaxed font-sans">
-              At ACG, we work to build the modern operating system and framework of the business. We align incentives to see you grow well before we do.
-            </p>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={350}>
-          <div className="grid sm:grid-cols-2 gap-4 max-w-xl mb-12">
-            {hero.bullets.map((bullet, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-aryo-greenTeal rounded-full"></div>
-                <span className="text-aryo-deepBlue font-sans font-medium">{bullet}</span>
-              </div>
-            ))}
-          </div>
-        </FadeIn>
-        
-        <FadeIn delay={400}>
-          <div className="flex flex-col sm:flex-row gap-6 flex-wrap">
-            <Link href="/contact" className="bg-aryo-deepBlue text-white px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all shadow-lg shadow-aryo-deepBlue/20 flex items-center gap-3 group" data-testid="button-request-briefing">
-              Get Started
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
-            </Link>
-            <Link 
-              href="/case-studies" 
-              className="bg-white text-aryo-deepBlue border border-aryo-lightGrey px-10 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:border-aryo-deepBlue hover:bg-aryo-offWhite transition-all inline-block text-center" 
-              data-testid="button-view-case-studies"
-            >
-              View Case Studies
-            </Link>
-            <Link 
-              href="/reports/q4-hiring-abroad" 
-              className="text-aryo-deepBlue px-2 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:text-aryo-teal transition-colors inline-flex items-center gap-2" 
-              data-testid="button-view-report"
-            >
-              Q4 Hiring Report <ArrowRight size={14} />
-            </Link>
-          </div>
-        </FadeIn>
-
-        {logos.length > 0 && (
-          <div className="mt-20 border-y border-aryo-lightGrey py-8 overflow-hidden bg-white/50 backdrop-blur-sm relative">
-            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-aryo-offWhite to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-aryo-offWhite to-transparent z-10"></div>
-            
-            <div className="flex animate-marquee">
-              <div className="flex shrink-0 items-center">
-                {logos.map((logo, i) => (
-                  <div key={i} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center mx-8">
-                    <img 
-                      src={logo.dataUri} 
-                      alt={logo.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
-                      width={140}
-                      height={48}
-                      className="h-full w-auto max-w-[140px] object-contain"
-                      data-testid={`logo-${i}`}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="flex shrink-0 items-center">
-                {logos.map((logo, i) => (
-                  <div key={`dup-${i}`} className="opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default h-12 flex items-center mx-8">
-                    <img 
-                      src={logo.dataUri} 
-                      alt={logo.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ")}
-                      width={140}
-                      height={48}
-                      className="h-full w-auto max-w-[140px] object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function StageSpecialization({ wpPillars }: { wpPillars?: WPPillar[] }) {
-  const fallbackPillars = [
-    { name: "Pre-Revenue Startups", tagline: "From idea to first dollar", desc: "We help founders build the foundational infrastructure that scales—go-to-market strategy, hiring frameworks, and operational architecture before product-market fit.", active: true },
-    { name: "Series A to C", tagline: "Scaling without breaking", desc: "The most dangerous phase of growth. We build the operational backbone—finance, HR, sales ops—that lets you 10x without the chaos that kills momentum.", active: false },
-    { name: "SMEs", tagline: "Professionalizing the proven", desc: "You've built something real. Now it's time to systemize it—modernize operations, implement governance, and prepare for aggressive growth or strategic exit.", active: false },
-    { name: "Large Organizations", tagline: "Enterprise transformation", desc: "Big doesn't have to mean slow. We cut through bureaucracy, implement agile operating models, and drive digital transformation that actually sticks.", active: false },
-  ];
-  const pillars = (wpPillars && wpPillars.length > 0) ? wpPillars : fallbackPillars;
-
-  return (
-    <div id="sectors" className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="mb-16 text-center">
-           <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Who We Work With</span>
-           <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4 mb-6">Four Pillars</h2>
-           <p className="text-slate-600 max-w-2xl mx-auto text-lg font-light">Every stage of growth has unique challenges. Our frameworks adapt to where you are and where you're going.</p>
-           <Link href="/industries" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-4 hover:text-aryo-deepBlue transition-colors" data-testid="link-industries-cta">
-             See Industries We Serve <ArrowRight size={14} />
-           </Link>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {pillars.map((p, i) => (
-            <FadeIn key={i} delay={i * 100}>
-              <div className={`h-full p-6 border transition-all duration-300 group ${p.active ? 'bg-aryo-deepBlue border-aryo-deepBlue' : 'bg-white border-aryo-lightGrey hover:border-aryo-greenTeal'}`} data-testid={`card-pillar-${i}`}>
-                <div className={`mb-4 p-3 inline-block rounded-sm ${p.active ? 'bg-white/10 text-white' : 'bg-aryo-offWhite text-aryo-deepBlue'}`}>
-                  <Layout size={24} />
-                </div>
-                <h3 className={`text-lg font-serif font-bold mb-2 ${p.active ? 'text-white' : 'text-aryo-deepBlue'}`}>{p.name}</h3>
-                <p className={`text-sm font-medium mb-3 ${p.active ? 'text-aryo-greenTeal' : 'text-aryo-teal'}`}>{p.tagline}</p>
-                <p className={`text-sm leading-relaxed ${p.active ? 'text-white/80' : 'text-slate-500'}`}>{p.desc}</p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function RadarChart({ wpRadar }: { wpRadar?: WPRadarData | null }) {
-  const fallbackCompetitorData: Record<string, number[]> = COMPETITOR_DATA;
-  const fallbackAryoData = Aryo_DATA;
-  const fallbackLevers = ["Capital", "Market", "Digital", "M&A", "Talent", "Governance"];
-
-  const competitorData = (wpRadar?.competitors && Object.keys(wpRadar.competitors).length > 0) ? wpRadar.competitors : fallbackCompetitorData;
-  const aryoData = (wpRadar?.aryoValues && wpRadar.aryoValues.length > 0) ? wpRadar.aryoValues : fallbackAryoData;
-  const leverLabels = (wpRadar?.levers && wpRadar.levers.length > 0) ? wpRadar.levers : fallbackLevers;
-
-  const [competitor, setCompetitor] = useState(Object.keys(competitorData)[0]);
-  const size = 400;
-  const center = size / 2;
-  const radius = 120;
-  const levels = 4;
-  const ref = useRef<HTMLDivElement>(null);
-  const onScreen = useOnScreen(ref);
-  
-  const levers = leverLabels.map(label => ({ label }));
-
-  const getPoint = (index: number, value: number) => {
-    const angle = (Math.PI * 2 * index) / 6 - Math.PI / 2;
-    const x = center + Math.cos(angle) * radius * value;
-    const y = center + Math.sin(angle) * radius * value;
-    return `${x},${y}`;
-  };
-
-  const numLevers = levers.length;
-  const getPointN = (index: number, value: number) => {
-    const angle = (Math.PI * 2 * index) / numLevers - Math.PI / 2;
-    const x = center + Math.cos(angle) * radius * value;
-    const y = center + Math.sin(angle) * radius * value;
-    return `${x},${y}`;
-  };
-  const polyCompetitor = (competitorData[competitor] || []).map((v, i) => getPointN(i, v)).join(" ");
-  const polyAryo = aryoData.map((v, i) => getPointN(i, v)).join(" ");
-
-  return (
-    <div className="flex flex-col items-center">
-      <div className="mb-10 w-full text-center">
-        <p className="text-xs font-bold text-aryo-greenTeal uppercase tracking-[0.2em] mb-4">Compare Our Model</p>
-        <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
-          {Object.keys(competitorData).map((key) => (
-            <button
-              key={key}
-              onClick={() => setCompetitor(key)}
-              className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] transition-all font-sans rounded-sm border ${competitor === key ? 'bg-aryo-deepBlue text-white border-aryo-deepBlue' : 'bg-white text-slate-500 border-aryo-lightGrey hover:border-aryo-deepBlue hover:text-aryo-deepBlue'}`}
-              data-testid={`button-compare-${key.toLowerCase().replace(/\s+/g, '-')}`}
-            >
-              vs. {key}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div ref={ref} className="relative w-full max-w-md mx-auto aspect-square bg-white border border-aryo-lightGrey p-8 shadow-sm">
-        <div className="absolute top-4 left-4 text-xs font-bold text-aryo-deepBlue uppercase tracking-wider">Operational Alpha</div>
-        <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full font-sans">
-          {[...Array(levels)].map((_, i) => {
-            const r = (radius / levels) * (i + 1);
-            const points = levers.map((_, j) => {
-               const angle = (Math.PI * 2 * j) / numLevers - Math.PI / 2;
-               return `${center + Math.cos(angle) * r},${center + Math.sin(angle) * r}`;
-            }).join(" ");
-            return <polygon key={i} points={points} fill="none" stroke="#E2E8F0" strokeWidth="1" />;
-          })}
-
-          {levers.map((_, i) => {
-             const angle = (Math.PI * 2 * i) / numLevers - Math.PI / 2;
-             return (
-               <line 
-                 key={i} 
-                 x1={center} 
-                 y1={center} 
-                 x2={center + Math.cos(angle) * radius} 
-                 y2={center + Math.sin(angle) * radius} 
-                 stroke="#E2E8F0" 
-                 strokeWidth="1" 
-               />
-             );
-          })}
-
-          <polygon 
-            points={polyCompetitor} 
-            fill="#CECECE" 
-            fillOpacity="0.2"
-            stroke="#CECECE" 
-            strokeWidth="2" 
-            strokeDasharray="4 2"
-            className="transition-all duration-700 ease-out"
-          />
-          
-          <polygon 
-            points={polyAryo} 
-            fill="url(#gradientAryo)" 
-            fillOpacity="0.3"
-            stroke="#274D8E" 
-            strokeWidth="2"
-            className={`origin-center ${onScreen ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
-            style={{ transition: 'all 2000ms ease-out' }}
-          />
-          
-          <defs>
-            <linearGradient id="gradientAryo" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#274D8E" />
-              <stop offset="100%" stopColor="#4EB9A7" />
-            </linearGradient>
-          </defs>
-
-          {levers.map((lever, i) => {
-            const angle = (Math.PI * 2 * i) / numLevers - Math.PI / 2;
-            const labelR = radius + 35; 
-            const x = center + Math.cos(angle) * labelR;
-            const y = center + Math.sin(angle) * labelR;
-            
-            return (
-              <foreignObject key={i} x={x - 45} y={y - 15} width="90" height="30">
-                <div className="flex flex-col items-center justify-center text-center">
-                  <div className="text-[10px] font-bold text-aryo-deepBlue uppercase tracking-[0.1em] bg-white px-2 py-0.5 border border-aryo-lightGrey rounded-sm">
-                    {lever.label}
-                  </div>
-                </div>
-              </foreignObject>
-            );
-          })}
-        </svg>
-        
-        <div className="absolute bottom-4 right-4 flex flex-col gap-2 bg-white/90 p-2 border border-aryo-lightGrey">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-aryo-deepBlue"></div>
-            <span className="text-aryo-deepBlue font-bold uppercase tracking-wider text-[10px]">Aryo Standard</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-aryo-lightGrey"></div>
-            <span className="text-slate-400 uppercase tracking-wider text-[10px]">{competitor}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ValueDrivers({ wpRadar }: { wpRadar?: WPRadarData | null }) {
-  return (
-    <div id="value-drivers" className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <FadeIn>
-            <div>
-              <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Strategic Framework</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 leading-tight">
-                The Aryo Advantage
-              </h2>
-              <p className="text-slate-600 mt-6 text-lg font-light">
-                We operate across six core value drivers that most consultancies treat in isolation. Our integrated approach creates compounding returns.
-              </p>
-              <Link href="/capabilities" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-6 hover:text-aryo-deepBlue transition-colors" data-testid="link-capabilities-cta">
-                Explore Our Capabilities <ArrowRight size={14} />
-              </Link>
-            </div>
-          </FadeIn>
-          <FadeIn delay={200}>
-            <div className="bg-white p-8 border border-aryo-lightGrey">
-              <RadarChart wpRadar={wpRadar} />
-            </div>
-          </FadeIn>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Process({ wpSteps }: { wpSteps?: WPProcessStep[] }) {
-  const fallbackSteps = [
-    { phase: "Phase I", title: "Diagnostic & Audit", time: "Weeks 1-4", desc: "Full forensic audit of unit economics, tech stack, and leadership gaps." },
-    { phase: "Phase II", title: "Strategic Architecture", time: "Weeks 5-8", desc: "Designing the target operating model and governance frameworks." },
-    { phase: "Phase III", title: "Execution & Deployment", time: "Weeks 9-24", desc: "Interim executive placement and rapid implementation of growth drivers." },
-    { phase: "Phase IV", title: "Handover & Governance", time: "Ongoing", desc: "Establishing KPIs and board-level reporting structures for long-term sustainability." },
-  ];
-  const steps = (wpSteps && wpSteps.length > 0) ? wpSteps : fallbackSteps;
-
-  return (
-    <div id="process" className="py-32 bg-white border-b border-aryo-lightGrey">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-          <div>
-            <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">The Engagement Model</span>
-            <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Predictable Transformation</h2>
-          </div>
-          <div className="md:text-right">
-            <p className="text-slate-600 max-w-xl text-lg font-light ml-auto">
-              We operate on a fixed-timeline engagement model. No open-ended retainers. Just clear milestones and delivered outcomes.
-            </p>
-            <Link href="/about" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-4 hover:text-aryo-deepBlue transition-colors" data-testid="link-about-cta">
-              Learn About Our Team <ArrowRight size={14} />
-            </Link>
-          </div>
-        </div>
-
-        <div className="relative">
-          <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-aryo-lightGrey"></div>
-          
-          <div className="grid md:grid-cols-4 gap-8">
-            {steps.map((step, i) => (
-              <FadeIn key={i} delay={i * 200}>
-                <div className="relative bg-white pt-8 group">
-                  <div className="absolute top-0 left-0 md:left-1/2 md:-translate-x-1/2 w-4 h-4 bg-white border-2 border-aryo-deepBlue rounded-full z-10 group-hover:scale-125 group-hover:bg-aryo-greenTeal group-hover:border-aryo-greenTeal transition-all"></div>
-                  <div className="text-xs font-bold text-aryo-teal uppercase tracking-widest mb-2 flex items-center gap-2 flex-wrap">
-                    <Clock size={12} /> {step.time}
-                  </div>
-                  <span className="text-[10px] font-bold text-aryo-deepBlue/50 uppercase tracking-[0.2em]">{step.phase}</span>
-                  <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mt-2 mb-4">{step.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Stats({ wpStats }: { wpStats?: WPStat[] }) {
-  const fallbackStats = [
-    { value: 400, suffix: "+", label: "Engagements Completed" },
-    { value: 1, suffix: ".5B", label: "Enterprise Value Unlocked" },
-    { value: 98, suffix: "%", label: "Client Retention Rate" },
-    { value: 75, suffix: "%", label: "Average Reduction in Fees" },
-  ];
-  const stats = (wpStats && wpStats.length > 0) ? wpStats : fallbackStats;
-
-  return (
-    <div className="py-24 bg-aryo-deepBlue">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          {stats.map((stat, i) => (
-            <FadeIn key={i} delay={i * 100}>
-              <div className="text-center">
-                <div className="text-5xl md:text-6xl font-serif mb-2">
-                  <AnimatedNumber end={stat.value} suffix={stat.suffix} className="text-white" />
-                </div>
-                <p className="text-xs font-bold text-aryo-lightBlue uppercase tracking-[0.2em]">{stat.label}</p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Testimonials() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: true,
-    align: 'start',
-    slidesToScroll: 1,
-  });
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-
-  const { data: wpTestimonials } = useWPTestimonials();
-
-  const fallbackTestimonials = [
-    {
-      quote: "Justin was instrumental in helping my company achieve its goals. Highly recommend. Not only is he knowledgeable in the field but he is also a good person.",
-      author: "Youssef El Bandaki",
-      title: "CEO, YY Group",
-    },
-    {
-      quote: "Justin at Aryo Consulting provided invaluable guidance for Mosspark Media's startup journey. Expert advice and actionable strategies. Highly recommend!",
-      author: "Kamil Qui",
-      title: "CEO, Mosspark Media",
-    },
-    {
-      quote: "Justin is great! We're a biotech therapeutics company. Justin did an amazing job upgrading our pitch deck. He has outstanding judgement and creativity regarding content and style. He's also highly professional, responsive, friendly, and a pleasure to work with. Highly recommended!",
-      author: "John Ramunas",
-      title: "CEO, Rejuvenation Technologies Inc.",
-    },
-    {
-      quote: "Justin has been a huge help in getting my business off the ground. He's given me great advice, kept me on track, and made the whole process way easier. Also, he's always willing to help!",
-      author: "Jake Berlin",
-      title: "CEO, Mentorship Village",
-    },
-    {
-      quote: "Justin is very knowledgable in the space of getting your app to succeed and the steps needed to have successful marketing campaigns. I would say if you are trying to get your app off the ground, he is a great resource!",
-      author: "Jack Mengel",
-      title: "CEO, Notezy",
-    },
-    {
-      quote: "Very thorough and really built the case with deep research. Highly professional. Justin took the time to work through a number of iterations of the project and maintained outstanding communication. Highly recommended!",
-      author: "Riggs Eckelberry",
-      title: "CEO, OriginalClear Inc.",
-    },
-    {
-      quote: "Justin and his team worked well with our ever-changing timeline and requirements for our health report. He delivered on time and kept us updated throughout the project. He went above and beyond to ensure all of our needs were met. We would recommend working with him and also work with him again ourselves.",
-      author: "Amy Tice",
-      title: "Team PCOH",
-    },
-  ];
-
-  const testimonials = (wpTestimonials && wpTestimonials.length > 0) ? wpTestimonials : fallbackTestimonials;
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    
-    const onSelect = () => {
-      setCanScrollPrev(emblaApi.canScrollPrev());
-      setCanScrollNext(emblaApi.canScrollNext());
-    };
-    
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
-    onSelect();
-    
-    return () => {
-      emblaApi.off('select', onSelect);
-      emblaApi.off('reInit', onSelect);
-    };
-  }, [emblaApi]);
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  return (
-    <div className="py-32 bg-aryo-offWhite border-b border-aryo-lightGrey">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Client Perspectives</span>
-          <h2 className="text-4xl font-serif text-aryo-deepBlue mt-4">Trusted by Leaders</h2>
-          <Link href="/insights" className="inline-flex items-center gap-2 text-aryo-teal font-bold text-sm uppercase tracking-widest mt-4 hover:text-aryo-deepBlue transition-colors" data-testid="link-insights-cta">
-            Read Our Latest Insights <ArrowRight size={14} />
-          </Link>
-        </div>
-
-        <div className="relative">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-6">
-              {testimonials.map((t, i) => (
-                <div key={i} className="flex-[0_0_100%] md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)] min-w-0">
-                  <div className="bg-white p-10 border border-aryo-lightGrey h-full flex flex-col">
-                    <div className="text-aryo-lightBlue mb-6">
-                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                        <path d="M10 25C10 20.5 13 17 17 17V13C11 13 6 18 6 25V33H14V25H10Z" fill="currentColor"/>
-                        <path d="M26 25C26 20.5 29 17 33 17V13C27 13 22 18 22 25V33H30V25H26Z" fill="currentColor"/>
-                      </svg>
-                    </div>
-                    <p className="text-xl text-aryo-deepBlue font-serif italic leading-relaxed flex-1">
-                      "{t.quote}"
-                    </p>
-                    <div className="flex items-center gap-4 mt-8 pt-6 border-t border-aryo-lightGrey">
-                      <div className="w-12 h-12 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                        {t.author.split(' ').map(n => n[0]).join('')}
-                      </div>
-                      <div>
-                        <p className="font-bold text-aryo-deepBlue">{t.author}</p>
-                        <p className="text-sm text-slate-500">{t.title}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-center gap-4 mt-8">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollPrev}
-              disabled={!canScrollPrev}
-              className="border-aryo-deepBlue text-aryo-deepBlue"
-              data-testid="button-testimonial-prev"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollNext}
-              disabled={!canScrollNext}
-              className="border-aryo-deepBlue text-aryo-deepBlue"
-              data-testid="button-testimonial-next"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CTA() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    company: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      const data = await response.json();
-      
-      if (data.success) {
-        setSubmitStatus({ success: true, message: data.message });
-        setFormData({ firstName: '', lastName: '', email: '', company: '', message: '' });
-      } else {
-        setSubmitStatus({ success: false, message: data.message || 'Failed to submit form' });
-      }
-    } catch {
-      setSubmitStatus({ success: false, message: 'Network error. Please try again.' });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <div id="contact" className="py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <FadeIn>
-            <span className="text-xs font-bold font-sans text-aryo-greenTeal tracking-[0.2em] uppercase">Begin The Conversation</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-aryo-deepBlue mt-4 mb-6 leading-tight">
-              Ready to Unlock <br/>
-              <span className="text-aryo-teal">Enterprise Value?</span>
-            </h2>
-            <p className="text-lg text-slate-600 mb-8 font-light leading-relaxed">
-              Schedule a confidential executive briefing with our Managing Partners. We'll provide an initial diagnostic assessment of your operational levers at no obligation.
-            </p>
-            
-            <div className="space-y-4 mb-8">
-              <div className="flex items-center gap-4 text-aryo-deepBlue">
-                <Mail size={20} className="text-aryo-greenTeal" />
-                <span className="font-sans">info@aryocg.com</span>
-              </div>
-              <div className="flex items-center gap-4 text-aryo-deepBlue">
-                <Phone size={20} className="text-aryo-greenTeal" />
-                <span className="font-sans">1 508-545-7447</span>
-              </div>
-              <div className="flex items-center gap-4 text-aryo-deepBlue">
-                <MapPin size={20} className="text-aryo-greenTeal" />
-                <span className="font-sans">Boston (HQ) | NYC | Miami (Coming Soon)</span>
-              </div>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={200}>
-            <div className="bg-aryo-offWhite border border-aryo-lightGrey p-10">
-              <h3 className="text-xl font-serif font-bold text-aryo-deepBlue mb-6">Request a Briefing</h3>
-              
-              {submitStatus && (
-                <div className={`mb-6 p-4 border ${submitStatus.success ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`} data-testid="status-form-result">
-                  {submitStatus.message}
-                </div>
-              )}
-              
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="firstName" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">First Name</label>
-                    <input 
-                      type="text" 
-                      required
-                      id="firstName"
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
-                      data-testid="input-first-name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Last Name</label>
-                    <input 
-                      type="text" 
-                      required
-                      id="lastName"
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
-                      data-testid="input-last-name"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Corporate Email</label>
-                  <input 
-                    type="email" 
-                    required
-                    id="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
-                    data-testid="input-email"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="company" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Company</label>
-                  <input 
-                    type="text" 
-                    required
-                    id="company"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors"
-                    data-testid="input-company"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-xs font-bold text-aryo-deepBlue uppercase tracking-widest mb-2">Message</label>
-                  <textarea 
-                    rows={4}
-                    required
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-aryo-lightGrey bg-white focus:border-aryo-deepBlue focus:outline-none transition-colors resize-none"
-                    data-testid="input-message"
-                  ></textarea>
-                </div>
-                <button 
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-aryo-deepBlue text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#1a3668] transition-all flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
-                  data-testid="button-submit-form"
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit Request'}
-                  {!isSubmitting && <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />}
-                </button>
-              </form>
-            </div>
-          </FadeIn>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="bg-aryo-deepBlue py-16 border-t border-aryo-deepBlue">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
-          <div>
-            <div className="mb-6">
-              <AryoLogo size={80} className="brightness-0 invert" />
-            </div>
-            <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
-              Corporate strategy and governance consulting for enterprise transformation.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Capabilities</h4>
-            <ul className="space-y-3">
-              <li><Link href="/capabilities" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">All Services</Link></li>
-              <li><Link href="/industries" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Industries</Link></li>
-              <li><Link href="/case-studies" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Case Studies</Link></li>
-              <li><Link href="/valuation-tool" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Valuation Tool</Link></li>
-              <li><Link href="/ai-consultant" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">AI Consultant</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Company</h4>
-            <ul className="space-y-3">
-              <li><Link href="/about" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">About Us</Link></li>
-              <li><Link href="/insights" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Insights</Link></li>
-              <li><Link href="/careers" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Careers</Link></li>
-              <li><Link href="/contact" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Contact</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Connect</h4>
-            <div className="flex gap-4 mb-6">
-              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
-                <Linkedin size={18} />
-              </a>
-              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
-                <SiInstagram size={18} />
-              </a>
-            </div>
-            <p className="text-aryo-lightBlue/50 text-xs">
-              Subscribe to our quarterly insights
-            </p>
-          </div>
-        </div>
-
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-aryo-lightBlue/50 text-xs">
-            2026 Aryo Consulting Group. All rights reserved.
-          </p>
-          <div className="flex gap-8 flex-wrap justify-center">
-            <a href="/privacy-policy" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Privacy Policy</a>
-            <a href="/terms-of-service" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Terms of Service</a>
-            <a href="/cookie-settings" className="text-aryo-lightBlue/50 hover:text-white text-xs transition-colors">Cookie Settings</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <p className="ph-label"><span />{children}</p>;
 }
 
 export default function Home() {
-  const { data: wpHomepage, isLoading: wpLoading } = useWPHomepage();
-
-  if (wpLoading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navbar />
-        <div className="animate-pulse">
-          <div className="h-[80vh] bg-gradient-to-br from-slate-100 to-slate-200" />
-          <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-32 bg-slate-100 rounded" />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const { data: wpHome } = useWPHomepage();
+  const { data: testimonials = [] } = useWPTestimonials();
+  const hero = wpHome?.hero;
+  const stats = wpHome?.stats?.length
+    ? wpHome.stats.slice(0, 4).map((item) => ({ value: `${item.value}${item.suffix}`, label: item.label }))
+    : fallbackStats;
 
   return (
-    <div className="min-h-screen bg-white">
-      <SEO 
-        title="Aryo Consulting Group | Strategy, M&A & Growth Consulting"
-        description="Aryo Consulting Group is a modern consulting firm partnering with Boards and C-Suites to drive growth strategy, M&A advisory, digital transformation, and operational excellence."
+    <PageLayout>
+      <SEO
+        title="Aryo Consulting Group | Strategy, AI Implementation & Enterprise Transformation"
+        description="Aryo turns strategic priorities into governed operating systems, AI implementations, and measurable enterprise value."
         canonical="https://aryocg.com/"
-        jsonLd={[
-          organizationSchema(),
-          localBusinessSchema({ name: "Aryo Consulting Group - Boston", city: "Boston", state: "MA", address: "Boston, MA", postalCode: "02101" }),
-          localBusinessSchema({ name: "Aryo Consulting Group - New York", city: "New York", state: "NY", address: "New York, NY", postalCode: "10001" }),
-        ]}
+        jsonLd={[organizationSchema(), breadcrumbSchema([{ name: "Home", url: "https://aryocg.com" }])]}
       />
-      <Navbar />
-      <main>
-        <Hero wpHero={wpHomepage?.hero} />
-        <StageSpecialization wpPillars={wpHomepage?.pillars} />
-        <ValueDrivers wpRadar={wpHomepage?.radar} />
-        <Process wpSteps={wpHomepage?.processSteps} />
-        <Stats wpStats={wpHomepage?.stats} />
-        <Testimonials />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+
+      <div className="precision-home">
+        <section className="ph-hero">
+          <div className="ph-shell ph-hero-grid">
+            <div className="ph-hero-copy">
+              <SectionLabel>{hero?.subheadline || "RESULTS-DRIVEN CONSULTING"}</SectionLabel>
+              <h1>{hero?.headline || <>Strategy that becomes an <em>operating system.</em></>}</h1>
+              <p>{hero?.description || "Aryo helps leaders translate strategic priorities into governed execution, AI-enabled workflows, and measurable enterprise value."}</p>
+              <div className="ph-hero-actions">
+                <Link href="/contact">Request a briefing <ArrowRight size={15} /></Link>
+                <Link href="/services/ai-hardtech">Explore AI implementation <MoveUpRight size={15} /></Link>
+              </div>
+              <div className="ph-hero-proof">
+                <span>FIXED TIMELINE</span><span>ACCOUNTABLE OWNERS</span><span>MEASURED HANDOVER</span>
+              </div>
+            </div>
+
+            <div className="ph-system" aria-label="Aryo value creation operating system">
+              <header><span>ARYO VALUE CREATION SYSTEM</span><small>01 / 04</small></header>
+              <div className="ph-system-core">
+                <small>OPERATING PRIORITY</small>
+                <strong>Move the decision, not just the metric.</strong>
+                <i />
+              </div>
+              {["Strategic architecture", "Systems and workflow", "Governance and value"].map((item, index) => (
+                <div className="ph-system-row" key={item}>
+                  <span>0{index + 1}</span><b>{item}</b><small>{index === 0 ? "FRAME" : index === 1 ? "BUILD" : "SCALE"}</small>
+                </div>
+              ))}
+              <footer><span>CONTROLLED EXECUTION</span><b>Outcome → owner → evidence</b></footer>
+            </div>
+          </div>
+        </section>
+
+        <section className="ph-stats" aria-label="Engagement indicators">
+          <div className="ph-shell">
+            {stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
+          </div>
+        </section>
+
+        <section className="ph-section ph-capabilities">
+          <div className="ph-shell">
+            <div className="ph-heading">
+              <div><SectionLabel>WHERE WE CREATE VALUE</SectionLabel><h2>Integrated advisory.<br />Built for implementation.</h2></div>
+              <p>Most transformations fail in the handoff between recommendation and execution. Aryo stays through the operating decision, the deployed system, and the measurable result.</p>
+            </div>
+            <div className="ph-cap-grid">
+              {capabilities.map((capability) => (
+                <Link href={capability.href} className="ph-cap-card" key={capability.number}>
+                  <div><span>{capability.number}</span><small>{capability.signal}</small></div>
+                  <h3>{capability.title}</h3>
+                  <p>{capability.copy}</p>
+                  <strong>Explore capability <ArrowRight size={15} /></strong>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="ph-section ph-ai">
+          <div className="ph-shell ph-ai-grid">
+            <div className="ph-ai-copy">
+              <SectionLabel>AI IMPLEMENTATION / HARDTECH</SectionLabel>
+              <h2>Make the implementation delta visible.</h2>
+              <p>We start with a real product family, line, or engineering workflow. Then we baseline effort, connect the toolchain, define the controls, and prove the economics before scaling.</p>
+              <ul>
+                <li><Check size={14} /> Manufacturing-floor workflows</li>
+                <li><Check size={14} /> CAD and engineering automation</li>
+                <li><Check size={14} /> Photonics design-to-test systems</li>
+              </ul>
+              <Link href="/services/manufacturing-ai">See manufacturing AI implementation <ArrowRight size={15} /></Link>
+            </div>
+            <div className="ph-delta-card">
+              <header><span>MODELED ENGINEERING EFFORT</span><small>ILLUSTRATIVE / BASELINE = 100</small></header>
+              {aiDeltas.map((item) => (
+                <article key={item.label}>
+                  <div><h3>{item.label}</h3><strong>{item.delta}</strong></div>
+                  <i><b style={{ width: `${item.before}%` }} /></i>
+                  <i className="enabled"><b style={{ width: `${item.after}%` }} /></i>
+                  <footer><span>Conventional</span><span>AI-enabled</span></footer>
+                </article>
+              ))}
+              <p>Illustrative hypothesis. Client baselines replace these assumptions during the diagnostic.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="ph-section ph-process">
+          <div className="ph-shell">
+            <div className="ph-heading">
+              <div><SectionLabel>THE ENGAGEMENT MODEL</SectionLabel><h2>Predictable transformation.</h2></div>
+              <p>A fixed-timeline engagement with defined gates, visible economics, and an accountable handover.</p>
+            </div>
+            <ol>
+              {process.map((step) => (
+                <li key={step.phase}>
+                  <div><span>{step.phase}</span><small>{step.time}</small></div>
+                  <h3>{step.title}</h3><p>{step.copy}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {testimonials.length > 0 && (
+          <section className="ph-section ph-trust">
+            <div className="ph-shell">
+              <SectionLabel>CLIENT PERSPECTIVE</SectionLabel>
+              <blockquote>“{testimonials[0].quote}”</blockquote>
+              <p>{testimonials[0].author}<span>{testimonials[0].title}</span></p>
+            </div>
+          </section>
+        )}
+
+        <section className="ph-section ph-cta">
+          <div className="ph-shell">
+            <div><SectionLabel>BEGIN THE CONVERSATION</SectionLabel><h2>Bring the priority that cannot remain a slide deck.</h2></div>
+            <aside><p>We will help define the baseline, accountable owner, implementation path, and first measurable decision gate.</p><Link href="/contact">Request a confidential briefing <ArrowRight size={15} /></Link></aside>
+          </div>
+        </section>
+      </div>
+    </PageLayout>
   );
 }

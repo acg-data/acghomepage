@@ -6,6 +6,11 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  margin: 0;
+  text-rendering: optimizeLegibility;
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);
@@ -47,10 +52,10 @@ html {
   --chart-3: 171 48% 38%;
   --chart-4: 210 35% 45%;
   --chart-5: 182 30% 50%;
-  --font-sans: Inter, sans-serif;
-  --font-serif: Playfair Display, Georgia, serif;
-  --font-mono: Menlo, monospace;
-  --radius: .5rem;
+  --font-sans: "Geist Variable", Geist, Arial, sans-serif;
+  --font-serif: "Geist Variable", Geist, Arial, sans-serif;
+  --font-mono: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  --radius: .75rem;
   --shadow-2xs: 0px 2px 0px 0px hsl(210 20% 50% / 0.00);
   --shadow-xs: 0px 2px 0px 0px hsl(210 20% 50% / 0.00);
   --shadow-sm: 0px 2px 0px 0px hsl(210 20% 50% / 0.00), 0px 1px 2px -1px hsl(210 20% 50% / 0.00);

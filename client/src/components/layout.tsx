@@ -4,6 +4,7 @@ import { Menu, X, Linkedin, ChevronDown } from 'lucide-react';
 import { SiInstagram } from 'react-icons/si';
 
 const capabilitiesItems = [
+  { name: 'AI & HardTech Implementation', href: '/services/ai-hardtech' },
   { name: 'Digital Transformation', href: '/digital-transformation' },
   { name: 'M&A Advisory', href: '/ma-advisory' },
   { name: 'Governance & Risk', href: '/governance-risk' },
@@ -50,29 +51,29 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md border-b border-aryo-lightGrey' : 'bg-white border-b border-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
+    <nav className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_8px_30px_rgba(23,50,79,0.05)]' : 'bg-white/95 border-b border-slate-200/60'}`}>
+      <div className="max-w-[1440px] mx-auto px-5 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex-shrink-0 flex items-center cursor-pointer" data-testid="link-home">
-            <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain" data-testid="img-aryo-logo" />
+            <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={68} height={68} className="object-contain" data-testid="img-aryo-logo" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = '/favicon.png'; }} />
           </Link>
           
           <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
+            <div className="ml-8 flex items-center gap-7">
               <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setCapabilitiesOpen(!capabilitiesOpen)}
-                  className="flex items-center gap-1 text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]"
+                  className="flex items-center gap-1.5 text-slate-600 hover:text-aryo-deepBlue transition-colors text-[13px] font-semibold tracking-[-0.01em]"
                   data-testid="button-capabilities-dropdown"
                 >
                   Capabilities
                   <ChevronDown className={`w-3 h-3 transition-transform ${capabilitiesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {capabilitiesOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-aryo-lightGrey shadow-lg rounded-md py-2 z-50">
+                  <div className="absolute top-full left-0 mt-3 w-72 bg-white/98 border border-slate-200 shadow-[0_24px_70px_rgba(23,50,79,0.14)] rounded-2xl p-2 z-50">
                     <Link 
                       href="/capabilities" 
-                      className="block px-4 py-2 text-xs font-sans font-bold uppercase tracking-[0.1em] text-aryo-deepBlue hover:bg-aryo-offWhite transition-colors border-b border-aryo-lightGrey"
+                      className="block px-4 py-3 mb-1 text-[11px] font-bold uppercase tracking-[0.12em] text-aryo-deepBlue hover:bg-aryo-offWhite transition-colors rounded-xl border-b border-slate-100"
                       onClick={() => setCapabilitiesOpen(false)}
                       data-testid="link-capabilities-all"
                     >
@@ -82,7 +83,7 @@ export function Navbar() {
                       <Link 
                         key={item.href}
                         href={item.href} 
-                        className="block px-4 py-2 text-sm text-aryo-deepBlue/80 hover:bg-aryo-offWhite hover:text-aryo-deepBlue transition-colors"
+                        className="block px-4 py-2.5 text-sm text-slate-600 hover:bg-aryo-offWhite hover:text-aryo-deepBlue transition-colors rounded-lg"
                         onClick={() => setCapabilitiesOpen(false)}
                         data-testid={`link-capability-${item.href.slice(1)}`}
                       >
@@ -92,23 +93,23 @@ export function Navbar() {
                   </div>
                 )}
               </div>
-              <Link href="/industries" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-industries">Industries</Link>
+              <Link href="/industries" className="text-slate-600 hover:text-aryo-deepBlue transition-colors text-[13px] font-semibold tracking-[-0.01em]" data-testid="link-industries">Industries</Link>
               <div ref={toolsDropdownRef} className="relative">
                 <button
                   onClick={() => setToolsOpen(!toolsOpen)}
-                  className="flex items-center gap-1 text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]"
+                  className="flex items-center gap-1.5 text-slate-600 hover:text-aryo-deepBlue transition-colors text-[13px] font-semibold tracking-[-0.01em]"
                   data-testid="button-tools-dropdown"
                 >
                   Tools
                   <ChevronDown className={`w-3 h-3 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {toolsOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-aryo-lightGrey shadow-lg rounded-md py-2 z-50">
+                  <div className="absolute top-full left-0 mt-3 w-64 bg-white/98 border border-slate-200 shadow-[0_24px_70px_rgba(23,50,79,0.14)] rounded-2xl p-2 z-50">
                     {toolsItems.map((item) => (
                       <Link 
                         key={item.href}
                         href={item.href} 
-                        className="block px-4 py-2 text-sm text-aryo-deepBlue/80 hover:bg-aryo-offWhite hover:text-aryo-deepBlue transition-colors"
+                        className="block px-4 py-2.5 text-sm text-slate-600 hover:bg-aryo-offWhite hover:text-aryo-deepBlue transition-colors rounded-lg"
                         onClick={() => setToolsOpen(false)}
                         data-testid={`link-tool-${item.href.slice(1)}`}
                       >
@@ -118,18 +119,18 @@ export function Navbar() {
                   </div>
                 )}
               </div>
-              <Link href="/case-studies" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-case-studies">Case Studies</Link>
-              <Link href="/insights" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-insights">Insights</Link>
-              <Link href="/about" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-about">About</Link>
-              <Link href="/contact" className="text-aryo-deepBlue/70 hover:text-aryo-deepBlue transition-colors text-xs font-sans font-bold uppercase tracking-[0.15em]" data-testid="link-contact">Contact</Link>
-              <Link href="/login" className="bg-aryo-deepBlue text-white hover:bg-[#1a3668] px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 shadow-sm" data-testid="button-partner-login">
+              <Link href="/case-studies" className="text-slate-600 hover:text-aryo-deepBlue transition-colors text-[13px] font-semibold tracking-[-0.01em]" data-testid="link-case-studies">Case Studies</Link>
+              <Link href="/insights" className="text-slate-600 hover:text-aryo-deepBlue transition-colors text-[13px] font-semibold tracking-[-0.01em]" data-testid="link-insights">Insights</Link>
+              <Link href="/about" className="text-slate-600 hover:text-aryo-deepBlue transition-colors text-[13px] font-semibold tracking-[-0.01em]" data-testid="link-about">About</Link>
+              <Link href="/contact" className="text-slate-600 hover:text-aryo-deepBlue transition-colors text-[13px] font-semibold tracking-[-0.01em]" data-testid="link-contact">Contact</Link>
+              <Link href="/login" className="bg-aryo-deepBlue text-white hover:bg-[#1a3668] px-5 py-3 text-[12px] font-semibold tracking-[-0.01em] transition-all duration-300 shadow-sm rounded-xl" data-testid="button-partner-login">
                 Partner Login
               </Link>
             </div>
           </div>
           
           <div className="-mr-2 flex md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-aryo-deepBlue p-2" aria-label={isOpen ? "Close menu" : "Open menu"} data-testid="button-mobile-menu">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-aryo-deepBlue p-2.5 rounded-xl border border-slate-200" aria-label={isOpen ? "Close menu" : "Open menu"} data-testid="button-mobile-menu">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -137,8 +138,8 @@ export function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-white border-b border-aryo-lightGrey shadow-xl">
-          <div className="px-6 pt-4 pb-8 space-y-4">
+        <div className="md:hidden bg-white border-b border-slate-200 shadow-xl">
+          <div className="px-5 pt-5 pb-8 space-y-5">
             <div>
               <button 
                 onClick={() => setMobileCapabilitiesOpen(!mobileCapabilitiesOpen)}
@@ -206,15 +207,15 @@ export function Navbar() {
 
 export function Footer() {
   return (
-    <footer className="bg-aryo-deepBlue py-16 border-t border-aryo-deepBlue">
+    <footer className="bg-aryo-deepBlue py-20 border-t border-aryo-deepBlue">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="mb-6">
-              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain brightness-0 invert" data-testid="img-aryo-logo-footer" />
+              <img src="/api/aryo-logo" alt="Aryo Consulting Group" width={80} height={80} className="object-contain brightness-0 invert" data-testid="img-aryo-logo-footer" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = '/favicon.png'; }} />
             </div>
             <p className="text-aryo-lightBlue/70 text-sm leading-relaxed">
-              Corporate strategy and governance consulting for enterprise transformation.
+              Strategy, operating systems, and AI implementation for measurable enterprise transformation.
             </p>
           </div>
 
@@ -222,6 +223,7 @@ export function Footer() {
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-6">Services</h4>
             <ul className="space-y-3">
               <li><Link href="/capabilities" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">All Capabilities</Link></li>
+              <li><Link href="/services/ai-hardtech" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">AI & HardTech Implementation</Link></li>
               <li><Link href="/digital-transformation" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Digital Transformation</Link></li>
               <li><Link href="/ma-advisory" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">M&A Advisory</Link></li>
               <li><Link href="/governance-risk" className="text-aryo-lightBlue/70 hover:text-white text-sm transition-colors">Governance & Risk</Link></li>
@@ -259,10 +261,10 @@ export function Footer() {
             </ul>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mt-6 mb-4">Connect</h4>
             <div className="flex gap-4">
-              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
+              <a href="https://www.linkedin.com/company/aryo-consulting/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-xl border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-linkedin">
                 <Linkedin size={18} />
               </a>
-              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
+              <a href="https://www.instagram.com/aryoconsulting" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-xl border border-aryo-lightBlue/30 flex items-center justify-center text-aryo-lightBlue hover:bg-white/10 transition-colors" data-testid="link-instagram">
                 <SiInstagram size={18} />
               </a>
             </div>
@@ -286,9 +288,9 @@ export function Footer() {
 
 export function PageLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-aryo-offWhite">
+    <div className="aryo-site min-h-screen bg-aryo-offWhite">
       <Navbar />
-      <main className="pt-24">
+      <main className="pt-20">
         {children}
       </main>
       <Footer />

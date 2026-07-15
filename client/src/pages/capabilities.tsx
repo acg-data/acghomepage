@@ -365,7 +365,7 @@ export default function Capabilities() {
         <div className="grid lg:grid-cols-2 gap-8 mb-24">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-white border border-aryo-lightGrey p-8 animate-pulse">
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 rounded-2xl animate-pulse">
                 <div className="flex items-start gap-6">
                   <div className="w-14 h-14 bg-slate-200 flex-shrink-0" />
                   <div className="flex-1">
@@ -415,19 +415,19 @@ export default function Capabilities() {
 
             return cap.link ? (
               <Link key={i} href={cap.link}>
-                <div className="bg-white border border-aryo-lightGrey p-8 group cursor-pointer hover:border-aryo-teal hover:shadow-lg transition-all" data-testid={`card-capability-${i}`}>
+                <div className="bg-white border border-aryo-lightGrey p-8 rounded-2xl group cursor-pointer hover:border-aryo-teal hover:shadow-lg transition-all" data-testid={`card-capability-${i}`}>
                   {CardContent}
                 </div>
               </Link>
             ) : (
-              <div key={i} className="bg-white border border-aryo-lightGrey p-8 group" data-testid={`card-capability-${i}`}>
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 rounded-2xl group" data-testid={`card-capability-${i}`}>
                 {CardContent}
               </div>
             );
           })}
         </div>
 
-        <div className="bg-aryo-deepBlue p-12 mb-24">
+        <div className="bg-aryo-deepBlue p-12 mb-24 rounded-2xl">
           <div className="text-center mb-12">
             <span className="text-xs font-bold text-aryo-greenTeal uppercase tracking-widest">Our Approach</span>
             <h2 className="text-3xl font-serif text-white mt-4">What Makes Us Different</h2>
@@ -443,12 +443,12 @@ export default function Capabilities() {
           </div>
         </div>
 
-        <div className="bg-white border border-aryo-lightGrey p-12 text-center">
+        <div className="bg-white border border-aryo-lightGrey p-12 text-center rounded-2xl">
           <h2 className="text-2xl font-serif text-aryo-deepBlue mb-4">Let's discuss your challenges</h2>
           <p className="text-slate-600 mb-8 max-w-xl mx-auto">
             Every engagement begins with understanding your unique situation. Schedule a confidential conversation with one of our partners.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-aryo-deepBlue text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-[#1a3668] transition-colors" data-testid="button-contact">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-aryo-deepBlue text-white px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#1a3668] transition-colors" data-testid="button-contact">
             Request a Consultation <ArrowRight size={14} />
           </Link>
         </div>

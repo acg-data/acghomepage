@@ -35,6 +35,14 @@ const PEValuationTool = lazy(() => import("@/pages/pe-valuation-tool"));
 const StablecoinCalculator = lazy(() => import("@/pages/stablecoin-calculator"));
 const WebsiteAnalyzer = lazy(() => import("@/pages/tools/website-analyzer"));
 const MarketResearchReports = lazy(() => import("@/pages/market-research-reports"));
+const AIHardtechHub = lazy(() => import("@/pages/hardtech-ai").then((module) => ({ default: module.AIHardtechHub })));
+const ManufacturingAI = lazy(() => import("@/pages/hardtech-ai").then((module) => ({ default: module.ManufacturingAIPage })));
+const CadAI = lazy(() => import("@/pages/hardtech-ai").then((module) => ({ default: module.CadAIPage })));
+const PhotonicsAutomation = lazy(() => import("@/pages/hardtech-ai").then((module) => ({ default: module.PhotonicsAutomationPage })));
+const BrandLab = lazy(() => import("@/pages/brand-books").then((module) => ({ default: module.BrandLab })));
+const PrecisionBrandBook = lazy(() => import("@/pages/brand-books").then((module) => ({ default: module.PrecisionBrandBook })));
+const AuthorityBrandBook = lazy(() => import("@/pages/brand-books").then((module) => ({ default: module.AuthorityBrandBook })));
+const EngineeredBrandBook = lazy(() => import("@/pages/brand-books").then((module) => ({ default: module.EngineeredBrandBook })));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -80,6 +88,14 @@ function Router() {
         <Route path="/tools/stablecoin-calculator" component={StablecoinCalculator}/>
         <Route path="/tools/website-analyzer" component={WebsiteAnalyzer}/>
         <Route path="/market-research-reports" component={MarketResearchReports}/>
+        <Route path="/services/ai-hardtech" component={AIHardtechHub}/>
+        <Route path="/services/manufacturing-ai" component={ManufacturingAI}/>
+        <Route path="/services/cad-ai" component={CadAI}/>
+        <Route path="/services/photonics-automation" component={PhotonicsAutomation}/>
+        <Route path="/brand" component={BrandLab}/>
+        <Route path="/brand/precision" component={PrecisionBrandBook}/>
+        <Route path="/brand/authority" component={AuthorityBrandBook}/>
+        <Route path="/brand/engineered" component={EngineeredBrandBook}/>
         <Route component={NotFound} />
       </Switch>
     </Suspense>

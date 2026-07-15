@@ -131,7 +131,7 @@ export default function Contact() {
         <div className="grid lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">
             {submitted ? (
-              <div className="bg-white border border-aryo-lightGrey p-12 text-center">
+              <div className="bg-white border border-aryo-lightGrey p-12 text-center rounded-2xl">
                 <div className="w-16 h-16 bg-aryo-greenTeal/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Mail className="text-aryo-greenTeal" size={32} />
                 </div>
@@ -144,7 +144,7 @@ export default function Contact() {
                 </Link>
               </div>
             ) : (
-              <div className="bg-white border border-aryo-lightGrey p-8 lg:p-10">
+              <div className="bg-white border border-aryo-lightGrey p-8 lg:p-10 rounded-2xl">
                 <h2 className="text-2xl font-serif text-aryo-deepBlue mb-8">Send us a message</h2>
                 
                 <Form {...form}>
@@ -268,7 +268,7 @@ export default function Contact() {
 
           <div className="space-y-6">
             {offices.map((office, i) => (
-              <div key={i} className="bg-white border border-aryo-lightGrey p-6" data-testid={`card-office-${i}`}>
+              <div key={i} className="bg-white border border-aryo-lightGrey p-6 rounded-2xl" data-testid={`card-office-${i}`}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-aryo-deepBlue flex items-center justify-center">
                     <MapPin className="text-white" size={18} />
@@ -292,7 +292,7 @@ export default function Contact() {
               </div>
             ))}
 
-            <div className="bg-aryo-deepBlue p-6 text-white">
+            <div className="bg-aryo-deepBlue p-6 text-white rounded-2xl">
               <div className="flex items-center gap-3 mb-4">
                 <Clock className="text-aryo-greenTeal" size={20} />
                 <h3 className="font-serif font-bold">Response Time</h3>
