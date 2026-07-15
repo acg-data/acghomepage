@@ -83,13 +83,13 @@ export default function About() {
         {isLoading ? (
           <div className="space-y-8 mb-24 animate-pulse">
             <div className="grid lg:grid-cols-2 gap-12">
-              <div className="bg-white border border-aryo-lightGrey p-10">
+              <div className="bg-white border border-aryo-lightGrey p-10 rounded-2xl">
                 <div className="h-6 w-32 bg-slate-200 rounded mb-6" />
                 <div className="space-y-4">
                   {Array.from({ length: 3 }).map((_, i) => (<div key={i} className="h-4 w-full bg-slate-200 rounded" />))}
                 </div>
               </div>
-              <div className="bg-white border border-aryo-lightGrey p-10">
+              <div className="bg-white border border-aryo-lightGrey p-10 rounded-2xl">
                 <div className="h-6 w-48 bg-slate-200 rounded mb-6" />
                 <div className="space-y-4">
                   {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="h-4 w-full bg-slate-200 rounded" />))}
@@ -97,13 +97,13 @@ export default function About() {
               </div>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="bg-white border border-aryo-lightGrey p-6 h-32" />))}
+              {Array.from({ length: 4 }).map((_, i) => (<div key={i} className="bg-white border border-aryo-lightGrey p-6 h-32 rounded-2xl" />))}
             </div>
           </div>
         ) : (
         <>
         <div className="grid lg:grid-cols-2 gap-12 mb-24">
-          <div className="bg-white border border-aryo-lightGrey p-10">
+          <div className="bg-white border border-aryo-lightGrey p-10 rounded-2xl">
             <h2 className="text-2xl font-serif text-aryo-deepBlue mb-6">Our Story</h2>
             <div className="space-y-4 text-slate-600">
               {storyParagraphs.map((p, i) => (
@@ -117,7 +117,7 @@ export default function About() {
 
           <div className="space-y-6">
             {values.map((value, i) => (
-              <div key={i} className="bg-white border border-aryo-lightGrey p-8 flex gap-6">
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 rounded-2xl flex gap-6">
                 <div className="w-12 h-12 bg-aryo-deepBlue/10 flex items-center justify-center flex-shrink-0">
                   <value.icon className="text-aryo-deepBlue" size={24} />
                 </div>
@@ -138,7 +138,7 @@ export default function About() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {teamMembers.map((member, i) => (
-              <div key={i} className="bg-white border border-aryo-lightGrey p-8" data-testid={`card-team-${i}`}>
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 rounded-2xl" data-testid={`card-team-${i}`}>
                 <div className="w-16 h-16 bg-aryo-deepBlue rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
                   {member.initials}
                 </div>
@@ -185,12 +185,12 @@ export default function About() {
           </div>
         </div>
 
-        <div className="bg-aryo-deepBlue p-12 text-center">
+        <div className="bg-aryo-deepBlue p-12 text-center rounded-2xl">
           <h2 className="text-2xl font-serif text-white mb-4">Ready to work with a different kind of consulting firm?</h2>
           <p className="text-aryo-lightBlue/70 mb-8 max-w-xl mx-auto">
             Let's discuss how our outcome-based approach can create real value for your organization.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-aryo-deepBlue px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-aryo-offWhite transition-colors" data-testid="button-contact">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-aryo-deepBlue px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-aryo-offWhite transition-colors" data-testid="button-contact">
             Get in Touch <ArrowRight size={14} />
           </Link>
         </div>

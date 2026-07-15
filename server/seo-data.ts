@@ -12,7 +12,7 @@ const ORG_SCHEMA = {
   name: "Aryo Consulting Group",
   url: "https://aryocg.com",
   logo: "https://aryocg.com/og-image.png",
-  description: "We partner with Boards and C-Suites to harmonize operational levers, mitigating risk while unlocking trapped enterprise value.",
+  description: "Aryo turns strategic priorities into governed operating systems, AI implementations, and measurable enterprise value.",
   foundingDate: "2024",
   founder: { "@type": "Person", name: "Justin Abrams", jobTitle: "Founder & CEO" },
   contactPoint: { "@type": "ContactPoint", email: "justin@aryocg.com", contactType: "Business Inquiries" },
@@ -26,7 +26,7 @@ const PROFESSIONAL_SERVICE_SCHEMA = {
   name: "Aryo Consulting Group",
   url: "https://aryocg.com",
   logo: "https://aryocg.com/og-image.png",
-  description: "Corporate strategy and governance consulting firm specializing in M&A advisory, digital transformation, operational excellence, and growth strategy.",
+  description: "Strategy and implementation consulting firm specializing in AI, enterprise transformation, M&A, governance, and operational excellence.",
   priceRange: "$$$$",
   telephone: "1-508-545-7447",
   email: "info@aryocg.com",
@@ -151,8 +151,8 @@ const TO_FAQS = [
 
 const seoRoutes: Record<string, PageSEO> = {
   "/": {
-    title: "Aryo Consulting Group | Strategy, M&A & Growth Consulting",
-    description: "Aryo Consulting Group is a modern consulting firm partnering with Boards and C-Suites to drive growth strategy, M&A advisory, digital transformation, and operational excellence.",
+    title: "Aryo Consulting Group | Strategy, AI Implementation & Enterprise Transformation",
+    description: "Aryo turns strategic priorities into governed operating systems, AI implementations, and measurable enterprise value.",
     canonical: "https://aryocg.com",
     jsonLd: [
       ORG_SCHEMA,

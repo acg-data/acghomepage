@@ -27,8 +27,8 @@ const directions: Record<DirectionKey, BrandDirection> = {
     descriptor: "The direct evolution",
     thesis: "An executive consulting system with sharper hierarchy, fewer containers, and evidence that leads the page.",
     bestFor: "The strongest all-purpose direction for the main Aryo site and enterprise consulting work.",
-    keep: ["Aryo cobalt and teal", "Serif moments for authority", "Metrics and operating frameworks"],
-    clean: ["One border weight", "Fewer cards and shadows", "Larger body copy and tighter sections"],
+    keep: ["Aryo cobalt and teal", "Metric-led authority", "Operating frameworks and evidence"],
+    clean: ["One border weight", "Restrained 10–16px radii", "Larger body copy and tighter sections"],
     colors: [
       { name: "Aryo Cobalt", hex: "#214D88", role: "Primary" },
       { name: "Signal Teal", hex: "#35B8B0", role: "Accent" },
@@ -36,7 +36,7 @@ const directions: Record<DirectionKey, BrandDirection> = {
       { name: "Blueprint", hex: "#EAF1F6", role: "Surface" },
       { name: "White", hex: "#FFFFFF", role: "Canvas" },
     ],
-    type: { display: "Inter / 600", body: "Inter / 400", rationale: "A single sans family makes complex material faster to scan; serif is reserved for large metrics and quotations." },
+    type: { display: "Geist / 520", body: "Geist / 400", rationale: "Geist makes complex material fast to scan while its compact proportions and precise numerals keep the system credible across advisory, manufacturing, and AI implementation." },
     voice: ["Specific before aspirational", "Outcome before methodology", "Short sentences. Named owners. Measured results."],
   },
   authority: {
@@ -74,7 +74,7 @@ const directions: Record<DirectionKey, BrandDirection> = {
       { name: "Optic Blue", hex: "#55B9E6", role: "Secondary" },
       { name: "Ice", hex: "#ECF5F7", role: "Light surface" },
     ],
-    type: { display: "Inter / 500", body: "Inter / 400", rationale: "A precise sans system with monospaced micro-labels feels engineered without sacrificing executive credibility." },
+    type: { display: "Geist / 520", body: "Geist / 400", rationale: "A precise Geist system with monospaced micro-labels feels engineered without sacrificing executive credibility." },
     voice: ["Explain the system, not the hype", "Pair every capability with a control", "Show the before, after, and accountable decision"],
   },
 };
@@ -184,7 +184,7 @@ export function BrandBook({ directionKey }: { directionKey: DirectionKey }) {
 
       <section className="bb-section bb-grid-system">
         <div className="bb-section-label"><span>04</span><p>LAYOUT SYSTEM</p></div>
-        <div className="bb-grid-demo"><Grid3X3 size={20} /><div>{Array.from({ length: 12 }).map((_, index) => <i key={index} />)}</div><p><b>12-column desktop</b><br />8pt spacing base · 72–112px section rhythm · 1px rules · square geometry</p></div>
+        <div className="bb-grid-demo"><Grid3X3 size={20} /><div>{Array.from({ length: 12 }).map((_, index) => <i key={index} />)}</div><p><b>12-column desktop</b><br />8pt spacing base · 72–112px section rhythm · 1px rules · 10–16px corner radius</p></div>
       </section>
 
       <section className="bb-section bb-components">

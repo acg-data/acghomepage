@@ -142,7 +142,7 @@ export default function Industries() {
         <div className="space-y-8 mb-24">
           {wpIndustriesLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="bg-white border border-aryo-lightGrey p-8 lg:p-10 animate-pulse">
+              <div key={i} className="bg-white border border-aryo-lightGrey p-8 lg:p-10 rounded-2xl animate-pulse">
                 <div className="grid lg:grid-cols-3 gap-8">
                   <div>
                     <div className="flex items-center gap-4 mb-4">
@@ -158,17 +158,17 @@ export default function Industries() {
               </div>
             ))
           ) : industries.map((industry, i) => (
-            <div key={i} className="bg-white border border-aryo-lightGrey p-8 lg:p-10" data-testid={`card-industry-${i}`}>
+            <div key={i} className="bg-white border border-aryo-lightGrey p-8 lg:p-10 rounded-2xl" data-testid={`card-industry-${i}`}>
               <div className="grid lg:grid-cols-3 gap-8">
                 <div>
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-aryo-deepBlue flex items-center justify-center">
+                    <div className="w-12 h-12 bg-aryo-deepBlue rounded-xl flex items-center justify-center">
                       <industry.icon className="text-white" size={24} />
                     </div>
                     <h2 className="text-2xl font-serif font-bold text-aryo-deepBlue">{industry.title}</h2>
                   </div>
                   <p className="text-slate-600 mb-4">{industry.description}</p>
-                  <div className="bg-aryo-offWhite p-4">
+                  <div className="bg-aryo-offWhite p-4 rounded-xl">
                     <span className="text-xs font-bold text-aryo-deepBlue uppercase tracking-widest">Track Record</span>
                     <p className="text-aryo-teal font-bold text-lg mt-1">{industry.metric}</p>
                   </div>
@@ -202,12 +202,12 @@ export default function Industries() {
           ))}
         </div>
 
-        <div className="bg-aryo-deepBlue p-12 text-center">
+        <div className="bg-aryo-deepBlue p-12 text-center rounded-2xl">
           <h2 className="text-2xl font-serif text-white mb-4">Don't see your industry?</h2>
           <p className="text-aryo-lightBlue/70 mb-8 max-w-xl mx-auto">
             Our methodology translates across sectors. We've worked with organizations in 40+ industries. Let's discuss your specific situation.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-aryo-deepBlue px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-aryo-offWhite transition-colors" data-testid="button-contact">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-aryo-deepBlue px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-aryo-offWhite transition-colors" data-testid="button-contact">
             Start a Conversation <ArrowRight size={14} />
           </Link>
         </div>
